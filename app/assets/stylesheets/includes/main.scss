@@ -1,0 +1,306 @@
+@import 'globals';
+
+// ////////////////////////////////////////////////////////////
+// Structural elements
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  font-family: $font-family-sans;
+  font-weight: $font-weight-medium;
+  height: 100%;
+  line-height: $line-height;
+  min-height: min-content;
+}
+
+main {
+  flex-grow: 999;
+}
+
+header {
+  border-bottom: 1px solid $color-header-divider;
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    &.header-logo {
+      display: flex;
+      flex-direction: column;
+
+      a {
+        display: contents;
+      }
+
+      img {
+        &.header-logo {
+          display: block;
+          height: 52px;
+          width: 315px;
+        }
+      }
+
+      span {
+        &.site-name {
+          color: $color-site-name;
+          display: block;
+          font-size: $font-size-large;
+          letter-spacing: $margin-small;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+
+  nav {
+    font-size: $font-size-large;
+
+    // sass-lint:disable-block no-ids, no-qualifying-elements
+    input {
+      &#nav-menu {
+        display: none;
+      }
+    }
+
+    ul {
+      a {
+        color: black;
+
+        &:hover {
+          color: $color-anchor-highlight;
+        }
+      }
+    }
+  }
+}
+
+footer {
+  background: $color-reversed-background;
+  color: white;
+  font-size: $font-size-small;
+  margin-top: $margin-large;
+  padding: $padding-header-footer;
+
+  a {
+    color: white;
+
+    &:hover {
+      color: $color-anchor-highlight;
+    }
+  }
+
+  img {
+    &.footer-logo {
+      height: 50px;
+      width: 160px;
+    }
+  }
+
+  section {
+    &.social-media {
+      display: grid;
+      grid-column-gap: $em / 6;
+      grid-template-columns: min-content min-content min-content min-content;
+
+      img {
+        &.social-media-icon {
+          padding-right: 2pt;
+          width: $font-size-xlarge;
+
+          &:not(:hover) {
+            filter: grayscale(100%) brightness(200%);
+            transition: filter 0.25s;
+          }
+
+          &:hover {
+            transition: filter 0.25s;
+          }
+        }
+      }
+    }
+  }
+}
+
+section {
+  &.player {
+    margin-bottom: $margin;
+    width: 100%;
+  }
+
+  &.record {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+
+    h2 {
+      margin-right: auto;
+    }
+
+    p {
+      margin-right: auto;
+
+      &:not(:last-child) {
+        margin-bottom: $margin-small;
+      }
+    }
+
+    a {
+      &:hover {
+        box-shadow: inset 0 -4px 0 $color-anchor-highlight;
+      }
+    }
+
+    ul {
+      &.track-info {
+        display: flex;
+        flex-direction: row;
+        font-size: $font-size-xsmall;
+        justify-content: start;
+        list-style-type: none;
+        margin-bottom: $margin-small;
+
+        li {
+          display: block;
+          padding-left: $margin-small;
+
+          &:not(:last-of-type) {
+            &::after {
+              content: '|';
+              padding-left: $margin-small;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ////////////////////////////////////////////////////////////
+// General block elements
+
+h2 {
+  color: black;
+  font-size: $font-size-xlarge;
+  margin-block-end: $margin-large;
+  margin-block-start: $margin-large;
+  margin-bottom: $margin;
+}
+
+h3 {
+  font-size: $font-size-large;
+  font-weight: $font-weight-medium;
+}
+
+pre {
+  font-family: $font-family-mono;
+  font-size: small;
+}
+
+// ////////////////////////////////////////////////////////////
+// Inline elements
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: $font-weight-bold;
+}
+
+// ////////////////////////////////////////////////////////////
+// Media
+
+/*
+ Browsers and/or MediaElement.js don't seem to honor these,
+ but let's document it here anyway.
+*/
+
+video {
+  height: 270px; /* MediaElement.js default height */
+  width: 100%;
+}
+
+audio {
+  height: 40px;
+  width: 100%;
+}
+
+// ////////////////////////////////////////////////////////////
+// Tables
+
+table {
+  margin-bottom: $margin;
+  margin-top: $margin;
+  width: 100%;
+
+  thead {
+    display: contents;
+
+    th {
+      background: $color-reversed-background;
+      border: 0;
+      color: white;
+      text-align: left;
+    }
+  }
+
+  tbody {
+    display: contents;
+
+    th {
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  tr {
+    display: contents;
+
+    &:last-child {
+      td {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  th {
+    border-bottom: 1px solid $color-row-divider;
+    padding: $margin-small $margin;
+    white-space: nowrap;
+  }
+
+  td {
+    border-bottom: 1px solid $color-row-divider;
+    padding: $margin-small;
+  }
+}
+
+// ////////////////////////////////////////////////////////////
+// Accessibility tweaks
+
+// MEJS help text hidden to ordinary browsers but available to screen readers (cf.
+// https://rianrietveld.com/2015/04/04/the-screen-reader-text-class-why-and-how/).
+// Even though it won't be displayed on screen, without this styling, automated
+// accessibility checkers may still see it as black text on the blue background
+// of the footer.
+span {
+  // sass-lint:disable class-name-format
+  &.mejs__offscreen {
+    background-color: black;
+    color: white;
+  }
+
+  // sass-lint:enable class-name-format
+}

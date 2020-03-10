@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
-
-# This file loads Spring without using Bundler, in order to be fast.
-# It gets overwritten when you run the `spring binstub` command.
+# frozen_string_literal: true
 
 unless defined?(Spring)
   require 'rubygems'
