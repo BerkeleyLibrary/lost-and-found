@@ -1,0 +1,28 @@
+services:
+  rails: &rails
+    build:
+      context: .
+      labels:
+        edu.berkeley.lib.build-number: "${BUILD_NUMBER}"
+        edu.berkeley.lib.build-url: "${BUILD_URL}"
+        edu.berkeley.lib.git-commit: "${GIT_COMMIT}"
+        edu.berkeley.lib.git-repo: "${GIT_URL}"
+        edu.berkeley.lib.project-description: x\Lost and Found app.
+    environment:
+      RAILS_ENV: test
+    image: "${DOCKER_TAG}"
+    volumes:
+      - public:/opt/app/public
+      - tmp:/opt/app/tmp
+
+  updater:
+    <<: *rails
+    command:
+      - assets:precompile
+    restart: "no"
+
+version: "3.7"
+
+volumes:
+  public: {}
+  tmp: {}
