@@ -1,0 +1,12 @@
+services:
+  rails: &services-rails
+    build:
+      context: .
+      target: development
+    ports:
+      - target: 3000
+    restart: always
+    volumes:
+      - ./:/opt/app
+
+version: "3.7"
