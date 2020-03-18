@@ -5,6 +5,7 @@ services:
       target: development
     ports:
       - target: 3000
+
     restart: always
     volumes:
       - ./:/opt/app

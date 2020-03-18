@@ -63,6 +63,7 @@ RUN bundle install --jobs=$(nproc) --deployment --path=/usr/local/bundle
 COPY --chown=$APP_USER . .
 
 
+
 FROM base AS production
 
 # Run as the app user to minimize risk to the host.
@@ -80,3 +81,4 @@ RUN rails assets:precompile
 EXPOSE 3000
 VOLUME ["/opt/app/public"]
 ENV RACK_ENV=production RAILS_ENV=production RAILS_SERVE_STATIC_FILES=true
+

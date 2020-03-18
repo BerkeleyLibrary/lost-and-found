@@ -1,0 +1,33 @@
+# frozen_string_literal: true
+
+class SessionsController < ApplicationController
+  def new
+    redirect_args = { origin: params[:url] || home_path }.to_query
+    redirect_to "/auth/calnet?#{redirect_args}"
+  end
+
+  def callback
+    logger.debug(
+      msg: 'Received omniauth callback',
+      omniauth: auth_params
+    )
+
+    @user = User.from_omniauth(auth_params)
+
+    sign_in @user
+
+    redirect_to request.env['omniauth.origin'] || home_path
+  end
+
+  def destroy
+    sign_out
+    end_url = "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
+    redirect_to end_url
+  end
+
+  private
+
+  def auth_params
+    request.env['omniauth.auth']
+  end
+end
