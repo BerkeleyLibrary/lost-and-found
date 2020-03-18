@@ -17,7 +17,7 @@ gem 'activerecord-import'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'ougai', '>=1.8.2'
 gem 'lograge', '>=0.11.2'
-gem 'mysql2', '~> 0.3.21'
+gem 'mysql2'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
