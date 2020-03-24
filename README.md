@@ -3,10 +3,10 @@
 The Lost-and-Found application is intended for internal use across the UC Berkeley library system. Turned in goods will be logged and tracked through this simple rails application.
 More to come
 
-# Local Testing
+### Local Testing
 To run Lost and Found locally using Docker, use the following commands.
 
-'''
+```
 # Startup your containers
 docker-compose up --build -d
 # wait for everything to spin up, then run your setup
@@ -15,4 +15,7 @@ docker-compose run --rm rails assets:precompile db:create db:migrate
 
 # View the site in the browser and confirm it works
 open http://localhost:3000
-'''
+```
+Note: Local development requires you point to a local mysql database. for more information see: https://dev.mysql.com/doc/mysql-getting-started/en/
+
+
