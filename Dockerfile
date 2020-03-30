@@ -17,6 +17,7 @@ RUN apk --no-cache --update upgrade && \
         nodejs \
         openssl \
         tzdata \
+        mariadb-client-libs \
         xz-libs \
         yarn \
     && rm -rf /var/cache/apk/*
