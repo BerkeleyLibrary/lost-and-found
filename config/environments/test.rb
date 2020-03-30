@@ -18,7 +18,9 @@ Rails.application.configure do
   config.active_support.deprecation = :log
   config.assets.debug = true
   config.assets.quiet = true
-
   config.lograge.enabled = true
+  #Short circuits test flow. 
+  # See documentation here: https://github.com/omniauth/omniauth/wiki/Integration-Testing
+  OmniAuth.config.test_mode = true
   config.logger = LostAndFoundLogger::Logger.new(config.root.join('log/test.log'))
 end

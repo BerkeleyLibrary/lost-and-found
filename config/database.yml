@@ -1,10 +1,9 @@
-default: &default
-  adapter: mysql2
-
 development:
   pool: 5
   timeout: 5000
-  url: mysql2://root:root@db:3306/itemsdata
+  adapter: mysql2
+  user: root
+  database: rails_dev
 
 production:
   pool: 5
@@ -12,6 +11,6 @@ production:
   url: <%= ENV['DATABASE_URL'] %>
 
 test:
-  pool: 5
-  timeout: 5000
-  url: mysql2://root:root@db:3306/itemsdata_test
+  adapter: sqlite3
+  database: db/test.sqlite3
+  # url: mysql2://root:root@db:3306/itemsdata

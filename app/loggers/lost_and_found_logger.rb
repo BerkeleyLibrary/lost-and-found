@@ -27,5 +27,6 @@ module LostAndFoundLogger
         time: time
       }.merge(data))
     end
+
   end
 end
