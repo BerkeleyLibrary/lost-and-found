@@ -24,6 +24,7 @@ gem 'ougai', '>=1.8.2'
 gem 'lograge', '>=0.11.2'
 gem 'mysql2'
 gem 'omniauth'
+gem 'omniauth-rails_csrf_protection', '~> 0.1'
 gem 'omniauth-cas',
     git: 'https://github.com/dlindahl/omniauth-cas.git',
     ref: '7087bda829e14c0f7cab2aece5045ad7015669b1'
@@ -42,9 +43,11 @@ group :development do
 end
 
 group :test do
-  gem 'webmock'
+  gem "brakeman", "~> 4.8"
   gem 'capybara', '>= 2.15'
+  gem "rspec_junit_formatter", "~> 0.4.1"
   gem 'selenium-webdriver'
   gem 'webdrivers'
+  gem 'webmock'
 end
 

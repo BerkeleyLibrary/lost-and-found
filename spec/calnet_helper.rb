@@ -30,7 +30,9 @@ def mock_omniauth_login(user_id)
   do_get login_path
 
   Rails.application.env_config['omniauth.auth'] = auth_hash
-  do_get omniauth_callback_path(:calnet)
+  # Calling as post per bundle audit recommendations for security vulnerability
+  # https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9284
+  do_post omniauth_callback_path(:calnet)
   User.from_omniauth(auth_hash)
 end
 
@@ -38,6 +40,12 @@ def do_get(path)
   return visit(path) if respond_to?(:visit)
 
   get(path)
+end
+
+def do_post(path)
+  return visit(path) if respond_to?(:visit)
+
+  post(path)
 end
 
 def without_redirects
