@@ -9,6 +9,7 @@ ENV['RAILS_ENV'] = 'test' unless ENV['RAILS_ENV']
 require 'colorize'
 require 'webmock/rspec'
 
+
 require 'simplecov' if ENV['COVERAGE']
 
 # ------------------------------------------------------------

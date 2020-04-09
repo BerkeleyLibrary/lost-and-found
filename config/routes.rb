@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   resources :posts
+  get '/', to: 'home#index'
   get 'admin', to: 'home#admin'
   get 'health', to: 'home#health'
   get 'home', to: 'home#index'

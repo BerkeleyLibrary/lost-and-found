@@ -25,6 +25,11 @@ class SessionsController < ApplicationController
     redirect_to end_url
   end
 
+  def failure
+    check = Health::Check.new
+    render json: check, status: check.http_status_code
+  end
+
   private
 
   def auth_params
