@@ -4,10 +4,6 @@
 @import 'includes/mobile';
 @import "bootstrap";
 
-body {
-  color: red;
-}
-
 .form-group.required .control-label:after {
    content: " *";
    color: #ee0000;
