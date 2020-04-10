@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '~> 2.5'
+ruby '~> 2.6'
 
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 gem 'puma', '~> 4.1'
@@ -18,6 +18,8 @@ gem 'jquery-rails'
 gem 'sqlite3'
 gem 'activerecord-import'
 gem 'typesafe_enum'
+gem 'bcrypt', '~> 3.1', '>= 3.1.11'
+gem "pundit"
 
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'ougai', '>=1.8.2'

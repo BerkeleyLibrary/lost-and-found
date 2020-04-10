@@ -1,7 +1,7 @@
 module Docker
   class Secret
     class << self
-      def setup_environment!(fileglob = '/run/secrets/*')
+      def setup_environment!(fileglob = '/run/secrets/*') #Don't think we need this
         Dir[fileglob].each do |filepath|
           secret = File.read(filepath)
           secret_name = File.basename(filepath)
