@@ -1,8 +1,8 @@
-@import 'includes/reset';
 @import 'includes/main';
 @import 'includes/desktop';
 @import 'includes/mobile';
-@import "bootstrap";
+@import 'includes/tooplate-style';
+
 
 .form-group.required .control-label:after {
    content: " *";
@@ -36,7 +36,6 @@ a:hover, a:active, a:focus {
     }
 }
 
-//Used for main page skip links per WebAIM recommendations
 .visually-hidden {
   position: absolute;
   top: -9999px;
