@@ -1,5 +1,17 @@
-<h1>UC Berkeley Lost and Found</h1>
-<br />
-<p class="intro">
-  <%= link_to("List of Rails applications currently on this server", admin_path) %>
-</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lost and Found</title>
+</head>
+<body>
+  <div class="jumbotron text-center">
+    <h1>Lost and Found</h1>
+    <p>Please login</p> 
+  </div>
+    <form method="post" action="/auth/calnet" class="button_to" >
+      <div>
+        <input data-remote="true" type="submit" value="login">
+      </div>
+    </form>
+</body>
+</html>

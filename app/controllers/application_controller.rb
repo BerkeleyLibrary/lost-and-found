@@ -1,11 +1,6 @@
 # Base class for all controllers
 class ApplicationController < ActionController::Base
   include ExceptionHandling
-
-  class_attribute :support_email, default: 'privdesk@library.berkeley.edu'
-  helper_method :support_email
-
-
   private
 
   def authenticate!

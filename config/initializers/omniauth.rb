@@ -27,6 +27,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
            service_validate_url: '/cas/p3/serviceValidate',
            fetch_raw_info: fetch_raw_info
 
-  # Override the default 'puts' logger that Omniauth uses.
   OmniAuth.config.logger = Rails.logger
 end
