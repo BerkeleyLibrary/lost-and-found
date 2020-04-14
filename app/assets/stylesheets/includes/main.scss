@@ -1,8 +1,5 @@
 @import 'globals';
 
-// ////////////////////////////////////////////////////////////
-// Structural elements
-
 html {
   height: 100%;
 }
@@ -17,10 +14,6 @@ body {
   height: 100%;
   line-height: $line-height;
   min-height: min-content;
-}
-
-main {
-  flex-grow: 999;
 }
 
 header {
@@ -60,7 +53,6 @@ header {
   nav {
     font-size: $font-size-large;
 
-    // sass-lint:disable-block no-ids, no-qualifying-elements
     input {
       &#nav-menu {
         display: none;

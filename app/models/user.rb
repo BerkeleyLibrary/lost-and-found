@@ -26,4 +26,9 @@ class User < ActiveRecord::Base
   # @return [String]
   attr_accessor :role
 
+  def authenticated?
+    !uid.nil?
+  end
+
+
 end

@@ -1,20 +1,20 @@
 # Base class for all controllers
 class ApplicationController < ActionController::Base
   include ExceptionHandling
+
+  protect_from_forgery
   private
 
   def authenticate!
     unless authenticated?
       raise Error::UnauthorizedError, "Endpoint #{controller_name}/#{action_name} requires authentication"
-      end
+    end
   end
 
-  # Return whether the current user is authenticated
-  #
-  # @return [Boolean]
   def authenticated?
     current_user.authenticated?
   end
+
   helper_method :authenticated?
 
   def current_user

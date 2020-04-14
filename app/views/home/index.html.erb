@@ -1,18 +1,48 @@
 <!DOCTYPE html>
 <html>
-<head>
- <%= stylesheet_link_tag 'application', media: 'all' %>
-  <title>Lost and Found</title>
-</head>
-<body>
-  <div class="intro">
-    <h1>Lost and Found</h1>
-    <p>Please login</p> 
-  </div>
-    <form method="post" action="/auth/calnet" class="button_to" >
-      <div>
-        <input data-remote="true" type="submit" value="login">
+   <head>
+      <%= csrf_meta_tags %>
+      <%= csp_meta_tag %>
+      <%= stylesheet_link_tag 'application', media: 'all' %>
+      <title>Login - Lost and Found</title>
+   </head>
+   <body onload="javascript: document.getElementById('un').focus();">
+            <table id="wrapper" >
+               <tr>
+                  <td colspan="2" class="header">
+                  <%= logo_link %>
+                    </td
+               </tr>
+               <tr>
+                  <td class="leftnav" valign="top">
+                     <p class="nav_link" ><a href="#">Insert Form</a></p>
+                     <p class="nav_link"><a href="/search_form">Search Form</a></p>
+                     <p class="nav_link"><a href="/admin">Admin</a></p>
+                     <p class="nav_link"><a href="#">Logout</a></p>
+                  </td>
+                  <td class="content">
+                     <h2>Login</h2>
+                     <p>Enter your username and password to login.</p>
+      <form method="post" action="/auth/calnet" class="button_to" >
+      <table border="0">
+      <tr>
+      <td align="right" style="font-size: 80%">Username</td>
+      <td><input type="text" name="j_username" id="un" />
+      </tr>
+      <tr>
+      <td align="right" style="font-size: 80%">Password</td>
+      <td><input type="password" name="j_password" />
+      </tr>
+      <tr>
+      <td></td>
+      <td style="text-align: right"><input data-remote="true" type="submit" value="login"></td>
+      </tr>
+      </table>
+      </form>
+      <div class="footer">
+        <%= staff_web_link %>
+        <%= staff_nav %>
+        <%= footer_partial %>
       </div>
-    </form>
-</body>
+   </body>
 </html>
