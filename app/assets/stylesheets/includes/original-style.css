@@ -1,0 +1,165 @@
+body	{
+	font-family: Verdana;
+}
+
+
+#wrapper	{
+	width: 776px;
+	border: 1px solid #000000;
+	background-color: #3399cc;
+}
+
+#searchwrapper	{
+	width: 800px;
+	border: 1px solid #000000;
+	background-color: #ffffff;
+}
+
+.header	{
+	background-color: #3399cc;
+	height: 100px;
+	text-align: center;
+	color: white;
+}
+
+.adminheader {
+	background-color: #3399cc;
+}
+
+.leftnav   {
+	border-right: 1px solid #999999;
+	border-top: 1px solid white;
+	font-family: Verdana, Helvetica, sans-serif;
+	text-size: 80%;
+	font-weight: normal;
+	background-color: #3399cc;
+	color: #000000;
+	width: 150px;
+	float: left;
+	text-align: center;
+	height: 100%;
+}
+
+.leftnav a {
+	margin-left: 5px;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: small;
+	font-weight: normal;
+	background-color: #3399cc;
+	color: white;
+	text-decoration: none;
+	height: 25px;
+}
+
+.nav {
+	border-bottom: 1px solid white;
+}
+.content   {
+	width: 100%;
+	padding-top: 5px;
+	padding-left: 5px;
+	text-align: left;
+	text-size: 80%;
+        background-color: white;
+        height: 100%;
+}
+
+.content a:hover {
+	color: red;
+}
+
+
+.box	{
+	width: 50%;
+	border: 1px dotted #666666;
+	padding: 20px;
+	background-color: #c1e0f0;
+}
+
+
+.box2	{
+	width: 85%;
+	border: 1px dotted #666666;
+	padding: 10px;
+	background-color: #c1e0f0;
+	font-weight: normal;
+	font-size: 80%;
+	font-family: Verdana, Helvetica, sans-serif;
+	color:#000000;
+}
+
+
+.highlight	{
+	padding: 5px;
+	font-weight: normal;
+	font-size: 80%;
+	font-family: Verdana, Helvetica, sans-serif;
+	color:#000000;
+	background-color: #c1e0f0;
+}
+
+
+.radio	{
+	padding: 0px 0px 20px 0px;
+	font-weight: normal;
+	font-size: 80%;
+	font-family: Verdana, Helvetica, sans-serif;
+	color:#000000;
+}
+
+
+.text	{
+	font-weight: normal;
+	font-size: 80%;
+	font-family: Verdana, Helvetica, sans-serif;
+	color:#000000;
+}
+
+p	{
+	font-weight: normal;
+	font-size: 80%;
+	font-family: Verdana, Helvetica, sans-serif;
+	color:#000000;
+}
+
+
+.submitbutton	{
+	height: 25px;
+	padding: 0px 5px 0px 5px;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 100%;
+	font-weight: bold;
+	background-color: #666666;
+	color: #ffffff;
+}
+
+
+.bottommenu	{
+	padding: 40px 0px 20px 0px;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 80%;
+	font-weight: normal;
+	color: #000000;
+}             
+
+
+.bottommenu a	{
+	font-family: Verdana, Helvetica, sans-serif;
+	font-weight: normal;
+}             
+
+
+.footer	{
+	padding: 40px 0px 0px 0px;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 70%;
+	font-weight: normal;
+	color: black;
+}
+
+
+.footer a	{
+	font-family: Verdana, Helvetica, sans-serif;
+	font-weight: normal;
+	color: blue;
+}

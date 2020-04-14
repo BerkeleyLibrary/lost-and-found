@@ -1,0 +1,26 @@
+<html>
+   <head>
+      <%= csrf_meta_tags %>
+      <%= csp_meta_tag %>
+      <%= stylesheet_link_tag 'application', media: 'all' %>
+      <title>Search Form - Lost and Found</title>
+      <script>
+         function toggle() {
+           var object = document.getElementById('loc');
+           if (object.style.visibility == "collapse")
+           {
+           	object.style.visibility = "visibile";
+           }
+           else
+           {
+           	object.style.visibility = "collapse";
+           }
+         }
+      </script>
+   </head>
+   <body>
+      <form method="post" action="/item_search" class="button_to">
+         <input colspan="2" align="right"><input data-remote="true" type="submit" value="Search" />
+      </form>
+   </body>
+</html>

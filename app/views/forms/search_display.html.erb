@@ -1,0 +1,28 @@
+<h1>Items#index</h1>
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+
+<!-- <table class="listing" summary="Claimed list">
+    <tr class="header">
+      <th>Item ID</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>By</th>
+      <th>Action</th>
+    </tr>
+    <% @items.each do |item| %>
+    <tr>
+      <td>
+        <%= link_to("Show", '#', :class => 'action show') %>
+        <%= link_to("Edit", '#', :class => 'action edit') %>
+
+      </td>
+      <td><%= item.itemID %></td>
+      <td><%= item.itemDate %></td>
+      <td><%= item.itemFoundAt %></td>
+      <td><%= item.itemUpdatedBy %></td>
+      <td><%=item.itemType %></td>
+    </tr>
+    <% end %>
+  </table>
+<p> ITEMS:  <%= link_to('show all', items_path) %></p> -->
