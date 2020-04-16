@@ -1,7 +1,14 @@
 <%= form_tag("login", method: "get") do %>
+<<<<<<< HEAD
       <%= label_tag(:username, "Username:") %>
       <%= text_field_tag(:username) %>
       <%= label_tag(:password, "password:") %>
       <%= text_field_tag(:password) %>
+=======
+      <%= label_tag(:q, "Username:") %>
+      <%= text_field_tag(:q) %>
+      <%= label_tag(:q, "password:") %>
+      <%= text_field_tag(:q) %>
+>>>>>>> forms setup branch
       <%= submit_tag("Login") %>
 <% end %>

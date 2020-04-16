@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   get 'health', to: 'home#health'
   get 'home', to: 'home#index'
   get 'search_form', to: 'forms#search_form'
-  
 
   resources :items do
     member do

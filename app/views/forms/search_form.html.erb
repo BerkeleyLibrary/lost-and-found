@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <td class="content">
       <h2>Search for lost items:</h2>
       <ul style="font-size:80%">
@@ -27,3 +28,23 @@
 
 
 </td>
+=======
+<%= form_tag("item_search", method: "post") do %>
+      <%= label_tag(:q, "item type:") %>
+      <%= text_field_tag(:q) %>
+
+      <%= label_tag(:q, "keyword:") %>
+      <%= text_field_tag(:q) %>
+
+      <%= label_tag(:q, "Date Found:") %>
+      <%= date_field_tag(:q, "date_found")%>
+
+      <%= label_tag(:q, "location:") %>
+      <%= text_field_tag(:q) %>
+
+      <%= label_tag(:q, "Search all locations:") %>
+      <%= check_box_tag("search all locations") %>
+
+      <%= submit_tag("search") %>
+<% end %>
+>>>>>>> forms setup branch
