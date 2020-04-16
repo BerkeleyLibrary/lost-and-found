@@ -6,4 +6,9 @@ class FormsController < ApplicationController
     def item_search
         render :search_display
     end
+
+    def insert_form
+      render :insert_form
+    end
+
 end
