@@ -1,26 +1,18 @@
-<html>
-   <head>
-      <%= csrf_meta_tags %>
-      <%= csp_meta_tag %>
-      <%= stylesheet_link_tag 'application', media: 'all' %>
-      <title>Search Form - Lost and Found</title>
-      <script>
-         function toggle() {
-           var object = document.getElementById('loc');
-           if (object.style.visibility == "collapse")
-           {
-           	object.style.visibility = "visibile";
-           }
-           else
-           {
-           	object.style.visibility = "collapse";
-           }
-         }
-      </script>
-   </head>
-   <body>
-      <form method="post" action="/item_search" class="button_to">
-         <input colspan="2" align="right"><input data-remote="true" type="submit" value="Search" />
-      </form>
-   </body>
-</html>
+<%= form_tag("item_search", method: "post") do %>
+      <%= label_tag(:q, "item type:") %>
+      <%= text_field_tag(:q) %>
+
+      <%= label_tag(:q, "keyword:") %>
+      <%= text_field_tag(:q) %>
+
+      <%= label_tag(:q, "Date Found:") %>
+      <%= date_field_tag(:q, "date_found")%>
+
+      <%= label_tag(:q, "location:") %>
+      <%= text_field_tag(:q) %>
+
+      <%= label_tag(:q, "Search all locations:") %>
+      <%= check_box_tag("search all locations") %>
+
+      <%= submit_tag("search") %>
+<% end %>
