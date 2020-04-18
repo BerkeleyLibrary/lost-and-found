@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
   <head>
     <title>Lost and Found</title>
     <%= csrf_meta_tags %>
@@ -56,4 +57,34 @@
 
 </footer>
   </body>
+=======
+   <head>
+      <%= stylesheet_link_tag 'application', media: 'all' %>
+      <title>Login - Lost and Found</title>
+   </head>
+   <body onload="javascript: document.getElementById('un').focus();">
+            <table id="wrapper" >
+               <tr>
+                  <td colspan="2" class="header">
+                  <%= logo_link %>
+                    </td
+               </tr>
+               <tr>
+                  <td class="leftnav" valign="top">
+                     <p class="nav_link" ><a href="/insert_form">Insert Form</a></p>
+                     <p class="nav_link"><a href="/search_form">Search Form</a></p>
+                     <p class="nav_link"><a href="/item_all"> View All</a></p>
+                     <p class="nav_link"><a href="/admin">Admin</a></p>
+                     <p class="nav_link"><a href="/logout">Logout</a></p>
+                  </td>
+                  <td class="content">
+      <%= login_form %>
+      <div class="footer">
+        <%= staff_web_link %>
+        <%= staff_nav %>
+        <%= footer_partial %>
+      </div>
+
+   </body>
+>>>>>>> Adding basic CRUD features to insert and search on keywords
 </html>

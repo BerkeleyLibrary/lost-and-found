@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <td class="content">
       <h2>Search for lost items:</h2>
       <ul style="font-size:80%">
@@ -32,19 +33,44 @@
 <%= form_tag("item_search", method: "post") do %>
       <%= label_tag(:q, "item type:") %>
       <%= text_field_tag(:q) %>
+=======
+>>>>>>> Adding basic CRUD features to insert and search on keywords
 
-      <%= label_tag(:q, "keyword:") %>
-      <%= text_field_tag(:q) %>
 
-      <%= label_tag(:q, "Date Found:") %>
-      <%= date_field_tag(:q, "date_found")%>
 
-      <%= label_tag(:q, "location:") %>
-      <%= text_field_tag(:q) %>
+<td class="content">
+      <h2>Search for lost items:</h2>
+      <ul style="font-size:80%">
+        <li>To <b>browse</b> all lost items for your library, just click search</li>
+        <li>To <b>browse</b> all lost items in all libraries, check "Search all libraries and locations" and click search</li>
+      </ul>
+      <%= form_tag("item_search", method: "post") do %>
+      <%= label_tag(:item_type, "item type:") %>
+      <%= select_tag(:item_type, options_for_select([['none',0],['book',1],['clothing',2],['electronics',3],['glasses',4],['id',5],['keys',6],['mp3',7],['other',8]])) %>
+      
+      <%= label_tag(:keyword, "keyword") %>
+      <%=text_field_tag :keyword, nil, placeholder: 'Enter search term...'%>
 
-      <%= label_tag(:q, "Search all locations:") %>
-      <%= check_box_tag("search all locations") %>
+      <%= label_tag(:date_found, "Date Found:") %>
+      <%= date_field_tag(:date_found)%>
+
+      <%= label_tag(:location, "location:") %>
+      <%= select_tag(:location, options_for_select([['none',0],['Doe Circle',1],['Doe North Entrance',2],['Doe South Entrance',3],['Gardner Stacks',4],['Library Security',5],['Moffit Third Floor',6],['Moffit forth Floor',7],['Moffit Circle',8],['MRC',9],['Privileges Desk',10],['UCPD',11]])) %>
+
+      <%= label_tag(:search_all, "Search all locations:") %>
+      <%= check_box_tag("search_all") %>
 
       <%= submit_tag("search") %>
+<<<<<<< HEAD
 <% end %>
 >>>>>>> forms setup branch
+=======
+
+      <%= link_to('Show all found items', items_path) %>
+
+
+<% end %>
+
+
+</td>
+>>>>>>> Adding basic CRUD features to insert and search on keywords
