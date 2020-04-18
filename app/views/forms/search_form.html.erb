@@ -1,6 +1,3 @@
-
-
-
 <td class="content">
       <h2>Search for lost items:</h2>
       <ul style="font-size:80%">
@@ -10,7 +7,6 @@
       <%= form_tag("item_search", method: "post") do %>
       <%= label_tag(:item_type, "item type:") %>
       <%= select_tag(:item_type, options_for_select([['none',0],['book',1],['clothing',2],['electronics',3],['glasses',4],['id',5],['keys',6],['mp3',7],['other',8]])) %>
-      
       <%= label_tag(:keyword, "keyword") %>
       <%=text_field_tag :keyword, nil, placeholder: 'Enter search term...'%>
 
@@ -26,7 +22,6 @@
       <%= submit_tag("search") %>
 
       <%= link_to('Show all found items', items_path) %>
-
 
 <% end %>
 
