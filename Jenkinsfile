@@ -2,37 +2,33 @@
 
 pipeline {
   agent {
-    label 'ruby'
+    dockerfile {
+      args "--network ci_services_network"
+    }
   }
 
   environment {
-    DATABASE_NAME = "jenkins_lost_and_found_${env.BRANCH_NAME.toLowerCase()}_${BUILD_ID}"
-    DATABASE_URL = "mysql2://root:root@db/${DATABASE_NAME}"
-    RACK_ENV = "test"
+    DATABASE_URL = "mysql2://root:root@mysql/jenkins_${BUILD_TAG}"
     RAILS_ENV = "test"
   }
 
   stages {
-    stage("Build") {
+    stage("Setup") {
       steps {
-        sh 'printenv | sort'
-        sh 'gem install bundler'
-        sh 'bundle install'
-        sh 'bundle exec -- rails db:setup'
+        sh 'env | sort'
+        sh 'setup'
       }
     }
 
-
-/*
-Passing parameter --ignore CVE-2015-9284 to bundle check in order to resolve security vulnerability
-per documentation https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9284
-*/
     stage("Test") {
       parallel {
         stage('audit') {
           steps {
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-              sh 'gem install bundler-audit'
+              /* Passing parameter --ignore CVE-2015-9284 to bundle check in order to resolve
+               * security vulnerability per documentation
+               * @see https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9284
+               */
               sh 'bundle-audit update'
               sh 'bundle-audit check --ignore CVE-2015-9284'
             }
@@ -45,6 +41,7 @@ per documentation https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9
               sh 'brakeman'
             }
           }
+
           post {
             always {
               publishBrakeman 'tmp/brakeman.json'
@@ -54,8 +51,9 @@ per documentation https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9
 
         stage('rspec') {
           steps {
-            sh 'bundle exec -- rspec'
+            sh 'rspec'
           }
+
           post {
             always {
               junit 'tmp/specs.xml'
@@ -66,8 +64,40 @@ per documentation https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9
     }
   }
 
+  post {
+    always {
+      sh 'rails db:drop || true'
+    }
+
+    success {
+      script {
+        slackSend color: 'good',
+                  message: """
+                  |Success!
+                  |
+                  |Build:  <${env.BUILD_URL}|${env.JOB_NAME.replaceAll('%2F', '/')}/${env.BUILD_NUMBER}>
+                  |Repo:   `${env.GIT_URL}`
+                  """.stripMargin()
+      }
+    }
+
+    failure {
+      script {
+        slackSend color: 'danger',
+                  message: """
+                  |Failure!
+                  |
+                  |Build:  <${env.BUILD_URL}|${env.JOB_NAME.replaceAll('%2F', '/')}/${env.BUILD_NUMBER}>
+                  |Repo:   `${env.GIT_URL}`
+                  """.stripMargin()
+      }
+    }
+  }
+
   options {
     ansiColor("xterm")
+    disableConcurrentBuilds()
+    disableResume()
     timeout(time: 10, unit: "MINUTES")
   }
 }

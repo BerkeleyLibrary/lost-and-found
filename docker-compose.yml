@@ -1,11 +1,10 @@
 services:
-  rails: &services-rails
+  rails:
     build:
       context: .
       target: development
     ports:
-      - target: 3000
-
+      - 3000:3000
     restart: always
     volumes:
       - ./:/opt/app

@@ -1,85 +1,109 @@
-FROM ruby:2.5-alpine3.7 AS base
+# ============================================================================
+# Target: base
+# Includes system dependencies common to both dev and production.
+FROM ruby:2.6.5-alpine AS base
 
-ARG APP_USER=lostandfound
-ARG APP_UID=40040
+# This is just metadata and doesn't actually "expose" this port. Rather, it
+# tells other tools (e.g. Traefik) what port the service in this image is
+# expected to listen on.
+#
+# @see https://docs.docker.com/engine/reference/builder/#expose
+EXPOSE 3000
 
-RUN addgroup -S -g $APP_UID $APP_USER && \
-    adduser -S -u $APP_UID -G $APP_USER $APP_USER && \
-    mkdir -p /opt/app /var/opt/app && \
-    chown -R $APP_USER:$APP_USER /opt/app /var/opt/app /usr/local/bundle
+# Standard documentation. Jenkins injects the build info automatically,
+# allowing us to trace the provenance of a particular image.
+LABEL edu.berkeley.lib.build-number="${BUILD_NUMBER}"
+LABEL edu.berkeley.lib.build-url="${BUILD_URL}"
+LABEL edu.berkeley.lib.git-commit="${GIT_COMMIT}"
+LABEL edu.berkeley.lib.git-repo="${GIT_URL}"
+LABEL edu.berkeley.lib.project-tier="4-hour response during business-hours"
+LABEL edu.berkeley.lib.project-description="The Lost and Found Application \
+is a proprietary service belonging to the UCB library system, tasked with \
+tracking lost items found on library premises."
 
-RUN apk --no-cache --update upgrade && \
-    apk --no-cache add \
+RUN addgroup -S -g 40001 jenkins \
+&&  adduser -S -u 40001 -G jenkins jenkins \
+&&  install -o jenkins -g jenkins -d /opt/app \
+&&  chown -R jenkins:jenkins /opt
+
+RUN apk --no-cache --update upgrade \
+&&  apk --no-cache add \
         bash \
         ca-certificates \
         git \
         libc6-compat \
+        mariadb-connector-c-dev \
         nodejs \
         openssl \
+        sqlite-libs \
         tzdata \
-        mariadb-client-libs \
         xz-libs \
+        wget \
         yarn \
-    && rm -rf /var/cache/apk/*
+&&  rm -rf /var/cache/apk/*
+
+# Add and trust InCommon's CA certificates
+RUN cd /usr/local/share/ca-certificates \
+&&  wget https://gist.githubusercontent.com/danschmidt5189/e7aa0c94342013c348987ca9470265ed/raw/47ef2ea414789ca50d755b99031dbcbb58d6d915/entrust-g2-ca-cert.pem \
+&&  wget https://gist.githubusercontent.com/danschmidt5189/e7aa0c94342013c348987ca9470265ed/raw/47ef2ea414789ca50d755b99031dbcbb58d6d915/entrust-l1k-ca-cert.pem \
+&&  wget https://gist.githubusercontent.com/danschmidt5189/e7aa0c94342013c348987ca9470265ed/raw/47ef2ea414789ca50d755b99031dbcbb58d6d915/incommon-rsa-server-ca-cert.pem \
+&&  update-ca-certificates
 
 WORKDIR /opt/app
 
-USER $APP_USER
-
-ENV PATH="/opt/app/bin:$PATH" \
-    RAILS_LOG_TO_STDOUT=yes
-
-ENTRYPOINT ["/opt/app/bin/docker-entrypoint.sh"]
-CMD ["server"]
-
+# ============================================================================
+# Target: development
+# Installs all dependencies, requiring the (large) build-base package. Build
+# artifacts are copied out in the final stage.
 FROM base AS development
-
-# Temporarily switch back to root to install build packages.
-USER root
 
 # Install system packages needed to build gems with C extensions.
 RUN apk --update --no-cache add \
         build-base \
         coreutils \
-        git \
-    rm -rf /var/cache/apk/*
+        mariadb-dev \
+        sqlite-dev
 
-# Drop back to app user
-USER $APP_USER
-
-# Workaround for certificate issue pulling av_core gem from git.lib.berkeley.edu
-ENV GIT_SSL_NO_VERIFY=1
+USER jenkins
 
 # The base image ships bundler 1.17.2, but on macOS, Ruby 2.6.4 comes with
 # bundler 1.17.3 as a default gem, and there's no good way to downgrade.
 RUN gem install bundler -v 1.17.3
 
-# Install gems. We do this first in order to maximize cache reuse, and we
-# do it only in the development image in order to minimize the size of the
-# final production image (which just copies the build products from dev)
-COPY --chown=$APP_USER Gemfile* ./
-RUN bundle install --jobs=$(nproc) --deployment --path=/usr/local/bundle
+# Install gems by copying over just the Gemfiles ruby version file. We do this
+# before copying over the rest of the codebase to avoid invalidating the
+# Docker cache and forcing an unnecessary bundle-install.
+COPY --chown=jenkins .ruby-version Gemfile* ./
+RUN bundle install --deployment --path /usr/local/bundle
 
-# Copy the rest of the codebase.
-COPY --chown=$APP_USER . .
+COPY --chown=jenkins . .
 
+# Extend the path to include our binstubs. Note that this must be done after
+# we've installed the application (and these scripts) otherwise you'll run
+# into weird path-related issues.
+ENV PATH "/opt/app/bin:$PATH"
 
+RUN rails assets:precompile
 
+CMD ["rails", "server"]
+
+# ============================================================================
+# Target: production
+# Slimmed down, extending the 'base' stage with only the built package from
+# the 'development' stage.
 FROM base AS production
 
 # Run as the app user to minimize risk to the host.
-USER $APP_USER
+USER jenkins
 
 # Copy the built codebase from the dev stage
-COPY --from=development --chown=$APP_USER /opt/app /opt/app
-COPY --from=development --chown=$APP_USER /usr/local/bundle /usr/local/bundle
-COPY --from=development --chown=$APP_USER /var/opt/app /var/opt/app
+COPY --from=development --chown=jenkins /opt/app /opt/app
+COPY --from=development --chown=jenkins /usr/local/bundle /usr/local/bundle
+ENV PATH "/opt/app/bin:$PATH"
 
-RUN bundle check
-# Default container port (for documentation only)
-# see https://docs.docker.com/engine/reference/builder/#expose
-RUN rails assets:precompile
-EXPOSE 3000
-VOLUME ["/opt/app/public"]
-ENV RACK_ENV=production RAILS_ENV=production RAILS_SERVE_STATIC_FILES=true
+# Sanity-check that everything was installed correctly and still runs in the
+# slimmed-down production image.
+RUN bundle check \
+&&  rails log:clear tmp:clear
 
+CMD ["rails", "server"]
