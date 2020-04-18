@@ -1,1 +1,17 @@
-insert!
+<h1>Add a new lost item to the collection</h1>
+
+<td class="content">
+    <%= form_tag("item_insert", method: "post") do %>
+
+    <%= label_tag(:itemType, "item type:") %>
+    <%= select_tag(:itemType, options_for_select([['book',1],['clothing',2],['electronics',3],['glasses',4],['id',5],['keys',6],['mp3',7],['other',8]])) %>
+
+    <%= label_tag(:itemDescription, "Describe the item") %>
+    <%=text_field_tag :itemDescription, nil, placeholder: 'item description...'%>
+
+    <%= label_tag(:itemLocation, "location:") %>
+    <%= select_tag(:itemLocation, options_for_select([['Doe Circle',1],['Doe North Entrance',2],['Doe South Entrance',3],['Gardner Stacks',4],['Library Security',5],['Moffit Third Floor',6],['Moffit forth Floor',7],['Moffit Circle',8],['MRC',9],['Privileges Desk',10],['UCPD',11]])) %>
+
+    <%= submit_tag("add item") %>
+<% end %>
+</td>

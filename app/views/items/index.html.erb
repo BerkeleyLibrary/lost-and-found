@@ -1,2 +1,27 @@
-<h1>Items#index</h1>
-<p>Find me in app/views/items/index.html.erb</p>
+<h1>Items list</h1>
+
+<table class="listing" summary="Claimed list">
+    <tr class="header">
+      <th>Actions </th>
+      <th>Item ID</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Found by</th>
+      <th>Type of item</th>
+      <th>Item description</th>
+    </tr>
+    <% @items.each do |item| %>
+    <tr>
+      <td>
+        <%= link_to("Show", '#', :class => 'action show') %>
+        <%= link_to("Edit", '#', :class => 'action edit') %>
+      </td>
+      <td><%= item.itemID %></td>
+      <td><%= item.itemDate %></td>
+      <td><%= item.itemFoundAt %></td>
+      <td><%= item.itemUpdatedBy %></td>
+      <td><%=item.itemType %></td>
+      <td><%= item.itemDescription %></td>
+    </tr>
+    <% end %>
+  </table>
