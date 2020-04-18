@@ -1,9 +1,7 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   include ActiveModel::Model
 
-  has_secure_password
-  has_many :assignments
-  has_many :roles, through: :assignments
+  belongs_to :role
   class << self
 
     def from_omniauth(auth)
