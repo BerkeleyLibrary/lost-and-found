@@ -1,7 +1,11 @@
 class Item < ApplicationRecord
 <<<<<<< HEAD
+<<<<<<< HEAD
   attr_accessor :locations
   attr_accessor :types
+=======
+  attr_accessor :locations
+>>>>>>> updating search query, new styles
 
   def locations
     @locations || [
@@ -18,6 +22,7 @@ class Item < ApplicationRecord
       'Privileges Desk',
       'UCPD'
     ]
+<<<<<<< HEAD
   end
 
   def types
@@ -44,8 +49,15 @@ class Item < ApplicationRecord
       }
 end
 =======
+=======
+
+  end
+>>>>>>> updating search query, new styles
     scope :claimed, -> { where("itemStatus = 3")}
     scope :found, -> { where("itemStatus = 1")}
-    scope :query_params, lambda {|params| where("itemDescription LIKE ?", "%#{params[:keyword]}%") } 
+    scope :query_params, lambda {
+      |params| where(
+      "itemDescription LIKE ?  AND itemLocation = ?", "%#{params[:keyword]}%", "#{params[:itemLocation]}")
+    }
   end
 >>>>>>> Adding basic CRUD features to insert and search on keywords

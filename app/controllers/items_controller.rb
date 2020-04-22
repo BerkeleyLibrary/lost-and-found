@@ -65,7 +65,7 @@ class ItemsController < ApplicationController
     @Item.itemImage = "none";
     @Item.itemObsolete = 0;
     @Item.itemUpdatedBy = "??????";
-    @Item.itemFoundBy = "?????????";
+    @Item.itemFoundBy = params[:itemFoundBy] || 'anonymous';
     @Item.libID = 115;
     @Item.created_at =Time.now();
     @Item.updated_at = Time.now();
