@@ -1,8 +1,31 @@
 Similar items listed below
-<%= @items.length  %>
-<% @items.each do |item|  %>
-<ul><li>
-  <%= item.itemDescription %>
-</li></ul>
-<% end %>
-<% link_to('Show All', items_path) %>
+
+<h1>Items list</h1>
+
+<table class="listing" summary="Claimed list">
+    <tr class="header">
+      <th>Actions </th>
+      <th>Item ID</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Found by</th>
+      <th>Found at </th>
+      <th>Type of item</th>
+      <th>Item description</th>
+    </tr>
+    <% @items.each do |item| %>
+    <tr>
+      <td>
+        <%= link_to("Show", '#', :class => 'action show') %>
+        <%= link_to("Edit", '#', :class => 'action edit') %>
+      </td>
+      <td><%= item.itemID %></td>
+      <td><%= item.itemDate %></td>
+      <td><%= item.itemFoundAt %></td>
+      <td><%= item.itemFoundBy %></td>
+      <td><%= item.locations[item.itemLocation] || 'none' %></td>
+      <td><%=item.itemType %></td>
+      <td><%= item.itemDescription %></td>
+    </tr>
+    <% end %>
+  </table>

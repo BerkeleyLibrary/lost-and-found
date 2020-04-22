@@ -1,32 +1,58 @@
-
 <!DOCTYPE html>
 <html>
-   <head>
-      <%= stylesheet_link_tag 'application', media: 'all' %>
-      <title>Login - Lost and Found</title>
-   </head>
-   <body onload="javascript: document.getElementById('un').focus();">
-            <table id="wrapper" >
-               <tr>
-                  <td colspan="2" class="header">
-                  <%= logo_link %>
-                    </td
-               </tr>
-               <tr>
-                  <td class="leftnav" valign="top">
-                     <p class="nav_link" ><a href="/insert_form">Insert Form</a></p>
-                     <p class="nav_link"><a href="/search_form">Search Form</a></p>
-                     <p class="nav_link"><a href="/item_all"> View All</a></p>
-                     <p class="nav_link"><a href="/admin">Admin</a></p>
-                     <p class="nav_link"><a href="/logout">Logout</a></p>
-                  </td>
-                  <td class="content">
-      <%= login_form %>
-      <div class="footer">
-        <%= staff_web_link %>
-        <%= staff_nav %>
-        <%= footer_partial %>
-      </div>
+  <head>
+    <title>Lost and Found</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-   </body>
+    <div id="branding">
+          <img id="logo" alt="UC Berkeley Library Logo" src="https://www.lib.berkeley.edu/Staff/images/library_logo.png"/>
+          <div class="subhead">
+               Lost & Found
+          </div>
+     </div>
+     <nav class="navigation" id="main-navigation">
+          <button id="menu-bars">
+               <span class="screen-reader-text">Show/hide menu</span>
+               <i class="fas fa-bars"></i>
+          </button>
+          <ul class="main-menu">
+            <li>
+                 <p class="nav_link"><a href="/item_all"> View All</a></p>
+            </li>
+            <li>
+              <p class="nav_link" ><a href="/insert_form">Insert Form</a></p>
+            </li>
+            <li>
+              <p class="nav_link"><a href="/search_form">Search Form</a></p>
+            </li>
+            <li>
+                <p class="nav_link"><a href="/admin">Admin</a></p>
+            </li>
+            <li>
+               <p class="nav_link"></p><%= login_form %> </p>
+           </li>
+          </ul>
+
+     </nav>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= yield %>
+    <div class="addit">&nbsp;</div>
+    <footer id="footer">
+
+     <p align="center">Copyright The Regents of the University of California. All rights reserved.
+          Last updated 02/28/20.
+
+          <a href="/help/contact">Contact us</a></p>
+
+     <img src="https://www.lib.berkeley.edu/Staff/images/footer_logo.svg" alt="UC Berkeley Logo" id="footer-logo" />
+
+
+</footer>
+  </body>
 </html>

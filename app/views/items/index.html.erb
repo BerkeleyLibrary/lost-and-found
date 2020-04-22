@@ -7,6 +7,7 @@
       <th>Date</th>
       <th>Time</th>
       <th>Found by</th>
+      <th>Found at </th>
       <th>Type of item</th>
       <th>Item description</th>
     </tr>
@@ -19,7 +20,8 @@
       <td><%= item.itemID %></td>
       <td><%= item.itemDate %></td>
       <td><%= item.itemFoundAt %></td>
-      <td><%= item.itemUpdatedBy %></td>
+      <td><%= item.itemFoundBy %></td>
+      <td><%= item.locations[item.itemLocation] || 'none' %></td>
       <td><%=item.itemType %></td>
       <td><%= item.itemDescription %></td>
     </tr>
