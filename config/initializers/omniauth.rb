@@ -15,9 +15,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
   fetch_raw_info = proc do |_strategy, _opts, _ticket, _user_info, rawxml|
     next {} if rawxml.empty?
-
-    groups_txt = rawxml.xpath('//cas:berkeleyEduIsMemberOf').map(&:text)
-    { 'berkeleyEduIsMemberOf' => groups_txt }
+    extra_info = ExternalService.get(params[:username]).attributes
+    extra_info
   end
 
   provider :cas,
