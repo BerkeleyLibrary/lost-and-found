@@ -33,4 +33,8 @@ class SessionsController < ApplicationController
   def auth_params
     request.env['omniauth.auth']
   end
+
+  def cas_host
+    Rails.application.config.omniauth.fetch(:cas_host)
+  end
 end
