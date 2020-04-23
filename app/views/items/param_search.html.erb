@@ -24,7 +24,7 @@ Similar items listed below
       <td><%= item.itemFoundAt %></td>
       <td><%= item.itemFoundBy %></td>
       <td><%= item.locations[item.itemLocation] || 'none' %></td>
-      <td><%=item.itemType %></td>
+      <td><%= item.types[item.itemType] || 'No type' %></td>
       <td><%= item.itemDescription %></td>
     </tr>
     <% end %>

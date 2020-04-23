@@ -5,8 +5,8 @@
         <li>To <b>browse</b> all lost items in all libraries, check "Search all libraries and locations" and click search</li>
       </ul>
       <%= form_tag("item_search", method: "post") do %>
-      <%= label_tag(:item_type, "item type:") %>
-      <%= select_tag(:item_type, options_for_select([['none',0],['book',1],['clothing',2],['electronics',3],['glasses',4],['id',5],['keys',6],['mp3',7],['other',8]])) %>
+      <%= label_tag(:itemType, "item type:") %>
+      <%= select_tag(:itemType, options_for_select([['none',0],['book',1],['clothing',2],['electronics',3],['glasses',4],['id',5],['keys',6],['mp3',7],['other',8]])) %>
       <%= label_tag(:keyword, "keyword") %>
       <%=text_field_tag :keyword, nil, placeholder: 'Enter search term...'%>
 
@@ -17,7 +17,7 @@
       <%= select_tag(:itemLocation, options_for_select([['none',0],['Doe Circle',1],['Doe North Entrance',2],['Doe South Entrance',3],['Gardner Stacks',4],['Library Security',5],['Moffit Third Floor',6],['Moffit forth Floor',7],['Moffit Circle',8],['MRC',9],['Privileges Desk',10],['UCPD',11]])) %>
 
       <%= label_tag(:search_all, "Search all locations:") %>
-      <%= check_box_tag("search_all") %>
+      <%= check_box_tag("searchAll") %>
 
       <%= submit_tag("search") %>
 
