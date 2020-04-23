@@ -21,10 +21,10 @@ LABEL edu.berkeley.lib.project-description="The Lost and Found Application \
 is a proprietary service belonging to the UCB library system, tasked with \
 tracking lost items found on library premises."
 
-RUN addgroup -S -g 40001 jenkins \
-&&  adduser -S -u 40001 -G jenkins jenkins \
-&&  install -o jenkins -g jenkins -d /opt/app \
-&&  chown -R jenkins:jenkins /opt
+RUN addgroup -S -g 40001 lostandfound \
+&&  adduser -S -u 40001 -G lostandfound lostandfound \
+&&  install -o lostandfound -g lostandfound -d /opt/app \
+&&  chown -R lostandfound:lostandfound /opt
 
 RUN apk --no-cache --update upgrade \
 &&  apk --no-cache add \
@@ -64,7 +64,7 @@ RUN apk --update --no-cache add \
         mariadb-dev \
         sqlite-dev
 
-USER jenkins
+USER lostandfound
 
 # The base image ships bundler 1.17.2, but on macOS, Ruby 2.6.4 comes with
 # bundler 1.17.3 as a default gem, and there's no good way to downgrade.
@@ -73,10 +73,10 @@ RUN gem install bundler -v 1.17.3
 # Install gems by copying over just the Gemfiles ruby version file. We do this
 # before copying over the rest of the codebase to avoid invalidating the
 # Docker cache and forcing an unnecessary bundle-install.
-COPY --chown=jenkins .ruby-version Gemfile* ./
+COPY --chown=lostandfound .ruby-version Gemfile* ./
 RUN bundle install --deployment --path /usr/local/bundle
 
-COPY --chown=jenkins . .
+COPY --chown=lostandfound . .
 
 # Extend the path to include our binstubs. Note that this must be done after
 # we've installed the application (and these scripts) otherwise you'll run
@@ -94,11 +94,11 @@ CMD ["rails", "server"]
 FROM base AS production
 
 # Run as the app user to minimize risk to the host.
-USER jenkins
+USER lostandfound
 
 # Copy the built codebase from the dev stage
-COPY --from=development --chown=jenkins /opt/app /opt/app
-COPY --from=development --chown=jenkins /usr/local/bundle /usr/local/bundle
+COPY --from=development --chown=lostandfound /opt/app /opt/app
+COPY --from=development --chown=lostandfound /usr/local/bundle /usr/local/bundle
 ENV PATH "/opt/app/bin:$PATH"
 
 # Sanity-check that everything was installed correctly and still runs in the

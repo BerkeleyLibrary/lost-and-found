@@ -1,63 +1,55 @@
 #!/usr/bin/env groovy
 
-pipeline {
-  agent {
-    dockerfile {
-      args "--network ci_services_network"
+// Build the image under test. This has to be done before the pipeline{}.
+node('docker') {
+  stage('Dockerize') {
+    checkout scm
+    docker.withRegistry(DOCKER_REGISTRY_URL, DOCKER_REGISTRY_CREDENTIALS_ID) {
+      app = docker.build("containers.lib.berkeley.edu/lap/lost-and-found/${BRANCH_NAME.toLowerCase()}:build-${BUILD_NUMBER}")
+      app.push()
     }
   }
+}
 
-  environment {
-    DATABASE_URL = "mysql2://root:root@mysql/jenkins_${BUILD_TAG}"
-    RAILS_ENV = "test"
-  }
+pipeline {
+  agent none
 
   stages {
-    stage("Setup") {
+    stage('Test') {
+      agent {
+        docker {
+          args '--network ci_services_network'
+          image app.imageName()
+        }
+      }
+
+      environment {
+        DATABASE_URL = "mysql2://root:root@mysql/jenkins_${BUILD_TAG.split('%2F')[-1]}"
+      }
+
       steps {
-        sh 'env | sort'
         sh 'setup'
+        sh 'rake'
+      }
+
+      post {
+        always {
+          sh 'rails db:drop || true'
+          junit 'tmp/specs.xml'
+          publishBrakeman 'tmp/brakeman.json'
+        }
       }
     }
 
-    stage("Test") {
-      parallel {
-        stage('audit') {
-          steps {
-            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-              /* Passing parameter --ignore CVE-2015-9284 to bundle check in order to resolve
-               * security vulnerability per documentation
-               * @see https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9284
-               */
-              sh 'bundle-audit update'
-              sh 'bundle-audit check --ignore CVE-2015-9284'
-            }
-          }
-        }
+    stage('Push') {
+      agent {
+        label 'docker'
+      }
 
-        stage('brakeman') {
-          steps {
-            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-              sh 'brakeman'
-            }
-          }
-
-          post {
-            always {
-              publishBrakeman 'tmp/brakeman.json'
-            }
-          }
-        }
-
-        stage('rspec') {
-          steps {
-            sh 'rspec'
-          }
-
-          post {
-            always {
-              junit 'tmp/specs.xml'
-            }
+      steps {
+        script {
+          docker.withRegistry(DOCKER_REGISTRY_URL, DOCKER_REGISTRY_CREDENTIALS_ID) {
+            app.push('latest')
           }
         }
       }
@@ -65,10 +57,6 @@ pipeline {
   }
 
   post {
-    always {
-      sh 'rails db:drop || true'
-    }
-
     success {
       script {
         slackSend color: 'good',
@@ -95,9 +83,9 @@ pipeline {
   }
 
   options {
-    ansiColor("xterm")
+    ansiColor('xterm')
     disableConcurrentBuilds()
     disableResume()
-    timeout(time: 10, unit: "MINUTES")
+    timeout(time: 10, unit: 'MINUTES')
   }
 }
