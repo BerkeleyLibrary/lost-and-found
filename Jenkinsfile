@@ -1,15 +1,6 @@
 #!/usr/bin/env groovy
 
-// Build the image under test. This has to be done before the pipeline{}.
-node('docker') {
-  stage('Dockerize') {
-    checkout scm
-    docker.withRegistry(DOCKER_REGISTRY_URL, DOCKER_REGISTRY_CREDENTIALS_ID) {
-      app = docker.build("containers.lib.berkeley.edu/lap/lost-and-found/${BRANCH_NAME.toLowerCase()}:build-${BUILD_NUMBER}")
-      app.push()
-    }
-  }
-}
+def app = dockerize()
 
 pipeline {
   agent none
@@ -28,13 +19,11 @@ pipeline {
       }
 
       steps {
-        sh 'setup'
         sh 'rake'
       }
 
       post {
         always {
-          sh 'rails db:drop || true'
           junit 'tmp/specs.xml'
           publishBrakeman 'tmp/brakeman.json'
         }

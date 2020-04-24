@@ -1,4 +1,3 @@
-
 require_relative '../lib/docker'
 Docker::Secret.setup_environment!
 
@@ -30,6 +29,5 @@ module LostAndFound
     Rails.application.config.middleware.use OmniAuth::Builder do
       provider :cas, host: 'localhost'
     end
-
   end
 end
