@@ -1,12 +1,12 @@
 development:
   pool: 5
   timeout: 5000
-  url: <%= ENV['DATABASE_URL'] || 'mysql2://root:root@127.0.0.1:3306/lost_and_found_dev' %>
+  url: <%= ENV['DATABASE_URL'] || 'mysql2://root:root@db:3306/lostandfound-dev' %>
+
+test:
+  url: <%= ENV['DATABASE_URL'] || 'mysql2://root:root@db:3306/lostandfound-test' %>
 
 production:
   pool: 5
   timeout: 5000
-  url: <%= ENV['DATABASE_URL'] %>
-
-test:
-  url: <%= ENV['DATABASE_URL'] || 'sqlite3:db/test.sqlite3' %>
+  url: <%= ENV['DATABASE_URL'] || 'mysql2://root:root@db:3306/lostandfound-prod' %>

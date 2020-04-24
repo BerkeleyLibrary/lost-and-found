@@ -7,7 +7,8 @@
 #   https://brakemanscanner.org/docs/brakeman_as_a_library/
 
 :collapse_mass_assignment: false
-:exit_on_warn: true
+:exit_on_warn: false
+:exit_on_error: false
 :min_confidence: 2
 :output_files:
   - /dev/stdout

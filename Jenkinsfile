@@ -19,13 +19,11 @@ pipeline {
       }
 
       steps {
-        sh 'setup'
         sh 'rake'
       }
 
       post {
         always {
-          sh 'rails db:drop || true'
           junit 'tmp/specs.xml'
           publishBrakeman 'tmp/brakeman.json'
         }
