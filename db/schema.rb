@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_21_185908) do
+ActiveRecord::Schema.define(version: 2020_04_07_184823) do
+
+  create_table "assignments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "user", null: false
+    t.string "role", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "item_types", primary_key: "typeID", id: :integer, options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "typeName", null: false
@@ -46,12 +53,6 @@ ActiveRecord::Schema.define(version: 2020_02_21_185908) do
 
   create_table "months", primary_key: "monthNum", id: :integer, default: nil, options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "month", null: false
-  end
-
-  create_table "roles", primary_key: ["Username", "Rolename"], options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "Username", limit: 15, null: false
-    t.string "Rolename", limit: 15, null: false
-    t.integer "libID", null: false
   end
 
   create_table "statuses", primary_key: "statusID", id: :integer, options: "ENGINE=MyISAM DEFAULT CHARSET=latin1", force: :cascade do |t|
