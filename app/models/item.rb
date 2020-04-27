@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   attr_accessor :locations
   attr_accessor :types
+
   def locations
     @locations || [
       'No location submitted',
