@@ -7,18 +7,11 @@ ruby '~> 2.6'
 
 gem 'activerecord-import'
 gem 'authlogic'
-<<<<<<< HEAD
 gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap-sass'
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.7'
-=======
-gem 'coffee-rails', '~> 5.0'
-gem 'webpacker', '~> 4.0'
-gem 'turbolinks', '~> 5'
-gem 'jbuilder', github: 'rails/jbuilder', branch: 'master'
->>>>>>> Adding basic CRUD features to insert and search on keywords
 gem 'jquery-rails'
 gem 'lograge', '>=0.11.2'
 gem 'mysql2'

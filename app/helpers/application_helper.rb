@@ -35,9 +35,4 @@ module ApplicationHelper
   def items_list
     render template: "items/new"
   end
-<<<<<<< HEAD
-=======
-
-
->>>>>>> Adding basic CRUD features to insert and search on keywords
 end

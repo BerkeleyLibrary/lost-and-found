@@ -17,8 +17,6 @@ Rails.application.routes.draw do
   post '/item_search', to:'items#param_search'
   post 'item_insert', to: "items#create"
   get '/item_all', to: "items#all"
-
-<<<<<<< HEAD
   resources :items do
     member do
       get :delete
@@ -29,8 +27,6 @@ Rails.application.routes.draw do
   post 'item_insert', to: "items#create"
   get '/item_all', to: "items#all"
 
-=======
->>>>>>> Adding basic CRUD features to insert and search on keywords
   get '/login', to: 'sessions#new', as: :login
   get '/logout', to: 'sessions#destroy', as: :logout
   get '/insert_form', to: 'forms#insert_form'
