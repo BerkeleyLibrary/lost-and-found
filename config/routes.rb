@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   get 'home', to: 'home#index'
   get 'search_form', to: 'forms#search_form'
 
-
-
   post 'item_search', to:'forms#item_search'
   get '/login', to: 'sessions#new', as: :login
   get '/logout', to: 'sessions#destroy', as: :logout

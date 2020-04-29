@@ -28,4 +28,8 @@ module ApplicationHelper
     render  template: "layouts/staff_nav"
   end
 
+  def login_form
+    render template: "forms/login"
+  end
+
 end
