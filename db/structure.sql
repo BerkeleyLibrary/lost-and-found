@@ -20,6 +20,29 @@ CREATE TABLE `ar_internal_metadata` (
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `items` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `itemDate` datetime DEFAULT NULL,
+  `itemFoundAt` datetime DEFAULT NULL,
+  `itemLocation` int DEFAULT NULL,
+  `itemType` varchar(255) DEFAULT NULL,
+  `itemDescription` varchar(255) DEFAULT NULL,
+  `itemLastModified` datetime DEFAULT NULL,
+  `itemStatus` int DEFAULT NULL,
+  `itemEnteredBy` varchar(255) DEFAULT NULL,
+  `itemImage` varchar(255) DEFAULT NULL,
+  `itemObsolete` int DEFAULT NULL,
+  `itemUpdatedBy` varchar(255) DEFAULT NULL,
+  `itemFoundBy` varchar(255) DEFAULT NULL,
+  `libID` int DEFAULT NULL,
+  `created_at` datetime(6) NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -65,6 +88,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `schema_migrations` (version) VALUES
 ('20200428224332'),
-('20200428224353');
+('20200428224353'),
+('20200429003401');
 
 
