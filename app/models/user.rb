@@ -13,9 +13,6 @@ class User < ActiveRecord::Base
     # @see https://git.lib.berkeley.edu/lap/altmedia/issues/16#note_5549 Sample Calnet Response
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def from_omniauth(auth)
-      p '=============='
-      p auth
-      p '=============='
       raise Error::InvalidAuthProviderError, auth['provider'] \
         if auth['provider'].to_sym != :calnet
 

@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'user_helper'
 
 def login_as(user_id)
-  stub_patron_dump(user_id)
   mock_omniauth_login(user_id)
 end
 
@@ -23,12 +22,12 @@ ensure
 end
 
 def mock_omniauth_login(user_id)
-  calnet_yml_file = "spec/data/calnet/#{Patron::Dump.escape_patron_id(patron_id)}.yml"
+  calnet_yml_file = "spec/data/calnet/#{user_id}.yml"
   raise IOError, "No such file: #{calnet_yml_file}" unless File.file?(calnet_yml_file)
 
   auth_hash = YAML.load_file(calnet_yml_file)
   OmniAuth.config.mock_auth[:calnet] = auth_hash
-  do_get login_path
+  do_get "/auth/calnet"
 
   Rails.application.env_config['omniauth.auth'] = auth_hash
   do_get omniauth_callback_path(:calnet)

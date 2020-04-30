@@ -9,7 +9,6 @@ Bundler.require(*Rails.groups)
 module LostAndFound
   class Application < Rails::Application
     config.load_defaults 6.0
-    config.lostandfound = config_for(:lostandfound)
     config.action_view.field_error_proc = proc { |tag, _instance| tag }
     config.lograge.enabled = true
     config.logger = LostAndFoundLogger::Logger.new($stdout)
@@ -25,11 +24,6 @@ module LostAndFound
         { msg: 'Request', request: data }
       end
     end
-
-    # config.before_initialize do
-    #   User::Record.api_base_url = URI.parse(config.lostAndFound['patron_url'])
-    #   User::Record.expect_url = URI.parse(config.lostAndFound['expect_url'])
-    # end
 
   end
 end
