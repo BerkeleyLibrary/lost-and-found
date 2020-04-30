@@ -6,7 +6,16 @@ class User < ActiveRecord::Base
   has_many :roles, through: :assignments
   class << self
 
+    # Returns a new user object from the given "omniauth.auth" hash. That's a
+    # hash of all data returned by the auth provider (in our case, calnet).
+    #
+    # @see https://github.com/omniauth/omniauth/wiki/Auth-Hash-Schema OmniAuth Schema
+    # @see https://git.lib.berkeley.edu/lap/altmedia/issues/16#note_5549 Sample Calnet Response
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def from_omniauth(auth)
+      p '=============='
+      p auth
+      p '=============='
       raise Error::InvalidAuthProviderError, auth['provider'] \
         if auth['provider'].to_sym != :calnet
 

@@ -1,16 +1,15 @@
 
 require_relative '../lib/docker'
 Docker::Secret.setup_environment!
-
 require_relative 'boot'
 require 'rails/all'
 Bundler.require(*Rails.groups)
 require_relative '../app/loggers/lost_and_found_logger'
-
 Bundler.require(*Rails.groups)
 module LostAndFound
   class Application < Rails::Application
     config.load_defaults 6.0
+    config.lostandfound = config_for(:lostandfound)
     config.action_view.field_error_proc = proc { |tag, _instance| tag }
     config.lograge.enabled = true
     config.logger = LostAndFoundLogger::Logger.new($stdout)
@@ -27,9 +26,10 @@ module LostAndFound
       end
     end
 
-    Rails.application.config.middleware.use OmniAuth::Builder do
-      provider :cas, host: 'localhost'
-    end
+    # config.before_initialize do
+    #   User::Record.api_base_url = URI.parse(config.lostAndFound['patron_url'])
+    #   User::Record.expect_url = URI.parse(config.lostAndFound['expect_url'])
+    # end
 
   end
 end
