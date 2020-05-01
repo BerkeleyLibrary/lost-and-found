@@ -4,9 +4,5 @@ require_relative 'config/application'
 
 Rails.application.load_tasks
 
-desc "Default task runs the entire test suite"
-task :default => [:spec] do
-  system 'brakeman'
-  system 'bundle-audit update'
-  system 'bundle-audit check --ignore CVE-2015-9284'
-end
+task('default').clear # wipe the default 'spec' task created by rspec-rails
+task default: ENV['CI'].present? ? %w(ci) : %w(spec:all)

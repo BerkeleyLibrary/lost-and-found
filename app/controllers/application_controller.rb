@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   include ExceptionHandling
   skip_before_action :verify_authenticity_token
 
-  private
 
   def authenticate!
     unless authenticated?
@@ -52,4 +51,66 @@ class ApplicationController < ActionController::Base
   def sign_out
     reset_session
   end
+
+
+  def ensure_authenticated_user
+    if calnet_uid.blank?
+      session[:original_url] = request.env['REQUEST_URI']
+    end
+  end
+
+  def current_user
+    return @current_user if @current_user
+    
+    @current_user = User.find_by(calnet_uid: calnet_uid) || User.new(calnet_uid: calnet_uid)
+    @current_user.log_web_access
+    @current_user
+  end
+
+  def user_for_paper_trail
+    current_user.try!(:audit_identifier)
+  end
+
+  def calnet_uid
+    session[:calnet_uid]
+  end
+
+  def user_is_admin?
+    current_user.try(:admin?)
+  end
+
+  def user_is_registered?
+    current_user.present?
+  end
+
+  def logged_in?
+    calnet_uid.present?
+  end
+
+  helper_method :current_user
+  helper_method :logged_in?
+  helper_method :user_is_admin?
+  helper_method :user_is_registered?
+
+  def camelize_json(json_hash)
+    json_hash.as_json.camelize_keys
+  end
+
+  def q_params(attrs)
+    params[:q] ||= {}
+    ignores = ["q", "controller", "action", "format", "token", "utf8", "commit"]
+
+    params.keys.each do |key|
+      params[:q][key] = params.delete(key) unless ignores.include?(key) 
+    end
+
+    (params[:q] ? params[:q].permit(attrs) : params.permit!).to_h.to_h.symbolize_keys
+  end
+
+
+
+
+
+
+
 end

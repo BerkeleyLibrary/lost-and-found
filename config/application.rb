@@ -1,12 +1,9 @@
-
 require_relative '../lib/docker'
 Docker::Secret.setup_environment!
-
 require_relative 'boot'
 require 'rails/all'
 Bundler.require(*Rails.groups)
 require_relative '../app/loggers/lost_and_found_logger'
-
 Bundler.require(*Rails.groups)
 module LostAndFound
   class Application < Rails::Application
@@ -25,10 +22,6 @@ module LostAndFound
       def fmt.call(data)
         { msg: 'Request', request: data }
       end
-    end
-
-    Rails.application.config.middleware.use OmniAuth::Builder do
-      provider :cas, host: 'localhost'
     end
 
   end
