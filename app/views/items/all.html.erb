@@ -20,7 +20,7 @@
 		<td><%= item.itemFoundAt %></td>
 		<td><%= item.itemFoundBy %></td>
 		<td><%= item.locations[item.itemLocation] || 'none' %></td>
-		<td><%= item.types[item.itemType] || 'No type' %></td>
+		<td><%= item.types[item.itemType.to_i] || 'No type' %></td>
 		<td><%= item.itemDescription %></td>
 	</tr>
 	<% end %>
