@@ -74,7 +74,7 @@ RUN gem install bundler -v 1.17.3
 # before copying over the rest of the codebase to avoid invalidating the
 # Docker cache and forcing an unnecessary bundle-install.
 COPY --chown=lostandfound .ruby-version Gemfile* ./
-RUN bundle install --deployment --path /usr/local/bundle
+RUN bundle install --path /usr/local/bundle
 
 COPY --chown=lostandfound . .
 
@@ -103,7 +103,7 @@ ENV PATH "/opt/app/bin:$PATH"
 
 # Sanity-check that everything was installed correctly and still runs in the
 # slimmed-down production image.
-RUN bundle check \
+RUN bundle install --deployment --local --path=/usr/local/bundle \
 &&  rails log:clear tmp:clear
 
 CMD ["rails", "server"]
