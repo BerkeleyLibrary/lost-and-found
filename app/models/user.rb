@@ -4,9 +4,10 @@ class User < ApplicationRecord
     class << self
   
       def from_omniauth(auth)
+
         raise Error::InvalidAuthProviderError, auth['provider'] \
           if auth['provider'].to_sym != :calnet
-  
+
         new(
           display_name: auth['extra']['displayName'],
           uid: auth['extra']['uid'] || auth['uid']

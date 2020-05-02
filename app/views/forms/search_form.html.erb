@@ -13,8 +13,6 @@
       <%= label_tag(:keyword, "keyword") %>
       <%=text_field_tag :keyword, nil, placeholder: 'Enter search term...'%>
 
-      <%= label_tag(:date_found, "Date Found:") %>
-      <%= date_field_tag(:date_found)%>
 
       <%= label_tag(:itemLocation, "location:") %>
       <%= select_tag(:itemLocation, options_for_select([['none',0],['Doe Circle',1],['Doe North Entrance',2],['Doe South Entrance',3],['Gardner Stacks',4],['Library Security',5],['Moffit Third Floor',6],['Moffit forth Floor',7],['Moffit Circle',8],['MRC',9],['Privileges Desk',10],['UCPD',11]])) %>

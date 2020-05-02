@@ -42,6 +42,8 @@ class ApplicationController < ActionController::Base
   # @return [void]
   def sign_in(user)
     session[:user] = user
+    session[:user][:name] = @user.display_name
+    session[:user][:uid] = @user.uid
     logger.debug("Signed in user #{session[:user]}")
   end
 

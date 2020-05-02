@@ -11,9 +11,9 @@ class SessionsController < ApplicationController
       msg: 'Received omniauth callback',
       omniauth: auth_params
     )
+
     @user = User.from_omniauth(auth_params)
     sign_in @user
-
     redirect_to request.env['omniauth.origin'] || home_path
   end
 
@@ -34,16 +34,9 @@ class SessionsController < ApplicationController
       omniauth: auth_params
     })
 
-    p '============'
-    p auth_params
-    p '============'
+    @user = User.from_omniauth(auth_hash)
 
-@user = User.from_omniauth(auth_hash)
-
-sign_in @user
-
-redirect_to request.env['omniauth.origin'] || home_path
-
+    redirect_to request.env['omniauth.origin'] || home_path
   end
 
   protected

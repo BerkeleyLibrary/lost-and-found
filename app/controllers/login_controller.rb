@@ -19,20 +19,6 @@ class LoginController < ApplicationController
 
     private
 
-  def form_params
-    params.require(:ucop_borrow_request_form).permit!
-  rescue ActionController::ParameterMissing
-    {}
-  end
-
-  def init_form!
-    @form = LoginForm.new
-    return if form_params.empty?
-
-    @form.attributes = form_params
-    @form.validate
-  end
-
   def validate_recaptcha!
     verify_recaptcha!(model: @form)
   end

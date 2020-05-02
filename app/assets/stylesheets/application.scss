@@ -8,3 +8,14 @@
 #footer {
   margin: 2em;
 }
+
+.item-display {
+  all: revert;
+  display: block;
+  text-align: left;
+  
+}
+
+table tr {
+  display: block;
+}

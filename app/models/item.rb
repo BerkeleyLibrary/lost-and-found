@@ -32,6 +32,7 @@ class Item < ApplicationRecord
         'other',
       ]
     end
+
       scope :claimed, -> { where("itemStatus = 3")}
       scope :found, -> { where("itemStatus = 1")}
       scope :query_params, -> (params ) {
@@ -42,4 +43,3 @@ class Item < ApplicationRecord
         end
         }
   end
-  
