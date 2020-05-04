@@ -22,6 +22,5 @@ Rails.application.configure do
   #Short circuits test flow. 
   # See documentation here: https://github.com/omniauth/omniauth/wiki/Integration-Testing
   OmniAuth.config.test_mode = true
-  config.active_record.schema_format = :sql
   config.logger = LostAndFoundLogger::Logger.new(config.root.join('log/test.log'))
 end
