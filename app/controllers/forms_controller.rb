@@ -3,7 +3,8 @@ class FormsController < ApplicationController
       render :search_form
     end
 
-    def item_search
-        render :search_display
+    def insert_form
+      render :insert_form
     end
+
 end

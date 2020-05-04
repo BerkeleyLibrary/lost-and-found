@@ -4,7 +4,7 @@ describe User, type: :model do
   it 'user should have role' do
     user = User.new()
     assert_nil(user.role)
-    user.role=Role.new(name: 'admin')
+    user.role=Role.new(rolename: 'admin')
     assert(user.role)
   end
 end

@@ -1,19 +1,28 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+
   resources :posts
-  get '/', to: 'home#index'
+  root to: redirect('/auth/calnet')
+
+  get 'home', to: 'home#index'
   get 'admin', to: 'home#admin'
   get 'health', to: 'home#health'
-  get 'home', to: 'home#index'
+
+
+  resources :items do
+    member do
+      get :delete
+    end
+  end
+
   get 'search_form', to: 'forms#search_form'
+  post '/item_search', to:'items#param_search'
+  post 'item_insert', to: "items#create"
+  get '/item_all', to: "items#all"
 
-
-
-  post 'item_search', to:'forms#item_search'
-  get '/login', to: 'sessions#new', as: :login
   get '/logout', to: 'sessions#destroy', as: :logout
-  post '/auth/:provider/callback', to: 'sessions#callback', as: :omniauth_callback
+  get '/insert_form', to: 'forms#insert_form'
+  get '/auth/:provider/callback', to: 'sessions#callback', as: :omniauth_callback
   get '/auth/failure', to: 'sessions#failure'
-
 end

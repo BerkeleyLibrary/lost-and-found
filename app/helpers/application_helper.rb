@@ -21,11 +21,18 @@ module ApplicationHelper
   end
 
   def footer_partial
-    render  template: "layouts/footer"
+    render template: "layouts/footer"
   end
 
   def staff_nav
-    render  template: "layouts/staff_nav"
+    render template: "layouts/staff_nav"
   end
 
+  def login_form
+    render template: "forms/login"
+  end
+
+  def items_list
+    render template: "items/new"
+  end
 end

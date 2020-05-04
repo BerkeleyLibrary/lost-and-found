@@ -1,4 +1,3 @@
----
 # config/brakeman.yml
 #
 # Brakeman is an automated security/vulnerability scanner for Ruby.
@@ -17,3 +16,4 @@
 :report_progress: false
 :report_routes: true
 :run_all_checks: true
+

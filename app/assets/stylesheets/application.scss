@@ -1,8 +1,21 @@
-// @import 'includes/main';
-// @import 'includes/desktop';
-// @import 'includes/mobile';
+@import 'includes/main';
+@import 'includes/desktop';
+@import 'includes/mobile';
 @import 'includes/original-style';
+@import 'includes/rxa5jay';
+@import 'includes/staff';
 
 #footer {
   margin: 2em;
+}
+
+.item-display {
+  all: revert;
+  display: block;
+  text-align: left;
+  
+}
+
+table tr {
+  display: block;
 }

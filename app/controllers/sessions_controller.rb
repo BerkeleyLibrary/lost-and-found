@@ -3,7 +3,7 @@
 class SessionsController < ApplicationController
   def new
     redirect_args = { origin: params[:url] || home_path }.to_query
-    redirect_to "/auth/calnet?#{redirect_args}"
+    redirect_to "/auth/calnet/callback"
   end
 
   def callback
@@ -13,9 +13,7 @@ class SessionsController < ApplicationController
     )
 
     @user = User.from_omniauth(auth_params)
-
     sign_in @user
-
     redirect_to request.env['omniauth.origin'] || home_path
   end
 
@@ -30,9 +28,30 @@ class SessionsController < ApplicationController
     render json: check, status: check.http_status_code
   end
 
+  def create
+    logger.debug({
+      msg: 'Received omniauth callback',
+      omniauth: auth_params
+    })
+
+    @user = User.from_omniauth(auth_hash)
+
+    redirect_to request.env['omniauth.origin'] || home_path
+  end
+
+  protected
+
+  def auth_hash
+    request.env['omniauth.auth']
+  end
+
   private
 
   def auth_params
     request.env['omniauth.auth']
+  end
+
+  def cas_host
+    Rails.application.config.omniauth.fetch(:cas_host)
   end
 end
