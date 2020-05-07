@@ -56,13 +56,13 @@
 				<% @items.each do |item| %>
 				<tr>
 					<td>
-						<%= link_to("Delete", '#', :class => 'action show') %> <%= link_to("Edit", '#', :class => 'action edit') %>
+						<%= button_to "Delete", "delete_item", class:"btn btn-default", style:"",  remote: true, params: { id: item.id } %>
 					</td>
 					<td><%= item.itemDate %></td>
 					<td><%= item.itemFoundAt %></td>
 					<td><%= item.itemFoundBy %></td>
-					<td><%= item.locations[item.itemLocation] || 'none' %></td>
-					<td><%= item.types[item.itemType.to_i] || 'No type' %></td>
+					<td><%= item.itemLocation || 'none' %></td>
+					<td><%= item.itemType || 'No type' %></td>
 					<td><%= item.itemDescription %></td>
 				</tr>
 				<% end %>

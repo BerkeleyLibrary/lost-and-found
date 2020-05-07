@@ -9,7 +9,7 @@
     <%= form_tag("user_insert", method: "post") do %>
 
     <%= label_tag(:user_role, "user Role:") %>
-    <%= select_tag(:user_role, options_for_select([['read-only','read-only',],['Staff','Staff'],['Administrator','Administrator']])) %>
+    <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
 
     <%= label_tag(:user_name, "User name") %>
     <%=text_field_tag :user_name, nil, placeholder: '' %>
@@ -40,6 +40,100 @@
     </tr>
     <% end %>
 </table>
+
+
+<h1>Add a new location</h1>
+<td class="content">
+    <%= form_tag("location_insert", method: "post") do %>
+    <%= label_tag(:location_name, "Location name") %>
+    <%=text_field_tag :location_name, nil, placeholder: '' %>
+
+    <%= submit_tag("add location") %>
+<% end %>
+</td>
+
+<p>Location list</p>
+<table class="item-display">
+    <tr>
+        <th>Actions</th>
+        <th>Location Name</th>
+    </tr>
+    <% @locations.each do |location| %>
+    <tr>
+        <td>
+            <%= button_to "Delete", "location_delete", class:"btn btn-default", style:"",  remote: true, params: { id: location.id } %>
+        </td>
+        <td><%= location.location_name %></td>
+    </tr>
+    <% end %>
+</table>
+
+
+
+<h1>Add a new Item Type</h1>
+<td class="content">
+    <%= form_tag("itemType_insert", method: "post") do %>
+    <%= label_tag(:type_name, "item name") %>
+    <%=text_field_tag :type_name, nil, placeholder: '' %>
+
+    <%= label_tag(:type_description, "item type description") %>
+    <%=text_field_tag :type_description, nil, placeholder: '' %>
+
+    <%= submit_tag("add item Type") %>
+<% end %>
+</td>
+
+<p>Item Type list</p>
+<table class="item-display">
+    <tr>
+        <th>Actions</th>
+        <th>Item Type Name</th>
+        <th>Item Type Description</th>
+    </tr>
+    <% @item_types.each do |item_type| %>
+    <tr>
+        <td>
+            <%= button_to "Delete", "itemType_delete", class:"btn btn-default", style:"",  remote: true, params: { id: item_type.id } %>
+        </td>
+        <td><%= item_type.type_name %></td>
+        <td><%= item_type.type_description %></td>
+    </tr>
+    <% end %>
+</table>
+
+<h1>Add a new Role</h1>
+<td class="content">
+    <%= form_tag("role_insert", method: "post") do %>
+    <%= label_tag(:role_name, "Role name") %>
+    <%=text_field_tag :role_name, nil, placeholder: '' %>
+
+    <%= label_tag(:role_level, "Role level") %>
+    <%=text_field_tag :role_level, nil, placeholder: '' %>
+
+    <%= submit_tag("add role") %>
+<% end %>
+</td>
+
+<p>Roles list</p>
+<table class="item-display">
+    <tr>
+        <th>Actions</th>
+        <th>role Name</th>
+        <th>role Level</th>
+    </tr>
+    <% @roles.each do |role| %>
+    <tr>
+        <td>
+            <%= button_to "Delete", "role_delete", class:"btn btn-default", style:"",  remote: true, params: { id: role.id } %>
+        </td>
+        <td><%= role.role_name %></td>
+        <td><%= role.role_level %></td>
+    </tr>
+    <% end %>
+</table>
+
+
+
 
 
 

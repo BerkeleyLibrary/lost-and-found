@@ -26,10 +26,10 @@ class UsersController < ApplicationController
 
       if @user.save!
         @users = User.all
-        render template: "home/admin"
+        redirect_back(fallback_location: root_path)
       else
          @users = User.all
-         render template: "home/forbidden"
+         redirect_back(fallback_location: root_path)
       end
     end
 
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
     def destroy
       User.delete(params[:id])
       @users = User.all
-      render template: "home/admin"
+      redirect_back(fallback_location: root_path)
     end
 
     private
@@ -60,4 +60,3 @@ class UsersController < ApplicationController
         params.require(:uid)
       end
 end
-  

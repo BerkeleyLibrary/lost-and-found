@@ -10,6 +10,15 @@ class HomeController < ApplicationController
 
     def admin
       @users = User.all
+      @locations = Location.all
+      @item_types = ItemType.all
+
+      @roles = Role.all
+      @roles_layout = [["Administrator","Administrator"]]
+      @roles.each do |role|
+        @roles_layout.push([role.role_name, role.role_name])
+      end
+
       render :admin
     end
 

@@ -24,10 +24,13 @@ class ItemsController < ApplicationController
   end
 
   def create
+
+
+
     @Item = Item.new()
     @Item.itemDate = Time.now();
     @Item.itemFoundAt = Time.now();
-    @Item.itemLocation = params[:itemLocation].to_i;
+    @Item.itemLocation = params[:itemLocation];
     @Item.itemType = params[:itemType];
     @Item.itemDescription= params[:itemDescription];
     @Item.itemLastModified=Time.now();
@@ -40,7 +43,6 @@ class ItemsController < ApplicationController
     @Item.libID = 115;
     @Item.created_at =Time.now();
     @Item.updated_at = Time.now();
-
 
     if @Item.save!
       @items = @Item
@@ -55,15 +57,9 @@ class ItemsController < ApplicationController
     params.permit(:itemLocation, :itemType, :itemDescription)
  end
 
-  def edit
-  end
-
-  def update
-  end
-
-  def delete
-  end
-
   def destroy
+    Item.delete(params[:id])
+    @Items = Item.all
+    redirect_back(fallback_location: root_path)
   end
 end

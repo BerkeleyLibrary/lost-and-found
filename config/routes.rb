@@ -19,7 +19,15 @@ Rails.application.routes.draw do
   post '/item_search', to:'items#param_search'
   post 'item_insert', to: "items#create"
   post 'user_insert', to: "users#create"
+  post 'itemType_insert', to: "item_types#create"
+  post 'location_insert', to: "locations#create"
+  post 'role_insert', to: "roles#create"
+
   post 'delete_user', to: "users#destroy"
+  post 'delete_item', to: "items#destroy"
+  post 'location_delete', to: "locations#destroy"
+  post 'itemType_delete', to: "item_types#destroy"
+  post 'role_delete', to: "roles#destroy"
   get '/item_all', to: "items#all"
 
   get '/logout', to: 'sessions#destroy', as: :logout

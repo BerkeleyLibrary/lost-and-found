@@ -3,20 +3,7 @@ class Item < ApplicationRecord
     attr_accessor :types
   
     def locations
-      @locations || [
-        'No location submitted',
-        'Doe Circle',
-        'Doe North Entrance',
-        'Doe South Entrance',
-        'Gardner Stacks',
-        'Library Security',
-        'Moffit Third Floor',
-        'Moffit forth Floor',
-        'Moffit Circle',
-        'MRC',
-        'Privileges Desk',
-        'UCPD'
-      ]
+      @locations = Location.all
     end
 
     def types

@@ -44,7 +44,6 @@
 		<h1>New item added</h1>
         <table class="item-display">
             <tr>
-                <th>Actions</th>
                 <th>Item ID</th>
                 <th>Date</th>
                 <th>Time</th>
@@ -54,14 +53,11 @@
                 <th>Item description</th>
             </tr>
             <tr>
-                <td>
-                    <%= link_to("Delete", '#', :class => 'action show') %> <%= link_to("Edit", '#', :class => 'action edit') %>
-                </td>
                 <td><%= @items.itemDate %></td>
                 <td><%= @items.itemFoundAt %></td>
                 <td><%= @items.itemFoundBy %></td>
-                <td><%= @items.locations[@items.itemLocation] || 'none' %></td>
-                <td><%= @items.types[@items.itemType.to_i] || 'No type' %></td>
+                <td><%= @items.itemLocation || 'none' %></td>
+                <td><%= @items.itemType || 'No type' %></td>
                 <td><%= @items.itemDescription %></td>
             </tr>
         </table>
