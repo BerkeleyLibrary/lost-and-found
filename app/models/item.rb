@@ -18,7 +18,7 @@ class Item < ApplicationRecord
         'UCPD'
       ]
     end
-  
+
     def types
       @types || [
         'none',

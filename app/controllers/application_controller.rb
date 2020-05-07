@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   include ExceptionHandling
   skip_before_action :verify_authenticity_token
 
-
   def authenticate!
     unless authenticated?
       raise Error::UnauthorizedError, "Endpoint #{controller_name}/#{action_name} requires authentication"
@@ -41,10 +40,12 @@ class ApplicationController < ActionController::Base
   # @param [User]
   # @return [void]
   def sign_in(user)
-    session[:user] = user
-    session[:user][:name] = @user.display_name
-    session[:user][:uid] = @user.uid
-    logger.debug("Signed in user #{session[:user]}")
+    cookies[:user] = user
+    cookies[:user_name] = user.user_name
+    cookies[:uid] = user.uid
+    cookies[:user_role] = user.user_role
+    logger.debug("Signed in user #{cookies[:user_name]}")
+    logger.debug("Role of #{cookies[:user_role]}")
   end
 
   # Sign out the current user by clearing all session data
@@ -54,16 +55,27 @@ class ApplicationController < ActionController::Base
     reset_session
   end
 
-
   def ensure_authenticated_user
     if calnet_uid.blank?
       session[:original_url] = request.env['REQUEST_URI']
     end
   end
 
+def user_level_admin?
+  cookies[:user_role] == "Administrator"
+end
+
+def user_level_staff?
+  cookies[:user_role] == "staff" || cookies[:user_role] == "Administrator"
+end
+
+def user_level_read_only?
+  cookies[:user_role] == "read-only" || cookies[:user_role] == "staff" || cookies[:user_role] == "Administrator"
+end
+
   def current_user
     return @current_user if @current_user
-    
+
     @current_user = User.find_by(calnet_uid: calnet_uid) || User.new(calnet_uid: calnet_uid)
     @current_user.log_web_access
     @current_user
@@ -77,10 +89,6 @@ class ApplicationController < ActionController::Base
     session[:calnet_uid]
   end
 
-  def user_is_admin?
-    current_user.try(:admin?)
-  end
-
   def user_is_registered?
     current_user.present?
   end
@@ -91,7 +99,9 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :logged_in?
-  helper_method :user_is_admin?
+  helper_method :user_level_admin?
+  helper_method :user_level_staff?
+  helper_method :user_level_read_only?
   helper_method :user_is_registered?
 
   def camelize_json(json_hash)

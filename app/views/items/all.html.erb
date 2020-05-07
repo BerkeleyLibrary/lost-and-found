@@ -42,8 +42,6 @@
 		</nav>
 		<div class="addit">&nbsp;</div>
 		<h1>Items list</h1>
-
-
 			<table class="item-display">
 				<tr>
 					<th>Actions</th>
@@ -55,10 +53,10 @@
 					<th>Type of item</th>
 					<th>Item description</th>
 				</tr>
+				<% @items.each do |item| %>
 				<tr>
-					<% @items.each do |item| %>
 					<td>
-						<%= link_to("Show", '#', :class => 'action show') %> <%= link_to("Edit", '#', :class => 'action edit') %>
+						<%= link_to("Delete", '#', :class => 'action show') %> <%= link_to("Edit", '#', :class => 'action edit') %>
 					</td>
 					<td><%= item.itemDate %></td>
 					<td><%= item.itemFoundAt %></td>
@@ -66,8 +64,8 @@
 					<td><%= item.locations[item.itemLocation] || 'none' %></td>
 					<td><%= item.types[item.itemType.to_i] || 'No type' %></td>
 					<td><%= item.itemDescription %></td>
-					<% end %>
 				</tr>
+				<% end %>
 			</table>
 
 

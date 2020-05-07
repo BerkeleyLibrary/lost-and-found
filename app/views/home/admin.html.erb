@@ -2,8 +2,44 @@
 <%= csrf_meta_tags %>
 <%= csp_meta_tag %>
 
-<h1>UC Berkeley Lost and Found Admin Page</h1>
+<%= render template: "layouts/app_nav" %>
 
-<% @items.each do |item| %>
+<h1>Add a new user</h1>
+<td class="content">
+    <%= form_tag("user_insert", method: "post") do %>
+
+    <%= label_tag(:user_role, "user Role:") %>
+    <%= select_tag(:user_role, options_for_select([['read-only','read-only',],['Staff','Staff'],['Administrator','Administrator']])) %>
+
+    <%= label_tag(:user_name, "User name") %>
+    <%=text_field_tag :user_name, nil, placeholder: '' %>
+
+    <%= label_tag(:uid, "associated users ID") %>
+    <%=text_field_tag :uid, nil, placeholder: '' %>
+
+    <%= submit_tag("add user") %>
+<% end %>
+</td>
+
+<p>User list</p>
+<table class="item-display">
+    <tr>
+        <th>Actions</th>
+        <th>calnet ID</th>
+        <th>user name</th>
+        <th>user role</th>
+    </tr>
+    <% @users.each do |user| %>
+    <tr>
+        <td>
+            <%= button_to "Delete", "delete_user", class:"btn btn-default", style:"",  remote: true, params: { id: user.id } %>
+        </td>
+        <td><%= user.uid %></td>
+        <td><%= user.user_name %></td>
+        <td><%= user.user_role %></td>
+    </tr>
+    <% end %>
+</table>
+
 
 

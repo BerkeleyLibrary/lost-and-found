@@ -2,14 +2,17 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.found
+    render template: "items/all"
   end
 
   def all
     @items = Item.all
+    render template: "items/all"
   end
 
   def param_search
     @items = Item.query_params(params)
+    render template: "items/all"
   end
 
   def show
@@ -41,10 +44,10 @@ class ItemsController < ApplicationController
 
     if @Item.save!
       @items = @Item
-       redirect_to :action => 'index'
+      render template: "items/new"
     else
        @items = Item.all
-       render :action => 'index'
+       render template: "items/all"
     end
   end
 

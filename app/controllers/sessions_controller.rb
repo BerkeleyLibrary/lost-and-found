@@ -2,7 +2,6 @@
 
 class SessionsController < ApplicationController
   def new
-    redirect_args = { origin: params[:url] || home_path }.to_query
     redirect_to "/auth/calnet/callback"
   end
 

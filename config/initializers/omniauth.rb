@@ -4,7 +4,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   # that allows you to enter the listed User attributes.
   unless Rails.env.production?
     provider :developer,
-             fields: %i[uid display_name],
+             fields: %i[uid user_name],
              uid_field: :uid
   end
 

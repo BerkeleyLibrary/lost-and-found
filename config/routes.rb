@@ -6,9 +6,8 @@ Rails.application.routes.draw do
   root to: redirect('/auth/calnet')
 
   get 'home', to: 'home#index'
-  get 'admin', to: 'home#admin'
+  get '/admin', to: 'home#admin'
   get 'health', to: 'home#health'
-
 
   resources :items do
     member do
@@ -19,6 +18,8 @@ Rails.application.routes.draw do
   get 'search_form', to: 'forms#search_form'
   post '/item_search', to:'items#param_search'
   post 'item_insert', to: "items#create"
+  post 'user_insert', to: "users#create"
+  post 'delete_user', to: "users#destroy"
   get '/item_all', to: "items#all"
 
   get '/logout', to: 'sessions#destroy', as: :logout

@@ -9,8 +9,7 @@ class HomeController < ApplicationController
     end
 
     def admin
-      # authenticate!
-      # raise Error::ForbiddenError, "Endpoint #{controller_name}/#{action_name} requires user be an admin " unless current_user.role=='admin'
+      @users = User.all
       render :admin
     end
 

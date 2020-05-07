@@ -25,15 +25,21 @@
         <li>
              <p class="nav_link"><a href="/item_all"> View All</a></p>
         </li>
+        <% if  user_level_read_only? %>
         <li>
+          <% if  user_level_staff? %>
           <p class="nav_link" ><a href="/insert_form">Insert Form</a></p>
+          <% end %>
         </li>
         <li>
           <p class="nav_link"><a href="/search_form">Search Form</a></p>
         </li>
         <li>
+          <% if  user_level_admin? %>
             <p class="nav_link"><a href="/admin">Admin</a></p>
+          <% end %>
         </li>
+        <% end %>
         <li>
            <p class="nav_link"><a href="/logout">logout</a></p>
        </li>
