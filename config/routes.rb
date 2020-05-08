@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   post 'location_delete', to: "locations#destroy"
   post 'itemType_delete', to: "item_types#destroy"
   post 'role_delete', to: "roles#destroy"
+  post 'user_edit', to: "users#edit"
+  post 'user_update', to: "users#update"
   get '/item_all', to: "items#all"
 
   get '/logout', to: 'sessions#destroy', as: :logout

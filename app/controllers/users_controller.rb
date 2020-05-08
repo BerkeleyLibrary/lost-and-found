@@ -16,8 +16,15 @@ class UsersController < ApplicationController
     end
   
     def edit
+      @user = User.find(params[:id])
+      @roles = Role.all
+      @roles_layout = [["Administrator","Administrator"]]
+      @roles.each do |role|
+        @roles_layout.push([role.role_name, role.role_name])
+      end
+      render template: "users/edit"
     end
-  
+
     def create
       @user = User.new()
       @user.uid = params[:uid];
@@ -34,15 +41,10 @@ class UsersController < ApplicationController
     end
 
     def update
-      respond_to do |format|
-        if @user.update(user_params)
-          format.html { redirect_to @user, notice: 'User was successfully updated.' }
-          format.json { render :show, status: :ok, location: @user }
-        else
-          format.html { render :edit }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
-      end
+      @user = User.find(params[:id])
+      @user.update(uid: params[:uid], user_name: params[:user_name],user_role: params[:user_role])
+      @users = User.all
+      render :admin
     end
   
     def destroy

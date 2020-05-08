@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
   def destroy
     sign_out
     end_url = "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
-    redirect_to end_url
+    redirect_to end_url 
   end
 
   def failure

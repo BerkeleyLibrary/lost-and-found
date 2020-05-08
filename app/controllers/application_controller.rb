@@ -3,21 +3,60 @@ class ApplicationController < ActionController::Base
   include ExceptionHandling
   skip_before_action :verify_authenticity_token
 
-  def authenticate!
-    unless authenticated?
-      raise Error::UnauthorizedError, "Endpoint #{controller_name}/#{action_name} requires authentication"
+  MAX_SESSION_TIME = 20
+
+  def after_sign_out_path_for(resource_or_scope)
+    "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
+  end
+
+  def determine_expired
+    if session[:expires_at] && session[:expires_at].to_time < Time.current
+      sign_out
+    end
+  end
+  helper_method :current_user?
+
+  protected
+
+  def current_user?
+    if cookie[:uid].nil?
+      false
+    else
+      true
+    end
+  end  
+
+  def authorize
+    unless current_user?
+      flash[:error] = "Please Login to access this page !";
+      redirect_to root_url
+      false
     end
   end
 
-  def authenticated?
-    current_user.authenticated?
+  def session_expires
+    if !session[:expire_at].nil? and session[:expire_at] < Time.now
+      reset_session
+      end_url = "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
+      redirect_to end_url 
+    end
+    session[:expire_at] = MAX_SESSION_TIME.seconds.from_now
+    return true
   end
 
-  helper_method :authenticated?
 
-  def current_user
-    @current_user ||= User.new(session[:user] || {})
-  end
+
+
+
+  # def authenticated?
+  #   current_user.authenticated?
+  # end
+
+  # helper_method :authenticated?
+
+  # def current_user
+  #   @current_user ||= User.new(cookies[:user] || {})
+  # end
 
   def log_error(error)
     msg = {
@@ -44,6 +83,8 @@ class ApplicationController < ActionController::Base
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
+    session[:expires_at] = Time.current + 30.seconds
+
     logger.debug("Signed in user #{cookies[:user_name]}")
     logger.debug("Role of #{cookies[:user_role]}")
   end
@@ -53,12 +94,6 @@ class ApplicationController < ActionController::Base
   # @return [void]
   def sign_out
     reset_session
-  end
-
-  def ensure_authenticated_user
-    if calnet_uid.blank?
-      session[:original_url] = request.env['REQUEST_URI']
-    end
   end
 
 def user_level_admin?
@@ -73,13 +108,12 @@ def user_level_read_only?
   cookies[:user_role] == "read-only" || cookies[:user_role] == "staff" || cookies[:user_role] == "Administrator"
 end
 
-  def current_user
-    return @current_user if @current_user
+  # def current_user
+  #   return @current_user if @current_user
 
-    @current_user = User.find_by(calnet_uid: calnet_uid) || User.new(calnet_uid: calnet_uid)
-    @current_user.log_web_access
-    @current_user
-  end
+  #   @current_user = User.find_by(uid: cookies[:uid])
+  #   @current_user
+  # end
 
   def user_for_paper_trail
     current_user.try!(:audit_identifier)
@@ -118,11 +152,5 @@ end
 
     (params[:q] ? params[:q].permit(attrs) : params.permit!).to_h.to_h.symbolize_keys
   end
-
-
-
-
-
-
 
 end
