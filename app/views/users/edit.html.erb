@@ -1,0 +1,26 @@
+<head>
+    <title>Lost and Found</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+<h1>user#edit</h1>
+as
+<td class="content">
+  <%= form_tag("user_update", method: "post") do %>
+
+  <%= label_tag(:user_role, "user Role:") %>
+  <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
+
+  <%= label_tag(:user_name, "User name") %>
+  <%=text_field_tag :user_name, nil, placeholder: @user.user_name %>
+
+  <%= label_tag(:uid, "associated users ID") %>
+  <%=text_field_tag :uid, nil, placeholder: #user.uid %>
+
+  <%= submit_tag("add user") %>
+<% end %>
+</td>
