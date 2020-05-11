@@ -24,9 +24,6 @@ class ItemsController < ApplicationController
   end
 
   def create
-
-
-
     @Item = Item.new()
     @Item.itemDate = Time.now();
     @Item.itemFoundAt = Time.now();

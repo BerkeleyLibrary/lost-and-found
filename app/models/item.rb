@@ -7,17 +7,7 @@ class Item < ApplicationRecord
     end
 
     def types
-      @types || [
-        'none',
-        'book',
-        'clothing',
-        'electronics',
-        'glasses',
-        'id',
-        'keys',
-        'mp3',
-        'other',
-      ]
+      @types = ItemType.all
     end
 
       scope :claimed, -> { where("itemStatus = 3")}
