@@ -22,7 +22,7 @@ class UsersController < ApplicationController
         @roles_layout.push([role.role_name, role.role_name])
       end
 
-      render :edit_user
+      render template: "users/edit"
     end
 
     def create
