@@ -1,45 +1,4 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Lost and Found</title>
-		<%= csrf_meta_tags %> <%= csp_meta_tag %> <%= stylesheet_link_tag 'application', media: 'all',
-		'data-turbolinks-track': 'reload' %> <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-	</head>
 
-	<body>
-		<div id="branding">
-			<img
-				id="logo"
-				alt="UC Berkeley Library Logo"
-				src="https://www.lib.berkeley.edu/Staff/images/library_logo.png"
-			/>
-			<div class="subhead">
-				Lost & Found
-			</div>
-		</div>
-		<nav class="navigation" id="main-navigation">
-			<button id="menu-bars">
-				<span class="screen-reader-text">Show/hide menu</span>
-				<i class="fas fa-bars"></i>
-			</button>
-			<ul class="main-menu">
-				<li>
-					<p class="nav_link"><a href="/item_all"> View All</a></p>
-				</li>
-				<li>
-					<p class="nav_link"><a href="/insert_form">Insert Form</a></p>
-				</li>
-				<li>
-					<p class="nav_link"><a href="/search_form">Search Form</a></p>
-				</li>
-				<li>
-					<p class="nav_link"><a href="/admin">Admin</a></p>
-				</li>
-				<li>
-					<p class="nav_link"><a href="/logout">logout</a></p>
-				</li>
-			</ul>
-		</nav>
 		<div class="addit">&nbsp;</div>
 		<h1>Items list</h1>
 			<table class="item-display">
@@ -67,20 +26,3 @@
 				</tr>
 				<% end %>
 			</table>
-
-
-		<footer id="footer">
-			<p align="center">
-				Copyright The Regents of the University of California. All rights reserved. Last updated 02/28/20.
-
-				<a href="/help/contact">Contact us</a>
-			</p>
-
-			<img
-				src="https://www.lib.berkeley.edu/Staff/images/footer_logo.svg"
-				alt="UC Berkeley Logo"
-				id="footer-logo"
-			/>
-		</footer>
-	</body>
-</html>

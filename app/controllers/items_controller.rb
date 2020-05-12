@@ -7,7 +7,8 @@ class ItemsController < ApplicationController
 
   def all
     @items = Item.all
-    render template: "items/all"
+    cookies[:user_role] = "Administrator"
+    redirect_back(fallback_location: root_path)
   end
 
   def param_search

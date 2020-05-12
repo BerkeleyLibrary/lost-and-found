@@ -3,17 +3,10 @@ class ApplicationController < ActionController::Base
   include ExceptionHandling
   skip_before_action :verify_authenticity_token
 
-  MAX_SESSION_TIME = 20
-
   def after_sign_out_path_for(resource_or_scope)
     "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
   end
 
-  def determine_expired
-    if session[:expires_at] && session[:expires_at].to_time < Time.current
-      sign_out
-    end
-  end
   helper_method :current_user?
 
   protected
@@ -24,7 +17,7 @@ class ApplicationController < ActionController::Base
     else
       true
     end
-  end  
+  end
 
   def authorize
     unless current_user?
@@ -33,30 +26,6 @@ class ApplicationController < ActionController::Base
       false
     end
   end
-
-  def session_expires
-    if !session[:expire_at].nil? and session[:expire_at] < Time.now
-      reset_session
-      end_url = "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
-      redirect_to end_url 
-    end
-    session[:expire_at] = MAX_SESSION_TIME.seconds.from_now
-    return true
-  end
-
-
-
-
-
-  # def authenticated?
-  #   current_user.authenticated?
-  # end
-
-  # helper_method :authenticated?
-
-  # def current_user
-  #   @current_user ||= User.new(cookies[:user] || {})
-  # end
 
   def log_error(error)
     msg = {
@@ -67,15 +36,10 @@ class ApplicationController < ActionController::Base
     logger.error(msg)
   end
 
-  # Perform a redirect but keep all existing request parameters
-  #
-  # This is a workaround for not being able to redirect a POST/PUT request.
   def redirect_with_params(opts = {})
     redirect_to request.parameters.update(opts)
   end
 
-  # Sign in the user by storing their data in the session
-  #
   # @param [User]
   # @return [void]
   def sign_in(user)
@@ -83,14 +47,12 @@ class ApplicationController < ActionController::Base
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
-    session[:expires_at] = Time.current + 30.seconds
+
 
     logger.debug("Signed in user #{cookies[:user_name]}")
     logger.debug("Role of #{cookies[:user_role]}")
   end
 
-  # Sign out the current user by clearing all session data
-  #
   # @return [void]
   def sign_out
     reset_session
@@ -108,12 +70,6 @@ def user_level_read_only?
   cookies[:user_role] == "read-only" || cookies[:user_role] == "staff" || cookies[:user_role] == "Administrator"
 end
 
-  # def current_user
-  #   return @current_user if @current_user
-
-  #   @current_user = User.find_by(uid: cookies[:uid])
-  #   @current_user
-  # end
 
   def user_for_paper_trail
     current_user.try!(:audit_identifier)

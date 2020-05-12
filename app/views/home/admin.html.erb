@@ -1,8 +1,6 @@
-<%= stylesheet_link_tag 'application', media: 'all' %>
-<%= csrf_meta_tags %>
-<%= csp_meta_tag %>
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-<%= render template: "layouts/app_nav" %>
 
 <h1>Add a new user</h1>
 <td class="content">
@@ -32,9 +30,9 @@
     <% @users.each do |user| %>
     <tr>
         <td>
-            <%= button_to "Delete", "delete_user", class:"btn btn-default", style:"",  remote: true, params: { id: user.id } %>
-            <%= button_to "Edit", "user_edit", class:"btn btn-default", style:"",  remote: true, params: { id: user.id } %>
+            <p><%= button_to "Delete", "delete_user", class:"btn btn-default", style:"",  remote: true, params: { id: user.id } %></p>
         </td>
+        <td><%= button_to "Edit", "edit_user", class:"btn btn-default", style:"",  remote: true, params: { id: user.id } %></td>
         <td><%= user.uid %></td>
         <td><%= user.user_name %></td>
         <td><%= user.user_role %></td>
@@ -132,8 +130,6 @@
     </tr>
     <% end %>
 </table>
-
-
 
 
 

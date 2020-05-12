@@ -1,13 +1,31 @@
-<!DOCTYPE html>
 <html>
   <head>
     <title>LostAndFound</title>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <div id="branding">
+      <img id="logo" alt="UC Berkeley Library Logo" src="https://www.lib.berkeley.edu/Staff/images/library_logo.png"/>
+      <div class="subhead">
+           Lost & Found
+      </div>
+  </div>
+  <%= render template: "layouts/app_nav" %>
     <%= yield %>
   </body>
+  <div class="addit">&nbsp;</div>
+  <footer id="footer">
+
+   <p align="center">Copyright The Regents of the University of California. All rights reserved.
+        Last updated 02/28/20.
+
+        <a href="/help/contact">Contact us</a></p>
+
+   <img src="https://www.lib.berkeley.edu/Staff/images/footer_logo.svg" alt="UC Berkeley Logo" id="footer-logo" />
 </html>

@@ -1,20 +1,19 @@
 class UsersController < ApplicationController
-  
     def index
       @users = User.all
     end
-  
+
     def show
     end
 
     def all
       @users = User.all
     end
-  
+
     def new
       @User = User.new
     end
-  
+
     def edit
       @user = User.find(params[:id])
       @roles = Role.all
@@ -22,7 +21,8 @@ class UsersController < ApplicationController
       @roles.each do |role|
         @roles_layout.push([role.role_name, role.role_name])
       end
-      render template: "users/edit"
+
+      render :edit_user
     end
 
     def create
@@ -44,9 +44,9 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       @user.update(uid: params[:uid], user_name: params[:user_name],user_role: params[:user_role])
       @users = User.all
-      render :admin
+      redirect_to admin_path
     end
-  
+
     def destroy
       User.delete(params[:id])
       @users = User.all

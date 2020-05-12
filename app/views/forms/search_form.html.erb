@@ -1,7 +1,3 @@
-<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-
-<%= render template: "layouts/app_nav" %>
 <td class="content">
       <h2>Search for lost items:</h2>
       <ul style="font-size:80%">
@@ -12,7 +8,7 @@
 
       <%= label_tag(:itemType, "item type:") %>
       <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
-      
+
       <%= label_tag(:keyword, "keyword") %>
       <%=text_field_tag :keyword, nil, placeholder: 'Enter search term...'%>
 
