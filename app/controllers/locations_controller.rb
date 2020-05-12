@@ -17,7 +17,18 @@ class LocationsController < ApplicationController
         redirect_back(fallback_location: root_path)
       end
     end
-  
+
+    def edit
+      @location = Location.find(params[:id])
+    end
+
+    def update
+      @location = Location.find(params[:id])
+      @location.update(location_name: params[:location_name])
+      @locations = Location.all
+      redirect_to admin_path
+    end
+
     def destroy
       Location.delete(params[:id])
       @Locations = Location.all

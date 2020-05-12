@@ -1,0 +1,9 @@
+<%= form_tag("location_update", method: "post") do %>
+
+  <%= label_tag(:location_name, "Location name") %>
+  <%=text_field_tag :location_name, nil, placeholder: @location.location_name %>
+
+  <%= hidden_field_tag(:id, @location.id) %>
+
+  <%= submit_tag("update location") %>
+<% end %>

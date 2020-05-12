@@ -18,6 +18,17 @@ class ItemTypesController < ApplicationController
       end
     end
 
+    def edit
+      @itemType = ItemType.find(params[:id])
+    end
+
+    def update
+      @itemType = ItemType.find(params[:id])
+      @itemType.update(type_name: params[:type_name], type_description: params[:type_description])
+      @itemTypes = ItemType.all
+      redirect_to admin_path
+    end
+
     def destroy
         ItemType.delete(params[:id])
         @ItemTypes = ItemType.all

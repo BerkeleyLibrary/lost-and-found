@@ -3,7 +3,7 @@
 
 
 <h1>Add a new user</h1>
-<td class="content">
+<td class="content"> 
     <%= form_tag("user_insert", method: "post") do %>
 
     <%= label_tag(:user_role, "user Role:") %>
@@ -19,7 +19,7 @@
 <% end %>
 </td>
 
-<p>User list</p>
+<p>User</p>
 <table class="item-display">
     <tr>
         <th>Actions</th>
@@ -32,7 +32,7 @@
         <td>
             <p><%= button_to "Delete", "delete_user", class:"btn btn-default", style:"",  remote: true, params: { id: user.id } %></p>
         </td>
-        <td><%= button_to "Edit", "edit_user", class:"btn btn-default", style:"",  remote: true, params: { id: user.id } %></td>
+        <td><%= link_to 'edit', edit_user_path(user.id) %></td>
         <td><%= user.uid %></td>
         <td><%= user.user_name %></td>
         <td><%= user.user_role %></td>
@@ -62,6 +62,7 @@
         <td>
             <%= button_to "Delete", "location_delete", class:"btn btn-default", style:"",  remote: true, params: { id: location.id } %>
         </td>
+        <td><%= link_to 'edit', edit_location_path(location.id) %></td>
         <td><%= location.location_name %></td>
     </tr>
     <% end %>
@@ -94,6 +95,7 @@
         <td>
             <%= button_to "Delete", "itemType_delete", class:"btn btn-default", style:"",  remote: true, params: { id: item_type.id } %>
         </td>
+        <td><%= link_to 'edit', edit_item_type_path(item_type.id) %></td>
         <td><%= item_type.type_name %></td>
         <td><%= item_type.type_description %></td>
     </tr>
@@ -125,6 +127,7 @@
         <td>
             <%= button_to "Delete", "role_delete", class:"btn btn-default", style:"",  remote: true, params: { id: role.id } %>
         </td>
+        <td><%= link_to 'edit', edit_role_path(role.id) %></td>
         <td><%= role.role_name %></td>
         <td><%= role.role_level %></td>
     </tr>

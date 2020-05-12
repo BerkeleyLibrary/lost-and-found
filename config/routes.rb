@@ -13,6 +13,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users, only: [:edit, :update]
+  resources :locations, only: [:edit, :update]
+  resources :item_types, only: [:edit, :update]
+  resources :roles, only: [:edit, :update]
+
   get 'search_form', to: 'forms#search_form'
   post '/item_search', to:'items#param_search'
   post 'item_insert', to: "items#create"
@@ -26,8 +31,12 @@ Rails.application.routes.draw do
   post 'location_delete', to: "locations#destroy"
   post 'itemType_delete', to: "item_types#destroy"
   post 'role_delete', to: "roles#destroy"
-  post 'edit_user', to: "users#edit"
-  post 'user_update', to: "users#update"
+
+  post '/users/:id/user_update', to: "users#update"
+  post '/locations/:id/location_update', to: "locations#update"
+  post 'item_types/:id/item_type_update', to: "item_types#update"
+  post 'roles/:id/role_update', to: "roles#update"
+
   get '/item_all', to: "items#all"
 
   get '/logout', to: 'sessions#destroy', as: :logout

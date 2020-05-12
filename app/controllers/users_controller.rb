@@ -21,8 +21,6 @@ class UsersController < ApplicationController
       @roles.each do |role|
         @roles_layout.push([role.role_name, role.role_name])
       end
-
-      render template: "users/edit"
     end
 
     def create
