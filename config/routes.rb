@@ -7,12 +7,7 @@ Rails.application.routes.draw do
   get '/admin', to: 'home#admin'
   get 'health', to: 'home#health'
 
-  resources :items do
-    member do
-      get :delete
-    end
-  end
-
+  resources :items
   resources :users, only: [:edit, :update, :delete, :destroy]
   resources :locations, only: [:edit, :update, :delete, :destroy]
   resources :item_types, only: [:edit, :update, :delete, :destroy]
@@ -32,12 +27,14 @@ Rails.application.routes.draw do
   post 'itemType_delete', to: "item_types#destroy"
   post 'role_delete', to: "roles#destroy"
 
+  post '/items/:id/items_update', to: "items#update"
   post '/users/:id/user_update', to: "users#update"
   post '/locations/:id/location_update', to: "locations#update"
   post 'item_types/:id/item_type_update', to: "item_types#update"
   post 'roles/:id/role_update', to: "roles#update"
+  post 'items/:id/item_update', to: "items#update"
 
-  get '/item_all', to: "items#all"
+  get '/found_items', to: "items#found"
 
   get '/logout', to: 'sessions#destroy', as: :logout
   get '/insert_form', to: 'forms#insert_form'

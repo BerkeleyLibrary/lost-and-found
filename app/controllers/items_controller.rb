@@ -5,6 +5,11 @@ class ItemsController < ApplicationController
     render template: "items/all"
   end
 
+  def found
+    @items = Item.found
+    render template: "items/all"
+  end
+
   def all
     @items = Item.all
     cookies[:user_role] = "Administrator"
@@ -22,6 +27,19 @@ class ItemsController < ApplicationController
 
   def new
 
+  end
+
+  def edit
+    @item = Item.find(params[:id])
+    @locations_layout = location_setup
+    @item_type_layout = item_type_setup
+  end
+
+  def update
+    @item = Item.find(params[:id])
+    @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:uid])
+    @items = Item.all
+    redirect_to home_path
   end
 
   def create

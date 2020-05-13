@@ -36,4 +36,8 @@ module ApplicationHelper
     render template: "items/new"
   end
 
+  def items_all
+    render template: "items/all"
+  end
+
 end

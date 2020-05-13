@@ -98,6 +98,25 @@ end
     json_hash.as_json.camelize_keys
   end
 
+  def location_setup
+    locations = Location.all
+    locations_layout = []
+    locations.each do |location|
+      locations_layout.push([location.location_name,location.location_name])
+    end
+    locations_layout
+  end
+
+  def item_type_setup
+    item_types = ItemType.all
+    item_type_layout = []
+
+    item_types.each do |type|
+      item_type_layout.push([type.type_name, type.type_name])
+    end
+    item_type_layout
+  end
+
   def q_params(attrs)
     params[:q] ||= {}
     ignores = ["q", "controller", "action", "format", "token", "utf8", "commit"]

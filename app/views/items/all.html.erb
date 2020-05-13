@@ -14,9 +14,10 @@
 				</tr>
 				<% @items.each do |item| %>
 				<tr>
-					<td>
-						<%= button_to "Delete", "delete_item", class:"btn btn-default", style:"",  remote: true, params: { id: item.id } %>
-					</td>
+					<td><%= link_to 'Delete', item_path(item),
+						method: :delete,
+						data: { confirm: 'Are You sure?' } %></td>
+					<td><%= link_to 'edit', edit_item_path(item.id) %></td>
 					<td><%= item.itemDate %></td>
 					<td><%= item.itemFoundAt %></td>
 					<td><%= item.itemFoundBy %></td>
@@ -26,3 +27,4 @@
 				</tr>
 				<% end %>
 			</table>
+
