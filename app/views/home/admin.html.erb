@@ -29,9 +29,9 @@
     </tr>
     <% @users.each do |user| %>
     <tr>
-        <td>
-            <p><%= button_to "Delete", "delete_user", class:"btn btn-default", style:"",  remote: true, params: { id: user.id } %></p>
-        </td>
+        <td><%= link_to 'Delete', user_path(user),
+             method: :delete,
+             data: { confirm: 'Are You sure?' } %></td>
         <td><%= link_to 'edit', edit_user_path(user.id) %></td>
         <td><%= user.uid %></td>
         <td><%= user.user_name %></td>
@@ -59,9 +59,9 @@
     </tr>
     <% @locations.each do |location| %>
     <tr>
-        <td>
-            <%= button_to "Delete", "location_delete", class:"btn btn-default", style:"",  remote: true, params: { id: location.id } %>
-        </td>
+        <td><%= link_to 'Delete', location_path(location),
+            method: :delete,
+            data: { confirm: 'Are You sure?' } %></td>
         <td><%= link_to 'edit', edit_location_path(location.id) %></td>
         <td><%= location.location_name %></td>
     </tr>
@@ -92,9 +92,9 @@
     </tr>
     <% @item_types.each do |item_type| %>
     <tr>
-        <td>
-            <%= button_to "Delete", "itemType_delete", class:"btn btn-default", style:"",  remote: true, params: { id: item_type.id } %>
-        </td>
+        <td><%= link_to 'Delete', item_type_path(item_type),
+            method: :delete,
+            data: { confirm: 'Are You sure?' } %></td>
         <td><%= link_to 'edit', edit_item_type_path(item_type.id) %></td>
         <td><%= item_type.type_name %></td>
         <td><%= item_type.type_description %></td>
@@ -124,9 +124,9 @@
     </tr>
     <% @roles.each do |role| %>
     <tr>
-        <td>
-            <%= button_to "Delete", "role_delete", class:"btn btn-default", style:"",  remote: true, params: { id: role.id } %>
-        </td>
+        <td><%= link_to 'Delete', role_path(role),
+            method: :delete,
+            data: { confirm: 'Are You sure?' } %></td>
         <td><%= link_to 'edit', edit_role_path(role.id) %></td>
         <td><%= role.role_name %></td>
         <td><%= role.role_level %></td>

@@ -13,10 +13,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: [:edit, :update]
-  resources :locations, only: [:edit, :update]
-  resources :item_types, only: [:edit, :update]
-  resources :roles, only: [:edit, :update]
+  resources :users, only: [:edit, :update, :delete, :destroy]
+  resources :locations, only: [:edit, :update, :delete, :destroy]
+  resources :item_types, only: [:edit, :update, :delete, :destroy]
+  resources :roles, only: [:edit, :update, :delete, :destroy]
 
   get 'search_form', to: 'forms#search_form'
   post '/item_search', to:'items#param_search'
