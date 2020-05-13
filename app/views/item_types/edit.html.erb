@@ -1,10 +1,10 @@
 <%= form_tag("item_type_update", method: "post") do %>
 
-  <%= label_tag(:type_name, "Location name") %>
-  <%=text_field_tag :type_name, nil, placeholder: @itemType.type_name %>
+  <%= label_tag(:type_name, "Type Name") %>
+  <%=text_field_tag :type_name,  @itemType.type_name %>
 
-  <%= label_tag(:type_description, "type description") %>
-  <%=text_field_tag :type_description, nil, placeholder: @itemType.type_description %>
+  <%= label_tag(:type_description, "Type Description") %>
+  <%=text_field_tag :type_description,  @itemType.type_description %>
 
   <%= hidden_field_tag(:id, @itemType.id) %>
 

@@ -47,6 +47,7 @@ class ApplicationController < ActionController::Base
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
+    cookies[:session[:expires_at] = Time.current + 10.seconds]
 
 
     logger.debug("Signed in user #{cookies[:user_name]}")

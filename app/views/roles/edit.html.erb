@@ -1,10 +1,10 @@
 <%= form_tag("role_update", method: "post") do %>
 
   <%= label_tag(:role_name, "role name") %>
-  <%=text_field_tag :role_name, nil, placeholder: @role.role_name %>
+  <%=text_field_tag :role_name, @role.role_name %>
 
   <%= label_tag(:role_level, "role level") %>
-  <%=text_field_tag :role_level, nil, placeholder: @role.role_level %>
+  <%=text_field_tag :role_level,  @role.role_level %>
 
   <%= hidden_field_tag(:id, @role.id) %>
 
