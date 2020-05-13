@@ -100,7 +100,7 @@ end
   end
 
   def location_setup
-    locations = Location.all
+    locations = Location.active
     locations_layout = []
     locations.each do |location|
       locations_layout.push([location.location_name,location.location_name])
@@ -109,7 +109,7 @@ end
   end
 
   def item_type_setup
-    item_types = ItemType.all
+    item_types = ItemType.active
     item_type_layout = []
 
     item_types.each do |type|

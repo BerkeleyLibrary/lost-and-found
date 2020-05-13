@@ -8,6 +8,7 @@ class LocationsController < ApplicationController
     def create
       @Location = Location.new()
       @Location.location_name = params[:location_name]
+      @Location.location_active = true
 
       if @Location.save!
         @Locations = Location.all
@@ -23,8 +24,9 @@ class LocationsController < ApplicationController
     end
 
     def update
+      active = params[:location_active] == "true"
       @location = Location.find(params[:id])
-      @location.update(location_name: params[:location_name])
+      @location.update(location_name: params[:location_name], location_active: active)
       @locations = Location.all
       redirect_to admin_path
     end

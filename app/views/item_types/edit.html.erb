@@ -6,6 +6,9 @@
   <%= label_tag(:type_description, "Type Description") %>
   <%=text_field_tag :type_description,  @itemType.type_description %>
 
+  <%= label_tag(:type_active, "is type location?") %>
+  <%= check_box_tag( :type_active, value = true, checked = @itemType.type_active) %>
+
   <%= hidden_field_tag(:id, @itemType.id) %>
 
   <%= submit_tag("update location") %>

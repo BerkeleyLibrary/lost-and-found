@@ -58,6 +58,7 @@
     <tr>
         <th>Actions</th>
         <th>Location Name</th>
+        <th>Location Active</th>
     </tr>
     <% @locations.each do |location| %>
     <tr>
@@ -66,6 +67,7 @@
             data: { confirm: 'Are You sure?' } %></td>
         <td><%= link_to 'edit', edit_location_path(location.id) %></td>
         <td><%= location.location_name %></td>
+        <td><%= location.location_active %></td>
     </tr>
     <% end %>
 </table>
@@ -91,6 +93,7 @@
         <th>Actions</th>
         <th>Item Type Name</th>
         <th>Item Type Description</th>
+        <th>Item Type Active</th>
     </tr>
     <% @item_types.each do |item_type| %>
     <tr>
@@ -100,6 +103,7 @@
         <td><%= link_to 'edit', edit_item_type_path(item_type.id) %></td>
         <td><%= item_type.type_name %></td>
         <td><%= item_type.type_description %></td>
+        <td><%= item_type.type_active %></td>
     </tr>
     <% end %>
 </table>

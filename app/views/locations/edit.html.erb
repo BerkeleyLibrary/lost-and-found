@@ -3,6 +3,9 @@
   <%= label_tag(:location_name, "Location name") %>
   <%=text_field_tag :location_name, @location.location_name %>
 
+  <%= label_tag(:location_active, "is active location?") %>
+  <%= check_box_tag( :location_active, value = true, checked = @location.location_active) %>
+
   <%= hidden_field_tag(:id, @location.id) %>
 
   <%= submit_tag("update location") %>

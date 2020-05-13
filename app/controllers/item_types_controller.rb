@@ -8,6 +8,7 @@ class ItemTypesController < ApplicationController
       @ItemType = ItemType.new()
       @ItemType.type_name = params[:type_name]
       @ItemType.type_description = params[:type_description]
+      @ItemType.type_active = true
 
       if @ItemType.save!
         @item_types = ItemType.all
@@ -23,8 +24,9 @@ class ItemTypesController < ApplicationController
     end
 
     def update
+      active = params[:type_active] == "true"
       @itemType = ItemType.find(params[:id])
-      @itemType.update(type_name: params[:type_name], type_description: params[:type_description])
+      @itemType.update(type_name: params[:type_name], type_description: params[:type_description], type_active: active)
       @itemTypes = ItemType.all
       redirect_to admin_path
     end
