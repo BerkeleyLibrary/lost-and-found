@@ -2,6 +2,8 @@ class User < ApplicationRecord
     include ActiveModel::Model
     has_one :role
 
+    scope :active, -> { where("user_active = true")}
+
     class << self
 
       def from_omniauth(auth)

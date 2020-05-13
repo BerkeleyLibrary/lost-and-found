@@ -9,6 +9,9 @@
   <%= label_tag(:uid, "associated users ID") %>
   <%=text_field_tag :uid, @user.uid %>
 
+  <%= label_tag(:user_active, "is active user?") %>
+  <%= check_box_tag( :user_active, value = true, checked = @user.user_active) %>
+
   <%= hidden_field_tag(:id, @user.id) %>
 
   <%= submit_tag("update user") %>

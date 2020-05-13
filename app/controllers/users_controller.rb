@@ -10,6 +10,10 @@ class UsersController < ApplicationController
       @users = User.all
     end
 
+    def active
+      @users = User.active
+    end
+
     def new
       @User = User.new
     end
@@ -28,6 +32,7 @@ class UsersController < ApplicationController
       @user.uid = params[:uid];
       @user.user_name = params[:user_name];
       @user.user_role = params[:user_role];
+      @user.user_active = true;
 
       if @user.save!
         @users = User.all
@@ -39,18 +44,18 @@ class UsersController < ApplicationController
     end
 
     def update
+      active = params[:user_active] == "true"
       @user = User.find(params[:id])
-      @user.update(uid: params[:uid], user_name: params[:user_name],user_role: params[:user_role])
+      @user.update(uid: params[:uid], user_name: params[:user_name],user_role: params[:user_role], user_active: active)
       @users = User.all
       redirect_to admin_path
     end
 
     def destroy
-      User.delete(params[:id])
+      @user = User.delete(params[:id])
       @users = User.all
       redirect_back(fallback_location: root_path)
     end
-
 
     private
       def set_user

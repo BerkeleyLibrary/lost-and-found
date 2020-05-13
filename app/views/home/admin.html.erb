@@ -26,6 +26,7 @@
         <th>calnet ID</th>
         <th>user name</th>
         <th>user role</th>
+        <th>is active user?</th>
     </tr>
     <% @users.each do |user| %>
     <tr>
@@ -36,6 +37,7 @@
         <td><%= user.uid %></td>
         <td><%= user.user_name %></td>
         <td><%= user.user_role %></td>
+        <td><%= user.user_active %></td>
     </tr>
     <% end %>
 </table>
