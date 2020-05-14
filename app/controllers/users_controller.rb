@@ -34,12 +34,16 @@ class UsersController < ApplicationController
       @user.user_role = params[:user_role];
       @user.user_active = true;
 
-      if @user.save!
-        @users = User.all
+      begin
+        if @user.valid? && @user.save!
+          @users = User.all
+          redirect_back(fallback_location: root_path)
+        else
+           @users = User.all
+           redirect_back(fallback_location: root_path)
+        end
+      rescue Exception => e
         redirect_back(fallback_location: root_path)
-      else
-         @users = User.all
-         redirect_back(fallback_location: root_path)
       end
     end
 
