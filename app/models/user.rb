@@ -1,6 +1,7 @@
 class User < ApplicationRecord
     include ActiveModel::Model
     validates :user_name, presence: true, allow_blank: false
+    validates_numericality_of :uid
     has_one :role
 
     scope :active, -> { where("user_active = true")}
