@@ -10,17 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_14_214351) do
+ActiveRecord::Schema.define(version: 2020_05_15_174314) do
 
-  create_table "item_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ", force: :cascade do |t|
-    t.string "type_name"
-    t.string "type_description"
+  create_table "item_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "type_name", default: "unknown", null: false
+    t.string "type_description", default: "No description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "type_active"
   end
 
-  create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ", force: :cascade do |t|
+  create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "itemDate"
     t.datetime "itemFoundAt"
     t.string "itemLocation"
@@ -38,27 +38,28 @@ ActiveRecord::Schema.define(version: 2020_05_14_214351) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "locations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ", force: :cascade do |t|
-    t.string "location_name"
+  create_table "locations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "location_name", default: "unknown", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "location_active"
   end
 
-  create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ", force: :cascade do |t|
+  create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "role_name"
     t.string "role_level"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ", force: :cascade do |t|
-    t.string "user_name"
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "user_name", default: "unknown", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "user_role"
     t.boolean "user_active"
-    t.string "uid"
+    t.integer "uid", default: 0, null: false
+    t.datetime "remember_created_at"
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 

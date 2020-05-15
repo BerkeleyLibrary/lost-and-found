@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     def create
       @user = User.new()
       @user.uid = params[:uid];
-      @user.user_name = params[:user_name];
+      @user.user_name = params[:user_name]
       @user.user_role = params[:user_role];
       @user.user_active = true;
 
