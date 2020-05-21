@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
+  skip_before_action :ensure_authenticated_user
   def new
-    redirect_to "/auth/calnet/callback"
+    redirect_to "/auth/calnet"
   end
 
   def callback

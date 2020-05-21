@@ -1,10 +1,12 @@
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
     include ActiveModel::Model
     validates :user_name, presence: true, allow_blank: false
     validates_numericality_of :uid
     has_one :role
 
-    scope :active, -> { where("user_active = true")}
+    scope :active, -> { where("usexr_active = true")}
 
     class << self
 

@@ -40,4 +40,8 @@ module ApplicationHelper
     render template: "items/all"
   end
 
+  def header(text)
+    content_for(:header) { text.to_s }
+  end
+
 end

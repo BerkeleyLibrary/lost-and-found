@@ -2,14 +2,26 @@
 class ApplicationController < ActionController::Base
   include ExceptionHandling
   skip_before_action :verify_authenticity_token
+  #Disabled until CAS authorized application
+  # before_action :ensure_authenticated_user
+  # before_action :check_timeout
 
   def after_sign_out_path_for(resource_or_scope)
     "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
   end
 
+  def check_timeout
+    @time_left = session[:expires_at].to_i - Time.now.to_i
+    sign_out unless @time_left > 0
+  end
+
   helper_method :current_user?
 
-  protected
+    def ensure_authenticated_user
+      if cookies[:user].nil?
+        redirect_to "/auth/calnet"
+      end
+    end
 
   def current_user?
     if cookie[:uid].nil?
@@ -40,22 +52,26 @@ class ApplicationController < ActionController::Base
     redirect_to request.parameters.update(opts)
   end
 
-  # @param [User]
-  # @return [void]
   def sign_in(user)
     cookies[:user] = user
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
-    cookies[:session[:expires_at] = Time.current + 10.seconds]
+    session[:expires_at]  = Time.current + 20.seconds
 
+    @current_user = user
+    @current_user.uid = user.uid
+    @current_user.user_name = user.user_name
+    @current_user.user_role = user.user_role
 
     logger.debug("Signed in user #{cookies[:user_name]}")
     logger.debug("Role of #{cookies[:user_role]}")
   end
 
-  # @return [void]
   def sign_out
+    cookies[:user] = nil
+    cookies.clear
+    session[:user] = nil
     reset_session
   end
 
@@ -123,7 +139,7 @@ end
     ignores = ["q", "controller", "action", "format", "token", "utf8", "commit"]
 
     params.keys.each do |key|
-      params[:q][key] = params.delete(key) unless ignores.include?(key) 
+      params[:q][key] = params.delete(key) unless ignores.include?(key)
     end
 
     (params[:q] ? params[:q].permit(attrs) : params.permit!).to_h.to_h.symbolize_keys
