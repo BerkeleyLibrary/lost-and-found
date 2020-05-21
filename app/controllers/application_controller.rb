@@ -2,8 +2,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionHandling
   skip_before_action :verify_authenticity_token
-  #Disabled until CAS authorized application
-  # before_action :ensure_authenticated_user
+  before_action :ensure_authenticated_user
   # before_action :check_timeout
 
   def after_sign_out_path_for(resource_or_scope)
