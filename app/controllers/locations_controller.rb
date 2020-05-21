@@ -28,7 +28,7 @@ class LocationsController < ApplicationController
       @location = Location.find(params[:id])
       @location.update(location_name: params[:location_name], location_active: active)
       @locations = Location.all
-      redirect_to admin_path
+      redirect_to admin_locations_path
     end
 
     def change_status

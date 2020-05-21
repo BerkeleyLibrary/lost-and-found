@@ -28,7 +28,7 @@ class ItemTypesController < ApplicationController
       @itemType = ItemType.find(params[:id])
       @itemType.update(type_name: params[:type_name], type_description: params[:type_description], type_active: active)
       @itemTypes = ItemType.all
-      redirect_to admin_path
+      redirect_to admin_item_types_path
     end
 
     def change_status

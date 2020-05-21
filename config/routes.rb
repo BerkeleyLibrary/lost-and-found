@@ -14,6 +14,11 @@ Rails.application.routes.draw do
   resources :roles, only: [:edit, :update, :delete, :destroy]
 
   get 'search_form', to: 'forms#search_form'
+
+get 'admin_users', to: 'home#admin_users'
+get 'admin_locations', to: 'home#admin_locations'
+get 'admin_item_types', to: 'home#admin_item_types'
+
   post '/item_search', to:'items#param_search'
   post 'item_insert', to: "items#create"
   post 'user_insert', to: "users#create"

@@ -1,0 +1,53 @@
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+<div class="new_model_container">
+    <h1>Add a new Item Type</h1>
+    <%= form_tag("itemType_insert", method: "post") do %>
+    <%= label_tag(:type_name, "item name") %>
+    <%=text_field_tag :type_name, nil, placeholder: '' %>
+
+    <%= label_tag(:type_description, "item type description") %>
+    <%=text_field_tag :type_description, nil, placeholder: '' %>
+
+    <%= submit_tag("add item Type") %>
+<% end %>
+</div>
+
+<h3>Active Item Types</h3>
+<table class="admin_table">
+    <tr>
+        <th>Actions</th>
+        <th>Item Type Name</th>
+        <th>Item Type Description</th>
+    </tr>
+    <% @actived_item_types.each do |item_type| %>
+    <tr>
+        <td><%= link_to 'Deactivate', item_type_path(item_type)+"/change_status",
+            data: { confirm: 'Are You sure?' } %></td>
+        <td><%= link_to 'edit', edit_item_type_path(item_type.id) %></td>
+        <td><%= item_type.type_name %></td>
+        <td><%= item_type.type_description %></td>
+        <td><%= item_type.type_active ? "Activated" : "Deactivated" %></td>
+    </tr>
+    <% end %>
+</table>
+
+<h3>Deactivated Item Types</h3>
+<table class="admin_table admin_deactivated_table">
+    <tr>
+        <th>Actions</th>
+        <th>Item Type Name</th>
+        <th>Item Type Description</th>
+    </tr>
+    <% @deactivated_item_types.each do |item_type| %>
+    <tr>
+        <td><%= link_to 'Activate', item_type_path(item_type)+"/change_status",
+            data: { confirm: 'Are You sure?' } %></td>
+        <td><%= link_to 'edit', edit_item_type_path(item_type.id) %></td>
+        <td><%= item_type.type_name %></td>
+        <td><%= item_type.type_description %></td>
+    </tr>
+    <% end %>
+</table>

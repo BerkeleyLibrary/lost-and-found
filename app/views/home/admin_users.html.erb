@@ -1,0 +1,60 @@
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+<div class="new_model_container"> 
+    <h1>Add a new user</h1>
+    <%= form_tag("user_insert", method: "post") do %>
+
+    <%= label_tag(:user_role, "user Role:") %>
+    <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
+
+    <%= label_tag(:user_name, "User name") %>
+    <%=text_field_tag :user_name, nil, placeholder: '' %>
+
+    <%= label_tag(:uid, "associated users ID") %>
+    <%=text_field_tag :uid, nil, placeholder: '' %>
+
+    <%= submit_tag("add user") %>
+<% end %>
+</div>
+
+<h3>Active Users</h3>
+<table class="admin_table">
+    <tr>
+        <th>Actions</th>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Role</th>
+    </tr>
+    <% @actived_users.each do |user| %>
+        <tr>
+            <td><%= link_to 'Deactivate', user_path(user)+"/change_status",
+                data: { confirm: 'Are You sure?' } %></td>
+            <td><%= link_to 'edit', edit_user_path(user.id) %></td>
+            <td><%= user.uid %></td>
+            <td><%= user.user_name %></td>
+            <td><%= user.user_role %></td>
+        </tr>
+    <% end %>
+</table>
+
+<h3>Deactivated Users</h3>
+<table class="admin_table admin_deactivated_table">
+    <tr>
+        <th>Actions</th>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Role</th>
+    </tr>
+    <% @deactivated_users.each do |user| %>
+        <tr>
+            <td><%= link_to 'Activate', user_path(user)+"/change_status",
+                data: { confirm: 'Are You sure?' } %></td>
+            <td><%= link_to 'edit', edit_user_path(user.id) %></td>
+            <td><%= user.uid %></td>
+            <td><%= user.user_name %></td>
+            <td><%= user.user_role %></td>
+        </tr>
+    <% end %>
+</table>

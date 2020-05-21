@@ -55,7 +55,7 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       @user.update(uid: params[:uid], user_name: params[:user_name],user_role: params[:user_role], user_active: active)
       @users = User.all
-      redirect_to admin_path
+      redirect_to admin_users_path
     end
 
     def destroy
