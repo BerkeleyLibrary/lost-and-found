@@ -34,6 +34,10 @@ Rails.application.routes.draw do
   post 'roles/:id/role_update', to: "roles#update"
   post 'items/:id/item_update', to: "items#update"
 
+  get "/users/:id/change_status" , to: "users#change_status"
+  get "/locations/:id/change_status" , to: "locations#change_status"
+  get "/item_types/:id/change_status" , to: "item_types#change_status"
+
   get '/found_items', to: "items#found"
 
   get '/logout', to: 'sessions#destroy', as: :logout

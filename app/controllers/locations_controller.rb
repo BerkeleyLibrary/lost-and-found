@@ -31,6 +31,13 @@ class LocationsController < ApplicationController
       redirect_to admin_path
     end
 
+    def change_status
+      @location = Location.find(params[:id])
+      @location.update(location_active: !@location.location_active)
+      @locations = Location.all
+      redirect_back(fallback_location: root_path)
+    end
+
     def destroy
       Location.delete(params[:id])
       @Locations = Location.all

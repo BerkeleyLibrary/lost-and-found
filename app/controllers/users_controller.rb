@@ -64,6 +64,13 @@ class UsersController < ApplicationController
       redirect_back(fallback_location: root_path)
     end
 
+    def change_status
+      @user = User.find(params[:id])
+      @user.update(user_active: !@user.user_active)
+      @users = User.all
+      redirect_back(fallback_location: root_path)
+    end
+
     private
       def set_user
         @user = User.find(params[:id])

@@ -31,6 +31,13 @@ class ItemTypesController < ApplicationController
       redirect_to admin_path
     end
 
+    def change_status
+      @itemType = ItemType.find(params[:id])
+      @itemType.update(type_active: !@itemType.type_active)
+      @itemTypes = ItemType.all
+      redirect_back(fallback_location: root_path)
+    end
+
     def destroy
         ItemType.delete(params[:id])
         @ItemTypes = ItemType.all
