@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  skip_before_action :ensure_authenticated_user
+  #Deactivated until CAS activates application
+  # skip_before_action :ensure_authenticated_user
   def new
     redirect_to "/auth/calnet"
   end

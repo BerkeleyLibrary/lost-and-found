@@ -1,9 +1,9 @@
 <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-
 <h1>Add a new user</h1>
-<td class="content"> 
+<div class="new_model_container"> 
     <%= form_tag("user_insert", method: "post") do %>
 
     <%= label_tag(:user_role, "user Role:") %>
@@ -17,7 +17,7 @@
 
     <%= submit_tag("add user") %>
 <% end %>
-</td>
+</div>
 
 <h3>Active Users</h3>
 <table class="item-display">
@@ -60,14 +60,14 @@
 </table>
 
 <h1>Add a new location</h1>
-<td class="content">
+<div class="new_model_container">
     <%= form_tag("location_insert", method: "post") do %>
     <%= label_tag(:location_name, "Location name") %>
     <%=text_field_tag :location_name, nil, placeholder: '' %>
 
     <%= submit_tag("add location") %>
 <% end %>
-</td>
+</div>
 
 <h3>Active Locations</h3>
 <table class="item-display">
@@ -106,7 +106,7 @@
 
 
 <h1>Add a new Item Type</h1>
-<td class="content">
+<div class="new_model_container">
     <%= form_tag("itemType_insert", method: "post") do %>
     <%= label_tag(:type_name, "item name") %>
     <%=text_field_tag :type_name, nil, placeholder: '' %>
@@ -116,7 +116,7 @@
 
     <%= submit_tag("add item Type") %>
 <% end %>
-</td>
+</div>
 
 <h3>Active Item Types</h3>
 <table class="item-display">
