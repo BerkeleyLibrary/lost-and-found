@@ -22,13 +22,10 @@ input[type=text], select {
   input[type=submit]:hover {
     background-color: #428dc2;
   }
-  
-  div {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-  }
 
   .new_model_container {
       width: 30%;
+      border-radius: 5px;
+      background-color: #edeffa;
+      padding: 10px;
   }

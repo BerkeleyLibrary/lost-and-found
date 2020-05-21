@@ -2,8 +2,8 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-<h1>Add a new user</h1>
 <div class="new_model_container"> 
+    <h1>Add a new user</h1>
     <%= form_tag("user_insert", method: "post") do %>
 
     <%= label_tag(:user_role, "user Role:") %>
@@ -29,6 +29,8 @@
     </tr>
     <% @actived_users.each do |user| %>
         <tr>
+            <td><%= link_to 'Delete', user_path(user)+'/destroy',
+                data: { confirm: 'Are You sure?' } %></td>
             <td><%= link_to 'Deactivate', user_path(user)+"/change_status",
                 data: { confirm: 'Are You sure?' } %></td>
             <td><%= link_to 'edit', edit_user_path(user.id) %></td>
@@ -59,8 +61,8 @@
     <% end %>
 </table>
 
-<h1>Add a new location</h1>
 <div class="new_model_container">
+    <h1>Add a new location</h1>
     <%= form_tag("location_insert", method: "post") do %>
     <%= label_tag(:location_name, "Location name") %>
     <%=text_field_tag :location_name, nil, placeholder: '' %>
@@ -74,7 +76,6 @@
     <tr>
         <th>Actions</th>
         <th> Name</th>
-        <th> Status</th>
     </tr>
     <% @actived_locations.each do |location| %>
     <tr>
@@ -91,7 +92,6 @@
     <tr>
         <th>Actions</th>
         <th> Name</th>
-        <th> Status</th>
     </tr>
     <% @deactivated_locations.each do |location| %>
     <tr>
@@ -103,10 +103,8 @@
     <% end %>
 </table>
 
-
-
-<h1>Add a new Item Type</h1>
 <div class="new_model_container">
+    <h1>Add a new Item Type</h1>
     <%= form_tag("itemType_insert", method: "post") do %>
     <%= label_tag(:type_name, "item name") %>
     <%=text_field_tag :type_name, nil, placeholder: '' %>
@@ -124,7 +122,6 @@
         <th>Actions</th>
         <th>Item Type Name</th>
         <th>Item Type Description</th>
-        <th>Status</th>
     </tr>
     <% @actived_item_types.each do |item_type| %>
     <tr>
