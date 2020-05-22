@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
-
+<% if user_level_admin? %>
 <div class="new_model_container">
     <h1>Add a new Item Type</h1>
     <%= form_tag("itemType_insert", method: "post") do %>
@@ -52,3 +52,7 @@
     </tr>
     <% end %>
 </table>
+
+<% else %> 
+    <p>You do not have permission to access this page</p>
+<% end %>

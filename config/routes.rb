@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 get 'admin_users', to: 'home#admin_users'
 get 'admin_locations', to: 'home#admin_locations'
 get 'admin_item_types', to: 'home#admin_item_types'
+get 'admin_items', to: 'home#admin_items'
 
   post '/item_search', to:'items#param_search'
   post 'item_insert', to: "items#create"

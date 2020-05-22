@@ -1,3 +1,4 @@
+<% if user_level_read_only? %>
 <td class="content">
       <h2>Search for lost items:</h2>
       <ul style="font-size:80%">
@@ -23,3 +24,6 @@
       <%= link_to('Show all found items', found_items_url) %>
 <% end %>
 </td>
+<% else %> 
+    <p>You do not have permission to access this page</p>
+<% end %>

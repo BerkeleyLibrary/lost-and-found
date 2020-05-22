@@ -1,16 +1,25 @@
-<h1>Items#edit</h1>
-<%= form_tag("item_update", method: "post") do %>
+<% if user_level_staff? %>
 
-  <%= label_tag(:itemLocation, "Item location:") %>
-  <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
+  <h1>Items#edit</h1>
+  <%= form_tag("item_update", method: "post") do %>
 
-  <%= label_tag(:itemType, "item type") %>
-  <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
+    <%= label_tag(:itemLocation, "Item location:") %>
+    <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
 
-  <%= label_tag(:itemDescription, "item description") %>
-  <%=text_field_tag :itemDescription,  @item.itemDescription %>
+    <%= label_tag(:itemType, "item type") %>
+    <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
 
-  <%= hidden_field_tag(:id, @item.id) %>
+    <%= label_tag(:itemStatus, "item Status") %>
+    <%= select_tag(:itemStatus, options_for_select(@item_status_layout)) %>
 
-  <%= submit_tag("update item") %>
+    <%= label_tag(:itemDescription, "item description") %>
+    <%=text_field_tag :itemDescription,  @item.itemDescription %>
+
+    <%= hidden_field_tag(:id, @item.id) %>
+
+    <%= submit_tag("update item") %>
+  <% end %>
+
+<% else %> 
+    <p>You do not have permission to access this page</p>
 <% end %>

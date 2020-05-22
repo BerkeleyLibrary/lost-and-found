@@ -1,18 +1,21 @@
-<%= form_tag("user_update", method: "post") do %>
 
-  <%= label_tag(:user_role, "user Role:") %>
-  <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
+<% if user_level_staff? %>
+  <%= form_tag("user_update", method: "post") do %>
 
-  <%= label_tag(:user_name, "User name") %>
-  <%=text_field_tag :user_name, @user.user_name %>
+    <%= label_tag(:user_role, "user Role:") %>
+    <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
 
-  <%= label_tag(:uid, "associated users ID") %>
-  <%=text_field_tag :uid, @user.uid %>
+    <%= label_tag(:user_name, "User name") %>
+    <%=text_field_tag :user_name, @user.user_name %>
 
-  <%= label_tag(:user_active, "is active user?") %>
-  <%= check_box_tag( :user_active, value = true, checked = @user.user_active) %>
+    <%= label_tag(:uid, "associated users ID") %>
+    <%=text_field_tag :uid, @user.uid %>
 
-  <%= hidden_field_tag(:id, @user.id) %>
-
-  <%= submit_tag("update user") %>
+    <%= label_tag(:user_active, "is active user?") %>
+    <%= check_box_tag( :user_active, value = true, checked = @user.user_active) %>
+    <%= hidden_field_tag(:id, @user.id) %>
+    <%= submit_tag("update user") %>
+  <% end %>
+<% else %> 
+    <p>You do not have permission to access this page</p>
 <% end %>

@@ -38,6 +38,14 @@ def admin_item_types
   render :admin_item_types
 end
 
+    def admin_items
+      @items = Item.all
+      @items_found = Item.found
+      @items_claimed = Item.claimed
+
+      render :admin_items
+    end
+
     def admin
       @locations = Location.all
       @actived_locations = @locations.select  { |location| location.location_active}

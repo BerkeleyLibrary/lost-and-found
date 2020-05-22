@@ -6,23 +6,28 @@ class ItemsController < ApplicationController
   end
 
   def found
-    @items = Item.found
+    @items_found = Item.found
     render template: "items/all"
   end
 
   def all
     @items = Item.all
-    cookies[:user_role] = "Administrator"
+    @items_found = Item.found
+    @items_claimed = Item.claimed
     redirect_back(fallback_location: root_path)
   end
 
   def param_search
     @items = Item.query_params(params)
+    @items_found = @items.select{ |item| item.itemStatus == 1 }
+    @items_claimed = @items.select{ |item| item.itemStatus == 3 }
     render template: "items/all"
   end
 
   def show
-    @items =Item.claimed
+    @items = Item.all
+    @items_found = Item.found
+    @items_claimed = Item.claimed
   end
 
   def new
@@ -33,13 +38,16 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
+    @item_status_layout = [["Found",1],["Claimed",3]]
   end
 
   def update
     @item = Item.find(params[:id])
-    @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:uid])
+    @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:uid], itemStatus: params[:itemStatus],updated_at: Time.now)
     @items = Item.all
-    redirect_to home_path
+    @items_found = Item.found
+    @items_claimed = Item.claimed
+    redirect_to root_path
   end
 
   def claim_item

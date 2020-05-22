@@ -11,12 +11,9 @@
 					<th>Type of item</th>
 					<th>Item description</th>
 				</tr>
-				<% @items.each do |item| %>
+				<% @items_found.each do |item| %>
 				<tr>
 					<td>
-						<%= link_to 'Delete', item_path(item),
-						method: :delete,
-						data: { confirm: 'Are You sure?' } %>
 						<%= link_to 'edit', edit_item_path(item.id) %>
 				</td>
 					<td><%= item.itemDate %></td>

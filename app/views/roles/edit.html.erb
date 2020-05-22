@@ -1,3 +1,4 @@
+<% if user_level_staff? %>
 <%= form_tag("role_update", method: "post") do %>
 
   <%= label_tag(:role_name, "role name") %>
@@ -9,4 +10,7 @@
   <%= hidden_field_tag(:id, @role.id) %>
 
   <%= submit_tag("update location") %>
+<% end %>
+<% else %> 
+    <p>You do not have permission to access this page</p>
 <% end %>
