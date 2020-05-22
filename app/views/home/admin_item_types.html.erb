@@ -7,7 +7,6 @@
     <%=text_field_tag :type_name, nil, placeholder: '' %>
 
     <%= label_tag(:type_description, "item type description") %>
-    <%=text_field_tag :type_description, nil, placeholder: '' %>
 
     <%= submit_tag("add item Type") %>
 <% end %>
@@ -18,17 +17,14 @@
     <tr>
         <th>Actions</th>
         <th>Item Type Name</th>
-        <th>Item Type Description</th>
     </tr>
     <% @actived_item_types.each do |item_type| %>
     <tr>
         <td>
-            <%= link_to 'Deactivate', item_type_path(item_type)+"/change_status",
-            data: { confirm: 'Are You sure?' } %>
+            <%= link_to 'Deactivate', item_type_path(item_type)+"/change_status"%>
             <%= link_to 'edit', edit_item_type_path(item_type.id) %>
         </td>
         <td><%= item_type.type_name %></td>
-        <td><%= item_type.type_description %></td>
     </tr>
     <% end %>
 </table>
@@ -43,8 +39,7 @@
     <% @deactivated_item_types.each do |item_type| %>
     <tr>
         <td>
-            <%= link_to 'Activate', item_type_path(item_type)+"/change_status",
-            data: { confirm: 'Are You sure?' } %>
+            <%= link_to 'Activate', item_type_path(item_type)+"/change_status"%>
             <%= link_to 'edit', edit_item_type_path(item_type.id) %>
         </td>
         <td><%= item_type.type_name %></td>

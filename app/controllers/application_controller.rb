@@ -76,19 +76,19 @@ class ApplicationController < ActionController::Base
 
 def user_level_admin?
   @current_user = User.where(uid: cookies[:uid]).first
-  return false if !@current_user.user_active
+  return false if !@current_user || !@current_user.user_active
   @current_user.user_role == "Administrator"
 end
 
 def user_level_staff?
   @current_user = User.where(uid: cookies[:uid]).first
-  return false if !@current_user.user_active
+  return false if !@current_user || !@current_user.user_active
   @current_user.user_role == "staff" || @current_user.user_role == "Administrator"
 end
 
 def user_level_read_only?
   @current_user = User.where(uid: cookies[:uid]).first
-  return false if !@current_user.user_active
+  return false if !@current_user || !@current_user.user_active
   @current_user.user_role == "read-only" || @current_user.user_role == "staff" || @current_user.user_role == "Administrator"
 end
 

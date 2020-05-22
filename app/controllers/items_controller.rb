@@ -59,8 +59,8 @@ class ItemsController < ApplicationController
 
   def create
     @Item = Item.new()
-    @Item.itemDate = Time.now();
-    @Item.itemFoundAt = Time.now();
+    @Item.itemDate = params[:itemDate] || Time.now
+    @Item.itemFoundAt = params[:itemFoundAt] || time.now
     @Item.itemLocation = params[:itemLocation];
     @Item.itemType = params[:itemType];
     @Item.itemDescription= params[:itemDescription];

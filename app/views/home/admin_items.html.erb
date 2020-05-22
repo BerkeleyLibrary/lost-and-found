@@ -1,0 +1,59 @@
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<% if user_level_admin? %>
+
+<div class="addit">&nbsp;</div>
+<h2>Activated</h2>
+    <table class="admin_table">
+        <tr>
+            <th>Actions</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Found by</th>
+            <th>Found at</th>
+            <th>Type of item</th>
+            <th>Item description</th>
+        </tr>
+        <% @items_found.each do |item| %>
+        <tr>
+            <td>
+                <%= link_to 'edit', edit_item_path(item.id) %>
+        </td>
+            <td><%= item.itemDate %></td>
+            <td><%= item.itemFoundAt %></td>
+            <td><%= item.itemFoundBy %></td>
+            <td><%= item.itemLocation || 'none' %></td>
+            <td><%= item.itemType || 'No type' %></td>
+            <td><%= item.itemDescription %></td>
+        </tr>
+        <% end %>
+    </table>
+
+    <h2>Deactivated</h2>
+    <table class="admin_table admin_deactivated_table">
+        <tr>
+            <th>Actions</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Found by</th>
+            <th>Found at</th>
+            <th>Type of item</th>
+            <th>Item description</th>
+        </tr>
+        <% @items_claimed.each do |item| %>
+        <tr>
+            <td>
+                <%= link_to 'edit', edit_item_path(item.id) %>
+        </td>
+            <td><%= item.itemDate %></td>
+            <td><%= item.itemFoundAt %></td>
+            <td><%= item.itemFoundBy %></td>
+            <td><%= item.itemLocation || 'none' %></td>
+            <td><%= item.itemType || 'No type' %></td>
+            <td><%= item.itemDescription %></td>
+        </tr>
+        <% end %>
+    </table>
+
+<% else %> 
+    <p>You do not have permission to access this page</p>
+<% end %>

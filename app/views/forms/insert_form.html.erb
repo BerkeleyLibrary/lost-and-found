@@ -1,8 +1,9 @@
 
+<%= stylesheet_link_tag 'forms', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% if user_level_staff? %>
 <h1>Add a new lost item to the collection</h1>
 
-<td class="content">
+<div class="new_model_container">
     <%= form_tag("item_insert", method: "post") do %>
 
     <%= label_tag(:itemType, "item type:") %>
@@ -17,9 +18,16 @@
     <%= label_tag(:itemFoundBy, "Found by") %>
     <%=text_field_tag :itemFoundBy, nil, placeholder: 'Finders name'%>
 
+    <%= label_tag(:itemFoundAt, "Time found") %>
+    <%= time_field_tag(:itemFoundAt, :itemFoundAt) %>
+
+    <%= label_tag(:itemDate, "Date found") %>
+    <%= date_field_tag(:itemDate, :itemDate) %>
+
     <%= submit_tag("add item") %>
 <% end %>
-</td>
+</div>
 <% else %> 
     <p>You do not have permission to access this page</p>
 <% end %>
+

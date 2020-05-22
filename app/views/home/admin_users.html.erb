@@ -30,8 +30,7 @@
     <% @actived_users.each do |user| %>
         <tr>
             <td>
-                <%= link_to 'Deactivate', user_path(user)+"/change_status",
-                data: { confirm: 'Are You sure?' } %>
+                <%= link_to 'Deactivate', user_path(user)+"/change_status"%>
                 <%= link_to 'edit', edit_user_path(user.id) %>
             </td>
             <td><%= user.uid %></td>
@@ -52,8 +51,7 @@
     <% @deactivated_users.each do |user| %>
         <tr>
             <td>
-                <%= link_to 'Activate', user_path(user)+"/change_status",
-                data: { confirm: 'Are You sure?' } %>
+                <%= link_to 'Activate', user_path(user)+"/change_status"%>
                 <%= link_to 'edit', edit_user_path(user.id) %>
             </td>
             <td><%= user.uid %></td>

@@ -20,8 +20,7 @@
     <% @actived_locations.each do |location| %>
     <tr>
         <td>
-            <%= link_to 'Deactivate', location_path(location)+"/change_status",
-            data: { confirm: 'Are You sure?' } %>
+            <%= link_to 'Deactivate', location_path(location)+"/change_status"%>
             <%= link_to 'edit', edit_location_path(location.id) %>
         </td>
         <td><%= location.location_name %></td>
@@ -38,8 +37,7 @@
     <% @deactivated_locations.each do |location| %>
     <tr>
         <td>
-            <%= link_to 'Activate', location_path(location)+"/change_status",
-            data: { confirm: 'Are You sure?' } %>
+            <%= link_to 'Activate', location_path(location)+"/change_status"%>
             <%= link_to 'edit', edit_location_path(location.id) %>
         </td>
         <td><%= location.location_name %></td>
