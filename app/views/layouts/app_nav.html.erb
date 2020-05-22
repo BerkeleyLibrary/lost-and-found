@@ -3,16 +3,23 @@
          <span class="screen-reader-text">Show/hide menu</span>
          <i class="fas fa-bars"></i>
     </button>
+    
     <ul class="main-menu">
+      <% if user_level_staff? %>
       <li>
         <p class="nav_link" ><a href="/insert_form">Insert Form</a></p>
       </li>
+      <% end %>
+      <% if user_level_read_only? %> 
       <li>
         <p class="nav_link"><%= link_to "Search Form", search_form_path %></p>
       </li>
+      <% end %> 
+      <% if user_level_admin? %> 
       <li>
           <p class="nav_link"><%= link_to "Administration", admin_path %></p>
       </li>
+      <% end %>
       <li>
          <p class="nav_link"><a href="/logout">logout</a></p>
      </li>
