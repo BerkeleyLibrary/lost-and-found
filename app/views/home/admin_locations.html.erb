@@ -1,9 +1,7 @@
-<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
-<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
 <div class="new_model_container">
-    <h1>Add a new location</h1>
+    <h2>Add a new location</h2>
     <%= form_tag("location_insert", method: "post") do %>
     <%= label_tag(:location_name, "Location name") %>
     <%=text_field_tag :location_name, nil, placeholder: '' %>
@@ -12,7 +10,7 @@
 <% end %>
 </div>
 
-<h3>Active Locations</h3>
+<h2>Active Locations</h2>
 <table class="admin_table">
     <tr>
         <th>Actions</th>
@@ -20,15 +18,17 @@
     </tr>
     <% @actived_locations.each do |location| %>
     <tr>
-        <td><%= link_to 'Deactivate', location_path(location)+"/change_status",
-            data: { confirm: 'Are You sure?' } %></td>
-        <td><%= link_to 'edit', edit_location_path(location.id) %></td>
+        <td>
+            <%= link_to 'Deactivate', location_path(location)+"/change_status",
+            data: { confirm: 'Are You sure?' } %>
+            <%= link_to 'edit', edit_location_path(location.id) %>
+        </td>
         <td><%= location.location_name %></td>
     </tr>
     <% end %>
 </table>
 
-<h3>Deactivated Locations</h3>
+<h2>Deactivated Locations</h2>
 <table class="admin_table admin_deactivated_table">
     <tr>
         <th>Actions</th>
@@ -36,9 +36,11 @@
     </tr>
     <% @deactivated_locations.each do |location| %>
     <tr>
-        <td><%= link_to 'Activate', location_path(location)+"/change_status",
-            data: { confirm: 'Are You sure?' } %></td>
-        <td><%= link_to 'edit', edit_location_path(location.id) %></td>
+        <td>
+            <%= link_to 'Activate', location_path(location)+"/change_status",
+            data: { confirm: 'Are You sure?' } %>
+            <%= link_to 'edit', edit_location_path(location.id) %>
+        </td>
         <td><%= location.location_name %></td>
     </tr>
     <% end %>

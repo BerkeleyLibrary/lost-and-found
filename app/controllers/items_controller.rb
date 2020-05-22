@@ -42,6 +42,13 @@ class ItemsController < ApplicationController
     redirect_to home_path
   end
 
+  def claim_item
+    @item = Item.find(params[:id])
+    @item.update(itemStatus: 3, itemFoundBy: params[:claimer])
+    @items = Item.all
+    redirect_to home_path
+  end
+
   def create
     @Item = Item.new()
     @Item.itemDate = Time.now();
@@ -72,6 +79,8 @@ class ItemsController < ApplicationController
   def item_params
     params.permit(:itemLocation, :itemType, :itemDescription)
  end
+
+
 
   def destroy
     Item.delete(params[:id])

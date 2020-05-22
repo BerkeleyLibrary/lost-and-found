@@ -1,7 +1,7 @@
-
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 		<div class="addit">&nbsp;</div>
 		<h1>Items list</h1>
-			<table class="item-display">
+			<table class="admin_table">
 				<tr>
 					<th>Actions</th>
 					<th>Item ID</th>
@@ -14,10 +14,12 @@
 				</tr>
 				<% @items.each do |item| %>
 				<tr>
-					<td><%= link_to 'Delete', item_path(item),
+					<td>
+						<%= link_to 'Delete', item_path(item),
 						method: :delete,
-						data: { confirm: 'Are You sure?' } %></td>
-					<td><%= link_to 'edit', edit_item_path(item.id) %></td>
+						data: { confirm: 'Are You sure?' } %>
+						<%= link_to 'edit', edit_item_path(item.id) %>
+				</td>
 					<td><%= item.itemDate %></td>
 					<td><%= item.itemFoundAt %></td>
 					<td><%= item.itemFoundBy %></td>
