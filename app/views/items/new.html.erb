@@ -1,7 +1,7 @@
-
+<%= stylesheet_link_tag 'forms', media: 'all', 'data-turbolinks-track': 'reload' %>
     <div class="addit">&nbsp;</div>
 		<h1>New item added</h1>
-        <table class="item-display">
+        <table class="admin_table">
             <tr>
                 <th>Date</th>
                 <th>Time</th>
@@ -9,6 +9,7 @@
                 <th>Found at</th>
                 <th>Type of item</th>
                 <th>Item description</th>
+                <th>Item Image</th>
             </tr>
             <tr>
                 <td><%= @items.itemDate %></td>
@@ -17,5 +18,12 @@
                 <td><%= @items.itemLocation || 'none' %></td>
                 <td><%= @items.itemType || 'No type' %></td>
                 <td><%= @items.itemDescription %></td>
+                <td>
+                    <% if @items.image.attached? %>
+                        <image class="preview_image" src="<%=(url_for(@items.image)) %>">
+                    <% else %>
+                        No image 
+                    <% end %>
+                </td>
             </tr>
         </table>

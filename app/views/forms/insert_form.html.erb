@@ -4,7 +4,7 @@
 <h1>Add a new lost item to the collection</h1>
 
 <div class="new_model_container">
-    <%= form_tag("item_insert", method: "post") do %>
+    <%= form_tag("item_insert", method: "post", multipart: true) do %>
 
     <%= label_tag(:itemType, "item type:") %>
     <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
@@ -23,6 +23,9 @@
 
     <%= label_tag(:itemDate, "Date found") %>
     <%= date_field_tag(:itemDate, :itemDate) %>
+
+    <%= label_tag(:image, "Image: ") %>
+    <%= file_field_tag(:image) %>
 
     <%= submit_tag("add item") %>
 <% end %>

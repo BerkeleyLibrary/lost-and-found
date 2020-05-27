@@ -1,7 +1,7 @@
 <% if user_level_staff? %>
 
   <h1>Items#edit</h1>
-  <%= form_tag("item_update", method: "post") do %>
+  <%= form_tag("item_update", method: "post", multipart: true) do %>
 
     <%= label_tag(:itemLocation, "Item location:") %>
     <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
@@ -14,6 +14,9 @@
 
     <%= label_tag(:itemDescription, "item description") %>
     <%=text_field_tag :itemDescription,  @item.itemDescription %>
+
+    <%= label_tag(:image, "Image: ") %>
+    <%= file_field_tag(:image) %>
 
     <%= hidden_field_tag(:id, @item.id) %>
 

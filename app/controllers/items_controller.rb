@@ -44,17 +44,13 @@ class ItemsController < ApplicationController
   def update
     @item = Item.find(params[:id])
     @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:uid], itemStatus: params[:itemStatus],updated_at: Time.now)
+    @item.update(image: params[:image]) unless params[:image].nil?
+
+    
     @items = Item.all
     @items_found = Item.found
     @items_claimed = Item.claimed
     redirect_to root_path
-  end
-
-  def claim_item
-    @item = Item.find(params[:id])
-    @item.update(itemStatus: 3, itemFoundBy: params[:claimer])
-    @items = Item.all
-    redirect_to home_path
   end
 
   def create
@@ -74,8 +70,10 @@ class ItemsController < ApplicationController
     @Item.libID = 115;
     @Item.created_at =Time.now();
     @Item.updated_at = Time.now();
+    @Item.image.attach( params[:image])
 
     if @Item.save!
+
       @items = @Item
       render template: "items/new"
     else
@@ -85,7 +83,7 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.permit(:itemLocation, :itemType, :itemDescription)
+    params.permit(:itemLocation, :itemType, :itemDescription, :image)
  end
 
 

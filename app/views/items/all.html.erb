@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'forms', media: 'all', 'data-turbolinks-track': 'reload' %>
 		<div class="addit">&nbsp;</div>
 		<h1>Items list</h1>
 			<table class="admin_table">
@@ -10,6 +10,7 @@
 					<th>Found at</th>
 					<th>Type of item</th>
 					<th>Item description</th>
+					<th>Item image</th>
 				</tr>
 				<% @items_found.each do |item| %>
 				<tr>
@@ -22,6 +23,13 @@
 					<td><%= item.itemLocation || 'none' %></td>
 					<td><%= item.itemType || 'No type' %></td>
 					<td><%= item.itemDescription %></td>
+					<td>
+						<% if item.image.attached? %>
+							<image class="preview_image" src="<%=(url_for(item.image)) %>">
+						<% else %>
+							 No image 
+						<% end %>
+					</td>
 				</tr>
 				<% end %>
 			</table>

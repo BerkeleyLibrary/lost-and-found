@@ -1,7 +1,9 @@
 class Item < ApplicationRecord
+  has_one_attached :image
     attr_accessor :locations
     attr_accessor :types
   
+
     def locations
       @locations = Location.all
     end
@@ -9,6 +11,7 @@ class Item < ApplicationRecord
     def types
       @types = ItemType.all
     end
+
 
       scope :claimed, -> { where("itemStatus = 3")}
       scope :found, -> { where("itemStatus = 1")}

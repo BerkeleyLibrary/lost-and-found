@@ -76,3 +76,10 @@ table {
   clear: left;
   width: 300px;
 }
+
+.preview_image{
+  width: 100px;
+  height: 100px;
+  border: 3px solid white;
+  object-fit: contain;
+}
