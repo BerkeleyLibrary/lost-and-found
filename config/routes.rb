@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root to: "home#index"
+  root to: "sessions#new"
 
   get 'home', to: 'home#index'
   get '/admin', to: 'home#admin'

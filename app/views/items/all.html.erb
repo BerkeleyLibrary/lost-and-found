@@ -11,6 +11,8 @@
 					<th>Type of item</th>
 					<th>Item description</th>
 					<th>Item image</th>
+					<th>Item updated at?</th>
+					<th>Item updated by?</th>
 				</tr>
 				<% @items_found.each do |item| %>
 				<tr>
@@ -24,12 +26,10 @@
 					<td><%= item.itemType || 'No type' %></td>
 					<td><%= item.itemDescription %></td>
 					<td>
-						<% if item.image.attached? %>
-							<image class="preview_image" src="<%=(url_for(item.image)) %>">
-						<% else %>
 							 No image 
-						<% end %>
 					</td>
+					<td><%= item.updated_at %></td>
+					<td><%= item.itemUpdatedBy %></td>
 				</tr>
 				<% end %>
 			</table>

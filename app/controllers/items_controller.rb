@@ -43,7 +43,7 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:uid], itemStatus: params[:itemStatus],updated_at: Time.now)
+    @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:user_name], itemStatus: params[:itemStatus],updated_at: Time.now)
     @item.update(image: params[:image]) unless params[:image].nil?
 
     
@@ -65,7 +65,7 @@ class ItemsController < ApplicationController
     @Item.itemEnteredBy = "unknown";
     @Item.itemImage = "none";
     @Item.itemObsolete = 0;
-    @Item.itemUpdatedBy = "??????";
+    @Item.itemUpdatedBy = cookies[:user_name];
     @Item.itemFoundBy = params[:itemFoundBy] || 'anonymous';
     @Item.libID = 115;
     @Item.created_at =Time.now();

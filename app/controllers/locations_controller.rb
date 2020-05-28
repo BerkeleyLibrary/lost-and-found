@@ -9,6 +9,8 @@ class LocationsController < ApplicationController
       @Location = Location.new()
       @Location.location_name = params[:location_name]
       @Location.location_active = true
+      @Location.updated_at = Time.now();
+      @Location.updated_by = cookies[:user_name]
 
       if @Location.save!
         @Locations = Location.all
@@ -26,7 +28,7 @@ class LocationsController < ApplicationController
     def update
       active = params[:location_active] == "true"
       @location = Location.find(params[:id])
-      @location.update(location_name: params[:location_name], location_active: active)
+      @location.update(location_name: params[:location_name], location_active: active, updated_at: Time.now(), updated_by: cookies[:user_name])
       @locations = Location.all
       redirect_to admin_locations_path
     end

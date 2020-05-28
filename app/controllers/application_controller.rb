@@ -3,22 +3,28 @@ class ApplicationController < ActionController::Base
   include ExceptionHandling
   skip_before_action :verify_authenticity_token
   before_action :ensure_authenticated_user
-  # before_action :check_timeout
+  before_action :check_timeout
+
+  @flash_message = "";
 
   def after_sign_out_path_for(resource_or_scope)
     "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
   end
 
   def check_timeout
-    @time_left = session[:expires_at].to_i - Time.now.to_i
-    sign_out unless @time_left > 0
+    unless (cookies[:expires_at] && cookies[:user])
+      @flash_message = "Session has expired."
+      sign_out
+      cookies[:logout_required] = true;
+    end
   end
 
   helper_method :current_user?
 
     def ensure_authenticated_user
       if cookies[:user].nil?
-        redirect_to "/auth/calnet"
+        reset_session
+        @flash_message = "Login required"
       end
     end
 
@@ -56,12 +62,13 @@ class ApplicationController < ActionController::Base
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
-    session[:expires_at]  = Time.current + 20.seconds
+    cookies[:expires_at] = { value: "user_active", expires: Time.now + 2.minutes}
 
     @current_user = user
     @current_user.uid = user.uid
     @current_user.user_name = user.user_name
     @current_user.user_role = user.user_role
+
 
     logger.debug("Signed in user #{cookies[:user_name]}")
     logger.debug("Role of #{cookies[:user_role]}")
@@ -70,28 +77,29 @@ class ApplicationController < ActionController::Base
   def sign_out
     cookies[:user] = nil
     cookies.clear
-    session[:user] = nil
     reset_session
   end
 
 def user_level_admin?
+  @flash_message = "You do not have permission to view this page"
   @current_user = User.where(uid: cookies[:uid]).first
   return false if !@current_user || !@current_user.user_active
   @current_user.user_role == "Administrator"
 end
 
 def user_level_staff?
+  @flash_message = "You do not have permission to view this page"
   @current_user = User.where(uid: cookies[:uid]).first
   return false if !@current_user || !@current_user.user_active
   @current_user.user_role == "staff" || @current_user.user_role == "Administrator"
 end
 
 def user_level_read_only?
+  @flash_message = "You do not have permission to view this page"
   @current_user = User.where(uid: cookies[:uid]).first
   return false if !@current_user || !@current_user.user_active
   @current_user.user_role == "read-only" || @current_user.user_role == "staff" || @current_user.user_role == "Administrator"
 end
-
 
   def user_for_paper_trail
     current_user.try!(:audit_identifier)

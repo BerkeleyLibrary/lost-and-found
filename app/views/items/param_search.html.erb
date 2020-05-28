@@ -28,11 +28,7 @@ Similar items listed below
       <td><%=item.itemType %></td>
       <td><%= item.itemDescription %></td>
       <td>
-          <% if item.image.attached? %>
-              <image class="preview_image" src="<%=(url_for(item.image)) %>">
-          <% else %>
               No image 
-          <% end %>
       </td>
     </tr>
     <% end %>

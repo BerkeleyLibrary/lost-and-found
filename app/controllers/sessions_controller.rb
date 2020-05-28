@@ -2,11 +2,18 @@
 
 class SessionsController < ApplicationController
   skip_before_action :ensure_authenticated_user
+  skip_before_action :check_timeout
   def new
-    redirect_to "/auth/calnet"
+    if cookies[:logout_required]
+      destroy
+    else
+      @flash_message = ""
+      redirect_to "/auth/calnet"
+    end
   end
 
   def callback
+    p '-----------------CALLBACK CALLED --------------------------'
     logger.debug(
       msg: 'Received omniauth callback',
       omniauth: auth_params
@@ -21,7 +28,7 @@ class SessionsController < ApplicationController
   def destroy
     sign_out
     end_url = "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
-    redirect_to end_url 
+    redirect_to end_url
   end
 
   def failure

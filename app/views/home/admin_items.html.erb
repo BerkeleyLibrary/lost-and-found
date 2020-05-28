@@ -13,6 +13,8 @@
             <th>Type of item</th>
             <th>Item description</th>
             <th>Item Image</th>
+            <th>last updated?</th>
+            <th>last updated?</th>
         </tr>
         <% @items_found.each do |item| %>
         <tr>
@@ -26,12 +28,10 @@
             <td><%= item.itemType || 'No type' %></td>
             <td><%= item.itemDescription %></td>
             <td>
-          <% if item.image.attached? %>
-              <image class="preview_image" src="<%=(url_for(item.image)) %>">
-          <% else %>
               No image 
-          <% end %>
       </td>
+      <td><%= item.itemUpdatedBy %></td>
+      <td><%= item.itemLastModified %></td>
         </tr>
         <% end %>
     </table>
@@ -60,16 +60,9 @@
             <td><%= item.itemType || 'No type' %></td>
             <td><%= item.itemDescription %></td>
             <td>
-                <% if item.image.attached? %>
-              <image class="preview_image" src="<%=(url_for(item.image)) %>">
-                <% else %>
                     No image 
-                <% end %>
             </td>
         </tr>
         <% end %>
     </table>
-
-<% else %> 
-    <p>You do not have permission to access this page</p>
-<% end %>
+    <% end %>
