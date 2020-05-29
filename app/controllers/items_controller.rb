@@ -46,11 +46,10 @@ class ItemsController < ApplicationController
     @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:user_name], itemStatus: params[:itemStatus],updated_at: Time.now)
     @item.update(image: params[:image]) unless params[:image].nil?
 
-    
     @items = Item.all
     @items_found = Item.found
     @items_claimed = Item.claimed
-    redirect_to root_path
+    render template: "items/all"
   end
 
   def create

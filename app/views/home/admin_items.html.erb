@@ -28,8 +28,11 @@
             <td><%= item.itemType || 'No type' %></td>
             <td><%= item.itemDescription %></td>
             <td>
-              No image 
-      </td>
+                <% if item.image.attached? %>
+                <% else %>
+                    No image 
+                <% end %>
+            </td>
       <td><%= item.itemUpdatedBy %></td>
       <td><%= item.itemLastModified %></td>
         </tr>
@@ -60,7 +63,10 @@
             <td><%= item.itemType || 'No type' %></td>
             <td><%= item.itemDescription %></td>
             <td>
+                <% if item.image.attached? %>
+                <% else %>
                     No image 
+                <% end %>
             </td>
         </tr>
         <% end %>

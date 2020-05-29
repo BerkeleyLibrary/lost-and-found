@@ -1,6 +1,9 @@
+<%= stylesheet_link_tag 'forms', media: 'all', 'data-turbolinks-track': 'reload' %>
+
 <% if user_level_staff? %>
 
   <h1>Items#edit</h1>
+  <div class="new_model_container">
   <%= form_tag("item_update", method: "post", multipart: true) do %>
 
     <%= label_tag(:itemLocation, "Item location:") %>
@@ -22,4 +25,5 @@
 
     <%= submit_tag("update item") %>
   <% end %>
+</div>
 <% end %>
