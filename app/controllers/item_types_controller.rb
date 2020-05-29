@@ -7,7 +7,6 @@ class ItemTypesController < ApplicationController
     def create
       @ItemType = ItemType.new()
       @ItemType.type_name = params[:type_name]
-      @ItemType.type_description = params[:type_description]
       @ItemType.type_active = true
       @ItemType.updated_at = Time.now()
       @ItemType.updated_by = cookies[:user_name]
@@ -28,7 +27,7 @@ class ItemTypesController < ApplicationController
     def update
       active = params[:type_active] == "true"
       @itemType = ItemType.find(params[:id])
-      @itemType.update(type_name: params[:type_name], type_description: params[:type_description], type_active: active, updated_at: Time.now(), updated_by: cookies[:user_name])
+      @itemType.update(type_name: params[:type_name], type_active: active, updated_at: Time.now(), updated_by: cookies[:user_name])
       @itemTypes = ItemType.all
       redirect_to admin_item_types_path
     end
