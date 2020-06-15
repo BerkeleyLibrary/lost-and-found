@@ -46,6 +46,10 @@ end
       render :admin_items
     end
 
+    def admin_roles
+      render :admin_roles
+    end
+
     def admin
       @locations = Location.all
       @actived_locations = @locations.select  { |location| location.location_active}

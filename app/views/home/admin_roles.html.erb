@@ -1,0 +1,14 @@
+<div class="mb-4 form-group">
+    <h2>Add a new location</h2>
+    <%= form_tag("role_insert", method: "post") do %>
+    <%= label_tag(:role_name, "role name") %>
+    <%=text_field_tag :role_name, nil, placeholder: '' %>
+
+    <%= label_tag(:role_level, "role level") %>
+    <%=text_field_tag :role_level, nil, placeholder: '' %>
+
+    <%= submit_tag("add role") %>
+<% end %>
+</div>
+
+

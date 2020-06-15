@@ -1,25 +1,34 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <div class="addit">&nbsp;</div>
-		<h1>New item added</h1>
-        <table class="admin_table">
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Found by</th>
-                <th>Found at</th>
-                <th>Type of item</th>
-                <th>Item description</th>
-                <th>Item Image</th>
+<h2>Found</h2>
+<table class="table mt-5">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Actions</th>
+            <th scope="col">Date</th>
+            <th scope="col">Found at</th>
+            <th scope="col">Found by</th>
+            <th scope="col">item location</th>
+            <th scope="col">Type of item</th>
+            <th scope="col">Item description</th>
+            <th scope="col">Item Image</th>
+            <th scope="col">last updated?</th>
+            <th scope="col">last updated?</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <%= link_to 'edit', edit_item_path(@items.id) %>
+            </td>
+            <td><%= @items.itemDate || 'None'%></td>
+            <td><%= @items.itemFoundAt || 'None' %></td>
+            <td><%= @items.itemFoundBy || 'No one' %></td>
+            <td><%= @items.itemLocation || 'None' %></td>
+            <td><%= @items.itemType || 'No type' %></td>
+            <td class="desc"><%= @items.itemDescription || 'None' %></td>
+            <td>No image</td>
+            <td><%= @items.itemUpdatedBy || 'None' %></td>
+            <td><%= @items.itemLastModified || 'None'  %></td>
             </tr>
-            <tr>
-                <td><%= @items.itemDate %></td>
-                <td><%= @items.itemFoundAt %></td>
-                <td><%= @items.itemFoundBy %></td>
-                <td><%= @items.itemLocation || 'none' %></td>
-                <td><%= @items.itemType || 'No type' %></td>
-                <td><%= @items.itemDescription %></td>
-                <td>
-                        No image 
-                </td>
-            </tr>
-        </table>
+        </tbody>
+    </table>

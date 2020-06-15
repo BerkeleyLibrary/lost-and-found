@@ -19,6 +19,7 @@ get 'admin_users', to: 'home#admin_users'
 get 'admin_locations', to: 'home#admin_locations'
 get 'admin_item_types', to: 'home#admin_item_types'
 get 'admin_items', to: 'home#admin_items'
+get 'admin_roles', to: 'home#admin_roles'
 
   post '/item_search', to:'items#param_search'
   post 'item_insert', to: "items#create"
@@ -44,6 +45,7 @@ get 'admin_items', to: 'home#admin_items'
   get "/users/:id/change_status" , to: "users#change_status"
   get "/locations/:id/change_status" , to: "locations#change_status"
   get "/item_types/:id/change_status" , to: "item_types#change_status"
+  
 
   get '/found_items', to: "items#found"
 

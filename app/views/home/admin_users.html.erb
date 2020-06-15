@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-
+<% if user_level_admin? %>
 
 <div class="mb-4 form-group"> 
     <h2>Add a new user</h2>
@@ -73,3 +73,4 @@
     </table>
 
 
+<% end %>
