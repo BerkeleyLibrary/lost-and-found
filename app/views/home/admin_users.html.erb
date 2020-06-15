@@ -2,7 +2,7 @@
 
 <% if user_level_admin? %>
 
-<div class="new_model_container"> 
+<div class="mb-4 form-group"> 
     <h2>Add a new user</h2>
     <%= form_tag("user_insert", method: "post") do %>
 
@@ -20,14 +20,19 @@
 </div>
 
 <h2>Active Users</h2>
-<table class="admin_table">
-    <tr>
-        <th>Actions</th>
-        <th>User ID</th>
-        <th>Name</th>
-        <th>Role</th>
-    </tr>
-    <% @actived_users.each do |user| %>
+<table class="table mt-5">
+    <!-- the header row -->
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Actions</th>
+            <th scope="col">UID</th>
+            <th scope="col">user name</th>
+            <th scope="col">user role</th>
+        </tr>
+    </thead>
+    <!-- Layout all those beautiful requests -->
+    <tbody>
+        <% @actived_users.each do |user| %>
         <tr>
             <td>
                 <%= link_to 'Deactivate', user_path(user)+"/change_status"%>
@@ -35,29 +40,37 @@
             </td>
             <td><%= user.uid %></td>
             <td><%= user.user_name %></td>
-            <td><%= user.user_role %></td>
-        </tr>
-    <% end %>
-</table>
+            <td><%= user.user_role %>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
 
 <h2>Deactivated Users</h2>
-<table class="admin_table admin_deactivated_table">
-    <tr>
-        <th>Actions</th>
-        <th>User ID</th>
-        <th>Name</th>
-        <th>Role</th>
-    </tr>
-    <% @deactivated_users.each do |user| %>
+<table class="table mt-5">
+    <!-- the header row -->
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Actions</th>
+            <th scope="col">UID</th>
+            <th scope="col">user name</th>
+            <th scope="col">user role</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @deactivated_users.each do |user| %>
         <tr>
             <td>
-                <%= link_to 'Activate', user_path(user)+"/change_status"%>
+                <%= link_to 'Deactivate', user_path(user)+"/change_status"%>
                 <%= link_to 'edit', edit_user_path(user.id) %>
             </td>
             <td><%= user.uid %></td>
             <td><%= user.user_name %></td>
-            <td><%= user.user_role %></td>
-        </tr>
-    <% end %>
-</table>
+            <td><%= user.user_role %>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+
+
 <% end %>

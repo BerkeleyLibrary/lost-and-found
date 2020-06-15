@@ -1,9 +1,7 @@
-<%= stylesheet_link_tag 'forms', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 <% if user_level_staff? %>
-
-  <h1>Items#edit</h1>
-  <div class="new_model_container">
+  <div class="table mt-5">
   <%= form_tag("item_update", method: "post", multipart: true) do %>
 
     <%= label_tag(:itemLocation, "Item location:") %>
@@ -22,6 +20,15 @@
     <%= file_field_tag(:image) %>
 
     <%= hidden_field_tag(:id, @item.id) %>
+
+
+    <%= label_tag(:image, "Image: ") %>
+
+    <h4> Update by: </h4>
+    <%= cookies[:user_name] %>
+
+    <h4>Last updated at: </h4>
+    <%= @item.updated_at.strftime("%B %e, %Y at %I:%M %p") %>
 
     <%= submit_tag("update item") %>
   <% end %>

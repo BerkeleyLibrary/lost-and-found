@@ -1,3 +1,4 @@
+
 input[type="text"],
 select {
   width: 100%;
@@ -22,57 +23,15 @@ input[type="submit"]:hover {
   background-color: #428dc2;
 }
 
+.desc {
+  max-width: 100px;
+}
+
 .new_model_container {
   width: 40%;
-  border-radius: 5px;
+  border-radius: 1px;
   background-color: #edeffa;
-  padding: 10px;
+  padding: 5px;
 }
 
 
-@media only screen and (max-width: 700px) {
-  .new_model_container {
-    width: 100%;
-    border-radius: 5px;
-    background-color: hsl(231, 57%, 95%);
-    padding: 10px;
-  }
-}
-.admin_table {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-}
-.admin_table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-.admin_table tr:hover {
-  background-color: #ddd;
-}
-
-.admin_table td {
-  padding-right: 20px;
-  width: 100px;
-}
-.admin_table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-right: 30px;
-  text-align: left;
-  background-color: #428dc2;
-  color: white;
-  width: 100px;
-}
-.admin_deactivated_table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-right: 30px;
-  text-align: left;
-  background-color: #ff4d4d;
-  color: white;
-  width: 100px;
-}
-
-table {
-  float: left;
-  clear: left;
-  width: 300px;
-}

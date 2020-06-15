@@ -2,6 +2,7 @@ class Item < ApplicationRecord
   has_one_attached :image
     attr_accessor :locations
     attr_accessor :types
+    attribute :itemStatus, :integer, default: 1
   
 
     def locations

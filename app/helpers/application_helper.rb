@@ -6,11 +6,12 @@ module ApplicationHelper
 
   def logo_link
     link_to(
-      image_tag('laf_logo.gif', alt: 'UC Berkeley Library Lost and Found'),
-      '#',
+      image_tag('UCB_logo.png', height: '30', alt: 'UC Berkeley Library'),
+      '/home',
       { class: 'navbar-brand no-link-style' }
     )
   end
+
 
   def staff_web_link
     link_to(
@@ -20,9 +21,18 @@ module ApplicationHelper
     )
   end
 
-  def footer_partial
+  def layouts_footer
     render template: "layouts/footer"
   end
+
+  def layouts_nav
+    render template: "layouts/app_nav"
+  end
+
+  def questions_link
+    mail_to support_email, 'Questions?', class: 'support-email'
+  end
+
 
   def staff_nav
     render template: "layouts/staff_nav"

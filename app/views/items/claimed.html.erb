@@ -1,4 +1,5 @@
-<h2>Claimed </h2>
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<h2>Claimed</h2>
 <table class="table mt-5">
     <thead class="thead-light">
         <tr>
@@ -15,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        <% @items_found.each do |item| %>
+        <% @items_claimed.each do |item| %>
         <tr>
             <td>
                 <%= link_to 'edit', edit_item_path(item.id) %>

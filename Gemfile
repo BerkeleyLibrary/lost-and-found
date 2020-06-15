@@ -9,11 +9,13 @@ gem 'activerecord-import'
 gem 'authlogic'
 gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bootstrap'
 gem 'bootstrap-sass'
 gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'lograge', '>=0.11.2'
 gem 'mysql2'
 gem 'omniauth-cas',

@@ -81,15 +81,7 @@ body {
     column-gap: 2em;
   }
 }
-#footer {
-  background: #46535e;
-  color: #fff;
-  padding: 1em;
-  text-align: center;
-}
-#footer-logo {
-  margin: 0 auto;
-}
+
 .screen-reader-text {
   position: absolute;
   top: -9999px;

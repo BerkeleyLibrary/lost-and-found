@@ -7,7 +7,7 @@ class ItemsController < ApplicationController
 
   def found
     @items_found = Item.found
-    render template: "items/all"
+    render template: "items/found"
   end
 
   def all

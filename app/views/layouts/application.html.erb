@@ -10,25 +10,19 @@
   </head>
 
   <body>
-    <div id="branding">
-      <img id="logo" alt="UC Berkeley Library Logo" src="https://www.lib.berkeley.edu/Staff/images/library_logo.png"/>
-      <div class="subhead">
-           Lost & Found
+    <main id="main">
+      <a href="#main" class="visually-hidden focusable skip-link">Skip to main content</a>
+      <div id="app" class="container">
+        <%= layouts_nav %>
+        <%= @flash_message %>
+  
+        <%= yield %>
+  
+        <%= layouts_footer %>
       </div>
-  </div>
-  <div class="container">
-    <%= @flash_message %>
-  </div>
-  <%= render template: "layouts/app_nav" %>
-    <%= yield %>
+    </main>
   </body>
-  <div class="addit">&nbsp;</div>
-  <footer id="footer">
-
-   <p align="center">Copyright The Regents of the University of California. All rights reserved.
-        Last updated 02/28/20.
-
-        <a href="/help/contact">Contact us</a></p>
-
-   <img src="https://www.lib.berkeley.edu/Staff/images/footer_logo.svg" alt="UC Berkeley Logo" id="footer-logo" />
 </html>
+
+
+

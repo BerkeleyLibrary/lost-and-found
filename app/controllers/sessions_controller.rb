@@ -13,7 +13,6 @@ class SessionsController < ApplicationController
   end
 
   def callback
-    p '-----------------CALLBACK CALLED --------------------------'
     logger.debug(
       msg: 'Received omniauth callback',
       omniauth: auth_params

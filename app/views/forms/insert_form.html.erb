@@ -1,9 +1,9 @@
 
-<%= stylesheet_link_tag 'forms', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% if user_level_staff? %>
 <h1>Add a new lost item to the collection</h1>
 
-<div class="new_model_container">
+<div class="mb-4 form-group">
     <%= form_tag("item_insert", method: "post", multipart: true) do %>
 
     <%= label_tag(:itemType, "item type:") %>
@@ -26,6 +26,10 @@
 
     <%= label_tag(:image, "Image: ") %>
     <%= file_field_tag(:image) %>
+
+    <h4> Update by: </h4>
+    <%= cookies[:user_name] %>
+    
     <%= submit_tag("add item") %>
 <% end %>
 </div>

@@ -1,3 +1,6 @@
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<div class="table mt-5">
+
 <%= form_tag("location_update", method: "post") do %>
 
   <%= label_tag(:location_name, "Location name") %>
@@ -10,3 +13,4 @@
 
   <%= submit_tag("update location") %>
 <% end %>
+</div>

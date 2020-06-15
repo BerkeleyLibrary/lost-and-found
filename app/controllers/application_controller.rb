@@ -1,6 +1,9 @@
 # Base class for all controllers
 class ApplicationController < ActionController::Base
   include ExceptionHandling
+  class_attribute :support_email, default: 'privdesk@library.berkeley.edu'
+  helper_method :support_email
+
   skip_before_action :verify_authenticity_token
   before_action :ensure_authenticated_user
   before_action :check_timeout
