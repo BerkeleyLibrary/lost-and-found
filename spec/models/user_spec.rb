@@ -14,10 +14,4 @@ describe User, type: :model do
     assert_equal(true, user.user_active)
   end
 
-  it 'users should accept valid uids' do
-    user = User.new()
-    user.uid = '12345'
-    assert_equal('12345', user.uid, msg = "value should be populated")
-  end
-
 end
