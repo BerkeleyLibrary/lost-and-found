@@ -29,7 +29,13 @@
             <td><%= item.itemLocation || 'None' %></td>
             <td><%= item.itemType || 'No type' %></td>
             <td class="desc"><%= item.itemDescription || 'None' %></td>
-            <td>No image</td>
+            <td>
+                <% if item.image.attached? %>
+                <image class="preview_image" src="<%=(url_for(item.image)) %>">
+            <% else %>
+                 No image 
+            <% end %>
+            </td>
             <td><%= item.itemUpdatedBy || 'None' %></td>
             <td><%= item.itemLastModified || 'None'  %></td>
             </tr>
