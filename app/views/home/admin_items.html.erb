@@ -1,76 +1,7 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% if user_level_admin? %>
 
-<h2>Found </h2>
-    <table class="table mt-5">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col">Actions</th>
-                <th scope="col">Date</th>
-                <th scope="col">Found at</th>
-                <th scope="col">Found by</th>
-                <th scope="col">item location</th>
-                <th scope="col">Type of item</th>
-                <th scope="col">Item description</th>
-                <th scope="col">Item Image</th>
-                <th scope="col">last updated?</th>
-                <th scope="col">last updated?</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% @items_found.each do |item| %>
-            <tr>
-                <td>
-                    <%= link_to 'edit', edit_item_path(item.id) %>
-                </td>
-                <td><%= item.itemDate || 'None'%></td>
-                <td><%= item.itemFoundAt || 'None' %></td>
-                <td><%= item.itemFoundBy || 'No one' %></td>
-                <td><%= item.itemLocation || 'None' %></td>
-                <td><%= item.itemType || 'No type' %></td>
-                <td  class="desc"><%= item.itemDescription || 'None' %></td>
-                <td>No image</td>
-                <td><%= item.itemUpdatedBy || 'None' %></td>
-                <td><%= item.itemLastModified || 'None'  %></td>
-                </tr>
-            <% end %>
-            </tbody>
-        </table>
+<%= render template: "items/found"%>
 
-
-    <h2>Claimed </h2>
-    <table class="table mt-5">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col">Actions</th>
-                <th scope="col">Date</th>
-                <th scope="col">Found at</th>
-                <th scope="col">Found by</th>
-                <th scope="col">item location</th>
-                <th scope="col">Type of item</th>
-                <th scope="col">Item description</th>
-                <th scope="col">Item Image</th>
-                <th scope="col">last updated?</th>
-                <th scope="col">last updated?</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% @items_claimed.each do |item| %>
-            <tr>
-                <td>
-                    <%= link_to 'edit', edit_item_path(item.id) %>
-                </td>
-                <td><%= item.itemDate || 'None'%></td>
-                <td><%= item.itemFoundAt || 'None' %></td>
-                <td><%= item.itemFoundBy || 'No one' %></td>
-                <td><%= item.itemLocation || 'None' %></td>
-                <td><%= item.itemType || 'No type' %></td>
-                <td class="desc"><%= item.itemDescription || 'None' %></td>
-                <td>No image</td>
-                <td><%= item.itemUpdatedBy || 'None' %></td>
-                <td><%= item.itemLastModified || 'None'  %></td>
-                </tr>
-            <% end %>
-            </tbody>
-        </table>
+<%= render template: "items/claimed"%>
 <% end %>
