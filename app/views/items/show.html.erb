@@ -1,29 +1,82 @@
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-<h1>Items list</h1>
+<% if user_level_staff? %>
+<h3>Current values</h3>
+<div class="form-group row">
+  <h5 class="col-2">Date Found</h5> 
+  <div class="col-4"><%= @item.itemDate || 'None'%></div>
+</div>
+<div class="form-group row">
+  <h5 class="col-2">Found at</h5> 
+  <div class="col-4"><%= @item.itemFoundAt || 'None' %></div>
+</div>
 
-<table class="listing" summary="Claimed list">
-    <tr class="header">
-      <th>Actions </th>
-      <th>Item ID</th>
-      <th>Date</th>
-      <th>Time</th>
-      <th>Found by</th>
-      <th>Found at </th>
-      <th>Type of item</th>
-      <th>Item description</th>
-    </tr>
-    <% @items.each do |item| %>
-    <tr>
-      <td>
-        <%= link_to("Show", '#', :class => 'action show') %>
-        <%= link_to("Edit", '#', :class => 'action edit') %>
-      </td>
-      <td><%= item.itemDate %></td>
-      <td><%= item.itemFoundAt %></td>
-      <td><%= item.itemFoundBy %></td>
-      <td><%= item.locations[item.itemLocation] || 'none' %></td>
-      <td><%= item.types[item.itemType] || 'No type' %></td>
-      <td><%= item.itemDescription %></td>
-    </tr>
+<div class="form-group row">
+  <h5 class="col-2">Found by</h5> 
+  <div class="col-4"><%= @item.itemFoundBy || 'No one' %></div>
+</div>
+
+<div class="form-group row">
+  <h5 class="col-2">item location</h5> 
+  <div class="col-4"><%= @item.itemLocation || 'None' %></div>
+</div>
+
+<div class="form-group row">
+  <h5 class="col-2">Type of item</h5> 
+  <div class="col-4"><%= @item.itemType || 'No type' %></div>
+</div>
+
+<div class="form-group row">
+  <h5 class="col-2">Item description</h5> 
+  <div class="col-4"><%= @item.itemDescription || 'None' %></div>
+</div>
+
+<div class="form-group row">
+  <h5 class="col-2">Item Image</h5>
+    <% if @item.image.attached? %>
+      <image class="preview_image" src="<%=(url_for(item.image)) %>">
+    <% else %>
+    <div class="col-4">No image </div>
     <% end %>
-  </table>
+  </div>
+  <div class="form-group row">
+    <h5 class="col-2">last updated?</h5>
+    <div class="col-4"><%= @item.itemUpdatedBy || 'None' %></div>
+</div>
+<div class="form-group row">
+  <h5 class="col-2">last updated?</h5>
+  <div class="col-4"><%= @item.itemLastModified.strftime("%B %e, %Y at %I:%M %p") || 'None'  %></div>
+</div>
+
+<h3>Change history</h3>
+<table class="table mt-5">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col" >Index</th>
+      <th scope="col" >Date</th>
+      <th scope="col" >Author</th>
+      <th scope="col">Event</th>
+      <th scope="col"> changeset </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @item.versions.reverse.each do |version| %>
+      <tr>
+        <td><%= version.index %></td>
+        <td><%= version.created_at %></td>
+        <td><%= version.whodunnit || "unknown"%></td>
+        <td><%= version.event.humanize %></td>
+        <td>
+          <ul>
+          <% version.changeset.except(:updated_at).each do |value| %>
+            <li><%= value[0] + " : " + value[1][0].to_s  + " to " +  value[1][1].to_s%> </li>
+          <% end %>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% end %>

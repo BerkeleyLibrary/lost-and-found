@@ -13,6 +13,15 @@ Rails.application.routes.draw do
   resources :item_types, only: [:edit, :update, :delete, :destroy]
   resources :roles, only: [:edit, :update, :delete, :destroy]
 
+  resources :documents do
+    resources :versions, only: [:destroy] do
+      member do
+        get :diff, to: 'versions#diff'
+        patch :rollback, to: 'versions#rollback'
+      end
+    end
+  end
+
   get 'search_form', to: 'forms#search_form'
 
 get 'admin_users', to: 'home#admin_users'

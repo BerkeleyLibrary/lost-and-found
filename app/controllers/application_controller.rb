@@ -7,8 +7,14 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
   before_action :ensure_authenticated_user
   before_action :check_timeout
+  before_action :set_paper_trail_whodunnit
 
   @flash_message = "";
+
+  def current_user
+    p cookies[:user_name] 
+    cookies[:user_name] 
+  end
 
   def after_sign_out_path_for(resource_or_scope)
     "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
@@ -37,6 +43,10 @@ class ApplicationController < ActionController::Base
     else
       true
     end
+  end
+
+  def current_user
+    User.where(uid: cookies[:uid]).first
   end
 
   def authorize
@@ -103,10 +113,6 @@ def user_level_read_only?
   return false if !@current_user || !@current_user.user_active
   @current_user.user_role == "read-only" || @current_user.user_role == "staff" || @current_user.user_role == "Administrator"
 end
-
-  def user_for_paper_trail
-    current_user.try!(:audit_identifier)
-  end
 
   def calnet_uid
     session[:calnet_uid]

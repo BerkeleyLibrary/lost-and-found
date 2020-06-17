@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_213904) do
+ActiveRecord::Schema.define(version: 2020_06_17_213916) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ", force: :cascade do |t|
     t.string "name", null: false
@@ -86,6 +86,17 @@ ActiveRecord::Schema.define(version: 2020_05_27_213904) do
     t.string "provider"
     t.string "updated_by"
     t.index ["uid"], name: "index_users_on_uid", unique: true
+  end
+
+  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", force: :cascade do |t|
+    t.string "item_type", limit: 191, null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object", size: :long
+    t.datetime "created_at"
+    t.text "object_changes"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -25,6 +25,8 @@ class LocationsController < ApplicationController
       @location = Location.find(params[:id])
     end
 
+
+
     def update
       active = params[:location_active] == "true"
       @location = Location.find(params[:id])

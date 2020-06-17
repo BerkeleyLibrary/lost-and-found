@@ -9,6 +9,16 @@ class User < ApplicationRecord
 
     scope :active, -> { where("user_active = true")}
 
+    def self.find_version_author(version)
+      user = "unknown"
+      begin 
+        user = find(version.terminator)
+      rescue
+        user = nil
+      end
+      user
+    end
+
     class << self
 
       def from_omniauth(auth)

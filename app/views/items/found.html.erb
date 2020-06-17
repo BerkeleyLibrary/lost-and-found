@@ -21,6 +21,7 @@
             <td>
                 <% if user_level_staff? %>
                     <%= link_to 'edit', edit_item_path(item.id) %>
+                    <%= link_to 'history', item_path(item.id) %>
                 <% end %>
             </td>
             <td><%= item.itemDate || 'None'%></td>

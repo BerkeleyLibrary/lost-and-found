@@ -1,5 +1,11 @@
 class ItemsController < ApplicationController
 
+
+  def current_user
+    cookies[:user_name] 
+  end
+
+
   def index
     @items = Item.found
     render template: "items/all"
@@ -35,6 +41,13 @@ class ItemsController < ApplicationController
   end
 
   def edit
+    @item = Item.find(params[:id])
+    @locations_layout = location_setup
+    @item_type_layout = item_type_setup
+    @item_status_layout = [["Found",1],["Claimed",3]]
+  end
+
+  def show 
     @item = Item.find(params[:id])
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
