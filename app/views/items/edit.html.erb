@@ -22,7 +22,12 @@
     <%= hidden_field_tag(:id, @item.id) %>
 
 
-    <%= label_tag(:image, "Image: ") %>
+    <%= label_tag(:image, "Current Image: ") %>
+    <% if @item.image.attached? %>
+      <image class="preview_image" src="<%=(url_for(@item.image)) %>">
+    <% else %>
+        No image 
+    <% end %>
 
     <h4> Update by: </h4>
     <%= cookies[:user_name] %>
