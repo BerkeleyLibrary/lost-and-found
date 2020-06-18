@@ -52,7 +52,6 @@
 <table class="table mt-5">
   <thead class="thead-light">
     <tr>
-      <th scope="col" >Index</th>
       <th scope="col" >Date</th>
       <th scope="col" >Author</th>
       <th scope="col">Event</th>
@@ -62,19 +61,26 @@
 
   <tbody>
     <% @item.versions.reverse.each do |version| %>
+    <% if !version.changeset.except(:updated_at).empty?%>
       <tr>
-        <td><%= version.index %></td>
         <td><%= version.created_at %></td>
         <td><%= version.whodunnit || "unknown"%></td>
         <td><%= version.event.humanize %></td>
         <td>
           <ul>
           <% version.changeset.except(:updated_at).each do |value| %>
+          <% if( value[0] == "image_url") %>
+            <li>
+              New image uploaded
+            </li>
+          <% else %>
             <li><%= value[0] + " : " + value[1][0].to_s  + " to " +  value[1][1].to_s%> </li>
+          <% end %>
           <% end %>
           </ul>
         </td>
       </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

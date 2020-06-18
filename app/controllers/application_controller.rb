@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
   @flash_message = "";
 
   def current_user
-    p cookies[:user_name] 
     cookies[:user_name] 
   end
 
