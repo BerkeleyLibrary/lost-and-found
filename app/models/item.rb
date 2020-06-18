@@ -5,8 +5,6 @@ class Item < ApplicationRecord
     attr_accessor :types
     attribute :itemStatus, :integer, default: 1
 
-
-
     def locations
       @locations = Location.all
     end

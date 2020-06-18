@@ -56,7 +56,7 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:user_name], itemStatus: params[:itemStatus],updated_at: Time.now)
+    @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy],itemStatus: params[:itemStatus],updated_at: Time.now)
     @item.update(image: params[:image]) unless params[:image].nil?
     @item.update(image_url: url_for(@item.image)) unless !@item.image.attached?
 
