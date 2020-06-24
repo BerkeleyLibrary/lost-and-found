@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        <% @items_found.each do |item| %>
+        <% @items_found.reverse.each do |item| %>
         <tr>
             <td>
                 <% if user_level_staff? %>
@@ -24,7 +24,7 @@
                     <%= link_to 'history', item_path(item.id) %>
                 <% end %>
             </td>
-            <td><%= item.itemDate || 'None'%></td>
+            <td><%=  item.itemDate || 'None'%></td>
             <td><%= item.itemFoundAt || 'None' %></td>
             <td><%= item.itemFoundBy || 'No one' %></td>
             <td><%= item.itemLocation || 'None' %></td>

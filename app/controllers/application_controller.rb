@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   def check_timeout
     unless (cookies[:expires_at] && cookies[:user])
-      @flash_message = "Session has expired."
+      @flash_message = "Your session expired. Please logout and sign in again to continue use."
       sign_out
       cookies[:logout_required] = true;
     end
@@ -74,7 +74,7 @@ class ApplicationController < ActionController::Base
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
-    cookies[:expires_at] = { value: "user_active", expires: Time.now + 30.minutes}
+    cookies[:expires_at] = { value: "user_active", expires: Time.now + 60.minutes}
 
     @current_user = user
     @current_user.uid = user.uid
@@ -94,23 +94,17 @@ class ApplicationController < ActionController::Base
 
 def user_level_admin?
   @flash_message = "You do not have permission to view this page"
-  @current_user = User.where(uid: cookies[:uid]).first
-  return false if !@current_user || !@current_user.user_active
-  @current_user.user_role == "Administrator"
+  cookies[:user_role] == "Administrator"
 end
 
 def user_level_staff?
   @flash_message = "You do not have permission to view this page"
-  @current_user = User.where(uid: cookies[:uid]).first
-  return false if !@current_user || !@current_user.user_active
-  @current_user.user_role == "staff" || @current_user.user_role == "Administrator"
+  cookies[:user_role] == "staff" || cookies[:user_role] == "Administrator"
 end
 
 def user_level_read_only?
   @flash_message = "You do not have permission to view this page"
-  @current_user = User.where(uid: cookies[:uid]).first
-  return false if !@current_user || !@current_user.user_active
-  @current_user.user_role == "read-only" || @current_user.user_role == "staff" || @current_user.user_role == "Administrator"
+  cookies[:user_role] == "read-only" || cookies[:user_role] == "staff" || cookies[:user_role]== "Administrator"
 end
 
   def calnet_uid

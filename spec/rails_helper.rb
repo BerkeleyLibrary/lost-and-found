@@ -1,6 +1,8 @@
-require 'spec_helper'
+
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
+require 'spec_helper'
 require 'user_helper'
+require 'calnet_helper'
 require 'paper_trail/frameworks/rspec'
 

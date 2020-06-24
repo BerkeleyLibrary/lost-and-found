@@ -59,7 +59,6 @@ class ItemsController < ApplicationController
     @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy],itemStatus: params[:itemStatus],updated_at: Time.now)
     @item.update(image: params[:image]) unless params[:image].nil?
     @item.update(image_url: url_for(@item.image)) unless !@item.image.attached?
-
     @items = Item.all
     @items_found = Item.found
     @items_claimed = Item.claimed
@@ -69,7 +68,7 @@ class ItemsController < ApplicationController
   def create
     @Item = Item.new()
     @Item.itemDate = params[:itemDate] || Time.now
-    @Item.itemFoundAt = params[:itemFoundAt] || time.now
+    @Item.itemFoundAt = params[:itemFoundAt] || Time.now
     @Item.itemLocation = params[:itemLocation];
     @Item.itemType = params[:itemType];
     @Item.itemDescription= params[:itemDescription];
@@ -84,10 +83,8 @@ class ItemsController < ApplicationController
     @Item.created_at =Time.now();
     @Item.updated_at = Time.now();
     @Item.image.attach( params[:image])
-    @item.image_url = (url_for(@item.image))
-
+    params[:image] != nil ? @item.image_url = (url_for(@item.image)) : 'NONE'
     if @Item.save!
-
       @items = @Item
       render template: "items/new"
     else

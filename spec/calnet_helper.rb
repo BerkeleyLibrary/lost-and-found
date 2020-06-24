@@ -27,7 +27,6 @@ def mock_omniauth_login(user_id)
 
   auth_hash = YAML.load_file(calnet_yml_file)
   OmniAuth.config.mock_auth[:calnet] = auth_hash
-  do_get "/auth/calnet"
 
   Rails.application.env_config['omniauth.auth'] = auth_hash
   do_get omniauth_callback_path(:calnet)

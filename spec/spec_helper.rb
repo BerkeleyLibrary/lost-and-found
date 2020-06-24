@@ -2,11 +2,14 @@
 # Rails
 
 ENV['RAILS_ENV'] = 'test' unless ENV['RAILS_ENV']
-
 # ------------------------------------------------------------
 # Dependencies
-
 require 'colorize'
+require "rails/all"
+require 'capybara/rspec'
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+
 require 'webmock/rspec'
 
 
@@ -50,4 +53,12 @@ def capturing_log(&block)
     logdev.instance_variable_set(:@dev, dev_actual)
   end
   dev_tmp.string
+end
+
+def manual_sign_in_as(user)
+  user = User.new()
+  user.user_name = "Tim"
+  user.user_role = "Admin"
+  user.uid = "111111"
+  sign_in user
 end

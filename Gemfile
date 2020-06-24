@@ -10,9 +10,11 @@ gem 'authlogic'
 gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap'
+gem "show_me_the_cookies"
 gem 'bootstrap-sass'
 gem 'coffee-rails', '~> 4.2'
 gem 'devise'
+gem 'poltergeist'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -35,7 +37,6 @@ group :development, :test do
   gem 'bundler-audit', '~> 0.3.0'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'colorize'
-  gem 'rspec'
   gem 'rspec-rails'
 end
 
