@@ -1,0 +1,40 @@
+require 'rails_helper'
+
+RSpec.describe 'Version history testing', type: :feature do
+    before :each do
+        mock_omniauth_login "013191304"
+        Capybara.current_session.driver.browser.set_cookie "user_role=Administrator"
+        Capybara.current_session.driver.browser.set_cookie "user=a user"
+        Capybara.current_session.driver.browser.set_cookie "user_name=Dante"
+    end
+
+    with_versioning do
+      scenario 'Items are given version history from Creation' do
+      visit '/insert_form'
+      fill_in "itemDescription", with: "TEST_ITEM"
+      find('input[name="commit"]').click
+      click_link "Search Form"
+      click_link "Show all found items"
+      first('td').click_link('history')
+      expect(page).to have_content('Create')
+    end
+
+
+    scenario 'Updated items are tracked in change history' do
+      visit '/insert_form'
+      fill_in 'itemDescription', with: "TEST_ITEM"
+      find('input[name="commit"]').click
+      click_link "Search Form"
+      click_link "Show all found items"
+      first('td').click_link('edit')
+      fill_in 'itemDescription', with: "NEW_TEST_ITEM"
+      find('input[name="commit"]').click
+      click_link "Search Form"
+      click_link "Show all found items"
+      first('td').click_link('history')
+      expect(page).to have_content('Update')
+      p page.body
+      expect(page).to have_content('TEST_ITEM to NEW_TEST_ITEM')
+    end
+  end
+end
