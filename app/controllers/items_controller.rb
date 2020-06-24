@@ -5,7 +5,6 @@ class ItemsController < ApplicationController
     cookies[:user_name] 
   end
 
-
   def index
     @items = Item.found
     render template: "items/all"
