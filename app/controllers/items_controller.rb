@@ -24,6 +24,8 @@ class ItemsController < ApplicationController
 
   def param_search
     @items = Item.query_params(params)
+    @items = @items.select{ |item| item.itemLocation == params[:itemLocation] } unless params[:searchAll] || params[:itemLocation] == 'none'
+    @items = @items.select{ |item| item.itemType == params[:itemType] } unless params[:searchAll] || params[:itemType] == 'none'
     @items_found = @items.select{ |item| item.itemStatus == 1 }
     @items_claimed = @items.select{ |item| item.itemStatus == 3 }
     render template: "items/all"
@@ -65,30 +67,32 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @Item = Item.new()
-    @Item.itemDate = params[:itemDate] || Time.now
-    @Item.itemFoundAt = params[:itemFoundAt] || Time.now
-    @Item.itemLocation = params[:itemLocation];
-    @Item.itemType = params[:itemType];
-    @Item.itemDescription= params[:itemDescription];
-    @Item.itemLastModified=Time.now();
-    @Item.itemStatus = 1;
-    @Item.itemEnteredBy = "unknown";
-    @Item.itemImage = "none";
-    @Item.itemObsolete = 0;
-    @Item.itemUpdatedBy = cookies[:user_name];
-    @Item.itemFoundBy = params[:itemFoundBy] || 'anonymous';
-    @Item.libID = 115;
-    @Item.created_at =Time.now();
-    @Item.updated_at = Time.now();
-    @Item.image.attach( params[:image])
+    @item = Item.new()
+    @item.itemDate = params[:itemDate] || Time.now
+    @item.itemFoundAt = params[:itemFoundAt] || Time.now
+    @item.itemLocation = params[:itemLocation];
+    @item.itemType = params[:itemType];
+    @item.itemDescription= params[:itemDescription];
+    @item.itemLastModified=Time.now();
+    @item.itemStatus = 1;
+    @item.itemEnteredBy = "unknown";
+    @item.itemImage = "none";
+    @item.itemObsolete = 0;
+    @item.itemUpdatedBy = cookies[:user_name];
+    @item.itemFoundBy = params[:itemFoundBy] || 'anonymous';
+    @item.libID = 115;
+    @item.created_at =Time.now();
+    @item.updated_at = Time.now();
+    @item.image.attach( params[:image])
     params[:image] != nil ? @item.image_url = (url_for(@item.image)) : 'NONE'
-    if @Item.save!
-      @items = @Item
+    begin
+      @item.save!
       render template: "items/new"
-    else
-       @items = Item.all
-       render template: "items/all"
+    rescue
+      @locations_layout = location_setup
+      @item_type_layout = item_type_setup
+        flash.now.alert = "Item rejected. Missing required fields"
+        render template: "forms/insert_form"
     end
   end
 

@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
     if cookies[:logout_required]
       destroy
     else
-      @flash_message = ""
       redirect_to "/auth/calnet"
     end
   end

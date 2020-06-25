@@ -22,4 +22,18 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
         click_link "Items"
         expect(page).to have_content('Found Items')
     end
+
+    scenario 'Admin panel not accessible to staff level user' do
+        mock_omniauth_login "013191304"
+        Capybara.current_session.driver.browser.set_cookie "user_role=staff"
+        visit '/admin'
+        expect(page).to have_content('You must have Admin level permission to view this page')
+    end
+
+    scenario 'Admin panel not accessible to read-only level user' do
+        mock_omniauth_login "013191304"
+        Capybara.current_session.driver.browser.set_cookie "user_role=read-only"
+        visit '/admin'
+        expect(page).to have_content('You must have Admin level permission to view this page')
+    end
 end

@@ -9,10 +9,9 @@ class ApplicationController < ActionController::Base
   before_action :check_timeout
   before_action :set_paper_trail_whodunnit
 
-  @flash_message = "";
 
   def current_user
-    cookies[:user_name] 
+    cookies[:user_name]
   end
 
   def after_sign_out_path_for(resource_or_scope)
@@ -21,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   def check_timeout
     unless (cookies[:expires_at] && cookies[:user])
-      @flash_message = "Your session expired. Please logout and sign in again to continue use."
+      flash.now.alert = "Your session expired. Please logout and sign in again to continue use."
       sign_out
       cookies[:logout_required] = true;
     end
@@ -32,7 +31,7 @@ class ApplicationController < ActionController::Base
     def ensure_authenticated_user
       if cookies[:user].nil?
         reset_session
-        @flash_message = "Login required"
+        flash.now.alert = "Login required"
       end
     end
 
@@ -50,7 +49,7 @@ class ApplicationController < ActionController::Base
 
   def authorize
     unless current_user?
-      flash[:error] = "Please Login to access this page !";
+      flash.now.alert = "Please Login to access this page !";
       redirect_to root_url
       false
     end
@@ -92,19 +91,28 @@ class ApplicationController < ActionController::Base
     reset_session
   end
 
-def user_level_admin?
-  @flash_message = "You do not have permission to view this page"
-  cookies[:user_role] == "Administrator"
+def user_level_admin? set_alert = false
+  if cookies[:user_role] != "Administrator"
+    flash.now.alert = "You must have Admin level permission to view this page" unless set_alert
+    return false
+  end
+  true
 end
 
-def user_level_staff?
-  @flash_message = "You do not have permission to view this page"
-  cookies[:user_role] == "staff" || cookies[:user_role] == "Administrator"
+def user_level_staff? set_alert = false
+  if cookies[:user_role] != "staff" && cookies[:user_role] != "Administrator"
+    flash.now.alert = "You must have staff level permission or greater to view this page" unless set_alert
+    return false
+  end
+  true
 end
 
-def user_level_read_only?
-  @flash_message = "You do not have permission to view this page"
-  cookies[:user_role] == "read-only" || cookies[:user_role] == "staff" || cookies[:user_role]== "Administrator"
+def user_level_read_only? set_alert = false
+  if cookies[:user_role] != "read-only" && cookies[:user_role] != "staff" && cookies[:user_role] != "Administrator"
+    flash.now.alert = "You must be a registered user to view this page" unless set_alert
+    return false
+  end
+  true
 end
 
   def calnet_uid
@@ -132,7 +140,7 @@ end
 
   def location_setup
     locations = Location.active
-    locations_layout = []
+    locations_layout = [['None','none']]
     locations.each do |location|
       locations_layout.push([location.location_name,location.location_name])
     end
@@ -141,7 +149,7 @@ end
 
   def item_type_setup
     item_types = ItemType.active
-    item_type_layout = []
+    item_type_layout = [['None','none']]
 
     item_types.each do |type|
       item_type_layout.push([type.type_name, type.type_name])

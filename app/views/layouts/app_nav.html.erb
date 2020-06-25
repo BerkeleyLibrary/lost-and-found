@@ -5,17 +5,17 @@
     </ul>
 
     <ul class="navbar-nav">
-      <% if user_level_staff? %>
+      <% if user_level_staff?(true) %>
       <li>
         <p class="nav-link" ><a href="/insert_form">Insert Form</a></p>
       </li>
       <% end %>
-      <% if user_level_read_only? %> 
+      <% if user_level_read_only?(true) %> 
       <li>
         <p class="nav-link"><%= link_to "Search Form", search_form_path %></p>
       </li>
       <% end %> 
-      <% if user_level_admin? %> 
+      <% if user_level_admin?(true) %> 
       <li>
           <p class="nav-link"><%= link_to "Administration", admin_path %></p>
       </li>

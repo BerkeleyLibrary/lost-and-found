@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
-<h2>Found</h2>
+<h2>New item added to Lost and Found </h2>
 <table class="table mt-5">
     <thead class="thead-light">
         <tr>
@@ -18,17 +18,17 @@
     <tbody>
         <tr>
             <td>
-                <%= link_to 'edit', edit_item_path(@items.id) %>
+                <%= link_to 'edit', edit_item_path(@item.id) %>
             </td>
-            <td><%= @items.itemDate || 'None'%></td>
-            <td><%= @items.itemFoundAt || 'None' %></td>
-            <td><%= @items.itemFoundBy || 'No one' %></td>
-            <td><%= @items.itemLocation || 'None' %></td>
-            <td><%= @items.itemType || 'No type' %></td>
-            <td class="desc"><%= @items.itemDescription || 'None' %></td>
+            <td><%= @item.itemDate || 'None'%></td>
+            <td><%= @item.itemFoundAt || 'None' %></td>
+            <td><%= @item.itemFoundBy || 'No one' %></td>
+            <td><%= @item.itemLocation || 'None' %></td>
+            <td><%= @item.itemType || 'No type' %></td>
+            <td class="desc"><%= @item.itemDescription || 'None' %></td>
             <td>No image</td>
-            <td><%= @items.itemUpdatedBy || 'None' %></td>
-            <td><%= @items.itemLastModified || 'None'  %></td>
+            <td><%= @item.itemUpdatedBy || 'None' %></td>
+            <td><%= @item.itemLastModified || 'None'  %></td>
             </tr>
         </tbody>
     </table>

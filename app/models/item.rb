@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
   has_paper_trail
+  validates :itemDescription, presence: true, allow_blank: false
   has_one_attached :image
     attr_accessor :locations
     attr_accessor :types
@@ -16,11 +17,8 @@ class Item < ApplicationRecord
 
       scope :claimed, -> { where("itemStatus = 3")}
       scope :found, -> { where("itemStatus = 1")}
-      scope :query_params, -> (params ) {
-        unless params[:searchAll]
-         where("itemType = ? AND itemDescription LIKE ? AND itemLocation = ?", "#{params[:itemType]}","%#{params[:keyword]}%", "#{params[:itemLocation]}")
-        else
-          where("itemType = ? AND itemDescription LIKE ?  ", "#{params[:itemType]}", "%#{params[:keyword]}%")
-        end
-        }
+      scope :query_params, -> (params) { 
+        keywords = params[:keyword].split(' ')
+        where((['itemDescription LIKE ?'] * keywords.size).join(' OR '), *keywords.map{ |keyword| "%#{keyword}%" })
+      }
   end
