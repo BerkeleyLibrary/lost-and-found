@@ -3,16 +3,17 @@
 <% if user_level_admin? %>
 
 <div class="mb-4 form-group"> 
+    <h1>Add/Edit Lost & Found Users</h1>
     <h2>Add a new user</h2>
     <%= form_tag("user_insert", method: "post") do %>
 
-    <%= label_tag(:user_role, "User Role:") %>
+    <%= label_tag(:user_role, "User role:") %>
     <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
 
     <%= label_tag(:user_name, "User name") %>
-    <%=text_field_tag :user_name, nil, placeholder: '' %>
+    <%=text_field_tag :user_name, nil, placeholder: 'John Smith' %>
 
-    <%= label_tag(:uid, "associated users ID") %>
+    <%= label_tag(:uid, "User ID:") %>
     <%=text_field_tag :uid, nil, placeholder: '' %>
 
     <%= submit_tag("add user") %>
@@ -36,7 +37,7 @@
         <tr>
             <td>
                 <%= link_to 'Deactivate', user_path(user)+"/change_status"%>
-                <%= link_to 'edit', edit_user_path(user.id) %>
+                <%= link_to 'Edit', edit_user_path(user.id) %>
             </td>
             <td><%= user.uid %></td>
             <td><%= user.user_name %></td>
@@ -61,8 +62,8 @@
         <% @deactivated_users.each do |user| %>
         <tr>
             <td>
-                <%= link_to 'Deactivate', user_path(user)+"/change_status"%>
-                <%= link_to 'edit', edit_user_path(user.id) %>
+                <%= link_to 'Activate', user_path(user)+"/change_status"%>
+                <%= link_to 'Edit', edit_user_path(user.id) %>
             </td>
             <td><%= user.uid %></td>
             <td><%= user.user_name %></td>

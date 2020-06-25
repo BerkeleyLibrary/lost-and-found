@@ -1,18 +1,18 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
-<h2>Found Items</h2>
+<h1>Found Items</h1>
 <table class="table mt-5">
     <thead class="thead-light">
         <tr>
             <th scope="col">Actions</th>
-            <th scope="col">Date</th>
-            <th scope="col">Found At</th>
-            <th scope="col">Found By</th>
-            <th scope="col">Item Location</th>
-            <th scope="col">Type of Item</th>
-            <th scope="col">Item Description</th>
-            <th scope="col">Item Image</th>
-            <th scope="col">Last Updated</th>
-            <th scope="col">Last Updated</th>
+            <th scope="col">Date found</th>
+            <th scope="col">Time found</th>
+            <th scope="col">Found by</th>
+            <th scope="col">Item location</th>
+            <th scope="col">Type of item</th>
+            <th scope="col">Item description</th>
+            <th scope="col">Item image</th>
+            <th scope="col">Last updated</th>
+            <th scope="col">Last updated</th>
         </tr>
     </thead>
     <tbody>
@@ -20,11 +20,11 @@
         <tr>
             <td>
                 <% if user_level_staff? %>
-                    <%= link_to 'edit', edit_item_path(item.id) %>
-                    <%= link_to 'history', item_path(item.id) %>
+                    <%= link_to 'Edit', edit_item_path(item.id) %>
+                    <%= link_to 'History', item_path(item.id) %>
                 <% end %>
             </td>
-            <td><%=  item.itemDate || 'None'%></td>
+            <td><%= item.itemDate  || 'None'%></td>
             <td><%= item.itemFoundAt || 'None' %></td>
             <td><%= item.itemFoundBy || 'No one' %></td>
             <td><%= item.itemLocation || 'None' %></td>
@@ -32,7 +32,7 @@
             <td class="desc"><%= item.itemDescription || 'None' %></td>
             <td>
                 <% if item.image.attached? %>
-                <image class="preview_image" src="<%=(url_for(item.image)) %>" onerror="this.src.display='Image cannot be found'">
+                <image class="preview_image" src="<%=(url_for(item.image)) %>" onerror="this.style.display = 'none'">
             <% else %>
                  No image 
             <% end %>

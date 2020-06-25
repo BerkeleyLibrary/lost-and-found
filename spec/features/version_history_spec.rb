@@ -13,9 +13,9 @@ RSpec.describe 'Version history testing', type: :feature do
       visit '/insert_form'
       fill_in "itemDescription", with: "TEST_ITEM"
       find('input[name="commit"]').click
-      click_link "Search Form"
+      click_link "Search"
       click_link "Show all found items"
-      first('td').click_link('history')
+      first('td').click_link('History')
       expect(page).to have_content('Create')
     end
 
@@ -24,16 +24,15 @@ RSpec.describe 'Version history testing', type: :feature do
       visit '/insert_form'
       fill_in 'itemDescription', with: "TEST_ITEM"
       find('input[name="commit"]').click
-      click_link "Search Form"
+      click_link "Search"
       click_link "Show all found items"
-      first('td').click_link('edit')
+      first('td').click_link('Edit')
       fill_in 'itemDescription', with: "NEW_TEST_ITEM"
       find('input[name="commit"]').click
-      click_link "Search Form"
+      click_link "Search"
       click_link "Show all found items"
-      first('td').click_link('history')
+      first('td').click_link('History')
       expect(page).to have_content('Update')
-      p page.body
       expect(page).to have_content('TEST_ITEM to NEW_TEST_ITEM')
     end
   end

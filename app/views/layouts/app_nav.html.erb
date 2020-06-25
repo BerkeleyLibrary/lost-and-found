@@ -1,27 +1,32 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <%= logo_link %>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-dropdown" aria-controls="navbar-dropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
   <div id="navbar-dropdown" class="navbar-collapse collapse">
     <ul class="navbar-nav mr-auto">
     </ul>
 
     <ul class="navbar-nav">
-      <% if user_level_staff?(true) %>
+      <% if user_level_staff?(true) %> 
       <li>
-        <p class="nav-link" ><a href="/insert_form">Insert Form</a></p>
+        <p class="nav-link" ><a href="/insert_form">Add Item</a></p>
       </li>
       <% end %>
       <% if user_level_read_only?(true) %> 
       <li>
-        <p class="nav-link"><%= link_to "Search Form", search_form_path %></p>
+        <p class="nav-link"><%= link_to "Search", search_form_path %></p>
       </li>
       <% end %> 
       <% if user_level_admin?(true) %> 
       <li>
-          <p class="nav-link"><%= link_to "Administration", admin_path %></p>
+          <p class="nav-link"><%= link_to "Admin Home", admin_path %></p>
       </li>
       <% end %>
       <li>
-         <p class="nav-link"><a href="/logout">logout</a></p>
+         <p class="nav-link"><a href="/logout">CalNet Logout</a></p>
      </li>
     </ul>
   </div>

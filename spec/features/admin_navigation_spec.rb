@@ -10,16 +10,16 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
 
     scenario 'Admin panel accessible to Admin level user' do
         visit '/admin'
-        click_link "Users Page"
+        click_link "Add/Edit Users"
         expect(page).to have_content('Active Users')
         visit '/admin'
-        click_link "Locations Page"
+        click_link "Locations"
         expect(page).to have_content('Active Locations')
         visit '/admin'
-        click_link "Item Types Page"
+        click_link "Item Types"
         expect(page).to have_content('Active Item Types')
         visit '/admin'
-        click_link "Items"
+        click_link "View all items"
         expect(page).to have_content('Found Items')
     end
 

@@ -7,7 +7,7 @@ module ApplicationHelper
   def logo_link
     link_to(
       image_tag('UCB_logo.png', height: '30', alt: 'UC Berkeley Library'),
-      '/home',
+      'https://www.lib.berkeley.edu/',
       { id:'home_button',class: 'navbar-brand no-link-style' }
     )
   end
@@ -31,11 +31,6 @@ module ApplicationHelper
 
   def questions_link
     mail_to support_email, 'Questions?', class: 'support-email'
-  end
-
-
-  def staff_nav
-    render template: "layouts/staff_nav"
   end
 
   def login_form

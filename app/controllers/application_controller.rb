@@ -100,7 +100,7 @@ def user_level_admin? set_alert = false
 end
 
 def user_level_staff? set_alert = false
-  if cookies[:user_role] != "staff" && cookies[:user_role] != "Administrator"
+  if cookies[:user_role] != "Staff" && cookies[:user_role] != "Administrator"
     flash.now.alert = "You must have staff level permission or greater to view this page" unless set_alert
     return false
   end
@@ -108,7 +108,7 @@ def user_level_staff? set_alert = false
 end
 
 def user_level_read_only? set_alert = false
-  if cookies[:user_role] != "read-only" && cookies[:user_role] != "staff" && cookies[:user_role] != "Administrator"
+  if cookies[:user_role] != "Read-only" && cookies[:user_role] != "Staff" && cookies[:user_role] != "Administrator"
     flash.now.alert = "You must be a registered user to view this page" unless set_alert
     return false
   end

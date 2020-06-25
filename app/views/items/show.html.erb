@@ -1,13 +1,15 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 <% if user_level_staff? %>
-<h3>Current values</h3>
+<h1>Item history</h1>
+
+<h2>Current values</h2>
 <div class="form-group row">
-  <h5 class="col-2">Date Found</h5> 
+  <h5 class="col-2">Date found</h5> 
   <div class="col-4"><%= @item.itemDate || 'None'%></div>
 </div>
 <div class="form-group row">
-  <h5 class="col-2">Found at</h5> 
+  <h5 class="col-2">Time found</h5> 
   <div class="col-4"><%= @item.itemFoundAt || 'None' %></div>
 </div>
 
@@ -17,7 +19,7 @@
 </div>
 
 <div class="form-group row">
-  <h5 class="col-2">item location</h5> 
+  <h5 class="col-2">Item location</h5> 
   <div class="col-4"><%= @item.itemLocation || 'None' %></div>
 </div>
 
@@ -32,7 +34,7 @@
 </div>
 
 <div class="form-group row">
-  <h5 class="col-2">Item Image</h5>
+  <h5 class="col-2">Item image</h5>
     <% if @item.image.attached? %>
       <image class="preview_image" src="<%=(url_for(@item.image)) %>">
     <% else %>
@@ -40,22 +42,22 @@
     <% end %>
   </div>
   <div class="form-group row">
-    <h5 class="col-2">Last Updated</h5>
+    <h5 class="col-2">Last updated</h5>
     <div class="col-4"><%= @item.itemUpdatedBy || 'None' %></div>
 </div>
 <div class="form-group row">
-  <h5 class="col-2">Last Updated</h5>
+  <h5 class="col-2">Last updated</h5>
   <div class="col-4"><%= @item.itemLastModified || 'None'  %></div>
 </div>
 
-<h3>Change history</h3>
+<h2>Change history</h2>
 <table class="table mt-5">
   <thead class="thead-light">
     <tr>
-      <th scope="col" >Date</th>
-      <th scope="col" >Author</th>
-      <th scope="col">Event</th>
-      <th scope="col"> changeset </th>
+      <th scope="col" >Date/time</th>
+      <th scope="col" >Updated by</th>
+      <th scope="col">Action</th>
+      <th scope="col"> What changed </th>
     </tr>
   </thead>
 

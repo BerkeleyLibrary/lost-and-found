@@ -8,7 +8,7 @@
 
     <%= label_tag(:type_description, "item type description") %>
 
-    <%= submit_tag("add item Type") %>
+    <%= submit_tag("Add item Type") %>
 <% end %>
 </div>
 
@@ -27,7 +27,7 @@
         <tr>
             <td>
                 <%= link_to 'Deactivate', item_type_path(item_type)+"/change_status"%>
-                <%= link_to 'edit', edit_item_type_path(item_type.id) %>
+                <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
             </td>
             <td><%= item_type.type_name %></td>
             </tr>
@@ -50,8 +50,8 @@
         <% @deactivated_item_types.each do |item_type| %>
         <tr>
             <td>
-                <%= link_to 'Deactivate', item_type_path(item_type)+"/change_status"%>
-                <%= link_to 'edit', edit_item_type_path(item_type.id) %>
+                <%= link_to 'Activate', item_type_path(item_type)+"/change_status"%>
+                <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
             </td>
             <td><%= item_type.type_name %></td>
             </tr>

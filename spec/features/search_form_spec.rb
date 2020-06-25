@@ -14,7 +14,7 @@ RSpec.describe 'Search form tasks', type: :feature do
   end
 
   scenario 'Search form accessible to read-only level user' do
-      Capybara.current_session.driver.browser.set_cookie "user_role=read-only"
+      Capybara.current_session.driver.browser.set_cookie "user_role=Read-only"
       visit '/search_form'
       expect(page).to have_content('Search for lost items')
   end
@@ -23,7 +23,7 @@ RSpec.describe 'Search form tasks', type: :feature do
       visit '/insert_form'
       fill_in "itemDescription", with: "TEST_ITEM"
       find('input[name="commit"]').click
-      click_link "Search Form"
+      click_link "Search"
       click_link "Show all found items"
       expect(page).to have_content('TEST_ITEM')
     end
@@ -32,7 +32,7 @@ RSpec.describe 'Search form tasks', type: :feature do
       visit '/insert_form'
       fill_in "itemDescription", with: "TEST_ITEM"
       find('input[name="commit"]').click
-      click_link "Search Form"
+      click_link "Search"
       click_link "Show all found items"
       expect(page).to have_content('TEST_ITEM')
     end
@@ -41,8 +41,8 @@ RSpec.describe 'Search form tasks', type: :feature do
       visit '/insert_form'
       fill_in "itemDescription", with: "HIDE ME"
       find('input[name="commit"]').click
-      click_link "Search Form"
-      fill_in "keywords", with:"TEST ITEM"
+      click_link "Search"
+      fill_in "keyword", with:"TEST ITEM"
       find('input[name="commit"]').click
       expect(page).to have_no_content("HIDE ME")
     end
@@ -51,8 +51,8 @@ RSpec.describe 'Search form tasks', type: :feature do
       visit '/insert_form'
       fill_in "itemDescription", with: "A BLUE TEST ITEM"
       find('input[name="commit"]').click
-      click_link "Search Form"
-      fill_in "keywords", with:"BLUE BOAT ITEM"
+      click_link "Search"
+      fill_in "keyword", with:"BLUE BOAT ITEM"
       find('input[name="commit"]').click
       expect(page).to have_content("A BLUE TEST ITEM")
     end
@@ -61,20 +61,14 @@ RSpec.describe 'Search form tasks', type: :feature do
       visit '/insert_form'
       fill_in "itemDescription", with: "A blue TEST ITEM"
       find('input[name="commit"]').click
-      click_link "Search Form"
-      fill_in "keywords", with:"bLuE"
+      click_link "Search"
+      fill_in "keyword", with:"bLuE"
       find('input[name="commit"]').click
       expect(page).to have_content("A BLUE TEST ITEM")
     end
 
     scenario 'Home goes to search' do
       visit '/home'
-      expect(page).to have_content("Search for lost items")
-    end
-
-    scenario 'Home button goes to search' do
-      visit '/insert_form'
-      find("#home_button").click
       expect(page).to have_content("Search for lost items")
     end
 
