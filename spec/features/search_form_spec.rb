@@ -66,4 +66,16 @@ RSpec.describe 'Search form tasks', type: :feature do
       find('input[name="commit"]').click
       expect(page).to have_content("A BLUE TEST ITEM")
     end
+
+    scenario 'Home goes to search' do
+      visit '/home'
+      expect(page).to have_content("Search for lost items")
+    end
+
+    scenario 'Home button goes to search' do
+      visit '/insert_form'
+      find("#home_button").click
+      expect(page).to have_content("Search for lost items")
+    end
+
 end

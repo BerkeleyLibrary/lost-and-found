@@ -8,7 +8,7 @@ module ApplicationHelper
     link_to(
       image_tag('UCB_logo.png', height: '30', alt: 'UC Berkeley Library'),
       '/home',
-      { class: 'navbar-brand no-link-style' }
+      { id:'home_button',class: 'navbar-brand no-link-style' }
     )
   end
 

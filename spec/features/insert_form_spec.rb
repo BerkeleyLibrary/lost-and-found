@@ -32,4 +32,11 @@ RSpec.describe 'Item insert tasks', type: :feature do
         find('input[name="commit"]').click
         expect(page).to have_content('Item rejected. Missing required fields')
       end
+
+      scenario 'Auto populates current user as itemUpdatedBy' do
+        Capybara.current_session.driver.browser.set_cookie "user_role=staff"
+        visit '/insert_form'
+        expect(page).to have_content('Dante')
+        # find('input[name="commit"]').click
+      end
 end

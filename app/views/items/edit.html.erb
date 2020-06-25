@@ -5,13 +5,13 @@
   <%= form_tag("item_update", method: "post", multipart: true) do %>
 
     <%= label_tag(:itemLocation, "Item location:") %>
-    <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
+    <%= select_tag(:itemLocation, options_for_select(@locations_layout,@item.itemLocation)) %>
 
     <%= label_tag(:itemFoundBy, "Item found by:") %>
     <%= text_field_tag(:itemFoundBy, @item.itemFoundBy) %>
 
     <%= label_tag(:itemType, "item type") %>
-    <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
+    <%= select_tag(:itemType, options_for_select(@item_type_layout, @item.itemType)) %>
 
     <%= label_tag(:itemStatus, "item Status") %>
     <%= select_tag(:itemStatus, options_for_select(@item_status_layout)) %>
