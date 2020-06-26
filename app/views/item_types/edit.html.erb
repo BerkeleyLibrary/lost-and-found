@@ -1,13 +1,14 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% if user_level_staff? %>
+<h1>Edit item type</h1>
 <div class="table mt-5">
   <%= form_tag("item_type_update", method: "post") do %>
-  <%= label_tag(:type_name, "Type Name") %>
+  <%= label_tag(:type_name, "Item Type name:") %>
   <%=text_field_tag :type_name,  @itemType.type_name %>
-  <%= label_tag(:type_active, "is location active?") %>
+  <%= label_tag(:type_active, "Active item type") %>
   <%= check_box_tag( :type_active, value = true, checked = @itemType.type_active) %>
   <%= hidden_field_tag(:id, @itemType.id) %>
-  <%= submit_tag("update location") %>
+  <div><%= submit_tag("Update item type") %></div>
   <% end %>
 </div>
 <% end %>

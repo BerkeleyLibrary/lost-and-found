@@ -1,13 +1,14 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 <% if user_level_admin? %>
+<h1>Add/Edit Lost & Found Locations</h1>
 <div class="mb-4 form-group">
     <h2>Add a new location</h2>
     <%= form_tag("location_insert", method: "post") do %>
-    <%= label_tag(:location_name, "Location name") %>
+    <%= label_tag(:location_name, "Location name:") %>
     <%=text_field_tag :location_name, nil, placeholder: '' %>
 
-    <%= submit_tag("add location") %>
+    <%= submit_tag("Add location") %>
 <% end %>
 </div>
 
@@ -17,7 +18,7 @@
     <thead class="thead-light">
         <tr>
             <th scope="col">Actions</th>
-            <th scope="col">Location Name</th>
+            <th scope="col">Location name</th>
         </tr>
     </thead>
     <!-- Layout all those beautiful requests -->
@@ -42,7 +43,7 @@
     <thead class="thead-light">
         <tr>
             <th scope="col">Actions</th>
-            <th scope="col">Location Name</th>
+            <th scope="col">Location name</th>
         </tr>
     </thead>
     <!-- Layout all those beautiful requests -->
@@ -50,8 +51,8 @@
         <% @deactivated_locations.each do |location| %>
         <tr>
             <td>
-                <%= link_to 'Deactivate', location_path(location)+"/change_status"%>
-                <%= link_to 'edit', edit_location_path(location.id) %>
+                <%= link_to 'Activate', location_path(location)+"/change_status"%>
+                <%= link_to 'Edit', edit_location_path(location.id) %>
             </td>
             <td><%= location.location_name %></td>
             </tr>
