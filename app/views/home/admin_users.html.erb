@@ -10,7 +10,7 @@
     <%= label_tag(:user_role, "User role:") %>
     <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
 
-    <%= label_tag(:user_name, "User name") %>
+    <%= label_tag(:user_name, "User name:") %>
     <%=text_field_tag :user_name, nil, placeholder: 'John Smith' %>
 
     <%= label_tag(:uid, "User ID:") %>

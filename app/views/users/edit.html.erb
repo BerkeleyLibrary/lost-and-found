@@ -6,10 +6,10 @@
     <%= label_tag(:user_role, "user Role:") %>
     <%= select_tag(:user_role, options_for_select(@roles_layout, @user.user_role)) %>
 
-    <%= label_tag(:user_name, "User name") %>
+    <%= label_tag(:user_name, "User name:") %>
     <%=text_field_tag :user_name, @user.user_name %>
 
-    <%= label_tag(:uid, "associated users ID") %>
+    <%= label_tag(:uid, "associated users ID:") %>
     <%=text_field_tag :uid, @user.uid %>
 
     <%= label_tag(:user_active, "is active user?") %>
