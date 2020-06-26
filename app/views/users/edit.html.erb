@@ -4,7 +4,7 @@
   <%= form_tag("user_update", method: "post") do %>
 
     <%= label_tag(:user_role, "user Role:") %>
-    <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
+    <%= select_tag(:user_role, options_for_select(@roles_layout, @user.user_role)) %>
 
     <%= label_tag(:user_name, "User name") %>
     <%=text_field_tag :user_name, @user.user_name %>
