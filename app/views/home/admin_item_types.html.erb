@@ -5,7 +5,7 @@
     <h2>Add a new Item Type</h2>
     <%= form_tag("itemType_insert", method: "post") do %>
     <%= label_tag(:type_name, "Item Type name") %>
-    <%=text_field_tag :type_name, nil, placeholder: '' %>
+    <%=text_field_tag :type_name, nil, placeholder: 'e.g Electronics', required: true %>
 
     <%= submit_tag("Add item type") %>
 <% end %>

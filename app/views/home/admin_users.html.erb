@@ -11,10 +11,10 @@
     <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
 
     <%= label_tag(:user_name, "User name:") %>
-    <%=text_field_tag :user_name, nil, placeholder: 'John Smith' %>
+    <%=text_field_tag :user_name, nil, placeholder: 'e.g John Smith' , required: true%>
 
     <%= label_tag(:uid, "User ID:") %>
-    <%=text_field_tag :uid, nil, placeholder: '' %>
+    <%=text_field_tag :uid, nil, placeholder: 'e.g 1111115...', required: true %>
 
     <%= submit_tag("Add user") %>
     <% end %>
