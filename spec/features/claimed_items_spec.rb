@@ -8,4 +8,15 @@ RSpec.describe 'Search form tasks', type: :feature do
         Capybara.current_session.driver.browser.set_cookie "user_name=Dante"
     end
 
+    scenario 'Updated items are tracked in change history' do
+        visit '/insert_form'
+        fill_in 'itemDescription', with: "TEST_ITEM"
+        find('input[name="commit"]').click
+        click_link "Search"
+        click_link "Show all found items"
+        first('td').click_link('Edit')
+        select "Found", :from => "itemStatus"
+        p page.body
+        expect(page).to have_selector('#claimedByLabel', visible: true)
+      end
 end
