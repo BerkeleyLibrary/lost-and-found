@@ -58,6 +58,7 @@ class ItemsController < ApplicationController
   def update
     @item = Item.find(params[:id])
     @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy],itemStatus: params[:itemStatus],updated_at: Time.now)
+    @item.update(claimedBy: params[:claimedBy]) unless params[:claimedBy].nil?
     @item.update(image: params[:image]) unless params[:image].nil?
     @item.update(image_url: url_for(@item.image)) unless !@item.image.attached?
     @items = Item.all
@@ -100,6 +101,73 @@ class ItemsController < ApplicationController
     params.permit(:itemLocation, :itemType, :itemDescription, :image)
  end
 
+
+ def batch_upload
+  uploaded_file = params[:batch_file]
+  file_content = uploaded_file.read
+  upload_items = file_content.split("),(");
+  upload_items.each do | item |
+    item[0] = '' if item[0]=='('
+    item[item.length-1] = "" if item[item.length-1] == ")"
+    raw_item_values = item.split(',')
+    modified_item_values = []
+    raw_item_values.each do | value|
+      modified_item_values.push(value.gsub("'","").strip())
+    end
+
+    locations = {
+      1 =>'Doe Circ',
+      2 =>'Doe South Entrance',
+      3 =>'Moffitt Circ',
+      4 =>'UCPD',
+      5 => 'Main Desk',
+      13 =>'MRC',
+      14 =>'Cal1 Card',
+      15 =>'Privileges Desk',
+      16 =>'Doe North Entrance',
+      17=>'Moffitt 3rd Fl Entrance',
+      18 =>'Moffitt 4th Fl Entrance',
+      19 =>'Gardner Stacks Level C',
+      20 => 'Library Security'
+    }
+
+    legacy_types = {
+      1 => 'Books',
+      2 => 'Clothing',
+      3 =>'Glasses',
+      4 =>'Keys',
+      5 => 'Phone',
+      6=> 'Wallet',
+      7 =>'ID (license or Cal card)',
+      8 =>'MP3 player',
+      9 =>'Other',
+      17=> 'iPod',
+      19 =>'Electronics'
+    }
+
+    @item = Item.new()
+    @item.itemDate = modified_item_values[1]
+    @item.itemFoundAt = modified_item_values[2]
+    @item.itemLocation = modified_item_values[3]
+    @item.itemType = legacy_types[modified_item_values[5].to_i]
+    @item.itemDescription= modified_item_values[6]
+    @item.itemLastModified=Time.now();
+    @item.itemStatus = modified_item_values[8]
+    @item.itemEnteredBy = modified_item_values[9]
+    @item.itemImage = "none";
+    @item.itemObsolete = 0;
+    @item.itemUpdatedBy = modified_item_values[9]
+    @item.itemFoundBy = modified_item_values[9]
+    @item.libID = modified_item_values[16];
+    @item.created_at =Time.now();
+    @item.updated_at = Time.now();
+    @item.claimedBy = 'unknown'
+    begin
+     @item.save!
+    rescue
+    end
+  end
+ end
 
 
   def destroy

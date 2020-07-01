@@ -1,4 +1,33 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(function() {
+  $("#itemStatus").on("change", function() {
+    var select_val = $(this).val(); // this gets the value of the dropdown menu
+    console.log(select_val); // this just displays the selected value in the browser console (if you have the browser console open)
+
+    console.log('??????????????????')
+    console.log(select_val)
+    if (select_val == 3) {
+      console.log('SEE WHAT IS HIDDEN')
+      // if the 'Declined' option is chosen
+      // we remove the 'hidden' class from the textarea
+      $("#claimedBy").removeClass("hidden");
+      $("#claimedByLabel").removeClass("hidden");
+    } else {
+      // if any other option is chosen
+      // we put back the 'hidden' class to the textarea
+      // also, we update the textarea value to BLANK (this part is optional, it depends if you want to keep the value of the textarea)
+      console.log('HIDE IT FROM UNWORTHY EYES!')
+      $("#claimedByLabel").addClass("hidden");
+      $("#claimedBy").addClass("hidden");
+      $("#claimedBy").val("");
+    }
+  });
+});
+</script>
+
 
 <% if user_level_staff? %>
   <div class="table mt-5">
@@ -10,14 +39,17 @@
     <%= label_tag(:itemFoundBy, "Item found by:") %>
     <%= text_field_tag(:itemFoundBy, @item.itemFoundBy) %>
 
+    <%= label_tag(:itemDescription, "Item description:") %>
+    <%= text_field_tag :itemDescription,  @item.itemDescription %>
+
     <%= label_tag(:itemType, "Item type:") %>
     <%= select_tag(:itemType, options_for_select(@item_type_layout, @item.itemType)) %>
 
     <%= label_tag(:itemStatus, "Item status:") %>
     <%= select_tag(:itemStatus, options_for_select(@item_status_layout)) %>
 
-    <%= label_tag(:itemDescription, "Item description:") %>
-    <%= text_field_tag :itemDescription,  @item.itemDescription %>
+    <%= label_tag(:claimedByLabel, "Claimed By:", class: 'hidden', id:'claimedByLabel') %>
+    <%= text_field_tag(:claimedBy,  "" , class: 'hidden') %>
 
     <%= label_tag(:image, "Image: ") %>
     <%= file_field_tag(:image) %>

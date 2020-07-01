@@ -1,0 +1,18 @@
+
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<% if user_level_staff? %>
+<h1>Add batch item_batch_insert</h1>
+
+<div class="mb-4 form-group">
+    <%= form_tag("item_batch_insert", method: "post", multipart: true) do %>
+
+    <%= label_tag(:batch_file, "Batch file: ") %>
+    <%= file_field_tag(:batch_file) %>
+
+    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= cookies[:user_name] %> 
+</div>
+
+    <%= submit_tag("Add item") %>
+<% end %>
+</div>
+<% end %>

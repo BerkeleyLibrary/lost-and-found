@@ -13,6 +13,7 @@
             <th scope="col">Item Image</th>
             <th scope="col">Last updated</th>
             <th scope="col">Last updated</th>
+            <th scope="col">Claimed By</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +31,7 @@
             <td>No image</td>
             <td><%= item.itemUpdatedBy || 'None' %></td>
             <td><%= item.itemLastModified || 'None'  %></td>
+            <td><%= item.claimedBy || 'None' %></td>
             </tr>
         <% end %>
         </tbody>

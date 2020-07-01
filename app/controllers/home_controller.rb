@@ -46,6 +46,19 @@ end
       render :admin_items
     end
 
+    def admin_migration_items
+      render :admin_migration_items
+    end
+
+    def admin_migration_locations
+      render :admin_migration_locations
+    end
+
+    def admin_migration_item_types
+      render :admin_migration_item_types
+    end
+
+
     def admin_roles
       render :admin_roles
     end
