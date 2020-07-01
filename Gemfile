@@ -15,9 +15,6 @@ gem 'bootstrap-sass'
 gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'poltergeist'
-gem 'jbuilder', '~> 2.5'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
 gem 'lograge', '>=0.11.2'
 gem 'mysql2'
 gem 'omniauth-cas',
@@ -26,12 +23,16 @@ gem 'omniauth-cas',
 gem 'ougai', '>=1.8.2'
 gem 'puma', '~> 4.1'
 gem 'paper_trail'
-gem 'diffy' 
+gem 'diffy'
 gem 'pundit'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 gem 'turbolinks', '~> 5'
 gem 'typesafe_enum'
 gem 'webpacker', '~> 4.0'
+gem 'sass-rails', '~> 5.0'
+gem 'jbuilder', '~> 2.5'
+gem 'jquery-rails'
+
 
 group :development, :test do
   gem 'bundler-audit', '~> 0.3.0'

@@ -10,18 +10,24 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
 //= require jquery3
-//= require bootstrap-sprockets
+//= require popper
 //= require bootstrap
 //= require_tree .
-//= require jquery-ui
 
-//= require jquery
-//= require jquery_ujs
+  $(document).on("change", "#itemStatus", function(e){
+    var select_val = $(this).val(); 
+    if (select_val == 3) {
+      $("#claimedBy").removeClass("hidden");
+      $("#claimedByLabel").removeClass("hidden");
+    } else {
+      $("#claimedByLabel").addClass("hidden");
+      $("#claimedBy").addClass("hidden");
+      $("#claimedBy").val("");
+    }
+ });
 
 
