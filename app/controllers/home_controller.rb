@@ -54,6 +54,10 @@ end
       render :admin_migration_locations
     end
 
+    def admin_purge
+      render :admin_purge
+    end
+
     def admin_migration_item_types
       render :admin_migration_item_types
     end

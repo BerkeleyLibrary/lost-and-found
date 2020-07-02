@@ -29,6 +29,7 @@ get 'admin_locations', to: 'home#admin_locations'
 get 'admin_item_types', to: 'home#admin_item_types'
 get 'admin_items', to: 'home#admin_items'
 get 'admin_roles', to: 'home#admin_roles'
+get 'admin_purge', to: 'home#admin_purge'
 get 'admin_migration_items', to: 'home#admin_migration_items'
 get '/admin_migration_locations', to:'home#admin_migration_locations'
 get '/admin_migration_item_types', to:'home#admin_migration_item_types'
@@ -42,6 +43,7 @@ get '/admin_migration_item_types', to:'home#admin_migration_item_types'
   post 'item_batch_insert', to: 'items#batch_upload'
   post 'location_batch_insert', to: 'locations#batch_upload'
   post 'type_batch_insert', to: 'item_types#batch_upload'
+  post 'purge_items', to: 'items#purge_items'
 
 
   post 'delete_user', to: "users#destroy"

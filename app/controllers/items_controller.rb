@@ -169,6 +169,23 @@ class ItemsController < ApplicationController
   end
  end
 
+  def purge_items
+    purge_raw= params[:purgeTime]
+    purge_date = Time.parse(purge_raw)
+    purged_total = 0
+    Item.find_each do | item |
+        if item.created_at <= purge_date && item.itemStatus != 3
+          item.update(itemStatus: 3, claimedBy: "Purged" )
+          purged_total = purged_total + 1
+        end
+    end
+    flash.now.alert = purged_total.to_s + " items purged"
+    @items = Item.all
+    @items_found = Item.found
+    @items_claimed = Item.claimed
+    render template: "items/all"
+  end
+
 
   def destroy
     Item.delete(params[:id])
