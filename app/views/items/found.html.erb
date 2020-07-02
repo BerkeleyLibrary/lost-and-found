@@ -25,7 +25,7 @@
                 <% end %>
             </td>
             <td><%= item.itemDate  || 'None'%></td>
-            <td><%= item.itemFoundAt || 'None' %></td>
+            <td><%= item.itemFoundAt  || 'None' %></td>
             <td><%= item.itemFoundBy || 'No one' %></td>
             <td><%= item.itemLocation || 'None' %></td>
             <td><%= item.itemType || 'No type' %></td>
@@ -34,7 +34,7 @@
                 <% if item.image.attached? %>
                 <image class="preview_image" src="<%=(url_for(item.image)) %>" onerror="this.style.display = 'none'">
             <% else %>
-                 No image 
+                 No image
             <% end %>
             </td>
             <td><%= item.itemUpdatedBy || 'None' %></td>
