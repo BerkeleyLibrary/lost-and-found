@@ -9,3 +9,8 @@ $(document).on("change", "#itemStatus", function(e){
       $("#claimedBy").val("");
     }
  });
+
+ 
+ function toggleFunction() {
+    document.getElementById("navbar-dropdown").classList.toggle("collapse");
+  }
