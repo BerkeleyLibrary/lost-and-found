@@ -11,8 +11,8 @@
             <th scope="col">Type of item</th>
             <th scope="col">Item description</th>
             <th scope="col">Item image</th>
-            <th scope="col">Last updated</th>
-            <th scope="col">Last updated</th>
+            <th scope="col">Updated by</th>
+            <th scope="col">Updated at </th>
         </tr>
     </thead>
     <tbody>
@@ -24,8 +24,16 @@
                     <%= link_to 'History', item_path(item.id) %>
                 <% end %>
             </td>
-            <td><%= item.itemDate  || 'None'%></td>
-            <td><%= item.itemFoundAt  || 'None' %></td>
+            <% if item.itemDate %>
+                <td><%= item.itemDate.strftime("%m/%d/%Y")  %></td>
+            <% else %>
+                <td><%=  'None'%> </td>
+            <% end %>
+                <% if item.itemFoundAt %>
+                    <td><%= item.itemFoundAt.strftime("%l:%M %P")  %></td>
+                <% else %>
+                    <td><%=  'None'%> </td>
+                <% end %>
             <td><%= item.itemFoundBy || 'No one' %></td>
             <td><%= item.itemLocation || 'None' %></td>
             <td><%= item.itemType || 'No type' %></td>
@@ -38,7 +46,11 @@
             <% end %>
             </td>
             <td><%= item.itemUpdatedBy || 'None' %></td>
-            <td><%= item.itemLastModified || 'None'  %></td>
+                <% if item.itemLastModified %>
+                    <td><%= item.itemLastModified.strftime("%m/%d/%Y %l:%M %P")  %></td>
+                <% else %>
+                    <td><%=  'None'%> </td>
+                <% end %>
             </tr>
         <% end %>
         </tbody>

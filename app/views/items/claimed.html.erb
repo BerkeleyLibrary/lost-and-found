@@ -17,22 +17,45 @@
         </tr>
     </thead>
     <tbody>
-        <% @items_claimed.each do |item| %>
+        <% @items_claimed.reverse.each do |item| %>
         <tr>
             <td>
-                <%= link_to 'Edit', edit_item_path(item.id) %>
+                <% if user_level_staff? %>
+                    <%= link_to 'Edit', edit_item_path(item.id) %>
+                    <%= link_to 'History', item_path(item.id) %>
+                <% end %>
             </td>
-            <td><%= item.itemDate || 'None'%></td>
-            <td><%= item.itemFoundAt || 'None' %></td>
+            <% if item.itemDate %>
+                <td><%= item.itemDate.strftime("%m/%d/%Y")  %></td>
+            <% else %>
+                <td><%=  'None'%> </td>
+            <% end %>
+                <% if item.itemFoundAt %>
+                    <td><%= item.itemFoundAt.strftime("%l:%M %P")  %></td>
+                <% else %>
+                    <td><%=  'None'%> </td>
+                <% end %>
             <td><%= item.itemFoundBy || 'No one' %></td>
             <td><%= item.itemLocation || 'None' %></td>
             <td><%= item.itemType || 'No type' %></td>
             <td class="desc"><%= item.itemDescription || 'None' %></td>
-            <td>No image</td>
+            <td>
+                <% if item.image.attached? %>
+                <image class="preview_image" src="<%=(url_for(item.image)) %>" onerror="this.style.display = 'none'">
+            <% else %>
+                 No image
+            <% end %>
+            </td>
             <td><%= item.itemUpdatedBy || 'None' %></td>
-            <td><%= item.itemLastModified || 'None'  %></td>
-            <td><%= item.claimedBy || 'None' %></td>
+                <% if item.itemLastModified %>
+                    <td><%= item.itemLastModified.strftime("%m/%d/%Y %l:%M %P")  %></td>
+                <% else %>
+                    <td><%=  'None'%> </td>
+                <% end %>
+                <td><%= item.claimedBy || 'None' %></td>
             </tr>
         <% end %>
         </tbody>
+
+        
     </table>

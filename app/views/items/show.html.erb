@@ -6,11 +6,19 @@
 <h2>Current values</h2>
 <div class="form-group row">
   <h5 class="col-2">Date found</h5> 
-  <div class="col-4"><%= @item.itemDate || 'None'%></div>
+  <% if @item.itemDate%>
+    <div class="col-4"><%= @item.itemDate.strftime("%m/%d/%Y") %></div>
+  <% else %>
+    <div class="col-4"> None </div>
+<% end %>
 </div>
 <div class="form-group row">
   <h5 class="col-2">Time found</h5> 
-  <div class="col-4"><%= @item.itemFoundAt || 'None' %></div>
+  <% if @item.itemFoundAt%>
+  <div class="col-4"><%= @item.itemFoundAt.strftime("%l:%M %P") %></div>
+<% else %>
+  <div class="col-4"> None </div>
+<% end %>
 </div>
 
 <div class="form-group row">
@@ -42,12 +50,16 @@
     <% end %>
   </div>
   <div class="form-group row">
-    <h5 class="col-2">Last updated</h5>
+    <h5 class="col-2">Last updated by</h5>
     <div class="col-4"><%= @item.itemUpdatedBy || 'None' %></div>
 </div>
 <div class="form-group row">
   <h5 class="col-2">Last updated</h5>
-  <div class="col-4"><%= @item.itemLastModified || 'None'  %></div>
+  <% if @item.itemLastModified%>
+    <div class="col-4"><%= @item.itemLastModified.strftime("%m/%d/%Y %l:%M %P") %></div>
+  <% else %>
+      <div class="col-4"> None </div>
+  <% end %>
 </div>
 
 <h2>Change history</h2>
@@ -65,7 +77,7 @@
     <% @item.versions.reverse.each do |version| %>
     <% if !version.changeset.except(:updated_at).empty?%>
       <tr>
-        <td><%= version.created_at %></td>
+        <td><%= version.created_at.strftime("%m/%d/%Y %l:%M %P")  %></td>
         <td><%= version.whodunnit || "unknown"%></td>
         <td><%= version.event.humanize %></td>
         <td>
