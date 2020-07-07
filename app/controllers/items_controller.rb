@@ -173,8 +173,9 @@ class ItemsController < ApplicationController
     purge_raw= params[:purgeTime]
     purge_date = Time.parse(purge_raw)
     purged_total = 0
+
     Item.find_each do | item |
-        if item.created_at <= purge_date && item.itemStatus != 3
+        if item.created_at <= Time.parse(purge_date.to_s) && item.itemStatus != 3
           item.update(itemStatus: 3, claimedBy: "Purged" )
           purged_total = purged_total + 1
         end

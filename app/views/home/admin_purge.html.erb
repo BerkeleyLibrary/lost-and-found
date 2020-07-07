@@ -7,7 +7,7 @@
     <%= form_tag("purge_items", method: "post", multipart: true) do %>
 
     <%= label_tag(:purgeTime, "Purge date:") %>
-    <%= date_field_tag(:purgeTime, :itemDate) %>
+    <%= date_field_tag(:purgeTime, :itemDate, required: true) %>
 
     <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= cookies[:user_name] %> 
 </div>
