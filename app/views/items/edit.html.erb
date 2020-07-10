@@ -17,7 +17,7 @@
     <%= select_tag(:itemType, options_for_select(@item_type_layout, @item.itemType)) %>
 
     <%= label_tag(:itemStatus, "Item status:") %>
-    <%= select_tag(:itemStatus, options_for_select(@item_status_layout)) %>
+    <%= select_tag(:itemStatus, options_for_select(@item_status_layout, @item.itemStatus)) %>
 
     <%= label_tag(:claimedByLabel, "Claimed By:", class: 'hidden', id:'claimedByLabel') %>
     <%= text_field_tag(:claimedBy,  "" , class: 'hidden') %>

@@ -54,6 +54,10 @@ end
       render :admin_migration_locations
     end
 
+    def item_search
+      render template: "items/all"
+    end
+
     def admin_purge
       render :admin_purge
     end

@@ -6,7 +6,9 @@ class ItemsController < ApplicationController
   end
 
   def index
-    @items = Item.found
+    @items = Item.all
+    @items_found = Item.found
+    @items_claimed = Item.claimed
     render template: "items/all"
   end
 
