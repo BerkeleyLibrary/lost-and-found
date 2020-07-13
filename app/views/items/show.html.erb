@@ -62,41 +62,43 @@
   <% end %>
 </div>
 
-<h2>Change history</h2>
-<table class="table mt-5">
-  <thead class="thead-light">
-    <tr>
-      <th scope="col" >Date/time</th>
-      <th scope="col" >Updated by</th>
-      <th scope="col">Action</th>
-      <th scope="col"> What changed </th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @item.versions.reverse.each do |version| %>
-    <% if !version.changeset.except(:updated_at).empty?%>
+<% if user_level_admin %>
+  <h2>Change history</h2>
+  <table class="table mt-5">
+    <thead class="thead-light">
       <tr>
-        <td><%= version.created_at.strftime("%m/%d/%Y %l:%M %P")  %></td>
-        <td><%= version.whodunnit || "unknown"%></td>
-        <td><%= version.event.humanize %></td>
-        <td>
-          <ul>
-          <% version.changeset.except(:updated_at).each do |value| %>
-          <% if( value[0] == "image_url") %>
-            <li> 
-              New image upload
-            </li>
-          <% else %>
-            <li><%= value[0] + " : " + value[1][0].to_s  + " to " +  value[1][1].to_s%> </li>
-          <% end %>
-          <% end %>
-          </ul>
-        </td>
+        <th scope="col" >Date/time</th>
+        <th scope="col" >Updated by</th>
+        <th scope="col">Action</th>
+        <th scope="col"> What changed </th>
       </tr>
+    </thead>
+
+    <tbody>
+      <% @item.versions.reverse.each do |version| %>
+      <% if !version.changeset.except(:updated_at).empty?%>
+        <tr>
+          <td><%= version.created_at.strftime("%m/%d/%Y %l:%M %P")  %></td>
+          <td><%= version.whodunnit || "unknown"%></td>
+          <td><%= version.event.humanize %></td>
+          <td>
+            <ul>
+            <% version.changeset.except(:updated_at).each do |value| %>
+            <% if( value[0] == "image_url") %>
+              <li> 
+                New image upload
+              </li>
+            <% else %>
+              <li><%= value[0] + " : " + value[1][0].to_s  + " to " +  value[1][1].to_s%> </li>
+            <% end %>
+            <% end %>
+            </ul>
+          </td>
+        </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+<% end %>
 
 <% end %>

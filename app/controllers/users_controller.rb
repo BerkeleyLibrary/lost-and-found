@@ -35,17 +35,18 @@ class UsersController < ApplicationController
       @user.user_active = true;
       @user.updated_by = cookies[:user_name];
       @user.updated_at = Time.now();
-
       begin
         if @user.valid? && @user.save!
           @users = User.all
+          flash[:notice] = "User #{@user.user_name} added"
           redirect_back(fallback_location: root_path)
-        else
-           @users = User.all
-           redirect_back(fallback_location: root_path)
+        else 
+          @users = User.all
+          flash[:notice] = "User #{@user.user_name} already exists"
+          redirect_back(fallback_location: root_path)
         end
       rescue Exception => e
-        p e
+        flash[:notice] = "User #{@user.user_name} failed to be added"
         redirect_back(fallback_location: root_path)
       end
     end

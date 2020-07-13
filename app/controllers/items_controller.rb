@@ -86,6 +86,7 @@ class ItemsController < ApplicationController
     @item.libID = 115;
     @item.created_at =Time.now();
     @item.updated_at = Time.now();
+    @item.claimedBy = "unclaimed"
     @item.image.attach( params[:image])
     params[:image] != nil ? @item.image_url = (url_for(@item.image)) : 'NONE'
     begin

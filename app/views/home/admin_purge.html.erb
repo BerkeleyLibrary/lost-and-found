@@ -9,10 +9,10 @@
     <%= label_tag(:purgeTime, "Purge date:") %>
     <%= date_field_tag(:purgeTime, :itemDate, required: true) %>
 
-    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= cookies[:user_name] %> 
+    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Current user: <%= cookies[:user_name] %> 
 </div>
 
-    <%= submit_tag("Add item") %>
+    <%= submit_tag("Purge items") %>
 <% end %>
 </div>
 <% end %>

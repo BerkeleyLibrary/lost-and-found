@@ -11,11 +11,19 @@ class ItemTypesController < ApplicationController
       @ItemType.updated_at = Time.now()
       @ItemType.updated_by = cookies[:user_name]
 
-      if @ItemType.save!
+      begin
+        if @ItemType.valid? && @ItemType.save!
+          @item_types = ItemType.all
+          flash[:notice] = "Item Type #{@ItemType.type_name} added"
+          redirect_back(fallback_location: root_path)
+        else 
+          @item_types = ItemType.all
+          flash[:notice] = "Item Type #{@ItemType.type_name} Already exists"
+          redirect_back(fallback_location: root_path)
+        end
+      rescue Exception => e
         @item_types = ItemType.all
-        redirect_back(fallback_location: root_path)
-      else
-        @item_types = ItemType.all
+        flash[:notice] = "Item Type #{@ItemType.type_name} failed to be added"
         redirect_back(fallback_location: root_path)
       end
     end

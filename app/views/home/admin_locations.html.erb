@@ -29,7 +29,7 @@
                 <%= link_to 'Deactivate', location_path(location)+"/change_status"%>
                 <%= link_to 'Edit', edit_location_path(location.id) %>
             </td>
-            <td><%= location.location_name %></td>
+            <td><%= location.location_name.titleize %></td>
             </tr>
         <% end %>
         </tbody>
@@ -54,7 +54,7 @@
                 <%= link_to 'Activate', location_path(location)+"/change_status"%>
                 <%= link_to 'Edit', edit_location_path(location.id) %>
             </td>
-            <td><%= location.location_name %></td>
+            <td><%= location.location_name.titleize %></td>
             </tr>
         <% end %>
         </tbody>

@@ -14,10 +14,7 @@ def admin_users
   @deactivated_users =  @users.select  { |user| !user.user_active}
 
   @roles = Role.all
-  @roles_layout = [["Administrator","Administrator"]]
-  @roles.each do |role|
-    @roles_layout.push([role.role_name, role.role_name])
-  end
+  @roles_layout = [["Administrator","Administrator"],["Read-only","Read-only"],["Staff","Staff"]]
 
   render :admin_users
 end
@@ -25,7 +22,12 @@ end
 def admin_locations
   @locations = Location.all
   @actived_locations = @locations.select  { |location| location.location_active}
+  @actived_locations.each  { |location| location.location_name.downcase! }
+  @actived_locations.sort_by! &:location_name
+
   @deactivated_locations =  @locations.select  { |location| !location.location_active}
+  @deactivated_locations.each  { |location| location.location_name.downcase! }
+  @deactivated_locations.sort_by! &:location_name
 
   render :admin_locations
 end
@@ -33,7 +35,12 @@ end
 def admin_item_types
   @item_types = ItemType.all
   @actived_item_types = @item_types.select  { |item_type| item_type.type_active}
+  @actived_item_types.each  { |item_type| item_type.type_name.downcase! }
+  @actived_item_types.sort_by! &:type_name
+
   @deactivated_item_types =  @item_types.select  { |item_type| !item_type.type_active}
+  @deactivated_item_types.each  { |item_type| item_type.type_name.downcase! }
+  @deactivated_item_types.sort_by! &:type_name
 
   render :admin_item_types
 end

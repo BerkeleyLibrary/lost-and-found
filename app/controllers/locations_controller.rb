@@ -12,14 +12,26 @@ class LocationsController < ApplicationController
       @Location.updated_at = Time.now();
       @Location.updated_by = cookies[:user_name]
 
-      if @Location.save!
+      begin
+        if @Location.valid? && @Location.save!
+          @Locations = Location.all
+          flash[:notice] = "Location #{@Location.location_name} added"
+          redirect_back(fallback_location: root_path)
+        else 
+          @Locations = Location.all
+          flash[:notice] = "Location #{@Location.location_name} Already exists"
+          redirect_back(fallback_location: root_path)
+        end
+      rescue Exception => e
         @Locations = Location.all
-        redirect_back(fallback_location: root_path)
-      else
-        @Locations = Location.all
+        flash[:notice] = "Location #{@Location.location_name} failed to be added"
         redirect_back(fallback_location: root_path)
       end
     end
+
+
+
+
 
     def edit
       @location = Location.find(params[:id])

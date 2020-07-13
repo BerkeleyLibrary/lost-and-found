@@ -28,7 +28,7 @@
                 <%= link_to 'Deactivate', item_type_path(item_type)+"/change_status"%>
                 <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
             </td>
-            <td><%= item_type.type_name %></td>
+            <td><%= item_type.type_name.titleize %></td>
             </tr>
         <% end %>
         </tbody>
@@ -52,7 +52,7 @@
                 <%= link_to 'Activate', item_type_path(item_type)+"/change_status"%>
                 <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
             </td>
-            <td><%= item_type.type_name %></td>
+            <td><%= item_type.type_name.titleize %></td>
             </tr>
         <% end %>
         </tbody>
