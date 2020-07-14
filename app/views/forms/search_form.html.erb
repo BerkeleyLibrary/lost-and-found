@@ -19,7 +19,11 @@
 
         <%= label_tag(:search_all, "Search all libraries and locations:") %>
         <%= check_box_tag("searchAll") %>
-        <div><%= submit_tag("search") %></div>
+        <div>
+          <div class="btn-group" role="group">
+            <input type="submit" name="commit" value="Submit" class="btn btn-primary" data-disable-with="Submit">
+          </div>
+      </div>
   <% end %>
   </div>
   <% end %>

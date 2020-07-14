@@ -48,6 +48,7 @@ class ItemsController < ApplicationController
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
     @item_status_layout = [["Found",1],["Claimed",3]]
+    render template: "items/edit"
   end
 
   def show 

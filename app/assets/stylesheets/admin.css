@@ -23,6 +23,18 @@ input[type="submit"]:hover {
   background-color: #428dc2;
 }
 
+.btn-danger,
+.btn-primary,
+.btn-secondary {
+  box-shadow: none !important;
+  color: white !important;
+}
+.btn-link:hover {
+	text-decoration: none;
+  }
+  
+
+
 .desc {
   max-width: 100px;
 }

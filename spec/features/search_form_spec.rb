@@ -24,7 +24,7 @@ RSpec.describe 'Search form tasks', type: :feature do
       fill_in "itemDescription", with: "TEST_ITEM"
       find('input[name="commit"]').click
       click_link "Search"
-      click_link "Show all found items"
+      click_button "Submit"
       expect(page).to have_content('TEST_ITEM')
     end
 
@@ -33,7 +33,7 @@ RSpec.describe 'Search form tasks', type: :feature do
       fill_in "itemDescription", with: "TEST_ITEM"
       find('input[name="commit"]').click
       click_link "Search"
-      click_link "Show all found items"
+      click_button "Submit"
       expect(page).to have_content('TEST_ITEM')
     end
 

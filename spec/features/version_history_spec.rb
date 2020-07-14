@@ -12,9 +12,10 @@ RSpec.describe 'Version history testing', type: :feature do
       scenario 'Items are given version history from Creation' do
       visit '/insert_form'
       fill_in "itemDescription", with: "TEST_ITEM"
+      fill_in "itemFoundBy", with: "TEST NAME"
       find('input[name="commit"]').click
       click_link "Search"
-      click_link "Show all found items"
+      click_button"Submit"
       first('td').click_link('History')
       expect(page).to have_content('Create')
     end
@@ -23,14 +24,15 @@ RSpec.describe 'Version history testing', type: :feature do
     scenario 'Updated items are tracked in change history' do
       visit '/insert_form'
       fill_in 'itemDescription', with: "TEST_ITEM"
+      fill_in "itemFoundBy", with: "TEST NAME"
       find('input[name="commit"]').click
       click_link "Search"
-      click_link "Show all found items"
+      click_button "Submit"
       first('td').click_link('Edit')
       fill_in 'itemDescription', with: "NEW_TEST_ITEM"
       find('input[name="commit"]').click
       click_link "Search"
-      click_link "Show all found items"
+      click_button "Submit"
       first('td').click_link('History')
       expect(page).to have_content('Update')
       expect(page).to have_content('TEST_ITEM to NEW_TEST_ITEM')
