@@ -3,7 +3,7 @@
 <h1>Edit item type</h1>
 <div class="table mt-5">
   <%= form_tag("item_type_update", method: "post") do %>
-  <%= label_tag(:type_name, "Item Type name:") %>
+  <%= label_tag(:type_name, "Item type name:") %>
   <%=text_field_tag :type_name,  @itemType.type_name %>
   <%= label_tag(:type_active, "Active item type") %>
   <%= check_box_tag( :type_active, value = true, checked = @itemType.type_active) %>

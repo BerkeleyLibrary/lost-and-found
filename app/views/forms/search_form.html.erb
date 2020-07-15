@@ -12,7 +12,7 @@
         <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
 
         <%= label_tag(:keyword, "Keyword:") %>
-        <%=text_field_tag :keyword, nil, placeholder: 'Enter search term...'%>
+        <%=text_field_tag :keyword, nil, placeholder: 'Enter search term'%>
 
         <%= label_tag(:itemLocation, "Location:") %>
         <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>

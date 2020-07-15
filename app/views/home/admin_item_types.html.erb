@@ -1,13 +1,17 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% if user_level_admin? %>
-<h1>Add/Edit Item types</h1>
+<h1>Add/Edit Lost & Found Item Types</h1>
 <div class="mb-4 form-group">
     <h2>Add a new Item Type</h2>
     <%= form_tag("itemType_insert", method: "post") do %>
-    <%= label_tag(:type_name, "Item Type name") %>
-    <%=text_field_tag :type_name, nil, placeholder: 'e.g Electronics', required: true %>
+    <%= label_tag(:type_name, "Item type name:") %>
+    <%=text_field_tag :type_name, nil, placeholder: 'Electronics', required: true %>
 
-    <%= submit_tag("Add item type") %>
+    <div>
+        <div class="btn-group" role="group">
+          <input type="submit" name="commit" value="Add item type" class="btn btn-primary" data-disable-with="Submit">
+        </div>
+    </div>
 <% end %>
 </div>
 
@@ -17,7 +21,7 @@
     <thead class="thead-light">
         <tr>
             <th scope="col">Actions</th>
-            <th scope="col">Item Type name</th>
+            <th scope="col">Item type name:</th>
         </tr>
     </thead>
     <!-- Layout all those beautiful requests -->

@@ -52,11 +52,16 @@ class UsersController < ApplicationController
     end
 
     def update
-      active = params[:user_active] == "true"
-      @user = User.find(params[:id])
-      @user.update(uid: params[:uid], user_name: params[:user_name],user_role: params[:user_role], user_active: active)
-      @users = User.all
-      redirect_to admin_users_path
+      begin
+        active = params[:user_active] == "true"
+        @user = User.find(params[:id])
+        @user.update(uid: params[:uid], user_name: params[:user_name],user_role: params[:user_role], user_active: active)
+        @users = User.all
+        redirect_to admin_users_path
+      rescue Exception => e
+        flash[:notice] = "User #{params[:user_name]} failed to be added"
+        redirect_to admin_users_path
+      end
     end
 
     def destroy

@@ -59,6 +59,7 @@ class ItemsController < ApplicationController
   end
 
   def update
+    begin
     @item = Item.find(params[:id])
     @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy],itemStatus: params[:itemStatus],itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now())
     @item.update(claimedBy: params[:claimedBy])
@@ -68,6 +69,10 @@ class ItemsController < ApplicationController
     @items_found = Item.found
     @items_claimed = Item.claimed
     render template: "items/all"
+  rescue Exception => e
+    flash[:notice] = "Item failed to be updated"
+    render template: "items/all"
+  end
   end
 
   def create

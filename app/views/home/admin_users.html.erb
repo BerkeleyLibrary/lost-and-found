@@ -16,7 +16,11 @@
     <%= label_tag(:uid, "User ID:") %>
     <%=text_field_tag :uid, nil, placeholder: 'e.g 1111115...', required: true %>
 
-    <%= submit_tag("Add user") %>
+    <div>
+        <div class="btn-group" role="group">
+          <input type="submit" name="commit" value="Add user" class="btn btn-primary" data-disable-with="Submit">
+        </div>
+    </div>
     <% end %>
 </div>
 

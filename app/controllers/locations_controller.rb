@@ -40,11 +40,16 @@ class LocationsController < ApplicationController
 
 
     def update
-      active = params[:location_active] == "true"
-      @location = Location.find(params[:id])
-      @location.update(location_name: params[:location_name], location_active: active, updated_at: Time.now(), updated_by: cookies[:user_name])
-      @locations = Location.all
-      redirect_to admin_locations_path
+      begin
+        active = params[:location_active] == "true"
+        @location = Location.find(params[:id])
+        @location.update(location_name: params[:location_name], location_active: active, updated_at: Time.now(), updated_by: cookies[:user_name])
+        @locations = Location.all
+        redirect_to admin_locations_path
+      rescue Exception => e
+        flash[:notice] = "Location #{params[:location_name]} failed to be added"
+        redirect_to admin_locations_path
+      end
     end
 
     def change_status

@@ -8,7 +8,11 @@
     <%= label_tag(:location_name, "Location name:") %>
     <%=text_field_tag :location_name, nil, placeholder: 'e.g The Store', required: true %>
 
-    <%= submit_tag("Add location") %>
+    <div>
+        <div class="btn-group" role="group">
+          <input type="submit" name="commit" value="Add location" class="btn btn-primary" data-disable-with="Submit">
+        </div>
+    </div>
 <% end %>
 </div>
 

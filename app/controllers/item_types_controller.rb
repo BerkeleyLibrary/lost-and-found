@@ -33,11 +33,16 @@ class ItemTypesController < ApplicationController
     end
 
     def update
-      active = params[:type_active] == "true"
-      @itemType = ItemType.find(params[:id])
-      @itemType.update(type_name: params[:type_name], type_active: active, updated_at: Time.now(), updated_by: cookies[:user_name])
-      @itemTypes = ItemType.all
-      redirect_to admin_item_types_path
+      begin
+        active = params[:type_active] == "true"
+        @itemType = ItemType.find(params[:id])
+        @itemType.update(type_name: params[:type_name], type_active: active, updated_at: Time.now(), updated_by: cookies[:user_name])
+        @itemTypes = ItemType.all
+        redirect_to admin_item_types_path
+      rescue Exception => e
+        flash[:notice] = "Item type #{params[:type_name]} failed to be added"
+        redirect_to admin_item_types_path
+      end
     end
 
     def change_status
