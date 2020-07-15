@@ -6,10 +6,8 @@ class ItemsController < ApplicationController
   end
 
   def index
-    p '-------------'
-    p cookies[:itemLocation]
-    p '==============='
     @items = Item.all
+    @items = Item.query_params(cookies[:keyword])
     @items = @items.select{ |item| item.itemLocation == cookies[:itemLocation] } unless cookies[:searchAll] || cookies[:itemLocation] == 'none'
     @items = @items.select{ |item| item.itemType == cookies[:itemType] } unless cookies[:searchAll] || cookies[:itemType] == 'none'
     @items_found = @items.select{ |item| item.itemStatus == 1 }
@@ -30,7 +28,7 @@ class ItemsController < ApplicationController
   end
 
   def param_search
-    @items = Item.query_params(params)
+    @items = Item.query_params(params[:keyword])
     @items = @items.select{ |item| item.itemLocation == params[:itemLocation] } unless params[:searchAll] || params[:itemLocation] == 'none'
     @items = @items.select{ |item| item.itemType == params[:itemType] } unless params[:searchAll] || params[:itemType] == 'none'
     @items_found = @items.select{ |item| item.itemStatus == 1 }
@@ -38,6 +36,7 @@ class ItemsController < ApplicationController
     cookies[:itemLocation] = params[:itemLocation]
     cookies[:searchAll] = params[:searchAll]
     cookies[:itemType] = params[:itemType]
+    cookies[:keyword] = params[:keyword]
 
     render template: "items/all"
   end

@@ -17,8 +17,8 @@ class Item < ApplicationRecord
 
       scope :claimed, -> { where("itemStatus = 3")}
       scope :found, -> { where("itemStatus = 1")}
-      scope :query_params, -> (params) { 
-        keywords = params[:keyword].split(' ')
+      scope :query_params, -> (searchText) { 
+        keywords = searchText.split(' ')
         where((['itemDescription LIKE ?'] * keywords.size).join(' OR '), *keywords.map{ |keyword| "%#{keyword}%" })
       }
   end
