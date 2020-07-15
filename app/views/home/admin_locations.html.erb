@@ -6,7 +6,7 @@
     <h2>Add a new location</h2>
     <%= form_tag("location_insert", method: "post") do %>
     <%= label_tag(:location_name, "Location name:") %>
-    <%=text_field_tag :location_name, nil, placeholder: 'e.g The Store', required: true %>
+    <%=text_field_tag :location_name, nil, placeholder: 'Moffitt Circ', required: true %>
 
     <div>
         <div class="btn-group" role="group">

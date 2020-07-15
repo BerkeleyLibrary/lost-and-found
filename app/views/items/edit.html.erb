@@ -1,6 +1,7 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 <% if user_level_staff? %>
+<h1>Edit item</h1>
   <div class="table mt-5">
   <%= form_tag("item_update", method: "post", multipart: true) do %>
 
@@ -55,7 +56,7 @@
     <h4>Last updated at: </h4>
     <%= @item.updated_at.strftime("%B %e, %Y at %I:%M %p") %>
 
-    <div><%= submit_tag("update item") %></div>
+    <div><%= submit_tag("Update item") %></div>
   <% end %>
 </div>
 <% end %>
