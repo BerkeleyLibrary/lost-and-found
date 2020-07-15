@@ -59,7 +59,7 @@ class UsersController < ApplicationController
         @users = User.all
         redirect_to admin_users_path
       rescue Exception => e
-        flash[:notice] = "User #{params[:user_name]} already exists"
+        flash[:notice] = "User #{params[:uid]} already exists"
         redirect_to admin_users_path
       end
     end
