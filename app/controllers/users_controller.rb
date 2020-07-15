@@ -46,7 +46,7 @@ class UsersController < ApplicationController
           redirect_back(fallback_location: root_path)
         end
       rescue Exception => e
-        flash[:notice] = "User #{@user.user_name} failed to be added"
+        flash[:notice] = "User #{@user.user_name} already exists"
         redirect_back(fallback_location: root_path)
       end
     end
