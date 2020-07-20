@@ -1,12 +1,10 @@
 class ItemsController < ApplicationController
 
-
   def current_user
-    cookies[:user_name] 
+    cookies[:user_name]
   end
 
   def index
-    @items = Item.all
     @items = Item.query_params(cookies[:keyword])
     @items = @items.select{ |item| item.itemLocation == cookies[:itemLocation] } unless cookies[:searchAll] || cookies[:itemLocation] == 'none'
     @items = @items.select{ |item| item.itemType == cookies[:itemType] } unless cookies[:searchAll] || cookies[:itemType] == 'none'
@@ -33,6 +31,7 @@ class ItemsController < ApplicationController
     @items = @items.select{ |item| item.itemType == params[:itemType] } unless params[:searchAll] || params[:itemType] == 'none'
     @items_found = @items.select{ |item| item.itemStatus == 1 }
     @items_claimed = @items.select{ |item| item.itemStatus == 3 }
+
     cookies[:itemLocation] = params[:itemLocation]
     cookies[:searchAll] = params[:searchAll]
     cookies[:itemType] = params[:itemType]
@@ -47,10 +46,6 @@ class ItemsController < ApplicationController
     @items_claimed = Item.claimed
   end
 
-  def new
-
-  end
-
   def edit
     @item = Item.find(params[:id])
     @locations_layout = location_setup
@@ -59,7 +54,7 @@ class ItemsController < ApplicationController
     render template: "items/edit"
   end
 
-  def show 
+  def show
     @item = Item.find(params[:id])
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
@@ -68,19 +63,18 @@ class ItemsController < ApplicationController
 
   def update
     begin
-    @item = Item.find(params[:id])
-    @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy],itemStatus: params[:itemStatus],itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now())
-    @item.update(claimedBy: params[:claimedBy])
-    @item.update(image: params[:image]) unless params[:image].nil?
-    @item.update(image_url: url_for(@item.image)) unless !@item.image.attached?
-    @items = Item.all
-    @items_found = Item.found
-    @items_claimed = Item.claimed
+      @item = Item.find(params[:id])
+      @item.update(itemLocation: params[:itemLocation],itemType: params[:itemType],itemDescription: params[:itemDescription],itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy],itemStatus: params[:itemStatus],itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now(), whereFound: params[:whereFound])
+      @item.update(claimedBy: params[:claimedBy])
+      @item.update(image: params[:image]) unless params[:image].nil?
+      @item.update(image_url: url_for(@item.image)) unless !@item.image.attached?
+      @items = Item.all
+      @items_found = Item.found
+      @items_claimed = Item.claimed
+    rescue Exception => e
+      flash[:notice] = "Item failed to be updated"
+    end
     render template: "items/all"
-  rescue Exception => e
-    flash[:notice] = "Item failed to be updated"
-    render template: "items/all"
-  end
   end
 
   def create
@@ -101,6 +95,7 @@ class ItemsController < ApplicationController
     @item.created_at =Time.now();
     @item.updated_at = Time.now();
     @item.claimedBy = "unclaimed"
+    @item.whereFound = params[:whereFound] || "unknown"
     @item.image.attach( params[:image])
     params[:image] != nil ? @item.image_url = (url_for(@item.image)) : 'NONE'
     begin
@@ -117,7 +112,6 @@ class ItemsController < ApplicationController
   def item_params
     params.permit(:itemLocation, :itemType, :itemDescription, :image)
  end
-
 
  def batch_upload
   uploaded_file = params[:batch_file]
@@ -165,7 +159,8 @@ class ItemsController < ApplicationController
     @item = Item.new()
     @item.itemDate = modified_item_values[1]
     @item.itemFoundAt = modified_item_values[2]
-    @item.itemLocation = modified_item_values[3]
+    @item.whereFound = modified_item_values[3]
+    @item.itemLocation = locations[modified_item_values[4].to_i]
     @item.itemType = legacy_types[modified_item_values[5].to_i]
     @item.itemDescription= modified_item_values[6]
     @item.itemLastModified=Time.now();

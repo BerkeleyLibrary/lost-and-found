@@ -37,6 +37,11 @@
       <%= date_field_tag(:itemDate) %>
     <% end %>
 
+    <div>
+    <%= label_tag(:whereFound, "Where Found:") %>
+    <%=text_field_tag :whereFound, @item.whereFound %>
+  </div>
+
     <%= label_tag(:image, "Image: ") %>
     <%= file_field_tag(:image) %>
 

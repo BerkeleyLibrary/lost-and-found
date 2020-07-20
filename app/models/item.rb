@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   has_paper_trail
   validates :itemDescription, presence: true, allow_blank: false
+  validates :whereFound, presence: true, allow_blank: false
   has_one_attached :image
     attr_accessor :locations
     attr_accessor :types

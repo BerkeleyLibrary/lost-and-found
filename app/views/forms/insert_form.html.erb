@@ -24,6 +24,9 @@
     <%= label_tag(:itemDate, "Date found:") %>
     <%= date_field_tag(:itemDate, :itemDate) %>
 
+    <%= label_tag(:whereFound, "Where Found:") %>
+    <%=text_field_tag :whereFound, nil, placeholder: 'where was this found?', required: true%>
+
     <%= label_tag(:image, "Image: ") %>
     <%= file_field_tag(:image) %>
 

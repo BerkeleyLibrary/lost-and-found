@@ -22,6 +22,7 @@ RSpec.describe 'Item insert tasks', type: :feature do
     scenario 'valid items inserted into database' do
         visit '/insert_form'
         fill_in "itemDescription", with: "TEST_ITEM"
+        fill_in "whereFound", with: "TEST_LOCATION_DESCRIPTION"
         find('input[name="commit"]').click
         expect(page).to have_content('TEST_ITEM')
       end
