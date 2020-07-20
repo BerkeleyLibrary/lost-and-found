@@ -26,6 +26,7 @@ RSpec.describe 'Version history testing', type: :feature do
       visit '/insert_form'
       fill_in 'itemDescription', with: "TEST_ITEM"
       fill_in "itemFoundBy", with: "TEST NAME"
+      fill_in "whereFound", with: "TEST LOCATION DESCRIPTION"
       find('input[name="commit"]').click
       click_link "Search"
       click_button "Submit"
