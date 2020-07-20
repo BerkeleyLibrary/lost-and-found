@@ -50,6 +50,7 @@ RSpec.describe 'Search form tasks', type: :feature do
     scenario 'Search form filters against multiple keywords' do
       visit '/insert_form'
       fill_in "itemDescription", with: "A BLUE TEST ITEM"
+      fill_in "whereFound", with: "A LOCATION DESCRIPTION"
       find('input[name="commit"]').click
       click_link "Search"
       fill_in "keyword", with:"BLUE BOAT ITEM"
