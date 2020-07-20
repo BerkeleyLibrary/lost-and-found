@@ -143,7 +143,8 @@ end
 
   def location_setup
     locations = Location.active
-    locations = locations.sort_by &:location_name.downcase
+    locations.map { |location| location.location_name.downcase! }
+    locations = locations.sort_by &:location_name
     locations_layout = [['None','none']]
     locations.each do |location|
       locations_layout.push([location.location_name.titleize, location.location_name])
@@ -152,9 +153,10 @@ end
   end
 
   def item_type_setup
-    item_types = ItemType.active.sort_by &:type_name.downcase
+    item_types = ItemType.active
+    item_types.map { |itemType| itemType.type_name.downcase! }
+    item_types = item_types.sort_by &:type_name
     item_type_layout = [['None','none']]
-
     item_types.each do |type|
       item_type_layout.push([type.type_name.titleize, type.type_name])
     end
