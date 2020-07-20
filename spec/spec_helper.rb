@@ -2,6 +2,7 @@
 # Rails
 
 ENV['RAILS_ENV'] = 'test' unless ENV['RAILS_ENV']
+
 # ------------------------------------------------------------
 # Dependencies
 require 'colorize'
