@@ -1,99 +1,91 @@
 class HomeController < ApplicationController
-    def index
-      render :index
-    end
+  def index
+    render :index
+  end
 
-    def health
-      check = Health::Check.new
-      render json: check, status: check.http_status_code
-    end
+  def health
+    check = Health::Check.new
+    render json: check, status: check.http_status_code
+  end
 
-def admin_users
-  @users = User.all
-  @actived_users = @users.select  { |user| user.user_active}
-  @deactivated_users =  @users.select  { |user| !user.user_active}
+  def admin_users
+    @users = User.all
+    @actived_users = @users.select(&:user_active)
+    @deactivated_users = @users.reject(&:user_active)
+    @roles_layout = [%w[Administrator Administrator], %w[Read-only Read-only], %w[Staff Staff]]
+    render :admin_users
+  end
 
-  @roles = Role.all
-  @roles_layout = [["Administrator","Administrator"],["Read-only","Read-only"],["Staff","Staff"]]
+  def admin_locations
+    @locations = Location.all
+    @actived_locations = @locations.select(&:location_active)
+    @actived_locations.each { |location| location.location_name.downcase! }
+    @actived_locations.sort_by!(&:location_name)
 
-  render :admin_users
-end
+    @deactivated_locations = @locations.reject(&:location_active)
+    @deactivated_locations.each { |location| location.location_name.downcase! }
+    @deactivated_locations.sort_by!(&:location_name)
 
-def admin_locations
-  @locations = Location.all
-  @actived_locations = @locations.select  { |location| location.location_active}
-  @actived_locations.each  { |location| location.location_name.downcase! }
-  @actived_locations.sort_by! &:location_name
+    render :admin_locations
+  end
 
-  @deactivated_locations =  @locations.select  { |location| !location.location_active}
-  @deactivated_locations.each  { |location| location.location_name.downcase! }
-  @deactivated_locations.sort_by! &:location_name
+  def admin_item_types
+    @item_types = ItemType.all
+    @actived_item_types = @item_types.select(&:type_active)
+    @actived_item_types.each { |item_type| item_type.type_name.downcase! }
+    @actived_item_types.sort_by!(&:type_name)
 
-  render :admin_locations
-end
+    @deactivated_item_types = @item_types.reject(&:type_active)
+    @deactivated_item_types.each { |item_type| item_type.type_name.downcase! }
+    @deactivated_item_types.sort_by!(&:type_name)
 
-def admin_item_types
-  @item_types = ItemType.all
-  @actived_item_types = @item_types.select  { |item_type| item_type.type_active}
-  @actived_item_types.each  { |item_type| item_type.type_name.downcase! }
-  @actived_item_types.sort_by! &:type_name
+    render :admin_item_types
+  end
 
-  @deactivated_item_types =  @item_types.select  { |item_type| !item_type.type_active}
-  @deactivated_item_types.each  { |item_type| item_type.type_name.downcase! }
-  @deactivated_item_types.sort_by! &:type_name
+  def admin_items
+    @items = Item.all
+    @items_found = Item.found
+    @items_claimed = Item.claimed
 
-  render :admin_item_types
-end
+    render :admin_items
+  end
 
-    def admin_items
-      @items = Item.all
-      @items_found = Item.found
-      @items_claimed = Item.claimed
+  def admin_migration_items
+    render :admin_migration_items
+  end
 
-      render :admin_items
-    end
+  def admin_migration_locations
+    render :admin_migration_locations
+  end
 
-    def admin_migration_items
-      render :admin_migration_items
-    end
+  def item_search
+    render template: 'items/all'
+  end
 
-    def admin_migration_locations
-      render :admin_migration_locations
-    end
+  def admin_purge
+    render :admin_purge
+  end
 
-    def item_search
-      render template: "items/all"
-    end
+  def admin_migration_item_types
+    render :admin_migration_item_types
+  end
 
-    def admin_purge
-      render :admin_purge
-    end
+  def admin_roles
+    render :admin_roles
+  end
 
-    def admin_migration_item_types
-      render :admin_migration_item_types
-    end
+  def admin
+    @locations = Location.all
+    @actived_locations = @locations.select(&:location_active)
+    @deactivated_locations = @locations.reject(&:location_active)
 
+    @item_types = ItemType.all
+    @actived_item_types = @item_types.select(&:type_active)
+    @deactivated_item_types = @item_types.reject(&:type_active)
 
-    def admin_roles
-      render :admin_roles
-    end
+    @roles = Role.all
+    @roles_layout = [%w[Administrator Administrator], %w[Read-only Read-only], %w[Staff Staff]]
 
-    def admin
-      @locations = Location.all
-      @actived_locations = @locations.select  { |location| location.location_active}
-      @deactivated_locations =  @locations.select  { |location| !location.location_active}
-
-      @item_types = ItemType.all
-      @actived_item_types = @item_types.select  { |item_type| item_type.type_active}
-      @deactivated_item_types =  @item_types.select  { |item_type| !item_type.type_active}
-
-      @roles = Role.all
-      @roles_layout = [["Administrator","Administrator"]]
-      @roles.each do |role|
-        @roles_layout.push([role.role_name, role.role_name])
-      end
-
-      render :admin
-    end
-
+    render :admin
+  end
 end

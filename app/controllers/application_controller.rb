@@ -9,31 +9,30 @@ class ApplicationController < ActionController::Base
   before_action :check_timeout
   before_action :set_paper_trail_whodunnit
 
-
   def current_user
     cookies[:user_name]
   end
 
-  def after_sign_out_path_for(resource_or_scope)
+  def after_sign_out_path_for(_resource_or_scope)
     "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
   end
 
   def check_timeout
-    unless (cookies[:expires_at] && cookies[:user])
+    unless cookies[:expires_at] && cookies[:user]
       sign_out
-      cookies[:logout_required] = true;
-      flash.now.alert = "Your session has expired. Please logout and sign in again to continue use."
+      cookies[:logout_required] = true
+      flash.now.alert = 'Your session has expired. Please logout and sign in again to continue use.'
     end
   end
 
   helper_method :current_user?
 
-    def ensure_authenticated_user
-      if cookies[:user].nil?
-        reset_session
-        flash.now.alert = "Login required"
-      end
+  def ensure_authenticated_user
+    if cookies[:user].nil?
+      reset_session
+      flash.now.alert = 'Login required'
     end
+  end
 
   def current_user?
     if cookie[:uid].nil?
@@ -49,7 +48,7 @@ class ApplicationController < ActionController::Base
 
   def authorize
     unless current_user?
-      flash.now.alert = "Please Login to access this page !";
+      flash.now.alert = 'Please Login to access this page !'
       redirect_to root_url
       false
     end
@@ -73,13 +72,12 @@ class ApplicationController < ActionController::Base
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
-    cookies[:expires_at] = { value: "user_active", expires: Time.now + 90.minutes}
+    cookies[:expires_at] = { value: 'user_active', expires: Time.now + 15.minutes }
 
     @current_user = user
     @current_user.uid = user.uid
     @current_user.user_name = user.user_name
     @current_user.user_role = user.user_role
-
 
     logger.debug("Signed in user #{cookies[:user_name]}")
     logger.debug("Role of #{cookies[:user_role]}")
@@ -91,32 +89,32 @@ class ApplicationController < ActionController::Base
     reset_session
   end
 
-def user_level_admin? set_alert = false
-  if cookies[:user_role] != "Administrator"
-    flash.now.alert = "You must have Admin level permission to view this page" unless set_alert 
-    check_timeout
-    return false
+  def user_level_admin?(set_alert = false)
+    if cookies[:user_role] != 'Administrator'
+      flash.now.alert = 'You must have Admin level permission to view this page' unless set_alert
+      check_timeout
+      return false
+    end
+    true
   end
-  true
-end
 
-def user_level_staff? set_alert = false
-  if cookies[:user_role] != "Staff" && cookies[:user_role] != "Administrator"
-    flash.now.alert = "You must have staff level permission or greater to view this page" unless set_alert
-    check_timeout
-    return false
+  def user_level_staff?(set_alert = false)
+    if cookies[:user_role] != 'Staff' && cookies[:user_role] != 'Administrator'
+      flash.now.alert = 'You must have staff level permission or greater to view this page' unless set_alert
+      check_timeout
+      return false
+    end
+    true
   end
-  true
-end
 
-def user_level_read_only? set_alert = false
-  if cookies[:user_role] != "Read-only" && cookies[:user_role] != "Staff" && cookies[:user_role] != "Administrator" 
-    flash.now.alert = "You must be a registered user to view this page" unless set_alert
-    check_timeout
-    return false
+  def user_level_read_only?(set_alert = false)
+    if cookies[:user_role] != 'Read-only' && cookies[:user_role] != 'Staff' && cookies[:user_role] != 'Administrator'
+      flash.now.alert = 'You must be a registered user to view this page' unless set_alert
+      check_timeout
+      return false
+    end
+    true
   end
-  true
-end
 
   def calnet_uid
     session[:calnet_uid]
@@ -144,8 +142,8 @@ end
   def location_setup
     locations = Location.active
     locations.map { |location| location.location_name.downcase! }
-    locations = locations.sort_by &:location_name
-    locations_layout = [['None','none']]
+    locations = locations.sort_by(&:location_name)
+    locations_layout = [%w[None none]]
     locations.each do |location|
       locations_layout.push([location.location_name.titleize, location.location_name])
     end
@@ -155,8 +153,8 @@ end
   def item_type_setup
     item_types = ItemType.active
     item_types.map { |itemType| itemType.type_name.downcase! }
-    item_types = item_types.sort_by &:type_name
-    item_type_layout = [['None','none']]
+    item_types = item_types.sort_by(&:type_name)
+    item_type_layout = [%w[None none]]
     item_types.each do |type|
       item_type_layout.push([type.type_name.titleize, type.type_name])
     end
@@ -165,7 +163,7 @@ end
 
   def q_params(attrs)
     params[:q] ||= {}
-    ignores = ["q", "controller", "action", "format", "token", "utf8", "commit"]
+    ignores = %w[q controller action format token utf8 commit]
 
     params.keys.each do |key|
       params[:q][key] = params.delete(key) unless ignores.include?(key)

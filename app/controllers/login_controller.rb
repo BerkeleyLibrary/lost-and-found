@@ -17,7 +17,7 @@ class LoginController < ApplicationController
     redirect_with_params(action: :new)
   end
 
-    private
+  private
 
   def validate_recaptcha!
     verify_recaptcha!(model: @form)

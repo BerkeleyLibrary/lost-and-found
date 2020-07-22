@@ -55,11 +55,3 @@ def capturing_log(&block)
   end
   dev_tmp.string
 end
-
-def manual_sign_in_as(user)
-  user = User.new()
-  user.user_name = "Tim"
-  user.user_role = "Admin"
-  user.uid = "111111"
-  sign_in user
-end

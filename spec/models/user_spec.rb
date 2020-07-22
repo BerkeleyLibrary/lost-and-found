@@ -2,7 +2,7 @@ require 'calnet_helper'
 
 describe User, type: :model do
   it 'user should have role' do
-    user = User.new()
+    user = User.new
     assert_nil(user.role)
     user.role=Role.new(role_name: 'admin')
     assert(user.role)

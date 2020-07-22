@@ -7,23 +7,9 @@ describe ItemsController, "Items controller", :type => :controller  do
         it "renders the index template" do
             cookies[:expires_at] = { value: "user_active", expires: Time.now + 60.minutes}
             cookies[:user] = User.new()
-            cookies[:user_role] = "Admin"
+            cookies[:user_role] = "Administrator"
             get :create
             response.body.should match(/LostAndFound/)
         end
     end
-
-    # describe "new item generates create version in item history" do
-    #     it "renders the index template" do
-    #         cookies[:expires_at] = { value: "user_active", expires: Time.now + 60.minutes}
-    #         cookies[:user] = User.new()
-    #         cookies[:user_role] = "Admin"
-    #         get :create
-    #         get item_path(1)
-    #         response.body.should match(/LostAndFound/)
-    #     end
-    # end
-
-
-
 end

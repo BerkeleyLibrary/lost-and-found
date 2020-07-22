@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     if cookies[:logout_required]
       destroy
     else
-      redirect_to "/auth/calnet"
+      redirect_to '/auth/calnet'
     end
   end
 
@@ -36,9 +36,9 @@ class SessionsController < ApplicationController
 
   def create
     logger.debug({
-      msg: 'Received omniauth callback',
-      omniauth: auth_params
-    })
+                   msg: 'Received omniauth callback',
+                   omniauth: auth_params
+                 })
 
     @user = User.from_omniauth(auth_hash)
 
