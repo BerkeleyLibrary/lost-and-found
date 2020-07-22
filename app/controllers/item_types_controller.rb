@@ -14,16 +14,16 @@ class ItemTypesController < ApplicationController
     begin
       if @ItemType.valid? && @ItemType.save!
         @item_types = ItemType.all
-        flash[:notice] = "Item Type #{@ItemType.type_name} added"
+        flash[:success] = "Item Type #{@ItemType.type_name} added"
         redirect_back(fallback_location: root_path)
       else
         @item_types = ItemType.all
-        flash[:notice] = "Item Type #{@ItemType.type_name} Already exists"
+        flash[:alert] = "Item Type #{@ItemType.type_name} Already exists"
         redirect_back(fallback_location: root_path)
       end
     rescue Exception => e
       @item_types = ItemType.all
-      flash[:notice] = "Item Type #{@ItemType.type_name} failed to be added"
+      flash[:alert] = "Item Type #{@ItemType.type_name} failed to be added"
       redirect_back(fallback_location: root_path)
     end
   end

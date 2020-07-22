@@ -1,8 +1,14 @@
 module ApplicationHelper
 
-  def login_link
-    link_to 'CalNet Logout', logout_path, class: 'nav-link' if authenticated?
-  end
+  def flash_class(level)
+    case level
+        when "notice" then "alert alert-info alert-dismissible fade show"
+        when "success" then "alert alert-success alert-dismissible fade show"
+        when "error" then "alert alert-error alert-dismissible fade show"
+        when "alert" then "alert alert-danger alert-dismissible fade show"
+    end
+end
+
 
   def logo_link
     link_to(

@@ -15,7 +15,7 @@ class LocationsController < ApplicationController
     begin
       if @Location.valid? && @Location.save!
         @Locations = Location.all
-        flash[:notice] = "Location #{@Location.location_name} added"
+        flash[:success] = "Location #{@Location.location_name} added"
         redirect_back(fallback_location: root_path)
       else
         @Locations = Location.all
@@ -24,7 +24,7 @@ class LocationsController < ApplicationController
       end
     rescue Exception => e
       @Locations = Location.all
-      flash[:notice] = "Location #{@Location.location_name} failed to be added"
+      flash[:alert] = "Location #{@Location.location_name} failed to be added"
       redirect_back(fallback_location: root_path)
     end
   end

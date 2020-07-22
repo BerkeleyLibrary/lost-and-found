@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    @User = User.new
+    @user = User.new
   end
 
   def edit
@@ -36,28 +36,26 @@ class UsersController < ApplicationController
     @user.updated_at = Time.now
     begin
       if @user.valid? && @user.save!
-        @users = User.all
-        flash[:notice] = "User #{@user.user_name} added"
-        redirect_back(fallback_location: root_path)
+        flash[:success] = "User #{@user.user_name} added"
       else
-        @users = User.all
-        flash[:notice] = "User #{@user.user_name} already exists"
-        redirect_back(fallback_location: root_path)
+        flash[:notice] = "UID #{@user.uid} already exists"
       end
-    rescue Exception => e
-      flash[:notice] = "User #{@user.user_name} already exists"
-      redirect_back(fallback_location: root_path)
+    rescue StandardError
+      flash[:notice] = "UID #{@user.uid} already exists"
     end
+    @users = User.all
+    redirect_back(fallback_location: root_path)
   end
 
   def update
-    active = params[:user_active] == 'true'
-    @user = User.find(params[:id])
-    @user.update(uid: params[:uid], user_name: params[:user_name], user_role: params[:user_role], user_active: active)
-    @users = User.all
-    redirect_to admin_users_path
-  rescue Exception => e
-    flash[:notice] = "User #{params[:uid]} already exists"
+    begin
+      active = params[:user_active] == 'true'
+      @user = User.find(params[:id])
+      @user.update(uid: params[:uid], user_name: params[:user_name], user_role: params[:user_role], user_active: active)
+      @users = User.all
+    rescue StandardError
+      flash[:notice] = "User #{params[:uid]} already exists"
+    end
     redirect_to admin_users_path
   end
 

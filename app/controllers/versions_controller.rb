@@ -12,11 +12,11 @@ class VersionsController < ApplicationController
     redirect_to edit_document_path(document)
   end
 
-    private
+  private
 
   def set_document_and_version
     @document = Document.find(params[:document_id])
     @version = @document.versions.find(params[:id])
   end
 
-  end
+end

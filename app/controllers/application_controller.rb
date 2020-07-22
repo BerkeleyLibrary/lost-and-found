@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     unless cookies[:expires_at] && cookies[:user]
       sign_out
       cookies[:logout_required] = true
-      flash.now.alert = 'Your session has expired. Please logout and sign in again to continue use.'
+      flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
     end
   end
 
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   def ensure_authenticated_user
     if cookies[:user].nil?
       reset_session
-      flash.now.alert = 'Login required'
+      flash[:notice] = 'Login required'
     end
   end
 
