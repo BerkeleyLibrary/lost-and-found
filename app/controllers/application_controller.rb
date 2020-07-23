@@ -46,14 +46,6 @@ class ApplicationController < ActionController::Base
     User.where(uid: cookies[:uid]).first
   end
 
-  def authorize
-    unless current_user?
-      flash.now.alert = 'Please Login to access this page !'
-      redirect_to root_url
-      false
-    end
-  end
-
   def log_error(error)
     msg = {
       error: error.inspect.to_s,
@@ -72,7 +64,7 @@ class ApplicationController < ActionController::Base
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
-    cookies[:expires_at] = 15.minutes.from_now
+    cookies[:expires_at] = 10.seconds.from_now
 
     @current_user = user
     @current_user.uid = user.uid

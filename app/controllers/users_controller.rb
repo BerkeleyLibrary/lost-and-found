@@ -54,7 +54,7 @@ class UsersController < ApplicationController
       @user.update(uid: params[:uid], user_name: params[:user_name], user_role: params[:user_role], user_active: active)
       @users = User.all
     rescue StandardError
-      flash[:notice] = "User #{params[:uid]} already exists"
+      flash[:notice] = "UID #{params[:uid]} already exists"
     end
     redirect_to admin_users_path
   end

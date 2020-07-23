@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   skip_before_action :ensure_authenticated_user
   def new
     if cookies[:logout_required]
-      destroy
+      redirect_to '/home'
     else
       redirect_to '/auth/calnet'
     end
