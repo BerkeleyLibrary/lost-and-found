@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_timeout
-    unless cookies[:expires_at] && cookies[:user]
+    if cookies[:expires_at].present? && DateTime.parse(cookies[:expires_at]) < DateTime.now
       sign_out
       cookies[:logout_required] = true
       flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
-    cookies[:expires_at] = { value: 'user_active', expires: Time.now + 15.minutes }
+    cookies[:expires_at] = 15.minutes.from_now
 
     @current_user = user
     @current_user.uid = user.uid
@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
 
   def user_level_admin?(set_alert = false)
     if cookies[:user_role] != 'Administrator'
-      flash.now.alert = 'You must have Admin level permission to view this page' unless set_alert
+      flash.now.alert = 'You must have Admin level permission to view this page' unless set_alert || cookies[:logout_required]
       check_timeout
       return false
     end
@@ -100,7 +100,7 @@ class ApplicationController < ActionController::Base
 
   def user_level_staff?(set_alert = false)
     if cookies[:user_role] != 'Staff' && cookies[:user_role] != 'Administrator'
-      flash.now.alert = 'You must have staff level permission or greater to view this page' unless set_alert
+      flash.now.alert = 'You must have staff level permission or greater to view this page' unless set_alert || cookies[:logout_required]
       check_timeout
       return false
     end
@@ -109,7 +109,7 @@ class ApplicationController < ActionController::Base
 
   def user_level_read_only?(set_alert = false)
     if cookies[:user_role] != 'Read-only' && cookies[:user_role] != 'Staff' && cookies[:user_role] != 'Administrator'
-      flash.now.alert = 'You must be a registered user to view this page' unless set_alert
+      flash.now.alert = 'You must be a registered user to view this page' unless set_alert || cookies[:logout_required]
       check_timeout
       return false
     end

@@ -2,7 +2,6 @@
 
 class SessionsController < ApplicationController
   skip_before_action :ensure_authenticated_user
-  skip_before_action :check_timeout
   def new
     if cookies[:logout_required]
       destroy
