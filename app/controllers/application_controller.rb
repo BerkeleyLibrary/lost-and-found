@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     cookies[:user_name] = user.user_name
     cookies[:uid] = user.uid
     cookies[:user_role] = user.user_role
-    cookies[:expires_at] = 10.seconds.from_now
+    cookies[:expires_at] = 15.minutes.from_now
 
     @current_user = user
     @current_user.uid = user.uid
