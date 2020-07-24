@@ -36,12 +36,12 @@ class UsersController < ApplicationController
     @user.updated_at = Time.now
     begin
       if @user.valid? && @user.save!
-        flash[:success] = "User #{@user.user_name} added"
+        flash[:success] = "Success: User #{@user.user_name} added"
       else
-        flash[:alert] = "UID #{@user.uid} already exists"
+        flash[:alert] = "Error: UID #{@user.uid} is not numeric"
       end
     rescue StandardError
-      flash[:alert] = "UID #{@user.uid} already exists"
+      flash[:alert] = "Error: UID #{@user.uid} already exists"
     end
     @users = User.all
     redirect_back(fallback_location: root_path)
@@ -51,10 +51,14 @@ class UsersController < ApplicationController
     begin
       active = params[:user_active] == 'true'
       @user = User.find(params[:id])
-      @user.update(uid: params[:uid], user_name: params[:user_name], user_role: params[:user_role], user_active: active)
-      @users = User.all
+      if @user.update(uid: params[:uid], user_name: params[:user_name], user_role: params[:user_role], user_active: active)
+        flash[:success] = "Success: User #{@user.user_name} updated"
+      else
+        flash[:alert] = "Error: UID #{params[:uid]} is not numeric"
+      end
+        @users = User.all
     rescue StandardError
-      flash[:alert] = "UID #{params[:uid]} already exists"
+      flash[:alert] = "Error: UID #{params[:uid]} already exists"
     end
     redirect_to admin_users_path
   end
@@ -69,6 +73,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.update(user_active: !@user.user_active)
     @users = User.all
+    flash[:success] = "Success: Item type #{@user.user_name.titleize} status updated!!"
     redirect_back(fallback_location: root_path)
   end
 

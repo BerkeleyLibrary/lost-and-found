@@ -80,7 +80,7 @@ class ItemsController < ApplicationController
       @items_found = Item.found
       @items_claimed = Item.claimed
     rescue Exception => e
-      flash[:alert] = 'Item failed to be updated'
+      flash[:alert] = 'Error: Item has invalid parameters'
     end
     render template: 'items/all'
   end

@@ -15,16 +15,16 @@ class LocationsController < ApplicationController
     begin
       if @Location.valid? && @Location.save!
         @Locations = Location.all
-        flash[:success] = "Location #{@Location.location_name} added"
+        flash[:success] = "Success: Location #{@Location.location_name} added"
         redirect_back(fallback_location: root_path)
       else
         @Locations = Location.all
-        flash[:alert] = "Location #{@Location.location_name.titleize} Already exists"
+        flash[:alert] = "Error: Location #{@Location.location_name.titleize} Already exists"
         redirect_back(fallback_location: root_path)
       end
     rescue Exception => e
       @Locations = Location.all
-      flash[:alert] = "Location #{@Location.location_name.titleize} failed to be added"
+      flash[:alert] = "Error: Location #{@Location.location_name.titleize} failed to be added"
       redirect_back(fallback_location: root_path)
     end
   end
@@ -40,7 +40,7 @@ class LocationsController < ApplicationController
     @locations = Location.all
     redirect_to admin_locations_path
   rescue Exception => e
-    flash[:alert] = "Location #{params[:location_name].titleize} failed to be added"
+    flash[:alert] = "Error: Location #{params[:location_name].titleize} failed to be added"
     redirect_to admin_locations_path
   end
 
@@ -48,6 +48,7 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
     @location.update(location_active: !@location.location_active)
     @locations = Location.all
+    flash[:success] = "Success: Item type #{@location.location_name.titleize} status updated!"
     redirect_back(fallback_location: root_path)
   end
 

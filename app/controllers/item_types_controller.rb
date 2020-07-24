@@ -14,16 +14,16 @@ class ItemTypesController < ApplicationController
     begin
       if @ItemType.valid? && @ItemType.save!
         @item_types = ItemType.all
-        flash[:success] = "Item Type #{@ItemType.type_name} added"
+        flash[:success] = "Success: Item Type #{@ItemType.type_name} added"
         redirect_back(fallback_location: root_path)
       else
         @item_types = ItemType.all
-        flash[:alert] = "Item Type #{@ItemType.type_name.titleize} Already exists"
+        flash[:alert] = "Error: Item Type #{@ItemType.type_name.titleize} Already exists"
         redirect_back(fallback_location: root_path)
       end
     rescue Exception => e
       @item_types = ItemType.all
-      flash[:alert] = "Item Type #{@ItemType.type_name.titleize} failed to be added"
+      flash[:alert] = "Error: Item Type #{@ItemType.type_name.titleize} failed to be added"
       redirect_back(fallback_location: root_path)
     end
   end
@@ -39,7 +39,7 @@ class ItemTypesController < ApplicationController
     @itemTypes = ItemType.all
     redirect_to admin_item_types_path
   rescue Exception => e
-    flash[:alert] = "Item type #{params[:type_name].titleize} failed to be added"
+    flash[:alert] = "Error: Item type #{params[:type_name].titleize} failed to be added"
     redirect_to admin_item_types_path
   end
 
@@ -47,6 +47,7 @@ class ItemTypesController < ApplicationController
     @itemType = ItemType.find(params[:id])
     @itemType.update(type_active: !@itemType.type_active)
     @itemTypes = ItemType.all
+    flash[:success] = "Success: Item type #{@itemType.type_name.titleize} status updated!"
     redirect_back(fallback_location: root_path)
   end
 
