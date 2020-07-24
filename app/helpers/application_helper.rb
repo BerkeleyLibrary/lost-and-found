@@ -9,7 +9,6 @@ module ApplicationHelper
     end
 end
 
-
   def logo_link
     link_to(
       image_tag('UCB_logo.png', height: '30', alt: 'UC Berkeley Library'),

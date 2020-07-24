@@ -26,7 +26,11 @@
       </li>
       <% end %>
       <li>
-         <p class="nav-link"><a href="/logout">CalNet Logout</a></p>
+         <% if cookies[:user].present? %>
+          <p class="nav-link"><a href="/logout">CalNet Logout</a></p>
+         <% else %>
+          <p class="nav-link"><%= link_to "Calnet Login",  "/auth/calnet" %></p>
+         <% end %>
      </li>
     </ul>
   </div>

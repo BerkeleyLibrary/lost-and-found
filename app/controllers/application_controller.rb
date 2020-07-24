@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user?
 
   def ensure_authenticated_user
-    if cookies[:user].nil?
+    if cookies[:logout_required].present?
       reset_session
       flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
     end
@@ -80,6 +80,12 @@ class ApplicationController < ActionController::Base
     cookies.clear
     reset_session
   end
+
+
+  def user_present?
+    cookies[:user].present?
+  end
+
 
   def user_level_admin?(set_alert = false)
     if cookies[:user_role] != 'Administrator'
