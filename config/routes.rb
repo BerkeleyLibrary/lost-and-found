@@ -30,6 +30,7 @@ get 'admin_item_types', to: 'home#admin_item_types'
 get 'admin_items', to: 'home#admin_items'
 get 'admin_roles', to: 'home#admin_roles'
 get 'admin_purge', to: 'home#admin_purge'
+get '/admin_claimed_items', to: 'home#claimed_items'
 get 'admin_migration_items', to: 'home#admin_migration_items'
 get '/admin_migration_locations', to:'home#admin_migration_locations'
 get '/admin_migration_item_types', to:'home#admin_migration_item_types'
@@ -68,6 +69,7 @@ get '/item_search', to: 'items#index'
   
 
   get '/found_items', to: "items#found"
+
 
   get '/logout', to: 'sessions#destroy', as: :logout
   get '/insert_form', to: 'forms#insert_form'

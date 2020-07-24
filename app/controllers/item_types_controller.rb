@@ -6,7 +6,7 @@ class ItemTypesController < ApplicationController
 
   def create
     @ItemType = ItemType.new
-    @ItemType.type_name = params[:type_name]
+    @ItemType.type_name = params[:type_name].downcase
     @ItemType.type_active = true
     @ItemType.updated_at = Time.now
     @ItemType.updated_by = cookies[:user_name]
@@ -18,12 +18,12 @@ class ItemTypesController < ApplicationController
         redirect_back(fallback_location: root_path)
       else
         @item_types = ItemType.all
-        flash[:alert] = "Item Type #{@ItemType.type_name} Already exists"
+        flash[:alert] = "Item Type #{@ItemType.type_name.titleize} Already exists"
         redirect_back(fallback_location: root_path)
       end
     rescue Exception => e
       @item_types = ItemType.all
-      flash[:alert] = "Item Type #{@ItemType.type_name} failed to be added"
+      flash[:alert] = "Item Type #{@ItemType.type_name.titleize} failed to be added"
       redirect_back(fallback_location: root_path)
     end
   end
@@ -34,12 +34,12 @@ class ItemTypesController < ApplicationController
 
   def update
     active = params[:type_active] == 'true'
-    @itemType = ItemType.find(params[:id])
+    @itemType = ItemType.find(params[:id]).downcase
     @itemType.update(type_name: params[:type_name], type_active: active, updated_at: Time.now, updated_by: cookies[:user_name])
     @itemTypes = ItemType.all
     redirect_to admin_item_types_path
   rescue Exception => e
-    flash[:notice] = "Item type #{params[:type_name]} failed to be added"
+    flash[:alert] = "Item type #{params[:type_name].titleize} failed to be added"
     redirect_to admin_item_types_path
   end
 

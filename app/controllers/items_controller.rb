@@ -80,7 +80,7 @@ class ItemsController < ApplicationController
       @items_found = Item.found
       @items_claimed = Item.claimed
     rescue Exception => e
-      flash[:notice] = 'Item failed to be updated'
+      flash[:alert] = 'Item failed to be updated'
     end
     render template: 'items/all'
   end

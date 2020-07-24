@@ -38,10 +38,10 @@ class UsersController < ApplicationController
       if @user.valid? && @user.save!
         flash[:success] = "User #{@user.user_name} added"
       else
-        flash[:notice] = "UID #{@user.uid} already exists"
+        flash[:alert] = "UID #{@user.uid} already exists"
       end
     rescue StandardError
-      flash[:notice] = "UID #{@user.uid} already exists"
+      flash[:alert] = "UID #{@user.uid} already exists"
     end
     @users = User.all
     redirect_back(fallback_location: root_path)
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
       @user.update(uid: params[:uid], user_name: params[:user_name], user_role: params[:user_role], user_active: active)
       @users = User.all
     rescue StandardError
-      flash[:notice] = "UID #{params[:uid]} already exists"
+      flash[:alert] = "UID #{params[:uid]} already exists"
     end
     redirect_to admin_users_path
   end

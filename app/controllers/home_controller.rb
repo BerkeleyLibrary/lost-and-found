@@ -50,6 +50,11 @@ class HomeController < ApplicationController
     render :admin_items
   end
 
+  def claimed_items
+    @items_claimed = Item.claimed
+    render template: 'items/claimed'
+  end
+
   def admin_migration_items
     render :admin_migration_items
   end

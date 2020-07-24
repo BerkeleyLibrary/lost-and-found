@@ -7,7 +7,7 @@ class LocationsController < ApplicationController
 
   def create
     @Location = Location.new
-    @Location.location_name = params[:location_name]
+    @Location.location_name = params[:location_name].downcase
     @Location.location_active = true
     @Location.updated_at = Time.now
     @Location.updated_by = cookies[:user_name]
@@ -19,12 +19,12 @@ class LocationsController < ApplicationController
         redirect_back(fallback_location: root_path)
       else
         @Locations = Location.all
-        flash[:notice] = "Location #{@Location.location_name} Already exists"
+        flash[:alert] = "Location #{@Location.location_name.titleize} Already exists"
         redirect_back(fallback_location: root_path)
       end
     rescue Exception => e
       @Locations = Location.all
-      flash[:alert] = "Location #{@Location.location_name} failed to be added"
+      flash[:alert] = "Location #{@Location.location_name.titleize} failed to be added"
       redirect_back(fallback_location: root_path)
     end
   end
@@ -36,11 +36,11 @@ class LocationsController < ApplicationController
   def update
     active = params[:location_active] == 'true'
     @location = Location.find(params[:id])
-    @location.update(location_name: params[:location_name], location_active: active, updated_at: Time.now, updated_by: cookies[:user_name])
+    @location.update(location_name: params[:location_name].downcase, location_active: active, updated_at: Time.now, updated_by: cookies[:user_name])
     @locations = Location.all
     redirect_to admin_locations_path
   rescue Exception => e
-    flash[:notice] = "Location #{params[:location_name]} failed to be added"
+    flash[:alert] = "Location #{params[:location_name].titleize} failed to be added"
     redirect_to admin_locations_path
   end
 
