@@ -193,14 +193,22 @@ class ItemsController < ApplicationController
     purge_raw = params[:purgeTime]
     purge_date = Time.parse(purge_raw)
     purged_total = 0
+    deleted_total = 0
 
     Item.find_each do |item|
       if item.created_at <= DateTime.parse(purge_date.to_s) && item.itemStatus != 3
-        item.update!(itemStatus: 3, claimedBy: 'Purged')
+       if  item.update!(itemStatus: 3, claimedBy: 'Purged')
         purged_total += 1
+       else
+        item.delete
+        deleted_total += 1
+       end
       end
     end
     flash[:success] = purged_total.to_s + ' items purged'
+    if deleted_total > 0
+      flash[:success] = deleted_total.to_s + ' duplicates data deleted'
+    end
     @items = Item.all
     @items_found = Item.found
     @items_claimed = Item.claimed
