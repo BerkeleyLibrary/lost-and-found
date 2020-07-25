@@ -107,6 +107,7 @@ only screen and (max-width: 760px),
 	td:nth-of-type(8):before { content: "Item image"; }
 	td:nth-of-type(9):before { content: "Updated by"; }
 	td:nth-of-type(10):before { content: "Updated at"; }
+	td:nth-of-type(11):before { content: "Claimed By"; }
 }
 
 .form-group.required .control-label:after {
