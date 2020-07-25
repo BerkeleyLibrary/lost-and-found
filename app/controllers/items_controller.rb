@@ -72,6 +72,9 @@ class ItemsController < ApplicationController
   def update
     begin
       @item = Item.find(params[:id])
+      if @item.whereFound.blank?
+        @item.update(whereFound: "No description")
+      end
       @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription], itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus], itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
       @item.update(claimedBy: params[:claimedBy])
       @item.update(image: params[:image]) unless params[:image].nil?
@@ -197,12 +200,11 @@ class ItemsController < ApplicationController
 
     Item.find_each do |item|
       if item.created_at <= DateTime.parse(purge_date.to_s) && item.itemStatus != 3
-       if  item.update!(itemStatus: 3, claimedBy: 'Purged')
+        if item.whereFound.blank?
+          item.update(whereFound: "No description")
+        end
+        item.update(itemStatus: 3, claimedBy: 'Purged')
         purged_total += 1
-       else
-        item.delete
-        deleted_total += 1
-       end
       end
     end
     flash[:success] = purged_total.to_s + ' items purged'
