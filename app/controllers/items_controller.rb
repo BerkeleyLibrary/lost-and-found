@@ -195,12 +195,12 @@ class ItemsController < ApplicationController
     purged_total = 0
 
     Item.find_each do |item|
-      if item.created_at <= Time.parse(purge_date.to_s) && item.itemStatus != 3
-        item.update(itemStatus: 3, claimedBy: 'Purged')
+      if item.created_at <= DateTime.parse(purge_date.to_s) && item.itemStatus != 3
+        item.update!(itemStatus: 3, claimedBy: 'Purged')
         purged_total += 1
       end
     end
-    flash.now.alert = purged_total.to_s + ' items purged'
+    flash[:success] = purged_total.to_s + ' items purged'
     @items = Item.all
     @items_found = Item.found
     @items_claimed = Item.claimed
