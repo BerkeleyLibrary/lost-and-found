@@ -71,7 +71,7 @@ class ItemTypesController < ApplicationController
       end
 
       @ItemType = ItemType.new
-      @ItemType.type_name = modified_item_values[1]
+      @ItemType.type_name = modified_item_values[1].downcase
       @ItemType.type_active = true
       @ItemType.updated_at = Time.now
       @ItemType.updated_by = 'Legacy'

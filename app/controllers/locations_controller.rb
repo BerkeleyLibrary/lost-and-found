@@ -72,7 +72,7 @@ class LocationsController < ApplicationController
       end
 
       @Location = Location.new
-      @Location.location_name = modified_item_values[1]
+      @Location.location_name = modified_item_values[1].downcase
       @Location.location_active = true
       @Location.updated_at = Time.now
       @Location.updated_by = 'Legacy'
