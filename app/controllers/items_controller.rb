@@ -135,19 +135,19 @@ class ItemsController < ApplicationController
       end
 
       locations = {
-        1 => 'Doe Circ',
-        2 => 'Doe South Entrance',
-        3 => 'Moffitt Circ',
+        1 => 'doe dirc',
+        2 => 'doe south entrance',
+        3 => 'moffitt circ',
         4 => 'UCPD',
-        5 => 'Main Desk',
+        5 => 'main desk',
         13 => 'MRC',
-        14 => 'Cal1 Card',
-        15 => 'Privileges Desk',
-        16 => 'Doe North Entrance',
-        17 => 'Moffitt 3rd Fl Entrance',
-        18 => 'Moffitt 4th Fl Entrance',
-        19 => 'Gardner Stacks Level C',
-        20 => 'Library Security'
+        14 => 'cal1 card',
+        15 => 'privileges desk',
+        16 => 'doe north entrance',
+        17 => 'moffitt 3rd fl entrance',
+        18 => 'moffitt 4th fl entrance',
+        19 => 'gardner stacks level c',
+        20 => 'library security'
       }
 
       legacy_types = {
