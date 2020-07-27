@@ -151,17 +151,17 @@ class ItemsController < ApplicationController
       }
 
       legacy_types = {
-        1 => 'Books',
-        2 => 'Clothing',
-        3 => 'Glasses',
-        4 => 'Keys',
-        5 => 'Phone',
-        6 => 'Wallet',
-        7 => 'ID (license or Cal card)',
-        8 => 'MP3 player',
-        9 => 'Other',
-        17 => 'iPod',
-        19 => 'Electronics'
+        1 => 'books',
+        2 => 'clothing',
+        3 => 'glasses',
+        4 => 'keys',
+        5 => 'phone',
+        6 => 'wallet',
+        7 => 'id (license or cal card)',
+        8 => 'mp3 player',
+        9 => 'other',
+        17 => 'ipod',
+        19 => 'electronics'
       }
 
       @item = Item.new
