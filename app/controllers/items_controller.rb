@@ -135,7 +135,7 @@ class ItemsController < ApplicationController
       end
 
       locations = {
-        1 => 'doe dirc',
+        1 => 'doe circ',
         2 => 'doe south entrance',
         3 => 'moffitt circ',
         4 => 'UCPD',
