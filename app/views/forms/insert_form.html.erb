@@ -12,23 +12,30 @@
     <%= label_tag(:itemDescription, "Describe the item:") %>
     <%=text_field_tag :itemDescription, nil, placeholder: 'Item description', required: true%>
 
-    <%= label_tag(:itemLocation, "Location:") %>
+    <%= label_tag(:itemLocation, "Location held at:") %>
     <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
 
     <%= label_tag(:itemFoundBy, "Found by:") %>
     <%=text_field_tag :itemFoundBy, nil, placeholder: "Finder's name" , required: true%>
 
-    <%= label_tag(:itemFoundAt, "Time found:") %>
-    <%= time_field_tag(:itemFoundAt, :itemFoundAt) %>
 
-    <%= label_tag(:itemDate, "Date found:") %>
-    <%= date_field_tag(:itemDate, :itemDate) %>
 
-    <%= label_tag(:whereFound, "Where Found:") %>
+
+    <div>
+    <%= label_tag(:whereFound, "Where found:") %>
     <%=text_field_tag :whereFound, nil, placeholder: 'where was this found?', required: true%>
+  </div>
 
     <%= label_tag(:image, "Image: ") %>
     <%= file_field_tag(:image) %>
+
+    <div>
+      <%= label_tag(:itemDate, "Date found:") %>
+      <%= date_field_tag(:itemDate, :itemDate) %>
+
+      <%= label_tag(:itemFoundAt, "Time found:") %>
+      <%= time_field_tag(:itemFoundAt, :itemFoundAt) %>
+  </div>
 
     <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= cookies[:user_name] %> 
 </div>
