@@ -12,7 +12,9 @@
 //
 //= require activestorage
 //= require turbolinks
+//= require jquery
 //= require jquery3
+//= require datatables
 //= require popper
 //= require bootstrap
 //=require lostandfound

@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+
 <% if user_level_admin? %>
 <h1>View all items</h1>
 <%= render template: "items/found"%>

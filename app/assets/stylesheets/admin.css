@@ -170,6 +170,18 @@ only screen and (max-width: 760px),
    background-color: lightgrey;
    border-color: lightgrey;
  }
+
+ #table_id_paginate {
+	padding:5px;
+	margin: 5px;
+ }
+
+ .paginate_button {
+	padding:5px;
+ }
  
+ #table_id_filter {
+	 display:none;
+ }
  
  

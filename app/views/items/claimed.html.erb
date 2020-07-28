@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <h2>Claimed Items</h2>
-<table class="table mt-5">
+<table id="claimed_items_table" class="table mt-5">
     <thead class="thead-light">
         <tr>
             <th scope="col">Actions</th>
@@ -58,6 +58,16 @@
             </tr>
         <% end %>
         </tbody>
-
-        
     </table>
+
+<script>
+    $(document).ready( function () {
+    console.log( "ready!" );
+    $('#found_items_table').DataTable({
+        "dom": '<"top"ip>rt<"bottom"><"clear">'
+    } );
+    $('#claimed_items_table').DataTable({
+        "dom": '<"top"ip>rt<"bottom"><"clear">'
+    } );
+    } );
+</script>

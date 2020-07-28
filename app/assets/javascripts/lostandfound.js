@@ -1,5 +1,6 @@
+
 $(document).on("change", "#itemStatus", function(e){
-    var select_val = $(this).val(); 
+    var select_val = $(this).val();
     if (select_val == 3) {
       $("#claimedBy").removeClass("hidden");
       $("#claimedByLabel").removeClass("hidden");
@@ -14,3 +15,4 @@ $(document).on("change", "#itemStatus", function(e){
  function toggleFunction() {
     document.getElementById("navbar-dropdown").classList.toggle("collapse");
   }
+

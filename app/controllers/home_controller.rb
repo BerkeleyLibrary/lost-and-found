@@ -47,7 +47,7 @@ class HomeController < ApplicationController
     @items_found = Item.found
     @items_claimed = Item.claimed
 
-    render :admin_items
+    render template: 'items/all'
   end
 
   def claimed_items
