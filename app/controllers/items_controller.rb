@@ -48,6 +48,19 @@ class ItemsController < ApplicationController
     render template: 'items/all'
   end
 
+  def admin_items
+    @items = Item.all
+    @items_found = Item.found
+    @items_claimed = Item.claimed
+
+    render template: 'items/all'
+  end
+
+  def claimed_items
+    @items_claimed = Item.claimed
+    render template: 'items/admin_claimed'
+  end
+
   def show
     @items = Item.all
     @items_found = Item.found
