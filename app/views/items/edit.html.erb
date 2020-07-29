@@ -25,14 +25,14 @@
 
     <%= label_tag(:itemFoundAt, "Time found:") %>
     <% if  @item.itemFoundAt? %>
-        <%= time_field_tag :itemFoundAt,:itemFoundAt , value: @item.itemFoundAt.strftime('%T.%L') %>
+        <%= time_field_tag :itemFoundAt,:itemFoundAt , value: @item.itemFoundAt.in_time_zone("Pacific Time (US & Canada)").strftime('%T.%L') %>
     <% else %>
         <%= time_field_tag(:itemFoundAt) %>
     <% end %>
 
     <%= label_tag(:itemDate, "Date found:") %>
     <% if  @item.itemDate? %>
-      <%= date_field_tag :itemDate, :itemDate, value: @item.itemDate.strftime('%Y-%m-%d') %>
+      <%= date_field_tag :itemDate, :itemDate, value: @item.itemDate.in_time_zone("Pacific Time (US & Canada)").strftime('%Y-%m-%d') %>
     <% else %>
       <%= date_field_tag(:itemDate) %>
     <% end %>
@@ -59,7 +59,7 @@
     <%= cookies[:user_name] %>
 
     <h4>Last updated at: </h4>
-    <%= @item.updated_at.strftime("%B %e, %Y at %I:%M %p") %>
+    <%= @item.updated_at.in_time_zone("Pacific Time (US & Canada)").strftime("%B %e, %Y at %I:%M %p") %>
 
     <div><%= submit_tag("Update item") %></div>
   <% end %>

@@ -32,12 +32,12 @@
                 <% end %>
             </td>
             <% if item.itemDate %>
-                <td><%= item.itemDate.strftime("%m/%d/%Y")  %></td>
+                <td><%= item.itemDate.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y")  %></td>
             <% else %>
                 <td><%=  'None'%> </td>
             <% end %>
                 <% if item.itemFoundAt %>
-                    <td><%= item.itemFoundAt.strftime("%l:%M %P")  %></td>
+                    <td><%= item.itemFoundAt.in_time_zone("Pacific Time (US & Canada)").strftime("%l:%M %P")  %></td>
                 <% else %>
                     <td><%=  'None'%> </td>
                 <% end %>
@@ -55,7 +55,7 @@
             </td>
             <td><%= item.itemUpdatedBy || 'None' %></td>
                 <% if item.itemLastModified %>
-                    <td><%= item.itemLastModified.strftime("%m/%d/%Y %l:%M %P")  %></td>
+                    <td><%= item.itemLastModified.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P")  %></td>
                 <% else %>
                     <td><%=  'None'%> </td>
                 <% end %>

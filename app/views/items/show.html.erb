@@ -7,7 +7,7 @@
 <div class="form-group row">
   <h5 class="col-2">Date found</h5> 
   <% if @item.itemDate%>
-    <div class="col-4"><%= @item.itemDate.strftime("%m/%d/%Y") %></div>
+    <div class="col-4"><%= @item.itemDate.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y") %></div>
   <% else %>
     <div class="col-4"> None </div>
 <% end %>
@@ -15,7 +15,7 @@
 <div class="form-group row">
   <h5 class="col-2">Time found</h5> 
   <% if @item.itemFoundAt%>
-  <div class="col-4"><%= @item.itemFoundAt.strftime("%l:%M %P") %></div>
+  <div class="col-4"><%= @item.itemFoundAt.in_time_zone("Pacific Time (US & Canada)").strftime("%l:%M %P") %></div>
 <% else %>
   <div class="col-4"> None </div>
 <% end %>
@@ -56,7 +56,7 @@
 <div class="form-group row">
   <h5 class="col-2">Last updated</h5>
   <% if @item.itemLastModified%>
-    <div class="col-4"><%= @item.itemLastModified.strftime("%m/%d/%Y %l:%M %P") %></div>
+    <div class="col-4"><%= @item.itemLastModified.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P") %></div>
   <% else %>
       <div class="col-4"> None </div>
   <% end %>

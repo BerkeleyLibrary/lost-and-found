@@ -183,7 +183,7 @@ class ItemsController < ApplicationController
       @item.whereFound = modified_item_values[3]
       @item.itemLocation = locations[modified_item_values[4].to_i]
       @item.itemType = legacy_types[modified_item_values[5].to_i]
-      @item.itemDescription = modified_item_values[6]
+      @item.itemDescription = modified_item_values[6].gsub(/[\r\n]+/m, "")
       @item.itemLastModified = Time.now
       @item.itemStatus = modified_item_values[8]
       @item.itemEnteredBy = modified_item_values[9]
