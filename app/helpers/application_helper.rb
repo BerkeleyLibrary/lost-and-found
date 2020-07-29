@@ -38,6 +38,14 @@ end
     mail_to support_email, 'Questions?', class: 'support-email'
   end
 
+  def status_codes(value)
+    case value
+      when 1 then 'Found'
+      when 3 then 'Claimed'
+      else ""
+    end
+  end
+
   def login_form
     render template: "forms/login"
   end

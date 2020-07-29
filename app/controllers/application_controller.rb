@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :ensure_authenticated_user
   before_action :check_timeout
   before_action :set_paper_trail_whodunnit
+  after_action -> { flash.discard }, if: -> { request.xhr? }
 
   def current_user
     cookies[:user_name]

@@ -85,9 +85,11 @@
             <ul>
             <% version.changeset.except(:updated_at).each do |value| %>
             <% if( value[0] == "image_url") %>
-              <li> 
+              <li>
                 New image upload
               </li>
+            <% elsif( value[0] == "itemStatus")  %>
+              <li><%= "Item status : " + status_codes(value[1][0]) + " to " +  status_codes(value[1][1])%> </li>
             <% else %>
               <li><%= value[0] + " : " + value[1][0].to_s  + " to " +  value[1][1].to_s%> </li>
             <% end %>
