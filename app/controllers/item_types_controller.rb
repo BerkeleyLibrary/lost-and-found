@@ -34,11 +34,11 @@ class ItemTypesController < ApplicationController
 
   def update
     active = params[:type_active] == 'true'
-    @itemType = ItemType.find(params[:id]).downcase
-    @itemType.update(type_name: params[:type_name], type_active: active, updated_at: Time.now, updated_by: cookies[:user_name])
+    @itemType = ItemType.find(params[:id])
+    @itemType.update(type_name: params[:type_name].downcase, type_active: active, updated_at: Time.now, updated_by: cookies[:user_name])
     @itemTypes = ItemType.all
     redirect_to admin_item_types_path
-  rescue Exception => e
+  rescue StandardError
     flash[:alert] = "Error: Item type #{params[:type_name].titleize} failed to be added"
     redirect_to admin_item_types_path
   end
