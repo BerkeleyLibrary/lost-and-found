@@ -1,16 +1,20 @@
 
  function pagination_setup() {
+  document.getElementById('found_items_table').style.display = 'none';
     $('#found_items_table').DataTable({
         "dom": '<"top"ip>rt<"bottom"><"clear">'
     } );
 
     $('#found_items_spinner').hide();
+    document.getElementById('found_items_spinner').style.display = 'none';
     $('#found_items_table').show();
 
+    document.getElementById('claimed_items_table').style.display = 'none';
     $('#claimed_items_table').DataTable({
         "dom": '<"top"ip>rt<"bottom"><"clear">'
     } );
     $('#claimed_items_spinner').hide();
+    document.getElementById('claimed_items_spinner').style.display = 'none';
     $('#claimed_items_table').show();
   }
 $(document).on("change", "#itemStatus", function(e){
