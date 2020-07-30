@@ -11,13 +11,13 @@ RSpec.describe 'Search form tasks', type: :feature do
     scenario 'Updated items are tracked in change history' do
         visit '/insert_form'
         fill_in 'itemDescription', with: "TEST_ITEM"
+        fill_in 'itemFoundBy', with: "TEST_ITEM"
         fill_in "whereFound", with: "TEST LOCATION DESCRIPTION"
         find('input[name="commit"]').click
         click_link "Search"
         click_button "Submit"
         first('td').click_link('Edit')
         select "Found", :from => "itemStatus"
-        p page.body
         expect(page).to have_selector('#claimedByLabel', visible: true)
       end
 end
