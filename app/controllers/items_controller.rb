@@ -37,6 +37,13 @@ class ItemsController < ApplicationController
     unless params[:searchAll] || params[:itemType] == 'none'
       @items = @items.select { |item| item.itemType == params[:itemType] }
     end
+
+    unless params[:searchAll] || params[:itemDate].blank?
+      item_date_raw = params[:itemDate]
+      item_date = Time.parse(item_date_raw)
+      @items = @items.select { |item| item.created_at >= DateTime.parse(item_date.to_s) }
+    end
+
     @items_found = @items.select { |item| item.itemStatus == 1 }
     @items_claimed = @items.select { |item| item.itemStatus == 3 }
 
