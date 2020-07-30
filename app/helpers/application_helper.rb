@@ -50,6 +50,18 @@ end
     render template: "forms/login"
   end
 
+  def history_to_pst(value)
+    value.present? ? value.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P") : ""
+  end
+
+  def history_to_readable(value)
+    value.present? ? value.strftime("%m/%d/%Y %l:%M %P") : ""
+  end
+
+  def history_to_readable_day(value)
+    value.present? ? value.strftime("%m/%d/%Y") : ""
+  end
+
   def items_list
     render template: "items/new"
   end

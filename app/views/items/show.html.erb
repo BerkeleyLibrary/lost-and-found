@@ -78,7 +78,7 @@
       <% @item.versions.reverse.each do |version| %>
       <% if !version.changeset.except(:updated_at).empty?%>
         <tr>
-          <td><%= version.created_at.strftime("%m/%d/%Y %l:%M %P")  %></td>
+          <td><%= version.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P")  %></td>
           <td><%= version.whodunnit || "unknown"%></td>
           <td><%= version.event.humanize %></td>
           <td>
@@ -90,6 +90,14 @@
               </li>
             <% elsif( value[0] == "itemStatus")  %>
               <li><%= "Item status : " + status_codes(value[1][0]) + " to " +  status_codes(value[1][1])%> </li>
+            <% elsif( value[0] == "itemLastModified")  %>
+              <li><%= value[0] + " : " + history_to_pst(value[1][0])  + " to " +  history_to_pst(value[1][1]) %>
+            <% elsif( value[0] == "created_at")  %>
+                <li><%= value[0] + " : " + history_to_pst(value[1][0])  + " to " +  history_to_pst(value[1][1]) %>
+            <% elsif( value[0] == "itemFoundAt")  %>
+                  <li><%= value[0] + " : " + history_to_readable(value[1][0])  + " to " +  history_to_readable(value[1][1]) %>
+            <% elsif( value[0] == "itemDate")  %>
+                    <li><%= value[0] + " : " + history_to_readable_day(value[1][0])  + " to " +  history_to_readable_day(value[1][1]) %>
             <% else %>
               <li><%= value[0] + " : " + value[1][0].to_s  + " to " +  value[1][1].to_s%> </li>
             <% end %>
