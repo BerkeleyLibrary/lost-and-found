@@ -25,7 +25,7 @@
 
     <%= label_tag(:itemFoundAt, "Time found:") %>
     <% if  @item.itemFoundAt? %>
-        <%= time_field_tag :itemFoundAt,:itemFoundAt , value: @item.itemFoundAt).strftime('%T.%L') %>
+        <%= time_field_tag :itemFoundAt,:itemFoundAt , value: @item.itemFoundAt.strftime('%T.%L') %>
     <% else %>
         <%= time_field_tag(:itemFoundAt) %>
     <% end %>
