@@ -55,7 +55,7 @@ end
   end
 
   def history_to_readable(value)
-    value.present? ? value.strftime("%m/%d/%Y %l:%M %P") : ""
+    value.present? ? value.strftime("%l:%M %P") : ""
   end
 
   def history_to_readable_day(value)
