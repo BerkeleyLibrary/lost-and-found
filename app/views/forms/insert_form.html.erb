@@ -2,27 +2,28 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% if user_level_staff? %>
 <h1>Add a lost item</h1>
+<p style="color: #ee0000">* Required</p>
 
 <div class="mb-4 form-group">
     <%= form_tag("item_insert", method: "post", multipart: true) do %>
 
-    <%= label_tag(:itemType, "Item type:") %>
-    <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
+    <%= label_tag(:itemType, "Item type:") %><span style="color: #ee0000"> * </span>
+    <%= select_tag(:itemType, options_for_select(@item_type_layout), :include_blank => true, required: true) %>
 
-    <%= label_tag(:itemDescription, "Describe the item:") %>
+    <%= label_tag(:itemDescription, "Describe the item:") %><span style="color: #ee0000"> * </span>
     <%=text_field_tag :itemDescription, nil, placeholder: 'Item description', required: true%>
 
-    <%= label_tag(:itemLocation, "Location held at:") %>
-    <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
+    <%= label_tag(:itemLocation, "Location held at:") %><span style="color: #ee0000"> * </span>
+    <%= select_tag(:itemLocation, options_for_select(@locations_layout), :include_blank => true, required: true) %>
 
-    <%= label_tag(:itemFoundBy, "Found by:") %>
+    <%= label_tag(:itemFoundBy, "Found by:") %><span style="color: #ee0000"> * </span>
     <%=text_field_tag :itemFoundBy, nil, placeholder: "Finder's name" , required: true%>
 
 
 
 
     <div>
-    <%= label_tag(:whereFound, "Where found:") %>
+    <%= label_tag(:whereFound, "Where found:") %><span style="color: #ee0000"> * </span>
     <%=text_field_tag :whereFound, nil, placeholder: 'where was this found?', required: true%>
   </div>
 
@@ -30,11 +31,11 @@
     <%= file_field_tag(:image) %>
 
     <div>
-      <%= label_tag(:itemDate, "Date found:") %>
-      <%= date_field_tag(:itemDate, :itemDate) %>
+      <%= label_tag(:itemDate, "Date found:") %><span style="color: #ee0000"> * </span>
+      <%= date_field_tag(:itemDate, :itemDate, required: true) %>
 
-      <%= label_tag(:itemFoundAt, "Time found:") %>
-      <%= time_field_tag(:itemFoundAt, :itemFoundAt) %>
+      <%= label_tag(:itemFoundAt, "Time found:") %><span style="color: #ee0000"> * </span>
+      <%= time_field_tag(:itemFoundAt, :itemFoundAt, required: true) %>
   </div>
 
     <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= cookies[:user_name] %> 
