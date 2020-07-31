@@ -216,7 +216,7 @@ class ItemsController < ApplicationController
     deleted_total = 0
 
     Item.find_each do |item|
-      if item.created_at <= DateTime.parse(purge_date.to_s) && item.itemStatus != 3
+      if item.created_at <= DateTime.parse(purge_date.to_s)
         item.update(itemStatus: 3, claimedBy: 'Purged')
         purged_total += 1
       end
