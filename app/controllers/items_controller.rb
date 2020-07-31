@@ -151,7 +151,7 @@ class ItemsController < ApplicationController
       raw_item_values = item.split(',')
       modified_item_values = []
       raw_item_values.each do |value|
-        modified_item_values.push(value.gsub("'", '').strip)
+        modified_item_values.push(value.chomp.gsub("'", '').strip)
       end
 
       locations = {
@@ -190,7 +190,10 @@ class ItemsController < ApplicationController
       @item.whereFound = modified_item_values[3]
       @item.itemLocation = locations[modified_item_values[4].to_i]
       @item.itemType = legacy_types[modified_item_values[5].to_i]
-      @item.itemDescription = modified_item_values[6].gsub(/[\r\n]+/m, "")
+      modified_item_values[6] = modified_item_values[6].gsub('\r', '')
+      modified_item_values[6] = modified_item_values[6].gsub('\n', '') 
+      modified_item_values[6] = modified_item_values[6].gsub('\s', 's') 
+      @item.itemDescription = modified_item_values[6].chomp
       @item.itemLastModified = Time.now
       @item.itemStatus = modified_item_values[8]
       @item.itemEnteredBy = modified_item_values[9]
