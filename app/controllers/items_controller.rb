@@ -199,7 +199,7 @@ class ItemsController < ApplicationController
       @item.itemUpdatedBy = modified_item_values[9]
       @item.itemFoundBy = modified_item_values[9]
       @item.libID = modified_item_values[16]
-      @item.created_at = Time.now
+      @item.created_at = modified_item_values[7]
       @item.updated_at = Time.now
       @item.claimedBy = 'unknown'
       begin
