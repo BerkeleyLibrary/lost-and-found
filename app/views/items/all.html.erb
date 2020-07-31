@@ -2,7 +2,7 @@
 
 <%= render template: "items/found"%>
 
-<% if user_level_admin? %>
+<% if user_level_admin?  && url = request.path_info.include?('admin')%>
     <%= render template: "items/claimed"%>
 <% end %>
 
