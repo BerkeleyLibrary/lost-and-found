@@ -3,7 +3,8 @@
   $( document ).ready(function() {
   document.getElementById('found_items_table').style.display = 'none';
     $('#found_items_table').DataTable({
-        "dom": '<"top"ip>rt<"bottom"><"clear">'
+        "dom": '<"top"ip>rt<"bottom"><"clear">',
+        "iDisplayLength": 25
     } );
 
 
@@ -14,7 +15,8 @@
 
     document.getElementById('claimed_items_table').style.display = 'none';
     $('#claimed_items_table').DataTable({
-        "dom": '<"top"ip>rt<"bottom"><"clear">'
+        "dom": '<"top"ip>rt<"bottom"><"clear">',
+        "iDisplayLength": 25
     } );
     $('#claimed_items_spinner').hide();
     document.getElementById('claimed_items_spinner').style.display = 'none';
@@ -27,7 +29,8 @@
     $( document ).ready(function() {
       document.getElementById('claimed_items_table').style.display = 'none';
       $('#claimed_items_table').DataTable({
-          "dom": '<"top"ip>rt<"bottom"><"clear">'
+          "dom": '<"top"ip>rt<"bottom"><"clear">',
+          "iDisplayLength": 25
       } );
       $('#claimed_items_spinner').hide();
       document.getElementById('claimed_items_spinner').style.display = 'none';
