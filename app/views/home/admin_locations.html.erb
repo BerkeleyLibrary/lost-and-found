@@ -2,10 +2,11 @@
 
 <% if user_level_admin? %>
 <h1>Add/Edit Lost & Found Locations</h1>
+<p style="color: #ee0000">* Required</p>
 <div class="mb-4 form-group">
     <h2>Add a new location</h2>
     <%= form_tag("location_insert", method: "post") do %>
-    <%= label_tag(:location_name, "Location name:") %>
+    <%= label_tag(:location_name, "Location name:") %><span style="color: #ee0000"> * </span>
     <%=text_field_tag :location_name, nil, placeholder: 'Moffitt Circ', required: true %>
 
     <div>

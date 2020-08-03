@@ -4,16 +4,17 @@
 
 <div class="mb-4 form-group"> 
     <h1>Add/Edit Lost & Found Users</h1>
+    <p style="color: #ee0000">* Required</p>
     <h2>Add a new user</h2>
     <%= form_tag("user_insert", method: "post") do %>
 
     <%= label_tag(:user_role, "User role:") %>
     <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
 
-    <%= label_tag(:user_name, "User name:") %>
+    <%= label_tag(:user_name, "User name:") %><span style="color: #ee0000"> * </span>
     <%=text_field_tag :user_name, nil, placeholder: 'John Smith' , required: true%>
 
-    <%= label_tag(:uid, "User ID:") %>
+    <%= label_tag(:uid, "User ID:") %><span style="color: #ee0000"> * </span>
     <%=text_field_tag :uid, nil, placeholder: 'UID', required: true %>
 
     <div>

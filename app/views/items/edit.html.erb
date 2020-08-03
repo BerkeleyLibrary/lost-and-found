@@ -38,7 +38,7 @@
     <% end %>
 
     <div>
-    <%= label_tag(:whereFound, "Where Found:") %>
+    <%= label_tag(:whereFound, "Where found:") %>
     <%=text_field_tag :whereFound, @item.whereFound %>
   </div>
 
@@ -48,7 +48,7 @@
     <%= hidden_field_tag(:id, @item.id) %>
 
 
-    <%= label_tag(:image, "Current Image: ") %>
+    <%= label_tag(:image, "Current image: ") %>
     <% if @item.image.attached? %>
       <image class="preview_image" src="<%=(url_for(@item.image)) %>" onerror="this.style.display = 'none'">
     <% else %>
