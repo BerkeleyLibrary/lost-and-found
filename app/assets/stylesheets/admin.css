@@ -191,3 +191,9 @@ only screen and (max-width: 760px),
  #claimed_items_table {
 	display: none;
 }
+
+.btn:focus {
+	color:#428dc2;
+	border: 2px solid blue;
+	background-color: #428dc2;
+  }
