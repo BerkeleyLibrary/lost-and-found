@@ -20,8 +20,13 @@
     <%= label_tag(:itemStatus, "Item status:") %>
     <%= select_tag(:itemStatus, options_for_select(@item_status_layout, @item.itemStatus)) %>
 
-    <%= label_tag(:claimedByLabel, "Claimed By:", class: 'hidden', id:'claimedByLabel') %>
-    <%= text_field_tag(:claimedBy,  "" , class: 'hidden') %>
+    <% if @item.claimedBy.blank? %>
+      <%= label_tag(:claimedByLabel, "Claimed By:", class: 'hidden', id:'claimedByLabel') %>
+      <%= text_field_tag(:claimedBy,  @item.claimedBy , class: 'hidden') %>
+    <% else %>
+      <%= label_tag(:claimedByLabel, "Claimed By:", class: 'hidden', id:'claimedByLabel') %>
+      <%= text_field_tag(:claimedBy, @item.claimedBy,  class: 'required') %>
+    <% end %>
 
     <%= label_tag(:itemFoundAt, "Time found:") %>
     <% if  @item.itemFoundAt? %>

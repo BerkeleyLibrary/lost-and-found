@@ -93,7 +93,8 @@ class ItemsController < ApplicationController
     begin
       @item = Item.find(params[:id])
       @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription], itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus], itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
-      @item.update(claimedBy: params[:claimedBy])
+      @item.update(claimedBy: params[:claimedBy]) unless params[:claimedBy].blank?
+     # @item.update(claimedBy: '') if params[:itemStatus] == 1
       @item.update(image: params[:image]) unless params[:image].nil?
       @item.update(image_url: url_for(@item.image)) if @item.image.attached?
       @items = Item.all
@@ -122,7 +123,7 @@ class ItemsController < ApplicationController
     @item.libID = 115
     @item.created_at = Time.now
     @item.updated_at = Time.now
-    @item.claimedBy = 'unclaimed'
+    @item.claimedBy = ''
     @item.whereFound = params[:whereFound] || 'unknown'
     @item.image.attach(params[:image])
     !params[:image].nil? ? @item.image_url = url_for(@item.image) : 'NONE'
@@ -220,7 +221,7 @@ class ItemsController < ApplicationController
 
     Item.find_each do |item|
       if item.created_at <= DateTime.parse(purge_date.to_s) && item.claimedBy != 'Purged'
-        item.update(itemStatus: 3, claimedBy: 'Purged')
+        item.update(itemUpdatedBy: cookies[:user_name], itemLastModified: Time.now, claimedBy: 'Purged')
         purged_total += 1
       end
     end

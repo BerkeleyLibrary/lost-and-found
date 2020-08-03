@@ -15,9 +15,8 @@ class Item < ApplicationRecord
       @types = ItemType.all
     end
 
-
-      scope :claimed, -> { where("itemStatus = 3")}
-      scope :found, -> { where("itemStatus = 1")}
+      scope :claimed, -> { where("itemStatus = 3 or claimedBy = 'Purged'")}
+      scope :found, -> { where("itemStatus = 1 and claimedBy != 'Purged'")}
       scope :query_params, -> (searchText) { 
         keywords = searchText.split(' ')
         where((['itemDescription LIKE ?'] * keywords.size).join(' OR '), *keywords.map{ |keyword| "%#{keyword}%" })

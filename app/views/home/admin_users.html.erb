@@ -8,8 +8,8 @@
     <h2>Add a new user</h2>
     <%= form_tag("user_insert", method: "post") do %>
 
-    <%= label_tag(:user_role, "User role:") %>
-    <%= select_tag(:user_role, options_for_select(@roles_layout)) %>
+    <%= label_tag(:user_role, "User role:") %> <span style="color: #ee0000"> * </span>
+    <%= select_tag(:user_role, options_for_select(@roles_layout), :include_blank => true, required: true ) %>
 
     <%= label_tag(:user_name, "User name:") %><span style="color: #ee0000"> * </span>
     <%=text_field_tag :user_name, nil, placeholder: 'John Smith' , required: true%>
