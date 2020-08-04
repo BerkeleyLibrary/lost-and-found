@@ -7,7 +7,7 @@
 <div class="form-group row">
   <h5 class="col-2">Date found</h5> 
   <% if @item.itemDate%>
-    <div class="col-4"><%= @item.itemDate.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y") %></div>
+    <div class="col-4"><%= @item.itemDate.strftime("%m/%d/%Y") %></div>
   <% else %>
     <div class="col-4"> None </div>
 <% end %>
@@ -93,9 +93,10 @@
             <% elsif( value[0] == "itemLastModified")  %>
               <li><%= value[0] + " : " + history_to_pst(value[1][0])  + " to " +  history_to_pst(value[1][1]) %>
             <% elsif( value[0] == "created_at")  %>
-                <li><%= value[0] + " : " + history_to_pst(value[1][0])  + " to " +  history_to_pst(value[1][1]) %>
+                <li><%= "Created at " +  history_to_pst(value[1][1]) %>
             <% elsif( value[0] == "itemFoundAt")  %>
                   <li><%= value[0] + " : " + history_to_readable(value[1][0])  + " to " +  history_to_readable(value[1][1]) %>
+            <% elsif( value[0] == "itemObsolete")  %>
             <% elsif( value[0] == "itemDate")  %>
                     <li><%= value[0] + " : " + history_to_readable_day(value[1][0])  + " to " +  history_to_readable_day(value[1][1]) %>
             <% else %>

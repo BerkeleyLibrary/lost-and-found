@@ -1,7 +1,7 @@
 
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 <% if user_level_staff? %>
-<h1>Set a date to purge from</h1>
+<h1>Enter date (all items found before this date will be deleted)</h1>
 
 <div class="mb-4 form-group">
     <%= form_tag("purge_items", method: "post", multipart: true) do %>

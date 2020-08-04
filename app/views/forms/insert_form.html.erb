@@ -34,8 +34,8 @@
       <%= label_tag(:itemDate, "Date found:") %><span style="color: #ee0000"> * </span>
       <%= date_field_tag(:itemDate, :itemDate, required: true) %>
 
-      <%= label_tag(:itemFoundAt, "Time found:") %><span style="color: #ee0000"> * </span>
-      <%= time_field_tag(:itemFoundAt, :itemFoundAt, required: true) %>
+      <%= label_tag(:itemFoundAt, "Time found:") %>
+      <%= time_field_tag(:itemFoundAt, :itemFoundAt) %>
   </div>
 
     <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= cookies[:user_name] %> 

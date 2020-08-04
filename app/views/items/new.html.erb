@@ -21,8 +21,16 @@
             <td>
                 <%= link_to 'Edit', edit_item_path(@item.id) %>
             </td>
-            <td><%= @item.itemDate || 'None'%></td>
-            <td><%= @item.itemFoundAt || 'None' %></td>
+            <% if @item.itemDate %>
+                <td><%= @item.itemDate.strftime("%m/%d/%Y")  %></td>
+            <% else %>
+                <td><%=  'None'%> </td>
+            <% end %>
+                <% if @item.itemFoundAt %>
+                    <td><%= @item.itemFoundAt.strftime("%l:%M %P")  %></td>
+                <% else %>
+                    <td><%=  'None'%> </td>
+                <% end %>
             <td><%= @item.itemFoundBy || 'No one' %></td>
             <td><%= @item.itemLocation || 'None' %></td>
             <td><%= @item.whereFound || 'None' %></td>

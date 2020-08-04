@@ -203,7 +203,7 @@ class ItemsController < ApplicationController
       @item.libID = modified_item_values[16]
       @item.created_at = modified_item_values[1]
       @item.updated_at = Time.now
-      @item.claimedBy = 'unknown'
+      @item.claimedBy = modified_item_values[13]
       begin
         @item.save!
       rescue StandardError
@@ -218,7 +218,7 @@ class ItemsController < ApplicationController
     deleted_total = 0
 
     Item.find_each do |item|
-      if item.created_at <= DateTime.parse(purge_date.to_s) && item.claimedBy != 'Purged'
+      if item.itemDate <= DateTime.parse(purge_date.to_s) && item.claimedBy != 'Purged'
         item.update(itemUpdatedBy: cookies[:user_name], itemLastModified: Time.now, claimedBy: 'Purged')
         purged_total += 1
       end
