@@ -44,8 +44,7 @@ class ItemsController < ApplicationController
       @items = @items.select { |item| item.created_at >= DateTime.parse(item_date_parsed.to_s) }
     end
 
-    @items_found = @items.select { |item| item.itemStatus == 1 }
-    @items_claimed = @items.select { |item| item.itemStatus == 3 }
+    @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged'}
 
     cookies[:itemLocation] = params[:itemLocation]
     cookies[:searchAll] = params[:searchAll]
@@ -94,7 +93,6 @@ class ItemsController < ApplicationController
       @item = Item.find(params[:id])
       @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription], itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus], itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
       @item.update(claimedBy: params[:claimedBy]) unless params[:claimedBy].blank?
-     # @item.update(claimedBy: '') if params[:itemStatus] == 1
       @item.update(image: params[:image]) unless params[:image].nil?
       @item.update(image_url: url_for(@item.image)) if @item.image.attached?
       @items = Item.all

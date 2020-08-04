@@ -24,7 +24,7 @@
       <%= label_tag(:claimedByLabel, "Claimed By:", class: 'hidden', id:'claimedByLabel') %>
       <%= text_field_tag(:claimedBy,  @item.claimedBy , class: 'hidden') %>
     <% else %>
-      <%= label_tag(:claimedByLabel, "Claimed By:", class: 'hidden', id:'claimedByLabel') %>
+      <%= label_tag(:claimedByLabel, "Claimed By:", class: '', id:'claimedByLabel') %>
       <%= text_field_tag(:claimedBy, @item.claimedBy,  class: 'required') %>
     <% end %>
 
