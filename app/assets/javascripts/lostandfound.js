@@ -1,24 +1,25 @@
 
  function pagination_setup() {
   $( document ).ready(function() {
-    document.getElementById('found_items_table').style.display = 'none';
-  document.getElementById('found_items_spinner').style.display = 'block';
+    $('#found_items_spinner').css('display', 'block');
+    $('#found_items_table').css('display', 'none');
+     $('#found_items_table').DataTable({
+          retrieve: true,
+         "dom": '<"top"ip>rt<"bottom"><"clear">',
+         "iDisplayLength": 25
+     } );
+    $('#found_items_spinner').css('display', 'none');
+     $('#found_items_table').css('display', 'block');
 
-    $('#found_items_table').DataTable({
-      retrieve: true,
-        "dom": '<"top"ip>rt<"bottom"><"clear">',
-        "iDisplayLength": 25
-    } );
-    document.getElementById('found_items_spinner').style.display = 'none';
-    document.getElementById('found_items_table').style.display = 'block';
-
-    $('#claimed_items_table').DataTable({
-      retrieve: true,
-        "dom": '<"top"ip>rt<"bottom"><"clear">',
-        "iDisplayLength": 25
-    } );
-    document.getElementById('claimed_items_spinner').style.display = 'none';
-    document.getElementById('claimed_items_table_wrapper').style.display = 'block';
+    $('#claimed_items_spinner').css('display', 'block');
+    $('#claimed_items_table').css('display', 'none');
+     $('#claimed_items_table').DataTable({
+          retrieve: true,
+         "dom": '<"top"ip>rt<"bottom"><"clear">',
+         "iDisplayLength": 25
+     } );
+    $('#claimed_items_spinner').css('display', 'none');
+     $('#claimed_items_table').css('display', 'block');
   });
   }
 

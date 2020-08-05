@@ -47,7 +47,7 @@ class ItemsController < ApplicationController
 
     @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged'}
 
-    @items_found = @items_found.sort_by &:itemDate
+    @items_found = @items_found.sort_by(&:itemDate).reverse
 
     cookies[:itemLocation] = params[:itemLocation]
     cookies[:searchAll] = params[:searchAll]
@@ -59,16 +59,16 @@ class ItemsController < ApplicationController
 
   def admin_items
     @items_found = Item.found 
-    @items_found = @items_found.sort_by &:itemDate
+    @items_found = @items_found.sort_by(&:itemDate).reverse
     @items_claimed = Item.claimed 
-    @items_claimed = @items_claimed.sort_by &:itemDate
+    @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
 
     render template: 'items/all'
   end
 
   def claimed_items
     @items_claimed = Item.claimed
-    @items_claimed = @items_claimed.sort_by &:itemDate
+    @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
     render template: 'items/admin_claimed'
   end
 
