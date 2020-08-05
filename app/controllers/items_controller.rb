@@ -14,6 +14,7 @@ class ItemsController < ApplicationController
     end
     @items_found = @items.select { |item| item.itemStatus == 1 }
     @items_claimed = @items.select { |item| item.itemStatus == 3 }
+
     render template: 'items/all'
   end
 
@@ -41,10 +42,12 @@ class ItemsController < ApplicationController
     unless params[:searchAll] || params[:itemDate].blank? || params[:itemDate] == "itemDate"
       item_date_raw = params[:itemDate]
       item_date_parsed = Time.parse(item_date_raw)
-      @items = @items.select { |item| item.itemDate >= DateTime.parse(item_date_parsed.to_s) }
+      @items = @items.select { |item| item.itemDate == DateTime.parse(item_date_parsed.to_s) }
     end
 
     @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged'}
+
+    @items_found = @items_found.sort_by &:itemDate
 
     cookies[:itemLocation] = params[:itemLocation]
     cookies[:searchAll] = params[:searchAll]
@@ -55,15 +58,17 @@ class ItemsController < ApplicationController
   end
 
   def admin_items
-    @items = Item.all if !@items
-    @items_found = Item.found if !@items_found
-    @items_claimed = Item.claimed if !@items_claimed
+    @items_found = Item.found 
+    @items_found = @items_found.sort_by &:itemDate
+    @items_claimed = Item.claimed 
+    @items_claimed = @items_claimed.sort_by &:itemDate
 
     render template: 'items/all'
   end
 
   def claimed_items
-    @items_claimed = Item.claimed unless @items_claimed
+    @items_claimed = Item.claimed
+    @items_claimed = @items_claimed.sort_by &:itemDate
     render template: 'items/admin_claimed'
   end
 

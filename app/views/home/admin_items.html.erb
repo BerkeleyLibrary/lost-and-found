@@ -1,12 +1,9 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
 
 <% if user_level_admin? %>
-<h1>View all items</h1>
+<h1 onload="pagination_setup()">View all items</h1>
 <%= render template: "items/found"%>
 
 <%= render template: "items/claimed"%>
 <% end %>
 
-<script>
-    pagination_setup()
-  </script>
