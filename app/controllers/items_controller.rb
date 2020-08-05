@@ -55,15 +55,15 @@ class ItemsController < ApplicationController
   end
 
   def admin_items
-    @items = Item.all
-    @items_found = Item.found
-    @items_claimed = Item.claimed
+    @items = Item.all if !@items
+    @items_found = Item.found if !@items_found
+    @items_claimed = Item.claimed if !@items_claimed
 
     render template: 'items/all'
   end
 
   def claimed_items
-    @items_claimed = Item.claimed
+    @items_claimed = Item.claimed unless @items_claimed
     render template: 'items/admin_claimed'
   end
 
@@ -101,7 +101,7 @@ class ItemsController < ApplicationController
     rescue Exception => e
       flash[:alert] = 'Error: Item has invalid parameters'
     end
-    render template: 'items/all'
+    render template: 'items/updated'
   end
 
   def create
