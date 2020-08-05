@@ -17,7 +17,7 @@
         <%= layouts_nav %>
         <% flash.each do |key, value| %>
         <div class="<%= flash_class(key) %> " role="alert">
-          <% if key!="success"%>
+          <% if key!="success" && key !="notice" %>
             <h5 class="alert-heading">The following error occurred:</h5>
             <ul>
               <li><%= value %></li>
