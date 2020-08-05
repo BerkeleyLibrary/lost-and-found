@@ -20,10 +20,7 @@ class UsersController < ApplicationController
   def edit
     @user = User.find(params[:id])
     @roles = Role.all
-    @roles_layout = [%w[Administrator Administrator]]
-    @roles.each do |role|
-      @roles_layout.push([role.role_name, role.role_name])
-    end
+    @roles_layout = [%w[Administrator Administrator], %w[Read-only Read-only], %w[Staff Staff]]
   end
 
   def create
