@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
       sign_out
       cookies[:logout_required] = true
       flash[:alert] = 'Error: Your session has expired. Please logout and sign in again to continue use.'
+      # redirect_to :logout
     end
   end
 
