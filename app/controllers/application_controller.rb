@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     if cookies[:expires_at].present? && DateTime.parse(cookies[:expires_at]) < DateTime.now
       sign_out
       cookies[:logout_required] = true
-      flash[:alert] = 'Error: Your session has expired. Please logout and sign in again to continue use.'
+      flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
       # redirect_to :logout
     end
   end
@@ -148,6 +148,29 @@ class ApplicationController < ActionController::Base
       locations_layout.push([location.location_name.titleize, location.location_name])
     end
     locations_layout
+  end
+
+  def insert_location_setup
+    locations = Location.active
+    locations.map { |location| location.location_name.downcase! }
+    locations = locations.sort_by(&:location_name)
+    locations_layout = []
+    locations.each do |location|
+      locations_layout.push([location.location_name.titleize, location.location_name])
+    end
+    locations_layout
+  end
+
+
+  def insert_item_type_setup
+    item_types = ItemType.active
+    item_types.map { |itemType| itemType.type_name.downcase! }
+    item_types = item_types.sort_by(&:type_name)
+    item_type_layout = []
+    item_types.each do |type|
+      item_type_layout.push([type.type_name.titleize, type.type_name])
+    end
+    item_type_layout
   end
 
   def item_type_setup
