@@ -1,0 +1,52 @@
+<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<h2>Lost and Found item updated</h2>
+<table class="table mt-5">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Actions</th>
+            <th scope="col">Date found</th>
+            <th scope="col">Time found</th>
+            <th scope="col">Found by</th>
+            <th scope="col">Item location</th>
+            <th scope="col">Where Found </th>
+            <th scope="col">Type of item</th>
+            <th scope="col">Item description</th>
+            <th scope="col">Item image</th>
+            <th scope="col">Updated by</th>
+            <th scope="col">Updated at</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <%= link_to 'Edit', edit_item_path(@item.id) %>
+            </td>
+            <% if @item.itemDate %>
+                <td><%= @item.itemDate.strftime("%m/%d/%Y")  %></td>
+            <% else %>
+                <td><%=  'None'%> </td>
+            <% end %>
+                <% if @item.itemFoundAt %>
+                    <td><%= @item.itemFoundAt.strftime("%l:%M %P")  %></td>
+                <% else %>
+                    <td><%=  'None'%> </td>
+                <% end %>
+            <td><%= @item.itemFoundBy || 'No one' %></td>
+            <td><%= @item.itemLocation || 'None' %></td>
+            <td><%= @item.whereFound || 'None' %></td>
+            <td><%= @item.itemType || 'No type' %></td>
+            <td class="desc"><%= @item.itemDescription || 'None' %></td>
+            <% if @item.image.attached? %>
+                <td><image class="preview_image" src="<%=(url_for(@item.image)) %>" onerror="this.style.display = 'none'"></td>
+            <% else %>
+                 <td>No image </td>
+            <% end %>
+            <td><%= @item.itemUpdatedBy || 'None' %></td>
+            <% if @item.itemLastModified %>
+                <td><%= @item.itemLastModified.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P")  %></td>
+            <% else %>
+                <td><%=  'None'%> </td>
+            <% end %>
+            </tr>
+        </tbody>
+    </table>
