@@ -184,17 +184,7 @@ only screen and (max-width: 760px),
 	 display:none;
  }
  
- #found_items_table {
-	 display: none;
- }
-
- /* #claimed_items_table {
-	display: none;
-}
-
-#claimed_items_spinner {
-	display: block;
-} */
+ 
 
 .btn:focus {
 	color:#428dc2;
