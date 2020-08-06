@@ -21,7 +21,7 @@
     </thead>
     <tbody>
         <%= paginate @items_found %>
-        <% @items_found.reverse.each do |item| %>
+        <% @items_found.each do |item| %>
         <tr>
             <td>
                 <% if user_level_staff? %>

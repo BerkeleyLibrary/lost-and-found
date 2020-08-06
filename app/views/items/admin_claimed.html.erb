@@ -20,7 +20,7 @@
     </thead>
     <tbody>
         <%= paginate @items_claimed %>
-        <% @items_claimed.reverse.each do |item| %>
+        <% @items_claimed.each do |item| %>
         <tr>
             <td >
                 <% if user_level_staff? %>

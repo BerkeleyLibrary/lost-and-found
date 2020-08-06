@@ -21,7 +21,7 @@
     </thead>
     <tbody>
         <%= paginate @items_claimed, param_name: :claimed_page, :params => { :anchor => 'claimed_items_header' }%>
-        <% @items_claimed.reverse.each do |item| %>
+        <% @items_claimed.each do |item| %>
         <tr>
             <td>
                 <% if user_level_staff? %>
