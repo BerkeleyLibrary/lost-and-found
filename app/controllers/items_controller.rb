@@ -31,7 +31,15 @@ class ItemsController < ApplicationController
   end
 
   def param_search
-    @items = Item.query_params(params[:keyword])
+
+   params[:itemLocation] =  cookies[:itemLocation]  unless params[:itemLocation]
+   params[:searchAll] = cookies[:searchAll] unless params[:searchAll]
+    params[:itemType] = cookies[:itemType] unless params[:itemType] 
+    params[:keyword] = cookies[:keyword] unless params[:keyword]
+    params[:itemDate] = cookies[:itemDate] unless params[:itemDate]
+
+
+    @items = Item.query_params(params[:keyword]) unless !params[:keyword]
     unless params[:searchAll] || params[:itemLocation] == 'none'
       @items = @items.select { |item| item.itemLocation == params[:itemLocation] }
     end
@@ -47,14 +55,14 @@ class ItemsController < ApplicationController
 
     @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged'}
 
-    # Item.order('itemDate DESC')
     @items_found = @items_found.sort_by(&:itemDate)
 
     cookies[:itemLocation] = params[:itemLocation]
     cookies[:searchAll] = params[:searchAll]
     cookies[:itemType] = params[:itemType]
     cookies[:keyword] = params[:keyword]
-    
+    cookies[:itemDate] = params[:itemDate]
+
     @items_found = Kaminari.paginate_array(@items_found).page(params[:page]).per(5)
 
     render template: 'items/found'
