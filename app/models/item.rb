@@ -6,6 +6,7 @@ class Item < ApplicationRecord
     attr_accessor :locations
     attr_accessor :types
     attribute :itemStatus, :integer, default: 1
+    paginates_per 25
 
     def locations
       @locations = Location.all
@@ -14,6 +15,7 @@ class Item < ApplicationRecord
     def types
       @types = ItemType.all
     end
+
 
       scope :claimed, -> { where("itemStatus = 3 or claimedBy = 'Purged'")}
       scope :found, -> { where("itemStatus = 1 and claimedBy != 'Purged'")}

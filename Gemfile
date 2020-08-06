@@ -33,7 +33,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'rubocop', '~> 0.88.0', require: false
-gem 'jquery-datatables'
+gem 'kaminari'
 
 
 

@@ -35,7 +35,7 @@ get 'admin_claimed', to: 'items#claimed_items'
 get 'admin_migration_items', to: 'home#admin_migration_items'
 get '/admin_migration_locations', to:'home#admin_migration_locations'
 get '/admin_migration_item_types', to:'home#admin_migration_item_types'
-get '/item_search', to: 'items#index'
+get '/item_search', to: 'items#param_search'
 
   post '/item_search', to:'items#param_search'
   post 'item_insert', to: "items#create"

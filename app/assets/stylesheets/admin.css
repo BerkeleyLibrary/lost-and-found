@@ -171,6 +171,11 @@ only screen and (max-width: 760px),
    border-color: lightgrey;
  }
 
+ .page {
+	padding-left:2px;
+	padding-right:2px;
+ }
+
  #table_id_paginate {
 	padding:5px;
 	margin: 5px;
@@ -184,7 +189,7 @@ only screen and (max-width: 760px),
 	 display:none;
  }
  
-#found_items_spinner {
+/* #found_items_spinner {
 	display: block;
 }
 
@@ -193,12 +198,12 @@ only screen and (max-width: 760px),
 }
 
 #claimed_items_table{
-	display: none;
+	display: block;
 }
 
 #found_items_table {
 	display: none;
-}
+} */
 
 .btn:focus {
 	color:#428dc2;
