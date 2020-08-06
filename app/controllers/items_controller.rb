@@ -47,13 +47,15 @@ class ItemsController < ApplicationController
 
     @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged'}
 
-    @items_found = @items_found.sort_by(&:itemDate).reverse
-    
+    # Item.order('itemDate DESC')
+    @items_found = @items_found.sort_by(&:itemDate)
+
     cookies[:itemLocation] = params[:itemLocation]
     cookies[:searchAll] = params[:searchAll]
     cookies[:itemType] = params[:itemType]
     cookies[:keyword] = params[:keyword]
-    @items_found = Item.page params[:page]
+    
+    @items_found = Kaminari.paginate_array(@items_found).page(params[:page]).per(5)
 
     render template: 'items/found'
   end
