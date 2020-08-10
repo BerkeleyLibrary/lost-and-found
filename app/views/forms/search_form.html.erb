@@ -17,12 +17,12 @@
         <%= label_tag(:itemLocation, "Location:") %>
         <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
 
+        <h4><%= label_tag(:itemDate, "Search by date range:") %></h4>
         <div>
-        <%= label_tag(:itemDate, "Search by date range:") %>
         <%= label_tag(:itemDate, "Start date:") %>
         <%= date_field_tag(:itemDate, :itemDate) %>
 
-        <%= label_tag(:itemDateEnd, "end date:") %>
+        <%= label_tag(:itemDateEnd, " End date:") %>
         <%= date_field_tag(:itemDateEnd, :itemDateEnd) %>
       </div>
 
