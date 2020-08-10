@@ -26,18 +26,6 @@
         <%= date_field_tag(:itemDateEnd, :itemDateEnd) %>
       </div>
 
-      <h4><%= label_tag(:itemDate, "Search by Year, Month or day") %></h4>
-      <div>
-      <%= label_tag(:itemDateDay, "Item day:") %>
-      <%= date_field_tag(:itemDateDay, :itemDateDay) %>
-
-      <%= label_tag(:itemDateMonth, "Item month:") %>
-      <%= date_field_tag(:itemDateMonth, :itemDateMonth) %>
-
-      <%= label_tag(:itemDateYear, "Item year:") %>
-      <%= date_field_tag(:itemDateYear, :itemDateYear) %>
-    </div>
-
         <%= label_tag(:search_all, "Search all libraries and locations:") %>
         <%= check_box_tag("searchAll") %>
         <div>

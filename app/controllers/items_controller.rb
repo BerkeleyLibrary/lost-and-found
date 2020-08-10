@@ -229,7 +229,7 @@ class ItemsController < ApplicationController
       @item.created_at = modified_item_values[1]
       @item.updated_at = Time.now
       @item.claimedBy = modified_item_values[13]
-      beginc
+      begin
         @item.save!
         recordsUploaded = recordsUploaded + 1
       rescue StandardError
