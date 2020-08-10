@@ -50,9 +50,6 @@ class ItemsController < ApplicationController
     unless params[:searchAll] || params[:itemDate].blank? || params[:itemDate] == "itemDate"
       item_date_raw = params[:itemDate]
       item_date_parsed = Time.parse(item_date_raw)
-
-
-
       if params[:itemDateEnd].blank? || params[:itemDateEnd] == "itemDateEnd"
         @items = @items.select { |item| item.itemDate == DateTime.parse(item_date_parsed.to_s) }
       else
@@ -168,6 +165,7 @@ class ItemsController < ApplicationController
  end
 
   def batch_upload
+    recordsUploaded = 0
     uploaded_file = params[:batch_file]
     file_content = uploaded_file.read
     upload_items = file_content.split('),(')
@@ -227,15 +225,17 @@ class ItemsController < ApplicationController
       @item.itemObsolete = 0
       @item.itemUpdatedBy = modified_item_values[9]
       @item.itemFoundBy = modified_item_values[9]
-      @item.libID = modified_item_values[16]
+      @item.libID = modified_item_values[0]
       @item.created_at = modified_item_values[1]
       @item.updated_at = Time.now
       @item.claimedBy = modified_item_values[13]
-      begin
+      beginc
         @item.save!
+        recordsUploaded = recordsUploaded + 1
       rescue StandardError
       end
     end
+    flash[:success] = " #{recordsUploaded} records added to db"
   end
 
   def purge_items
