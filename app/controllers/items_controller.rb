@@ -50,7 +50,16 @@ class ItemsController < ApplicationController
     unless params[:searchAll] || params[:itemDate].blank? || params[:itemDate] == "itemDate"
       item_date_raw = params[:itemDate]
       item_date_parsed = Time.parse(item_date_raw)
-      @items = @items.select { |item| item.itemDate == DateTime.parse(item_date_parsed.to_s) }
+
+
+
+      if params[:itemDateEnd].blank? || params[:itemDateEnd] == "itemDateEnd"
+        @items = @items.select { |item| item.itemDate == DateTime.parse(item_date_parsed.to_s) }
+      else
+        item_date_end_raw = params[:itemDateEnd]
+        item_date_end_parsed = Time.parse(item_date_end_raw)
+        @items = @items.select { |item| item.itemDate >= DateTime.parse(item_date_parsed.to_s) && item.itemDate <= DateTime.parse(item_date_end_parsed.to_s) }
+      end
     end
 
     @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged'}

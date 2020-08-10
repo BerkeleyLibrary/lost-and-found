@@ -19,7 +19,11 @@
 
         <div>
         <%= label_tag(:itemDate, "Search by date:") %>
+        <%= label_tag(:itemDate, "Start date:") %>
         <%= date_field_tag(:itemDate, :itemDate) %>
+
+        <%= label_tag(:itemDateEnd, "end date:") %>
+        <%= date_field_tag(:itemDateEnd, :itemDateEnd) %>
       </div>
 
         <%= label_tag(:search_all, "Search all libraries and locations:") %>
