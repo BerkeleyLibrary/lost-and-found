@@ -171,9 +171,13 @@ class ItemsController < ApplicationController
     file_content = uploaded_file.read
     upload_items = file_content.split('),(')
     upload_items.each do |item|
+      p '======record======='
+      p item
+      p '============='
       item[0] = '' if item[0] == '('
       item[item.length - 1] = '' if item[item.length - 1] == ')'
       raw_item_values = item.split(',')
+
       modified_item_values = []
       raw_item_values.each do |value|
         modified_item_values.push(value.chomp.gsub("'", '').strip)
@@ -209,9 +213,13 @@ class ItemsController < ApplicationController
         19 => 'electronics'
       }
 
-      while modified_item_values.length > 15
+      modified_item_values[7]
+      tmp = DateTime.parse modified_item_values[7] rescue nil
+      p tmp
+      while tmp.nil?
         modified_item_values[6] = modified_item_values[6] + ", " + modified_item_values[7]
         modified_item_values.delete_at(7)
+        tmp = DateTime.parse modified_item_values[7] rescue nil
       end
 
       @item = Item.new
