@@ -166,6 +166,7 @@ class ItemsController < ApplicationController
 
   def batch_upload
     recordsUploaded = 0
+    recordsfailed = ""
     uploaded_file = params[:batch_file]
     file_content = uploaded_file.read
     upload_items = file_content.split('),(')
@@ -208,6 +209,11 @@ class ItemsController < ApplicationController
         19 => 'electronics'
       }
 
+      while modified_item_values.length > 15
+        modified_item_values[6] = modified_item_values[6] + ", " + modified_item_values[7]
+        modified_item_values.delete_at(7)
+      end
+
       @item = Item.new
       @item.itemDate = modified_item_values[1]
       @item.itemFoundAt = modified_item_values[2]
@@ -233,6 +239,7 @@ class ItemsController < ApplicationController
         @item.save!
         recordsUploaded = recordsUploaded + 1
       rescue StandardError
+        recordsfailed = recordsfailed + " -  " + @item.itemDescription
       end
     end
     flash[:success] = " #{recordsUploaded} records added to db"
