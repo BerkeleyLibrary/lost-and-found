@@ -222,7 +222,7 @@ class ItemsController < ApplicationController
         tmp = DateTime.parse modified_item_values[7] rescue nil
       end
 
-      next if modified_item_values[11] != "NULL" && modified_item_values[12] != "NULL" && modified_item_values[13] != "NULL" && modified_item_values[14] == "0"
+      next if modified_item_values[11] == "0" && modified_item_values[12] == "NULL" && modified_item_values[13] == "NULL" && modified_item_values[14] == "0"
 
       @item = Item.new
       @item.itemDate = modified_item_values[1]
