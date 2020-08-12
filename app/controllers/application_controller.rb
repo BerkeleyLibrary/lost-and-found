@@ -89,27 +89,27 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def user_level_admin?(set_alert = false)
+  def user_level_admin?(suppress_alert = false)
     if cookies[:user_role] != 'Administrator'
-      flash.now.alert = 'You must have Admin level permission to view this page' unless set_alert || cookies[:logout_required]
+      flash.now.alert = 'You must have Admin level permission to view this page' unless suppress_alert || cookies[:logout_required]
       check_timeout
       return false
     end
     true
   end
 
-  def user_level_staff?(set_alert = false)
+  def user_level_staff?(suppress_alert = false)
     if cookies[:user_role] != 'Staff' && cookies[:user_role] != 'Administrator'
-      flash.now.alert = 'You must have staff level permission or greater to view this page' unless set_alert || cookies[:logout_required]
+      flash.now.alert = 'You must have staff level permission or greater to view this page' unless suppress_alert || cookies[:logout_required]
       check_timeout
       return false
     end
     true
   end
 
-  def user_level_read_only?(set_alert = false)
+  def user_level_read_only?(suppress_alert = false)
     if cookies[:user_role] != 'Read-only' && cookies[:user_role] != 'Staff' && cookies[:user_role] != 'Administrator'
-      flash.now.alert = 'You must be a registered user to view this page' unless set_alert || cookies[:logout_required]
+      flash.now.alert = 'You must be a registered user to view this page' unless suppress_alert || cookies[:logout_required]
       check_timeout
       return false
     end

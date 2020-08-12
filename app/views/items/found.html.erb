@@ -24,7 +24,7 @@
         <% @items_found.each do |item| %>
         <tr>
             <td>
-                <% if user_level_staff? %>
+                <% if user_level_staff? true %>
                     <%= link_to 'Edit', edit_item_path(item.id) %>
                     <%= link_to 'History', item_path(item.id) %>
                 <% end %>
