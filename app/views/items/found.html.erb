@@ -6,7 +6,9 @@
 <table id="found_items_table" class="table mt-5">
     <thead class="thead-light">
         <tr>
+            <% if user_level_staff? true %>
             <th scope="col">Actions</th>
+            <% end %>
             <th scope="col">Date found</th>
             <th scope="col">Time found</th>
             <th scope="col">Found by</th>
