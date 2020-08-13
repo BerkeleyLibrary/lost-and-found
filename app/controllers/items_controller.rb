@@ -85,7 +85,7 @@ class ItemsController < ApplicationController
     @items_claimed = Item.claimed 
     @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:claimed_page])
-    render template: 'items/all'
+    render template: 'items/admin_items'
   end
 
   def claimed_items
