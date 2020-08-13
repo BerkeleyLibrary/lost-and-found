@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   skip_before_action :verify_authenticity_token
   before_action :ensure_authenticated_user
+  before_action :require_login
   before_action :check_timeout
   before_action :set_paper_trail_whodunnit
   after_action -> { flash.discard }, if: -> { request.xhr? }
@@ -194,5 +195,14 @@ class ApplicationController < ActionController::Base
 
     (params[:q] ? params[:q].permit(attrs) : params.permit!).to_h.to_h.symbolize_keys
   end
+
+  private
+
+  def require_login
+    unless cookies[:user]
+      redirect_to '/auth/calnet'
+    end
+  end
+
 
 end

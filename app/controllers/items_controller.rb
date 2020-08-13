@@ -34,17 +34,21 @@ class ItemsController < ApplicationController
 
    params[:itemLocation] =  cookies[:itemLocation]  unless params[:itemLocation]
    params[:searchAll] = cookies[:searchAll] unless params[:searchAll]
-    params[:itemType] = cookies[:itemType] unless params[:itemType] 
-    params[:keyword] = cookies[:keyword] unless params[:keyword]
-    params[:itemDate] = cookies[:itemDate] unless params[:itemDate]
+  params[:itemType] = cookies[:itemType] unless params[:itemType] 
+  params[:keyword] = cookies[:keyword] unless params[:keyword]
+  params[:itemDate] = cookies[:itemDate] unless params[:itemDate]
 
+    if !params[:keyword].blank?
+      @items = Item.query_params(params[:keyword])
+    else
+      @items = Item.all
+    end
 
-    @items = Item.query_params(params[:keyword]) unless !params[:keyword]
     unless params[:searchAll] || params[:itemLocation] == 'none'
-      @items = @items.select { |item| item.itemLocation == params[:itemLocation] }
+      @items = @items.select { |item| item.itemLocation == params[:itemLocation] } unless params[:itemLocation].nil?
     end
     unless params[:searchAll] || params[:itemType] == 'none'
-      @items = @items.select { |item| item.itemType == params[:itemType] }
+      @items = @items.select { |item| item.itemType == params[:itemType] } unless params[:itemType].nil?
     end
 
     unless params[:searchAll] || params[:itemDate].blank? || params[:itemDate] == "itemDate"

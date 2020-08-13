@@ -2,6 +2,7 @@
 
 class SessionsController < ApplicationController
   skip_before_action :ensure_authenticated_user
+  skip_before_action :require_login
   def new
     if cookies[:logout_required]
       redirect_to '/home'
