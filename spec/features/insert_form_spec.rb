@@ -6,6 +6,7 @@ RSpec.describe 'Item insert tasks', type: :feature do
         Capybara.current_session.driver.browser.set_cookie "user_role=Staff"
         Capybara.current_session.driver.browser.set_cookie "user=a user"
         Capybara.current_session.driver.browser.set_cookie "user_name=Dante"
+        Capybara.current_session.driver.browser.set_cookie "user_active=true"
     end
 
     scenario 'Insert panel accessible to staff level user' do

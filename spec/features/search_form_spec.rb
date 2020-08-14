@@ -6,6 +6,7 @@ RSpec.describe 'Search form tasks', type: :feature do
         Capybara.current_session.driver.browser.set_cookie "user_role=Administrator"
         Capybara.current_session.driver.browser.set_cookie "user=a user"
         Capybara.current_session.driver.browser.set_cookie "user_name=Dante"
+        Capybara.current_session.driver.browser.set_cookie "user_active=true"
     end
 
     scenario 'search form accessible to staff level user' do
