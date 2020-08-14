@@ -9,6 +9,17 @@ module ApplicationHelper
     end
 end
 
+def user_active?
+  p '-------------------'
+  p cookies[:user_active]
+  if cookies[:user_active] == 'false' || cookies[:user_active] == nil
+    p '??????????????????????'
+    flash.now.alert = 'Your account is not active. Please contact an administrator.'
+    return false
+  end
+   true
+end
+
   def logo_link
     link_to(
       image_tag('UCB_logo.png', height: '30', alt: 'UC Berkeley Library'),

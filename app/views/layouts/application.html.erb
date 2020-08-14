@@ -30,9 +30,10 @@
           </button>
         </div>
       <% end %>
-
-        <%= yield %>
-        <%= layouts_footer %>
+        <% if user_active? %>
+          <%= yield %>
+          <%= layouts_footer %>
+        <% end %>
       </div>
     </main>
   </body>
