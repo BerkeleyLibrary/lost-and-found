@@ -10,12 +10,9 @@ module ApplicationHelper
 end
 
 def user_active?
-  if cookies[:user_active] == 'false' || cookies[:user_active] == nil
-    flash.now.alert = 'Your account is not active. Please contact an administrator.'
-    return false
+    flash[:alert] = 'Your account is not active. Please contact an administrator.' unless cookies[:active_user] == 'true'
+  return
   end
-   true
-end
 
   def logo_link
     link_to(
