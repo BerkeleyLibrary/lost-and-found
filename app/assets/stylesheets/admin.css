@@ -12,7 +12,7 @@ input[type="submit"] {
   text-align: center;
   margin: auto;
   width: 50%;
-  background-color: #428dc2;
+  background-color: #0275d8;
   color: white;
   padding: 14px 20px;
   border: none;
@@ -20,7 +20,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 input[type="submit"]:hover {
-  background-color: #428dc2;
+	background-color: #0275d8;
 }
 
 .btn-danger,

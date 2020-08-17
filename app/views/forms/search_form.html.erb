@@ -17,7 +17,7 @@
         <%= label_tag(:itemLocation, "Location:") %>
         <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
 
-        <h4><%= label_tag(:itemDate, "Search by date range:") %></h4>
+        <h4>Search by date range: </h4>
         <div>
         <%= label_tag(:itemDate, "Start date:") %>
         <%= date_field_tag(:itemDate, :itemDate) %>
@@ -27,10 +27,11 @@
       </div>
 
         <%= label_tag(:search_all, "Search all libraries and locations:") %>
-        <%= check_box_tag("searchAll") %>
+        <%= check_box_tag("searchAll", false, 'unchecked', 'aria-label' => 'Search all check') %>
+
         <div>
           <div class="btn-group" role="group">
-            <input type="submit" name="commit" value="Submit" class="btn btn-primary" data-disable-with="Submit">
+            <input type="submit" name="commit" value="Submit" class="btn btn-primary mb-2" data-disable-with="Submit">
           </div>
       </div>
   <% end %>
