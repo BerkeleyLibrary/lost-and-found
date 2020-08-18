@@ -17,16 +17,17 @@
         <%= label_tag(:itemLocation, "Location:") %>
         <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
 
-        <h4>Search by date range: </h4>
+        
         <div>
-        <%= label_tag(:itemDate, "Start date:") %>
-        <%= date_field_tag(:itemDate, :itemDate) %>
+          <h2>Search by date range: </h2>
+          <%= label_tag(:itemDate, "Start date:") %>
+          <%= date_field_tag(:itemDate, :itemDate) %>
 
-        <%= label_tag(:itemDateEnd, " End date:") %>
-        <%= date_field_tag(:itemDateEnd, :itemDateEnd) %>
+          <%= label_tag(:itemDateEnd, " End date:") %>
+          <%= date_field_tag(:itemDateEnd, :itemDateEnd) %>
       </div>
 
-        <%= label_tag(:search_all, "Search all libraries and locations:") %>
+        <div>Search all libraries and locations:</div>
         <%= check_box_tag("searchAll", false, 'unchecked', 'aria-label' => 'Search all check') %>
 
         <div>

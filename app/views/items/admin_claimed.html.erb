@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
-<h2>Claimed and purged items</h2>
+<h1>Claimed and purged items</h1>
 
 <table id="claimed_items_table" class="table mt-5">
     <thead class="thead-light">
@@ -24,7 +24,7 @@
         <tr>
             <td >
                 <% if user_level_staff? %>
-                    <span onclick="reset_claimed_table_style()"><%= link_to 'Edit', edit_item_path(item.id) %></span>
+                    <span ><%= link_to 'Edit', edit_item_path(item.id) %></span>
                     <%= link_to 'History', item_path(item.id) %>
                 <% end %>
             </td>
