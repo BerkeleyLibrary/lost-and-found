@@ -10,7 +10,7 @@ module ApplicationHelper
 end
 
 def user_active?
-    flash[:alert] = 'Your account is not active. Please contact an administrator.' unless cookies[:active_user] == 'true' || cookies[:logout_required]
+    flash[:alert] = 'Your account is not active. Please contact an administrator.' unless cookies[:user] || cookies[:logout_required]
   return
   end
 

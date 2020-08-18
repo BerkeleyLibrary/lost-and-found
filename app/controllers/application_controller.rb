@@ -65,21 +65,18 @@ class ApplicationController < ActionController::Base
   end
 
   def sign_in(user)
-    cookies[:user] = user
-    cookies[:user_name] = user.user_name
-    cookies[:uid] = user.uid
-    cookies[:user_role] = user.user_role
-    cookies[:active_user] = user.user_active
-    cookies[:expires_at] = 60.minutes.from_now
+    if user.user_active
+      cookies[:user] = user
+      cookies[:user_name] = user.user_name
+      cookies[:uid] = user.uid
+      cookies[:user_role] = user.user_role
+      cookies[:expires_at] = 60.minutes.from_now
 
-    @current_user = user
-    @current_user.uid = user.uid
-    @current_user.user_name = user.user_name
-    @current_user.user_role = user.user_role
-    @current_user.user_active = user.user_active == "true"
-
-    logger.debug("Signed in user #{cookies[:user_name]}")
-    logger.debug("Role of #{cookies[:user_role]}")
+      logger.debug("Signed in user #{cookies[:user_name]}")
+      logger.debug("Role of #{cookies[:user_role]}")
+    elsif
+      cookies[:user] = user.user_active
+    end
   end
 
   def sign_out
