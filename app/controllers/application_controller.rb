@@ -24,7 +24,6 @@ class ApplicationController < ActionController::Base
       sign_out
       cookies[:logout_required] = true
       flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
-      # redirect_to :logout
     end
   end
 
@@ -32,7 +31,6 @@ class ApplicationController < ActionController::Base
 
   def ensure_authenticated_user
     if cookies[:logout_required].present?
-      reset_session
       sign_out
       cookies[:logout_required] = true
       flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
@@ -40,7 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user?
-    if cookie[:uid].nil?
+    if session[:uid].nil?
       false
     else
       true
@@ -75,7 +73,11 @@ class ApplicationController < ActionController::Base
       logger.debug("Signed in user #{session[:user_name]}")
       logger.debug("Role of #{session[:user_role]}")
     elsif
-      session[:user] = user.user_active
+      session[:user] = user
+      session[:user_name] = 'deactivated'
+      session[:uid] = 'deactivated'
+      session[:user_role] = 'deactivated'
+      session[:expires_at] = 60.minutes.from_now
     end
   end
 
