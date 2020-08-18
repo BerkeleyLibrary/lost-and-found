@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   after_action -> { flash.discard }, if: -> { request.xhr? }
 
   def current_user
-    cookies[:user_name]
+    session[:user_name]
   end
 
   def after_sign_out_path_for(_resource_or_scope)
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_timeout
-    if cookies[:expires_at].present? && DateTime.parse(cookies[:expires_at]) < DateTime.now
+    if session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
       sign_out
       cookies[:logout_required] = true
       flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    User.where(uid: cookies[:uid]).first
+    User.where(uid: session[:uid]).first
   end
 
   def log_error(error)
@@ -66,33 +66,33 @@ class ApplicationController < ActionController::Base
 
   def sign_in(user)
     if user.user_active
-      cookies[:user] = user
-      cookies[:user_name] = user.user_name
-      cookies[:uid] = user.uid
-      cookies[:user_role] = user.user_role
-      cookies[:expires_at] = 60.minutes.from_now
+      session[:user] = user
+      session[:user_name] = user.user_name
+      session[:uid] = user.uid
+      session[:user_role] = user.user_role
+      session[:expires_at] = 60.minutes.from_now
 
-      logger.debug("Signed in user #{cookies[:user_name]}")
-      logger.debug("Role of #{cookies[:user_role]}")
+      logger.debug("Signed in user #{session[:user_name]}")
+      logger.debug("Role of #{session[:user_role]}")
     elsif
-      cookies[:user] = user.user_active
+      session[:user] = user.user_active
     end
   end
 
   def sign_out
-    cookies[:user] = nil
+    session[:user] = nil
     cookies.clear
     reset_session
   end
 
 
   def user_present?
-    cookies[:user].present?
+    session[:user].present?
   end
 
 
   def user_level_admin?(suppress_alert = false)
-    if cookies[:user_role] != 'Administrator'
+    if session[:user_role] != 'Administrator'
       flash.now.alert = 'You must have Admin level permission to view this page' unless suppress_alert || cookies[:logout_required]
       check_timeout
       return false
@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_level_staff?(suppress_alert = false)
-    if cookies[:user_role] != 'Staff' && cookies[:user_role] != 'Administrator'
+    if session[:user_role] != 'Staff' && session[:user_role] != 'Administrator'
       flash.now.alert = 'You must have staff level permission or greater to view this page' unless suppress_alert || cookies[:logout_required]
       check_timeout
       return false
@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_level_read_only?(suppress_alert = false)
-    if cookies[:user_role] != 'Read-only' && cookies[:user_role] != 'Staff' && cookies[:user_role] != 'Administrator'
+    if session[:user_role] != 'Read-only' && session[:user_role] != 'Staff' && session[:user_role] != 'Administrator'
       flash.now.alert = 'You must be a registered user to view this page' unless suppress_alert || cookies[:logout_required]
       check_timeout
       return false
@@ -200,7 +200,7 @@ class ApplicationController < ActionController::Base
   private
 
   def require_login
-    unless cookies[:user]
+    unless session[:user]
       redirect_to '/auth/calnet'
     end
   end

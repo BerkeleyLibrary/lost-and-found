@@ -10,7 +10,7 @@ class LocationsController < ApplicationController
     @Location.location_name = params[:location_name].downcase
     @Location.location_active = true
     @Location.updated_at = Time.now
-    @Location.updated_by = cookies[:user_name]
+    @Location.updated_by = session[:user_name]
 
     begin
       if @Location.valid? && @Location.save!
@@ -36,7 +36,7 @@ class LocationsController < ApplicationController
   def update
     active = params[:location_active] == 'true'
     @location = Location.find(params[:id])
-    @location.update(location_name: params[:location_name].downcase, location_active: active, updated_at: Time.now, updated_by: cookies[:user_name])
+    @location.update(location_name: params[:location_name].downcase, location_active: active, updated_at: Time.now, updated_by: session[:user_name])
     @locations = Location.all
     redirect_to admin_locations_path
   rescue Exception => e

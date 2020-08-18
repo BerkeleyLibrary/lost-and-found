@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Item insert tasks', type: :feature do
     before :each do
         mock_omniauth_login "013191304"
-        Capybara.current_session.driver.browser.set_cookie "user_role=Staff"
-        Capybara.current_session.driver.browser.set_cookie "user=a user"
-        Capybara.current_session.driver.browser.set_cookie "user_name=Dante"
-        Capybara.current_session.driver.browser.set_cookie "user_active=true"
+        page.set_rack_session(user_role: "Staff")
+        page.set_rack_session(user: "A user")
+        page.set_rack_session(user_name: "Dante")
+        page.set_rack_session(user_active: true)
     end
 
     scenario 'Insert panel accessible to staff level user' do
@@ -15,7 +15,7 @@ RSpec.describe 'Item insert tasks', type: :feature do
     end
 
     scenario 'Insert panel NOT accessible to read-only level user' do
-        Capybara.current_session.driver.browser.set_cookie "user_role=Read-only"
+      page.set_rack_session(user_role: "Read-only")
         visit '/insert_form'
         expect(page).to have_content('You must have staff level permission or greater to view this page')
     end
@@ -29,16 +29,15 @@ RSpec.describe 'Item insert tasks', type: :feature do
       end
 
       scenario 'Items missing required fields are NOT inserted into database' do
-        Capybara.current_session.driver.browser.set_cookie "user_role=Staff"
+        page.set_rack_session(user_role: "Staff")
         visit '/insert_form'
         find('input[name="commit"]').click
         expect(page).to have_content('Item rejected. Missing required fields')
       end
 
       scenario 'Auto populates current user as itemUpdatedBy' do
-        Capybara.current_session.driver.browser.set_cookie "user_role=Staff"
+        page.set_rack_session(user_role: "Staff")
         visit '/insert_form'
         expect(page).to have_content('Dante')
-        # find('input[name="commit"]').click
       end
 end

@@ -9,7 +9,7 @@ class ItemTypesController < ApplicationController
     @ItemType.type_name = params[:type_name].downcase
     @ItemType.type_active = true
     @ItemType.updated_at = Time.now
-    @ItemType.updated_by = cookies[:user_name]
+    @ItemType.updated_by = session[:user_name]
 
     begin
       if @ItemType.valid? && @ItemType.save!
@@ -35,7 +35,7 @@ class ItemTypesController < ApplicationController
   def update
     active = params[:type_active] == 'true'
     @itemType = ItemType.find(params[:id])
-    @itemType.update(type_name: params[:type_name].downcase, type_active: active, updated_at: Time.now, updated_by: cookies[:user_name])
+    @itemType.update(type_name: params[:type_name].downcase, type_active: active, updated_at: Time.now, updated_by: session[:user_name])
     @itemTypes = ItemType.all
     redirect_to admin_item_types_path
   rescue StandardError

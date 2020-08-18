@@ -19,6 +19,7 @@ Rails.application.configure do
   config.assets.debug = true
   config.assets.quiet = true
   config.lograge.enabled = true
+  config.middleware.use RackSessionAccess::Middleware
   #Short circuits test flow. 
   # See documentation here: https://github.com/omniauth/omniauth/wiki/Integration-Testing
   OmniAuth.config.test_mode = true

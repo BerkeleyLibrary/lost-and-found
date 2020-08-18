@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
 
   def current_user
-    cookies[:user_name]
+    session[:user_name]
   end
 
   def index
@@ -119,7 +119,7 @@ class ItemsController < ApplicationController
   def update
     begin
       @item = Item.find(params[:id])
-      @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription], itemUpdatedBy: cookies[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus], itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
+      @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription], itemUpdatedBy: session[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus], itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
       @item.update(claimedBy: params[:claimedBy]) unless params[:claimedBy].blank?
       @item.update(image: params[:image]) unless params[:image].nil?
       @item.update(image_url: url_for(@item.image)) if @item.image.attached?
@@ -144,7 +144,7 @@ class ItemsController < ApplicationController
     @item.itemEnteredBy = 'unknown'
     @item.itemImage = 'none'
     @item.itemObsolete = 0
-    @item.itemUpdatedBy = cookies[:user_name]
+    @item.itemUpdatedBy = session[:user_name]
     @item.itemFoundBy = params[:itemFoundBy] || 'anonymous'
     @item.libID = 115
     @item.created_at = Time.now
@@ -267,7 +267,7 @@ class ItemsController < ApplicationController
 
     Item.find_each do |item|
       if item.itemDate <= DateTime.parse(purge_date.to_s) && item.claimedBy != 'Purged'
-        item.update(itemUpdatedBy: cookies[:user_name], itemLastModified: Time.now, claimedBy: 'Purged')
+        item.update(itemUpdatedBy: session[:user_name], itemLastModified: Time.now, claimedBy: 'Purged')
         purged_total += 1
       end
     end

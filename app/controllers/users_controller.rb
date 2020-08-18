@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     @user.user_name = params[:user_name]
     @user.user_role = params[:user_role]
     @user.user_active = true
-    @user.updated_by = cookies[:user_name]
+    @user.updated_by = session[:user_name]
     @user.updated_at = Time.now
     begin
       if @user.valid? && @user.save!

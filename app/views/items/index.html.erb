@@ -25,7 +25,7 @@
     <%= label_tag(:image, "Image: ") %>
 
     <h4> Update by: </h4>
-    <%= cookies[:user_name] %>
+    <%= session[:user_name] %>
 
     <h4>Last updated at: </h4>
     <%= @item.updated_at.strftime("%B %e, %Y at %I:%M %p") %>

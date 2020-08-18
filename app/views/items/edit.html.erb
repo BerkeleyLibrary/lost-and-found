@@ -61,7 +61,7 @@
     <% end %>
 
     <h4> Update by: </h4>
-    <%= cookies[:user_name] %>
+    <%= session[:user_name] %>
 
     <h4>Last updated at: </h4>
     <%= @item.updated_at.in_time_zone("Pacific Time (US & Canada)").strftime("%B %e, %Y at %I:%M %p") %>
