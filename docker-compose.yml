@@ -1,18 +1,16 @@
 services:
   adminer:
     image: adminer
-    depends_on:
-      - db
+    restart: always
     ports:
       - 8080:8080
 
   db:
-    image: mariadb:10.4.12-bionic
+    image: postgres:12.2
+    restart: always
     environment:
-      MYSQL_DATABASE: lostandfound-dev
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - 3306:3306
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
 
   web:
     build:

@@ -17,10 +17,16 @@ class Item < ApplicationRecord
     end
 
 
-      scope :claimed, -> { where("itemStatus = 3 or claimedBy = 'Purged'")}
-      scope :found, -> { where("itemStatus = 1 and claimedBy != 'Purged'")}
-      scope :query_params, -> (searchText) { 
-        keywords = searchText.split(' ')
-        where((['itemDescription LIKE ?'] * keywords.size).join(' OR '), *keywords.map{ |keyword| "%#{keyword}%" })
+      scope :claimed, -> { where(itemStatus: 3).or(where(claimedBy: 'Purged'))}
+      scope :found, -> { where(itemStatus:1).where.not(claimedBy: 'Purged')}
+      scope :query_params, -> (searchText) {
+      keywords = searchText.split(' ')
+      arel = Item.arel_table
+      records = []
+      keywords.each do |keyword|
+        like_ast = arel[:itemDescription].matches("%#{keyword}%")
+       records += Item.where(like_ast)
+      end
+       records
       }
   end

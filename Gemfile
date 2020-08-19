@@ -35,6 +35,8 @@ gem 'jquery-rails'
 gem 'rubocop', '~> 0.88.0', require: false
 gem 'kaminari'
 gem 'rack_session_access'
+gem 'pg'
+gem 'pg_search'
 
 
 
