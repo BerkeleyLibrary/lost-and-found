@@ -1,12 +1,12 @@
 development:
   pool: 5
   timeout: 5000
-  url: <%= ENV['DATABASE_URL'] || 'mysql2://root:root@db:3306/lostandfound-dev' %>
+  url: <%= ENV['DATABASE_URL'] || 'postgres://root:root@db/lostandfound-dev?pool=5' %>
 
 test:
-  url: <%= ENV['DATABASE_URL'] || 'mysql2://root:root@db:3306/lostandfound-test' %>
+  url: <%= ENV['DATABASE_URL'] || 'postgres://root:root@db/lostandfound-test?pool=5' %>
 
 production:
   pool: 5
   timeout: 5000
-  url: <%= ENV['DATABASE_URL'] || 'mysql2://root:root@db:3306/lostandfound-prod' %>
+  url: <%= ENV['DATABASE_URL'] || 'postgres://root:root@db/lostandfound-prod' %>

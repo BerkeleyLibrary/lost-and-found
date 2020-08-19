@@ -191,6 +191,7 @@ GEM
     parallel (1.19.2)
     parser (2.7.1.4)
       ast (~> 2.4.1)
+    pg (1.2.3)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
@@ -379,6 +380,7 @@ DEPENDENCIES
   omniauth-cas!
   ougai (>= 1.8.2)
   paper_trail
+  pg
   poltergeist
   puma (~> 4.1)
   pundit

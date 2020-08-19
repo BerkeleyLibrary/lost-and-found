@@ -36,6 +36,7 @@ RUN apk --no-cache --update upgrade \
         nodejs \
         openssl \
         sqlite-libs \
+        postgresql-libs \
         tzdata \
         xz-libs \
         wget \
@@ -62,6 +63,7 @@ RUN apk --update --no-cache add \
         build-base \
         coreutils \
         mariadb-dev \
+        postgresql-dev \
         sqlite-dev
 
 USER lostandfound
