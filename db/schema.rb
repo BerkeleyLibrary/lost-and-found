@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_25_005740) do
+ActiveRecord::Schema.define(version: 2020_08_19_173031) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -84,7 +87,7 @@ ActiveRecord::Schema.define(version: 2020_07_25_005740) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "user_role"
     t.boolean "user_active"
-    t.integer "uid", default: 0, null: false
+    t.integer "uid"
     t.datetime "remember_created_at"
     t.string "provider"
     t.string "updated_by"
@@ -96,7 +99,7 @@ ActiveRecord::Schema.define(version: 2020_07_25_005740) do
     t.bigint "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
-    t.text "object", size: :long
+    t.text "object"
     t.datetime "created_at"
     t.text "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
