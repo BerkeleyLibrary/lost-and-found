@@ -1,5 +1,5 @@
 dockerComposePipeline(
-  stack: [template: 'mariadb'],
+  stack: [template: "postgres"],
   commands: ['sleep 30', 'rake'],
   artifacts: [junit: 'tmp/specs.xml',
               brakeman: 'tmp/brakeman.json'])
