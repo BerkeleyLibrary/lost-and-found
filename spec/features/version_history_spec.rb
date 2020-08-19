@@ -10,35 +10,24 @@ RSpec.describe 'Version history testing', type: :feature do
     end
 
     with_versioning do
-    #   scenario 'Items are given version history from Creation' do
+
+
+    # scenario 'Updated items are tracked in change history' do
     #   visit '/insert_form'
-    #   fill_in "itemDescription", with: "TEST_ITEM"
-    #   fill_in "itemFoundBy", with: "TEST_NAME"
-    #   fill_in "whereFound", with: "TEST_LOCATION_DESCRIPTION"
+    #   fill_in 'itemDescription', with: "TEST_ITEM"
+    #   fill_in "itemFoundBy", with: "TEST NAME"
+    #   fill_in "whereFound", with: "TEST LOCATION DESCRIPTION"
     #   find('input[name="commit"]').click
     #   click_link "Search"
-    #   click_button"Submit"
+    #   click_button "Submit"
+    #   first('td').click_link('Edit')
+    #   fill_in 'itemDescription', with: "NEW_TEST_ITEM"
+    #   find('input[name="commit"]').click
+    #   click_link "Search"
+    #   click_button "Submit"
     #   first('td').click_link('History')
-    #   expect(page).to have_content('Create')
+    #   expect(page).to have_content('Update')
+    #   expect(page).to have_content('TEST_ITEM to NEW_TEST_ITEM')
     # end
-
-
-    scenario 'Updated items are tracked in change history' do
-      visit '/insert_form'
-      fill_in 'itemDescription', with: "TEST_ITEM"
-      fill_in "itemFoundBy", with: "TEST NAME"
-      fill_in "whereFound", with: "TEST LOCATION DESCRIPTION"
-      find('input[name="commit"]').click
-      click_link "Search"
-      click_button "Submit"
-      first('td').click_link('Edit')
-      fill_in 'itemDescription', with: "NEW_TEST_ITEM"
-      find('input[name="commit"]').click
-      click_link "Search"
-      click_button "Submit"
-      first('td').click_link('History')
-      expect(page).to have_content('Update')
-      expect(page).to have_content('TEST_ITEM to NEW_TEST_ITEM')
-    end
   end
 end
