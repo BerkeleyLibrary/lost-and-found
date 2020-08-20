@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   skip_before_action :check_timeout
 
   def new
-    if session[:user]
+    if session[:user] || session[:timed_out]
       redirect_to '/home'
     else
       redirect_to '/auth/calnet'
