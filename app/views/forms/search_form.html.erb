@@ -28,8 +28,7 @@
       </div>
 
         <div>Search all libraries and locations:</div>
-        <%= check_box_tag("searchAll", false, 'unchecked', 'aria-label' => 'Search all check') %>
-
+        <%= check_box_tag(:searchAll, value = true, checked = false, 'aria-label' => 'Search all check') %>
         <div>
           <div class="btn-group" role="group">
             <input type="submit" name="commit" value="Submit" class="btn btn-primary mb-2" data-disable-with="Submit">

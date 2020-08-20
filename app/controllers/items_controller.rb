@@ -51,7 +51,7 @@ class ItemsController < ApplicationController
       @items = @items.select { |item| item.itemType == params[:itemType] } unless params[:itemType].nil?
     end
 
-    unless params[:searchAll] || params[:itemDate].blank? || params[:itemDate] == "itemDate"
+    unless params[:itemDate].blank? || params[:itemDate] == "itemDate"
       item_date_raw = params[:itemDate]
       item_date_parsed = Time.parse(item_date_raw)
       if params[:itemDateEnd].blank? || params[:itemDateEnd] == "itemDateEnd"

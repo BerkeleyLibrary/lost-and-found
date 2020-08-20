@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
   def check_timeout
     if session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
       reset_session
+      cookies[:_lost_and_found_session] = false
       flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
     end
   end
