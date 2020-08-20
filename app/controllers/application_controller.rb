@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
   skip_before_action :verify_authenticity_token
   before_action :ensure_authenticated_user
-  before_action :require_login
   before_action :check_timeout
   before_action :set_paper_trail_whodunnit
   after_action -> { flash.discard }, if: -> { request.xhr? }
@@ -21,8 +20,7 @@ class ApplicationController < ActionController::Base
 
   def check_timeout
     if session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
-      sign_out
-      cookies[:logout_required] = true
+      reset_session
       flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
     end
   end
@@ -68,7 +66,7 @@ class ApplicationController < ActionController::Base
       session[:user_name] = user.user_name
       session[:uid] = user.uid
       session[:user_role] = user.user_role
-      session[:expires_at] = 60.minutes.from_now
+      session[:expires_at] = 10.seconds.from_now
 
       logger.debug("Signed in user #{session[:user_name]}")
       logger.debug("Role of #{session[:user_role]}")
@@ -77,12 +75,11 @@ class ApplicationController < ActionController::Base
       session[:user_name] = 'deactivated'
       session[:uid] = 'deactivated'
       session[:user_role] = 'deactivated'
-      session[:expires_at] = 60.minutes.from_now
+      session[:expires_at] = 10.seconds.from_now
     end
   end
 
   def sign_out
-    session[:user] = nil
     cookies.clear
     reset_session
   end
@@ -95,7 +92,7 @@ class ApplicationController < ActionController::Base
 
   def user_level_admin?(suppress_alert = false)
     if session[:user_role] != 'Administrator'
-      flash.now.alert = 'You must have Admin level permission to view this page' unless suppress_alert || cookies[:logout_required]
+      flash.now.alert = 'You must have Admin level permission to view this page' unless suppress_alert || !session[:user]
       check_timeout
       return false
     end
@@ -104,7 +101,7 @@ class ApplicationController < ActionController::Base
 
   def user_level_staff?(suppress_alert = false)
     if session[:user_role] != 'Staff' && session[:user_role] != 'Administrator'
-      flash.now.alert = 'You must have staff level permission or greater to view this page' unless suppress_alert || cookies[:logout_required]
+      flash.now.alert = 'You must have staff level permission or greater to view this page' unless suppress_alert || !session[:user]
       check_timeout
       return false
     end
@@ -113,7 +110,7 @@ class ApplicationController < ActionController::Base
 
   def user_level_read_only?(suppress_alert = false)
     if session[:user_role] != 'Read-only' && session[:user_role] != 'Staff' && session[:user_role] != 'Administrator'
-      flash.now.alert = 'You must be a registered user to view this page' unless suppress_alert || cookies[:logout_required]
+      flash.now.alert = 'You must be a registered user to view this page' unless suppress_alert || !session[:user]
       check_timeout
       return false
     end
@@ -201,11 +198,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def require_login
-    unless session[:user]
-      redirect_to '/auth/calnet'
-    end
-  end
+
 
 
 end
