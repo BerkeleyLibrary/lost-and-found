@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
       session[:user_name] = user.user_name
       session[:uid] = user.uid
       session[:user_role] = user.user_role
-      session[:expires_at] = 10.seconds.from_now
+      session[:expires_at] = 60.minutes.from_now
 
       logger.debug("Signed in user #{session[:user_name]}")
       logger.debug("Role of #{session[:user_role]}")
@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
       session[:user_name] = 'deactivated'
       session[:uid] = 'deactivated'
       session[:user_role] = 'deactivated'
-      session[:expires_at] = 10.seconds.from_now
+      session[:expires_at] = 60.minutes.from_now
     end
   end
 
