@@ -23,12 +23,12 @@
         <%= paginate @items_claimed, param_name: :claimed_page, :params => { :anchor => 'claimed_items_header' }%>
         <% @items_claimed.each do |item| %>
         <tr>
-            <td>
-                <% if user_level_staff? %>
+            <% if user_level_staff? %>
+                <td>
                     <%= link_to 'Edit', edit_item_path(item.id) %>
                     <%= link_to 'History', item_path(item.id) %>
-                <% end %>
-            </td>
+                </td>
+            <% end %>
             <% if item.itemDate %>
                 <td><%= item.itemDate.strftime("%m/%d/%Y")  %></td>
             <% else %>

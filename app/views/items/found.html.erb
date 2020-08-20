@@ -25,12 +25,12 @@
         <%= paginate @items_found %>
         <% @items_found.each do |item| %>
         <tr>
-            <td>
-                <% if user_level_staff? true %>
+            <% if user_level_staff? true %>
+                <td>
                     <%= link_to 'Edit', edit_item_path(item.id) %>
                     <%= link_to 'History', item_path(item.id) %>
-                <% end %>
-            </td>
+                </td>
+            <% end %>
             <% if item.itemDate %>
                 <td><%= item.itemDate.strftime("%m/%d/%Y")  %></td>
             <% else %>
