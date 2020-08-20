@@ -15,7 +15,6 @@
       <a href="#main" class="visually-hidden focusable skip-link">Skip to main content</a>
       <div id="app" class="container">
         <%= layouts_nav %>
-        <%= user_active? %>
         <% flash.each do |key, value| %>
         <div class="<%= flash_class(key) %> " role="alert">
           <% if key!="success" && key !="notice" %>

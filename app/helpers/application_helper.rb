@@ -9,10 +9,6 @@ module ApplicationHelper
     end
 end
 
-def user_active?
-    flash[:alert] = 'Your account is not active. Please contact an administrator.' unless session[:user] || cookies[:logout_required]
-  return
-  end
 
   def logo_link
     link_to(

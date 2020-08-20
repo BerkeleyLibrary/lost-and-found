@@ -2,9 +2,10 @@
 
 class SessionsController < ApplicationController
   skip_before_action :ensure_authenticated_user
-  skip_before_action :require_login
+  skip_before_action :check_timeout
+
   def new
-    if cookies[:logout_required]
+    if session[:user]
       redirect_to '/home'
     else
       redirect_to '/auth/calnet'
