@@ -266,7 +266,7 @@ class ItemsController < ApplicationController
     purged_total = 0
 
     Item.find_each do |item|
-      if item.itemDate <= DateTime.parse(purge_date.to_s) && item.claimedBy != 'Purged'
+      if item.itemDate <= DateTime.parse(purge_date.to_s) && item.claimedBy != 'Purged' && item.itemStatus == 1
         item.update(itemUpdatedBy: session[:user_name], itemLastModified: Time.now, claimedBy: 'Purged')
         purged_total += 1
       end
