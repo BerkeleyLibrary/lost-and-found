@@ -96,6 +96,12 @@
             <% elsif( value[0] == "itemFoundAt")  %>
                   <li><%= value[0] + " : " + history_to_readable(value[1][0])  + " to " +  history_to_readable(value[1][1]) %>
             <% elsif( value[0] == "itemObsolete")  %>
+            <% elsif(value[0] == "claimedBy") %>
+                    <% if(history_claimed_map(value[1][0]) == history_claimed_map(value[1][1]) ) %>
+                        <li><%= "Claimed by : " + history_claimed_map(value[1][0]) %></li>
+                      <% else %>
+                        <li><%= "Claimed by : " + history_claimed_map(value[1][0]) + " to " + history_claimed_map(value[1][1])%> </li>
+                    <% end %>
             <% elsif( value[0] == "itemDate")  %>
                     <li><%= value[0] + " : " + history_to_readable_day(value[1][0])  + " to " +  history_to_readable_day(value[1][1]) %>
             <% else %>

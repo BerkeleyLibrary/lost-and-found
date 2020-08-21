@@ -9,6 +9,10 @@ module ApplicationHelper
     end
 end
 
+def history_claimed_map(value)
+  return !value || value.blank? ? "unclaimed" : value
+end
+
 
   def logo_link
     link_to(
