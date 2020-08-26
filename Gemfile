@@ -38,8 +38,6 @@ gem 'rack_session_access'
 gem 'pg'
 gem 'pg_search'
 
-
-
 group :development, :test do
   gem 'bundler-audit', '~> 0.3.0'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
