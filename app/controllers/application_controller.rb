@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
   before_action :ensure_authenticated_user
   before_action :check_timeout
+  before_action :check_calnet
   before_action :set_paper_trail_whodunnit
   after_action -> { flash.discard }, if: -> { request.xhr? }
 
@@ -20,6 +21,14 @@ class ApplicationController < ActionController::Base
 
   def check_timeout
     if session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
+      reset_session
+      session[:timed_out] = "Timed Out"
+      flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
+    end
+  end
+
+  def check_calnet
+    unless cookies[:_lost_and_found_session]
       reset_session
       session[:timed_out] = "Timed Out"
       flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
