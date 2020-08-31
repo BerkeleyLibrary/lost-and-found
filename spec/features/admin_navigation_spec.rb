@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Navigate Admin tasks', type: :feature do
   before :each do
-    mock_omniauth_login '013191304'
+    page.set_rack_session(uid: "013191304")
     page.set_rack_session(user_role: "Administrator")
     page.set_rack_session(user: "A user")
     page.set_rack_session(user_name: "Dante")
