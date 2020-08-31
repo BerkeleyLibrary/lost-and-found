@@ -24,7 +24,7 @@
           <%= date_field_tag(:itemDate, :itemDate) %>
 
           <%= label_tag(:itemDateEnd, " End date:") %>
-          <%= date_field_tag(:itemDateEnd, :itemDateEnd) %>
+          <%= date_field_tag(:itemDateEnd, :itemDateEnd, max: Date.today) %>
       </div>
 
         <div>Search all libraries and locations:</div>
