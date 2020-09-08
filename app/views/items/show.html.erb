@@ -15,7 +15,7 @@
 <div class="form-group row">
   <h5 class="col-2">Time found</h5> 
   <% if @item.itemFoundAt%>
-  <div class="col-4"><%= @item.itemFoundAt.in_time_zone("Pacific Time (US & Canada)").strftime("%l:%M %P") %></div>
+  <div class="col-4"><%= @item.itemFoundAt.strftime("%l:%M %P") %></div>
 <% else %>
   <div class="col-4"> None </div>
 <% end %>
