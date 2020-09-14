@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  skip_before_action :ensure_authenticated_user
   skip_before_action :check_timeout
   skip_before_action :check_calnet
 

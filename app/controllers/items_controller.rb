@@ -1,9 +1,5 @@
 class ItemsController < ApplicationController
 
-  def current_user
-    session[:user_name]
-  end
-
   def index
     @items = Item.query_params(cookies[:keyword])
     unless cookies[:searchAll] || cookies[:itemLocation] == 'none'
