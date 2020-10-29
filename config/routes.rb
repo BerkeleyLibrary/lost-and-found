@@ -73,5 +73,7 @@ get '/item_search', to: 'items#param_search'
   get '/insert_form', to: 'forms#insert_form'
   get '/auth/:provider/callback', to: 'sessions#callback', as: :omniauth_callback
   get '/auth/failure', to: 'sessions#failure'
-  get '*path' => redirect('/')
+  get '*all', to: redirect { |_, req| "/?404=#{req.path}"}, constraints: ->(req) do
+    req.path.exclude? 'rails/active_storage'
+  end
 end
