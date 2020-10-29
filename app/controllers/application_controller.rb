@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
       cause: error.cause.inspect.to_s
     }
     msg[:backtrace] = error.backtrace if Rails.logger.level < Logger::INFO
-    log_error(msg)
+    logger.error(msg)
   end
 
   def redirect_with_params(opts = {})
