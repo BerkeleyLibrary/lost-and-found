@@ -124,7 +124,7 @@ class ItemsController < ApplicationController
       @items_claimed = Item.claimed
     rescue Exception => e
       flash[:alert] = 'Error: Item has invalid parameters'
-      logger.error(e)
+      log_error(e)
     end
     render template: 'items/updated'
   end
@@ -157,7 +157,7 @@ class ItemsController < ApplicationController
       @locations_layout = location_setup
       @item_type_layout = item_type_setup
       flash.now.alert = 'Item rejected. Missing required fields'
-      logger.error(e)
+      log_error(e)
       render template: 'forms/insert_form'
     end
   end
