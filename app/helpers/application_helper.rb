@@ -13,7 +13,6 @@ def history_claimed_map(value)
   return !value || value.blank? ? "unclaimed" : value
 end
 
-
   def logo_link
     link_to(
       image_tag('UCB_logo.png', height: '30', alt: 'UC Berkeley Library'),
@@ -21,7 +20,6 @@ end
       { id:'home_button',class: 'navbar-brand no-link-style' }
     )
   end
-
 
   def staff_web_link
     link_to(

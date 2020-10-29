@@ -124,6 +124,7 @@ class ItemsController < ApplicationController
       @items_claimed = Item.claimed
     rescue Exception => e
       flash[:alert] = 'Error: Item has invalid parameters'
+      logger.error(e)
     end
     render template: 'items/updated'
   end
@@ -152,10 +153,11 @@ class ItemsController < ApplicationController
     begin
       @item.save!
       render template: 'items/new'
-    rescue StandardError
+    rescue Exception => e
       @locations_layout = location_setup
       @item_type_layout = item_type_setup
       flash.now.alert = 'Item rejected. Missing required fields'
+      logger.error(e)
       render template: 'forms/insert_form'
     end
   end
@@ -171,9 +173,6 @@ class ItemsController < ApplicationController
     file_content = uploaded_file.read
     upload_items = file_content.split('),(')
     upload_items.each do |item|
-      p '======record======='
-      p item
-      p '============='
       item[0] = '' if item[0] == '('
       item[item.length - 1] = '' if item[item.length - 1] == ')'
       raw_item_values = item.split(',')

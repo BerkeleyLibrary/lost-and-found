@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
   class_attribute :support_email, default: 'bescamilla@berkeley.edu'
   helper_method :support_email
 
+  class_attribute :timeout_message, default: 'Your session has expired. Please logout and sign in again to continue use.'
+  helper_method :timeout_message
+
+
   skip_before_action :verify_authenticity_token
   before_action :check_timeout
   before_action :check_calnet
@@ -13,16 +17,16 @@ class ApplicationController < ActionController::Base
   def check_timeout
     if session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
       reset_session
-      session[:timed_out] = "Timed Out"
-      flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
+      session[:timed_out] = true
+      flash[:notice] = timeout_message
     end
   end
 
   def check_calnet
     unless cookies[:_lost_and_found_session]
       reset_session
-      session[:timed_out] = "Timed Out"
-      flash[:notice] = 'Your session has expired. Please logout and sign in again to continue use.'
+      session[:timed_out] = true
+      flash[:notice] = timeout_message
     end
   end
 
@@ -94,6 +98,7 @@ class ApplicationController < ActionController::Base
   helper_method :user_level_admin?
   helper_method :user_level_staff?
   helper_method :user_level_read_only?
+ 
 
   def location_setup( initial_values = [%w[None none]])
     locations = Location.active
