@@ -16,6 +16,7 @@ class ItemsController < ApplicationController
 
   def found
     @items_found = Item.found.page params[:page]
+
     render template: 'items/found'
   end
 
@@ -27,12 +28,11 @@ class ItemsController < ApplicationController
   end
 
   def param_search
-
-   params[:itemLocation] =  cookies[:itemLocation]  unless params[:itemLocation]
-   params[:searchAll] = cookies[:searchAll] unless params[:searchAll]
-  params[:itemType] = cookies[:itemType] unless params[:itemType] 
-  params[:keyword] = cookies[:keyword] unless params[:keyword]
-  params[:itemDate] = cookies[:itemDate] unless params[:itemDate]
+    params[:itemLocation] =  cookies[:itemLocation]  unless params[:itemLocation]
+    params[:searchAll] = cookies[:searchAll] unless params[:searchAll]
+    params[:itemType] = cookies[:itemType] unless params[:itemType]
+    params[:keyword] = cookies[:keyword] unless params[:keyword]
+    params[:itemDate] = cookies[:itemDate] unless params[:itemDate]
 
     if !params[:keyword].blank?
       @items = Item.query_params(params[:keyword])
@@ -60,7 +60,6 @@ class ItemsController < ApplicationController
     end
 
     @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged'}
-
     @items_found = @items_found.sort_by(&:itemDate).reverse
 
     cookies[:itemLocation] = params[:itemLocation]
@@ -81,6 +80,7 @@ class ItemsController < ApplicationController
     @items_claimed = Item.claimed
     @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:claimed_page])
+
     render template: 'items/admin_items'
   end
 
@@ -88,6 +88,7 @@ class ItemsController < ApplicationController
     @items_claimed = Item.claimed
     @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:page])
+
     render template: 'items/admin_claimed'
   end
 
@@ -102,6 +103,7 @@ class ItemsController < ApplicationController
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
     @item_status_layout = [['Found', 1], ['Claimed', 3]]
+
     render template: 'items/edit'
   end
 
@@ -126,6 +128,7 @@ class ItemsController < ApplicationController
       flash[:alert] = 'Error: Item has invalid parameters'
       log_error(e)
     end
+
     render template: 'items/updated'
   end
 
@@ -176,7 +179,6 @@ class ItemsController < ApplicationController
       item[0] = '' if item[0] == '('
       item[item.length - 1] = '' if item[item.length - 1] == ')'
       raw_item_values = item.split(',')
-
       modified_item_values = []
       raw_item_values.each do |value|
         modified_item_values.push(value.chomp.gsub("'", '').strip)
@@ -214,7 +216,6 @@ class ItemsController < ApplicationController
 
       modified_item_values[7]
       tmp = DateTime.parse modified_item_values[7] rescue nil
-      p tmp
       while tmp.nil?
         modified_item_values[6] = modified_item_values[6] + ", " + modified_item_values[7]
         modified_item_values.delete_at(7)
@@ -230,8 +231,8 @@ class ItemsController < ApplicationController
       @item.itemLocation = locations[modified_item_values[4].to_i]
       @item.itemType = legacy_types[modified_item_values[5].to_i]
       modified_item_values[6] = modified_item_values[6].gsub('\r', '')
-      modified_item_values[6] = modified_item_values[6].gsub('\n', '') 
-      modified_item_values[6] = modified_item_values[6].gsub('\s', 's') 
+      modified_item_values[6] = modified_item_values[6].gsub('\n', '')
+      modified_item_values[6] = modified_item_values[6].gsub('\s', 's')
       @item.itemDescription = modified_item_values[6].chomp
       @item.itemLastModified = Time.now
       @item.itemStatus = modified_item_values[8]

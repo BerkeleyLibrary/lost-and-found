@@ -32,21 +32,21 @@ gem 'webpacker', '~> 4.0'
 gem 'sass-rails', '~> 5.0'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
-gem 'rubocop', '~> 0.88.0', require: false
+gem 'rubocop'
 gem 'kaminari'
 gem 'rack_session_access'
 gem 'pg'
 gem 'pg_search'
 
 group :development, :test do
-  gem 'bundler-audit', '~> 0.3.0'
+  gem 'bundler-audit'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'colorize'
   gem 'rspec-rails'
 end
 
 group :development do
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'
@@ -59,4 +59,5 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
   gem 'webmock'
+  gem 'simplecov', require: false, group: :test
 end

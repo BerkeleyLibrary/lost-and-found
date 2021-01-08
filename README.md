@@ -3,7 +3,7 @@
 The Lost-and-Found application is intended for internal use across the UC Berkeley library system. Turned in goods will be logged and tracked through this simple rails application.
 
 ### Login
-Lost and Found uses the Berkeley calnet system in order to manage approved users. Users of the Lost and Found app must be affiliated with UC Berkeley as either a Student, Staff, or faculty member and must also be granted access to the app through an administrator. 
+Lost and Found uses the Berkeley calnet system in order to manage approved users. Users of the Lost and Found app must be affiliated with UC Berkeley as either a Student, Staff, or faculty member and must also be granted access to the app through an administrator.
 
 If you are unsure about your status as an approved user, please reach out to the current administrator Mark Marrow.
 
@@ -60,7 +60,3 @@ docker-compose run --rm rails assets:precompile db:create db:migrate
 
 # View the site in the browser and confirm it works
 open http://localhost:3000
-```
-Note: Local development requires you point to a local mysql database. for more information see: https://dev.mysql.com/doc/mysql-getting-started/en/
-
-

@@ -8,9 +8,4 @@ RSpec.describe 'Version history testing', type: :feature do
         page.set_rack_session(user_name: "Dante")
         page.set_rack_session(user_active: true)
     end
-
-    with_versioning do
-
-
-  end
 end

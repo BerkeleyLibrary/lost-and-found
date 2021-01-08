@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   class_attribute :timeout_message, default: 'Your session has expired. Please logout and sign in again to continue use.'
   helper_method :timeout_message
 
-
   skip_before_action :verify_authenticity_token
   before_action :check_timeout
   before_action :check_calnet
@@ -50,7 +49,6 @@ class ApplicationController < ActionController::Base
       session[:uid] = user.uid
       session[:user_role] = user.user_role
       session[:expires_at] = 60.minutes.from_now
-
       logger.debug("Signed in user #{session[:user_name]}")
       logger.debug("Role of #{session[:user_role]}")
     elsif
@@ -98,7 +96,6 @@ class ApplicationController < ActionController::Base
   helper_method :user_level_admin?
   helper_method :user_level_staff?
   helper_method :user_level_read_only?
- 
 
   def location_setup( initial_values = [%w[None none]])
     locations = Location.active
@@ -121,5 +118,4 @@ class ApplicationController < ActionController::Base
     end
     item_type_layout
   end
-
 end
