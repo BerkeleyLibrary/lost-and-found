@@ -371,6 +371,7 @@ DEPENDENCIES
   bootstrap
   bootstrap-sass
   brakeman (~> 4.8)
+  bundler
   bundler-audit
   byebug
   capybara (>= 2.15)
