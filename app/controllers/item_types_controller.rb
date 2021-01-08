@@ -80,5 +80,5 @@ class ItemTypesController < ApplicationController
       rescue StandardError
       end
     end
-   end
+  end
 end

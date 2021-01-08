@@ -81,6 +81,6 @@ class LocationsController < ApplicationController
       rescue StandardError
       end
     end
-   end
-
   end
+
+end

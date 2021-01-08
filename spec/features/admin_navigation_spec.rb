@@ -31,8 +31,6 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     expect(page).to have_content('123456345')
   end
 
-
-
   scenario 'Admin can de-activate a user' do
     click_link 'Add/Edit Users'
     expect(page).to have_content('Active Users')

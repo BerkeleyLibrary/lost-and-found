@@ -51,8 +51,7 @@ class ApplicationController < ActionController::Base
       session[:expires_at] = 60.minutes.from_now
       logger.debug("Signed in user #{session[:user_name]}")
       logger.debug("Role of #{session[:user_role]}")
-    elsif
-      session[:user] = user
+    elsif session[:user] = user
       session[:user_role] = 'deactivated'
     end
   end
@@ -97,7 +96,7 @@ class ApplicationController < ActionController::Base
   helper_method :user_level_staff?
   helper_method :user_level_read_only?
 
-  def location_setup( initial_values = [%w[None none]])
+  def location_setup(initial_values = [%w[None none]])
     locations = Location.active
     locations.map { |location| location.location_name.downcase! }
     locations = locations.sort_by(&:location_name)

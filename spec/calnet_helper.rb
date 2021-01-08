@@ -40,7 +40,6 @@ def do_get(path)
   get(path)
 end
 
-
 def without_redirects
   if respond_to?(:page)
     was_enabled = page.driver.follow_redirects?

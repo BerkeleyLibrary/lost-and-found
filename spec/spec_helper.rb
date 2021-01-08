@@ -13,9 +13,7 @@ Capybara.javascript_driver = :poltergeist
 
 require 'webmock/rspec'
 
-
 require 'simplecov' if ENV['COVERAGE']
-
 
 # ------------------------------------------------------------
 # RSpec configuration

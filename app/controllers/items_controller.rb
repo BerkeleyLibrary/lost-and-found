@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
   end
 
   def param_search
-    params[:itemLocation] =  cookies[:itemLocation]  unless params[:itemLocation]
+    params[:itemLocation] =  cookies[:itemLocation] unless params[:itemLocation]
     params[:searchAll] = cookies[:searchAll] unless params[:searchAll]
     params[:itemType] = cookies[:itemType] unless params[:itemType]
     params[:keyword] = cookies[:keyword] unless params[:keyword]
@@ -55,11 +55,13 @@ class ItemsController < ApplicationController
       else
         item_date_end_raw = params[:itemDateEnd]
         item_date_end_parsed = Time.parse(item_date_end_raw)
-        @items = @items.select { |item| item.itemDate >= DateTime.parse(item_date_parsed.to_s) && item.itemDate <= DateTime.parse(item_date_end_parsed.to_s) }
+        @items = @items.select { |item|
+          item.itemDate >= DateTime.parse(item_date_parsed.to_s) && item.itemDate <= DateTime.parse(item_date_end_parsed.to_s)
+        }
       end
     end
 
-    @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged'}
+    @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged' }
     @items_found = @items_found.sort_by(&:itemDate).reverse
 
     cookies[:itemLocation] = params[:itemLocation]
@@ -117,7 +119,9 @@ class ItemsController < ApplicationController
   def update
     begin
       @item = Item.find(params[:id])
-      @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription], itemUpdatedBy: session[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus], itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
+      @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription],
+                   itemUpdatedBy: session[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus],
+                   itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
       @item.update(claimedBy: params[:claimedBy]) unless params[:claimedBy].blank?
       @item.update(image: params[:image]) unless params[:image].nil?
       @item.update(image_url: url_for(@item.image)) if @item.image.attached?
@@ -160,14 +164,14 @@ class ItemsController < ApplicationController
       @locations_layout = location_setup
       @item_type_layout = item_type_setup
       flash.now.alert = 'Item rejected. Missing required fields'
-     log_error(e)
+      log_error(e)
       render template: 'forms/insert_form'
     end
   end
 
   def item_params
     params.permit(:itemLocation, :itemType, :itemDescription, :image)
- end
+  end
 
   def batch_upload
     recordsUploaded = 0
@@ -222,7 +226,9 @@ class ItemsController < ApplicationController
         tmp = DateTime.parse modified_item_values[7] rescue nil
       end
 
-      next if modified_item_values[11] == "0" && modified_item_values[12] == "NULL" && modified_item_values[13] == "NULL" && modified_item_values[14] == "0"
+      next if modified_item_values[11] == "0" &&
+        modified_item_values[12] == "NULL" &&
+        modified_item_values[13] == "NULL" && modified_item_values[14] == "0"
 
       @item = Item.new
       @item.itemDate = modified_item_values[1]

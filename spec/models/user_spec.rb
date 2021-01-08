@@ -4,9 +4,9 @@ describe User, type: :model do
   it 'user should have role' do
     user = User.new
     assert_nil(user.role)
-    user.role=Role.new(role_name: 'admin')
+    user.role = Role.new(role_name: 'admin')
     assert(user.role)
-    assert_equal( 'admin' , user.role.role_name)
+    assert_equal('admin', user.role.role_name)
   end
 
   it 'New users should default as active' do

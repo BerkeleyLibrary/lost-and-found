@@ -34,4 +34,4 @@ class RolesController < ApplicationController
     @Roles = Role.all
     redirect_back(fallback_location: root_path)
   end
-  end
+end

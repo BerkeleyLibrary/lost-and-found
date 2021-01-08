@@ -53,7 +53,7 @@ class UsersController < ApplicationController
       else
         flash[:alert] = "Error: UID #{params[:uid]} is not numeric"
       end
-        @users = User.all
+      @users = User.all
     rescue StandardError
       flash[:alert] = "Error: UID #{params[:uid]} already exists"
     end
