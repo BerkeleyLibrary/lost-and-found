@@ -19,6 +19,9 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     visit '/admin'
     click_link 'Item Types'
     expect(page).to have_content('Active Item Types')
+    visit '/admin'
+    click_link 'View removed items'
+    expect(page).to have_content('Claimed and purged items')
   end
 
   scenario 'Admin can perform operations on users' do
@@ -269,5 +272,5 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     expect(page).to have_content('You must have Admin level permission to view this page')
     visit '/admin_item_types'
     expect(page).to have_content('You must have Admin level permission to view this page')
-  end
+  end\
 end

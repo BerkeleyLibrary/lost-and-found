@@ -75,10 +75,6 @@ class HomeController < ApplicationController
     render :admin_migration_item_types
   end
 
-  def admin_roles
-    render :admin_roles
-  end
-
   def admin
     @locations = Location.all
     @actived_locations = @locations.select(&:location_active)

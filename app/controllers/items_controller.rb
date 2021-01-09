@@ -281,11 +281,4 @@ class ItemsController < ApplicationController
     flash[:success] = purged_total.to_s + ' items purged'
     admin_items
   end
-
-  def destroy
-      Item.delete(params[:id])
-      @Items = Item.all
-      redirect_back(fallback_location: root_path)
-  end
-
 end

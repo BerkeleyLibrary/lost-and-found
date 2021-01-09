@@ -28,7 +28,6 @@ Rails.application.routes.draw do
   get 'admin_locations', to: 'home#admin_locations'
   get 'admin_item_types', to: 'home#admin_item_types'
   get 'admin_items', to: 'items#admin_items'
-  get 'admin_roles', to: 'home#admin_roles'
   get 'admin_purge', to: 'home#admin_purge'
   get 'purge_items', to: 'home#admin_purge'
   get 'admin_claimed', to: 'items#claimed_items'
