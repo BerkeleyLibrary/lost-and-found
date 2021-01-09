@@ -51,17 +51,12 @@ class ItemTypesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  def destroy
-    ItemType.delete(params[:id])
-    @ItemTypes = ItemType.all
-    redirect_back(fallback_location: root_path)
-  end
-
   def batch_upload
-    uploaded_file = params[:batch_file]
-    file_content = uploaded_file.read
-    upload_items = file_content.split('),(')
-    upload_items.each do |item|
+    if params[:batch_file] != nil
+      uploaded_file = params[:batch_file]
+      file_content = uploaded_file.read
+      upload_items = file_content.split('),(')
+      upload_items.each do |item|
       item[0] = '' if item[0] == '('
       item[item.length - 1] = '' if item[item.length - 1] == ')'
       raw_item_values = item.split(',')
@@ -79,6 +74,12 @@ class ItemTypesController < ApplicationController
         @ItemType.save!
       rescue StandardError
       end
+    end
+      redirect_to admin_item_types_path
+      flash[:success] = "Success: item types added"
+    else
+      redirect_to admin_item_types_path
+      flash[:alert] = "Error: item types failed to upload"
     end
   end
 end

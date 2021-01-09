@@ -51,12 +51,110 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     expect(page).to have_content('Test Type')
   end
 
+
+
+  scenario 'Admin cannot upload duplicate item_types' do
+    click_link 'Item Types'
+    expect(page).to have_content('Active Item Types')
+    fill_in 'type_name', with: "Test_type"
+    find('input[name="commit"]').click
+    expect(page).to have_content('Test Type')
+    fill_in 'type_name', with: "Test_type"
+    find('input[name="commit"]').click
+    expect(page).to have_content('Error: Item Type Test Type Already exists')
+  end
+
+  scenario 'Admin can edit item_types' do
+    click_link 'Item Types'
+    expect(page).to have_content('Active Item Types')
+    fill_in 'type_name', with: "Test_type"
+    find('input[name="commit"]').click
+    expect(page).to have_content('Test Type')
+    click_link "Edit"
+    expect(page).to have_content('Edit item type')
+    fill_in 'type_name', with: "Test item Updated"
+    find('input[name="commit"]').click
+    expect(page).to have_content('Test Item Updated')
+  end
+
+  scenario 'Admin may deactivate item types' do
+    click_link 'Item Types'
+    fill_in 'type_name', with: "Test Type"
+    find('input[name="commit"]').click
+    fill_in 'type_name', with: "Test Type"
+    first(:link, "Deactivate").click
+    expect(page).to have_content('Success: Item type Test Item Updated status updated!')
+  end
+
+  scenario 'Admin may upload item types in batches, but cannot upload empty files' do
+    visit '/admin_migration_item_types'
+    expect(page).to have_content('Add Item types')
+    click_button "Add Item types"
+    expect(page).to have_content('Error: item types failed to upload')
+  end
+
+  scenario 'Admin may upload item types in batches' do
+    visit '/admin_migration_item_types'
+    expect(page).to have_content('Add Item types')
+    attach_file('batch_file', File.absolute_path('./spec/data/batches/item_type_batch.txt'))
+    click_button "Add Item types"
+    expect(page).to have_content('Success: item types added')
+  end
+
   scenario 'Admin can perform operations on locations' do
     click_link 'Locations'
     expect(page).to have_content('Active Locations')
     fill_in 'location_name', with: "Test Location"
     find('input[name="commit"]').click
     expect(page).to have_content('Test Location')
+  end
+
+  scenario 'Admin cannot create location duplicates' do
+    click_link 'Locations'
+    expect(page).to have_content('Active Locations')
+    fill_in 'location_name', with: "Test Location"
+    find('input[name="commit"]').click
+    fill_in 'location_name', with: "Test Location"
+    find('input[name="commit"]').click
+    expect(page).to have_content('Already exists')
+  end
+
+  scenario 'Admin may edit locations' do
+    click_link 'Locations'
+    expect(page).to have_content('Active Locations')
+    fill_in 'location_name', with: "Test Location"
+    find('input[name="commit"]').click
+    fill_in 'location_name', with: "Test Location"
+    click_link "Edit"
+    expect(page).to have_content('Edit location')
+    fill_in 'location_name', with: "Test Location Updated"
+    find('input[name="commit"]').click
+    expect(page).to have_content('Test Location Updated')
+  end
+
+  scenario 'Admin may deactivate locations' do
+    click_link 'Locations'
+    expect(page).to have_content('Active Locations')
+    fill_in 'location_name', with: "Test Location"
+    find('input[name="commit"]').click
+    fill_in 'location_name', with: "Test Location"
+    first(:link, "Deactivate").click
+    expect(page).to have_content('Success: Location Test Location status updated!')
+  end
+
+  scenario 'Admin may upload locations in batches, but cannot upload empty files' do
+    visit '/admin_migration_locations'
+    expect(page).to have_content('Add locations')
+    click_button "Add Locations"
+    expect(page).to have_content('Error: Locations failed to upload')
+  end
+
+  scenario 'Admin may upload locations in batches' do
+    visit '/admin_migration_locations'
+    expect(page).to have_content('Add locations')
+    attach_file('batch_file', File.absolute_path('./spec/data/batches/location_batch.txt'))
+    click_button "Add Locations"
+    expect(page).to have_content('Success: Locations added')
   end
 
   scenario 'Admin panel not accessible to staff level user' do
