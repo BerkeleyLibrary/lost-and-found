@@ -27,7 +27,6 @@
           1,
           1,
           1,
-          1,
           1
         ]
       },
@@ -688,14 +687,6 @@
           null,
           null,
           1,
-          0,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
           237,
           null,
           null,
@@ -754,47 +745,12 @@
           null,
           0,
           null,
-          null,
-          null
-        ]
-      },
-      "/Users/drewfacchiano/.code/Code/Berk/lost_and_found_TEST/lost-and-found/spec/user_helper.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          0,
-          0,
-          null,
-          null,
-          1,
-          0,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/Users/drewfacchiano/.code/Code/Berk/lost_and_found_TEST/lost-and-found/app/models/mock_user/type.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          1,
-          1,
           null,
           null
         ]
       },
       "/Users/drewfacchiano/.code/Code/Berk/lost_and_found_TEST/lost-and-found/spec/calnet_helper.rb": {
         "lines": [
-          1,
           1,
           null,
           1,
@@ -839,31 +795,9 @@
       "/Users/drewfacchiano/.code/Code/Berk/lost_and_found_TEST/lost-and-found/app/controllers/items_controller.rb": {
         "lines": [
           1,
-          null,
-          1,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          null,
-          null,
           1,
           0,
           null,
-          0,
-          null,
-          null,
-          1,
-          0,
-          0,
-          0,
           0,
           null,
           null,
@@ -2427,6 +2361,6 @@
         ]
       }
     },
-    "timestamp": 1610169015
+    "timestamp": 1610224452
   }
 }

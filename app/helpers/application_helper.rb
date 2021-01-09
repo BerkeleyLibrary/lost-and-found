@@ -21,14 +21,6 @@ module ApplicationHelper
     )
   end
 
-  def staff_web_link
-    link_to(
-      image_tag('staff_web.gif', alt: 'UC Berkeley Staff'),
-      'http://www.lib.berkeley.edu/Staff/',
-      { class: 'navbar-brand no-link-style' }
-    )
-  end
-
   def layouts_footer
     render template: "layouts/footer"
   end

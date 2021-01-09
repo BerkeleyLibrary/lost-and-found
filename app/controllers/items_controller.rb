@@ -1,30 +1,8 @@
 class ItemsController < ApplicationController
-
-  def index
-    @items = Item.query_params(cookies[:keyword])
-    unless cookies[:searchAll] || cookies[:itemLocation] == 'none'
-      @items = @items.select { |item| item.itemLocation == cookies[:itemLocation] }
-    end
-    unless cookies[:searchAll] || cookies[:itemType] == 'none'
-      @items = @items.select { |item| item.itemType == cookies[:itemType] }
-    end
-    @items_found = @items.select { |item| item.itemStatus == 1 }
-    @items_claimed = @items.select { |item| item.itemStatus == 3 }
-
-    render template: 'items/all'
-  end
-
   def found
     @items_found = Item.found.page params[:page]
 
     render template: 'items/found'
-  end
-
-  def all
-    @items = Item.all
-    @items_found = Item.found.page params[:page]
-    @items_claimed = Item.claimed.page params[:page]
-    redirect_back(fallback_location: root_path)
   end
 
   def param_search

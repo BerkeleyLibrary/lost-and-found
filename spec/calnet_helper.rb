@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'user_helper'
 
 def login_as(user_id)
   mock_omniauth_login(user_id)

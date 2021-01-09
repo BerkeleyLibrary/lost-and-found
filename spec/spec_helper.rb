@@ -16,8 +16,6 @@ require 'webmock/rspec'
 require 'simplecov'
 SimpleCov.start
 
-# ------------------------------------------------------------
-# RSpec configuration
 
 RSpec.configure do |config|
   config.color = true
