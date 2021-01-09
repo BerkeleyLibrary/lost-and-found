@@ -75,7 +75,7 @@ class LocationsController < ApplicationController
       flash[:success] = "Success: Locations added"
     else
       redirect_to admin_locations_path
-      flash[:alert] = "Error: Locations failed to upload"
+      flash[:alert] = "Error: File unreadable"
     end
   end
 end

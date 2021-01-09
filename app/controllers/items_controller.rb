@@ -174,6 +174,7 @@ class ItemsController < ApplicationController
   end
 
   def batch_upload
+    if params[:batch_file] != nil
     recordsUploaded = 0
     recordsfailed = ""
     uploaded_file = params[:batch_file]
@@ -258,8 +259,12 @@ class ItemsController < ApplicationController
         recordsfailed = recordsfailed + " -  " + @item.itemDescription
       end
     end
-
-    flash[:success] = " #{recordsUploaded} records added to db"
+    flash[:success] = "Success: #{recordsUploaded} items added"
+    redirect_to admin_items_path
+  else
+    flash[:alert] = "Error: File unreadable"
+    redirect_to admin_items_path
+  end
   end
 
   def purge_items
@@ -278,8 +283,9 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    Item.delete(params[:id])
-    @Items = Item.all
-    redirect_back(fallback_location: root_path)
+      Item.delete(params[:id])
+      @Items = Item.all
+      redirect_back(fallback_location: root_path)
   end
+
 end

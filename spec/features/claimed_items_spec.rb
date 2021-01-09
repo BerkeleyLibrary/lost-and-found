@@ -10,10 +10,23 @@ RSpec.describe 'Search form tasks', type: :feature do
   end
 
   scenario 'Updated items are tracked in change history' do
+
+    visit '/admin'
+    click_link 'Item Types'
+    fill_in 'type_name', with: "Test_type"
+    find('input[name="commit"]').click
+    visit '/admin'
+    click_link 'Locations'
+    fill_in 'location_name', with: "Test Location"
+    find('input[name="commit"]').click
+
     visit '/insert_form'
-    fill_in 'itemDescription', with: "TEST_ITEM"
-    fill_in 'itemFoundBy', with: "TEST_ITEM"
-    fill_in "whereFound", with: "TEST LOCATION DESCRIPTION"
+    fill_in "itemDescription", with: "TEST_ITEM"
+    fill_in "itemFoundBy", with: "A user"
+    fill_in "whereFound", with: "a cool place"
+    find_by_id('itemType').find(:xpath, 'option[1]').select_option
+    find_by_id('itemLocation').find(:xpath, 'option[1]').select_option
+    fill_in "itemDate", with: "2/2/2099"
     find('input[name="commit"]').click
     click_link "Search"
     click_button "Submit"

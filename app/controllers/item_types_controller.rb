@@ -79,7 +79,7 @@ class ItemTypesController < ApplicationController
       flash[:success] = "Success: item types added"
     else
       redirect_to admin_item_types_path
-      flash[:alert] = "Error: item types failed to upload"
+      flash[:alert] = "Error: File unreadable"
     end
   end
 end

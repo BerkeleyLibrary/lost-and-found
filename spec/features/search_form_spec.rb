@@ -7,6 +7,15 @@ RSpec.describe 'Search form tasks', type: :feature do
     page.set_rack_session(user: "A user")
     page.set_rack_session(user_name: "Dante")
     page.set_rack_session(user_active: true)
+
+    visit '/admin'
+    click_link 'Item Types'
+    fill_in 'type_name', with: "Test_type"
+    find('input[name="commit"]').click
+    visit '/admin'
+    click_link 'Locations'
+    fill_in 'location_name', with: "Test Location"
+    find('input[name="commit"]').click
   end
 
   scenario 'search form accessible to staff level user' do
@@ -22,27 +31,29 @@ RSpec.describe 'Search form tasks', type: :feature do
 
   scenario 'New items are visable in search all form' do
     visit '/insert_form'
-    fill_in "itemDescription", with: "TEST_ITEM"
+    fill_in "itemDescription", with: "A_NEW_TEST_ITEM"
+    fill_in "itemFoundBy", with: "someone"
+    fill_in "whereFound", with: "somewhere"
+    find_by_id('itemType').find(:xpath, 'option[1]').select_option
+    find_by_id('itemLocation').find(:xpath, 'option[1]').select_option
+    fill_in "itemDate", with: "9/9/2099"
     find('input[name="commit"]').click
-    click_link "Search"
-    click_button "Submit"
-    expect(page).to have_content('TEST_ITEM')
+    visit '/search_form'
+    find('input[name="commit"]').click
+    expect(page).to have_content('A_NEW_TEST_ITEM')
   end
 
   scenario 'Search form finds found items based on keywords' do
-    visit '/insert_form'
-    fill_in "itemDescription", with: "TEST_ITEM"
+    visit '/search_form'
     find('input[name="commit"]').click
-    click_link "Search"
-    click_button "Submit"
-    expect(page).to have_content('TEST_ITEM')
+    expect(page).to have_content('A_NEW_TEST_ITEM')
   end
 
   scenario 'Search form filters items based on keywords' do
     visit '/insert_form'
     fill_in "itemDescription", with: "HIDE ME"
     find('input[name="commit"]').click
-    click_link "Search"
+    visit '/search_form'
     fill_in "keyword", with: "TEST ITEM"
     find('input[name="commit"]').click
     expect(page).to have_no_content("HIDE ME")
@@ -51,9 +62,13 @@ RSpec.describe 'Search form tasks', type: :feature do
   scenario 'Search form filters against multiple keywords' do
     visit '/insert_form'
     fill_in "itemDescription", with: "A BLUE TEST ITEM"
-    fill_in "whereFound", with: "A LOCATION DESCRIPTION"
+    fill_in "itemFoundBy", with: "A user"
+    fill_in "whereFound", with: "a cool place"
+    find_by_id('itemType').find(:xpath, 'option[1]').select_option
+    find_by_id('itemLocation').find(:xpath, 'option[1]').select_option
+    fill_in "itemDate", with: "2/2/2099"
     find('input[name="commit"]').click
-    click_link "Search"
+    visit '/search_form'
     fill_in "keyword", with: "BLUE BOAT ITEM"
     find('input[name="commit"]').click
     expect(page).to have_content("A BLUE TEST ITEM")
@@ -63,7 +78,7 @@ RSpec.describe 'Search form tasks', type: :feature do
     visit '/insert_form'
     fill_in "itemDescription", with: "A blue TEST ITEM"
     find('input[name="commit"]').click
-    click_link "Search"
+    visit '/search_form'
     fill_in "keyword", with: "bLuE"
     find('input[name="commit"]').click
     expect(page).to have_content("A BLUE TEST ITEM")
