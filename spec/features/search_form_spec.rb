@@ -52,8 +52,8 @@ RSpec.describe 'Search form tasks', type: :feature do
   scenario 'Users can edit found items from search form' do
     visit '/search_form'
     find('input[name="commit"]').click
-    first(:link,'Edit').click
-    fill_in "itemDescription" , with: "new text for item"
+    first(:link, 'Edit').click
+    fill_in "itemDescription", with: "new text for item"
     find('input[name="commit"]').click
     expect(page).to have_content('new text for item')
   end
@@ -61,9 +61,9 @@ RSpec.describe 'Search form tasks', type: :feature do
   scenario 'Staff users can edit found items from search form and mark them as claimed' do
     visit '/search_form'
     find('input[name="commit"]').click
-    first(:link,'Edit').click
+    first(:link, 'Edit').click
     find_by_id('itemStatus').find(:xpath, 'option[2]').select_option
-    fill_in "itemDescription" , with: "new text for item"
+    fill_in "itemDescription", with: "new text for item"
     find('input[name="commit"]').click
     expect(page).to have_content('new text for item')
   end

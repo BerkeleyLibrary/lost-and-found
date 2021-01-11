@@ -78,13 +78,13 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     fill_in "uid", with: "115"
     find('input[name="commit"]').click
     expect(page).to have_content('115')
-    first(:link,'Edit').click
+    first(:link, 'Edit').click
     find_by_id('user_role').find(:xpath, 'option[1]').select_option
     fill_in 'user_name', with: "edit_test_updated"
     fill_in "uid", with: "116"
     find('input[name="commit"]').click
-   expect(page).to have_content('116')
-   expect(page).to have_content('edit_test_updated')
+    expect(page).to have_content('116')
+    expect(page).to have_content('edit_test_updated')
   end
 
   scenario 'Admin can edit a user, but cannot input a non-numeric id' do
@@ -99,8 +99,8 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     expect(page).to have_content('Edit user')
     fill_in 'user_name', with: "NEW_NAME"
     fill_in "uid", with: "1a2b3c4d5c"
-   click_button('Update user')
-   expect(page).to have_content('Error: UID 1a2b3c4d5c is not numeric')
+    click_button('Update user')
+    expect(page).to have_content('Error: UID 1a2b3c4d5c is not numeric')
   end
 
   scenario 'Admin can edit a user, but cannot input an already existing uid' do
@@ -119,8 +119,8 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     expect(page).to have_content('Edit user')
     fill_in 'user_name', with: "NEW_NAME"
     fill_in "uid", with: "321"
-   click_button('Update user')
-   expect(page).to have_content('Error: UID 321 already exists')
+    click_button('Update user')
+    expect(page).to have_content('Error: UID 321 already exists')
   end
 
   scenario 'Admin can perform operations on item_types' do
@@ -130,8 +130,6 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     find('input[name="commit"]').click
     expect(page).to have_content('Test Type')
   end
-
-
 
   scenario 'Admin cannot upload duplicate item_types' do
     click_link 'Item Types'
