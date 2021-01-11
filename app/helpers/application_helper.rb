@@ -2,30 +2,22 @@ module ApplicationHelper
 
   def flash_class(level)
     case level
-        when "notice" then "alert alert-info alert-dismissible fade show"
-        when "success" then "alert alert-success alert-dismissible fade show"
-        when "error" then "alert alert-error alert-dismissible fade show"
-        when "alert" then "alert alert-danger alert-dismissible fade show"
+    when "notice" then "alert alert-info alert-dismissible fade show"
+    when "success" then "alert alert-success alert-dismissible fade show"
+    when "error" then "alert alert-error alert-dismissible fade show"
+    when "alert" then "alert alert-danger alert-dismissible fade show"
     end
-end
+  end
 
-def history_claimed_map(value)
-  return !value || value.blank? ? "unclaimed" : value
-end
+  def history_claimed_map(value)
+    return !value || value.blank? ? "unclaimed" : value
+  end
 
   def logo_link
     link_to(
       image_tag('UCB_logo.png', height: '30', alt: 'UC Berkeley Library'),
       'https://www.lib.berkeley.edu/',
-      { id:'home_button',class: 'navbar-brand no-link-style' }
-    )
-  end
-
-  def staff_web_link
-    link_to(
-      image_tag('staff_web.gif', alt: 'UC Berkeley Staff'),
-      'http://www.lib.berkeley.edu/Staff/',
-      { class: 'navbar-brand no-link-style' }
+      { id: 'home_button', class: 'navbar-brand no-link-style' }
     )
   end
 
@@ -43,9 +35,9 @@ end
 
   def status_codes(value)
     case value
-      when 1 then 'Found'
-      when 3 then 'Claimed'
-      else ""
+    when 1 then 'Found'
+    when 3 then 'Claimed'
+    else ""
     end
   end
 
@@ -78,15 +70,15 @@ end
   end
 
   def find_version_author_name(version)
-    user = User.find_version_author(version) 
+    user = User.find_version_author(version)
     user ? user.user_name : 'unknown'
   end
 
   def diff(content1, content2)
-    changes = Diffy::Diff.new(content1, content2, 
-                              include_plus_and_minus_in_html: true, 
+    changes = Diffy::Diff.new(content1, content2,
+                              include_plus_and_minus_in_html: true,
                               include_diff_info: true)
     changes.to_s.present? ? changes.to_s(:html).html_safe : 'No Changes'
- end
+  end
 
 end

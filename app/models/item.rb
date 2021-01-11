@@ -3,30 +3,30 @@ class Item < ApplicationRecord
   validates :itemDescription, presence: true, allow_blank: false
   validates :whereFound, presence: true, allow_blank: false
   has_one_attached :image
-    attr_accessor :locations
-    attr_accessor :types
-    attribute :itemStatus, :integer, default: 1
-    paginates_per 25
+  attr_accessor :locations
+  attr_accessor :types
 
-    def locations
-      @locations = Location.all
-    end
+  attribute :itemStatus, :integer, default: 1
+  paginates_per 25
 
-    def types
-      @types = ItemType.all
-    end
-
-
-      scope :claimed, -> { where(itemStatus: 3).or(where(claimedBy: 'Purged'))}
-      scope :found, -> { where(itemStatus:1).where.not(claimedBy: 'Purged')}
-      scope :query_params, -> (searchText) {
-      keywords = searchText.split(' ')
-      arel = Item.arel_table
-      records = []
-      keywords.each do |keyword|
-        like_ast = arel[:itemDescription].matches("%#{keyword}%")
-       records += Item.where(like_ast)
-      end
-       records
-      }
+  def locations
+    @locations = Location.all
   end
+
+  def types
+    @types = ItemType.all
+  end
+
+  scope :claimed, -> { where(itemStatus: 3).or(where(claimedBy: 'Purged')) }
+  scope :found, -> { where(itemStatus: 1).where.not(claimedBy: 'Purged') }
+  scope :query_params, ->(searchText) {
+    keywords = searchText.split(' ')
+    arel = Item.arel_table
+    records = []
+    keywords.each do |keyword|
+      like_ast = arel[:itemDescription].matches("%#{keyword}%")
+      records += Item.where(like_ast)
+    end
+    records
+  }
+end

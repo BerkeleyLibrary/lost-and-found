@@ -1,38 +1,16 @@
 class ItemsController < ApplicationController
-
-  def index
-    @items = Item.query_params(cookies[:keyword])
-    unless cookies[:searchAll] || cookies[:itemLocation] == 'none'
-      @items = @items.select { |item| item.itemLocation == cookies[:itemLocation] }
-    end
-    unless cookies[:searchAll] || cookies[:itemType] == 'none'
-      @items = @items.select { |item| item.itemType == cookies[:itemType] }
-    end
-    @items_found = @items.select { |item| item.itemStatus == 1 }
-    @items_claimed = @items.select { |item| item.itemStatus == 3 }
-
-    render template: 'items/all'
-  end
-
   def found
     @items_found = Item.found.page params[:page]
+
     render template: 'items/found'
   end
 
-  def all
-    @items = Item.all
-    @items_found = Item.found.page params[:page]
-    @items_claimed = Item.claimed.page params[:page]
-    redirect_back(fallback_location: root_path)
-  end
-
   def param_search
-
-   params[:itemLocation] =  cookies[:itemLocation]  unless params[:itemLocation]
-   params[:searchAll] = cookies[:searchAll] unless params[:searchAll]
-  params[:itemType] = cookies[:itemType] unless params[:itemType] 
-  params[:keyword] = cookies[:keyword] unless params[:keyword]
-  params[:itemDate] = cookies[:itemDate] unless params[:itemDate]
+    params[:itemLocation] =  cookies[:itemLocation] unless params[:itemLocation]
+    params[:searchAll] = cookies[:searchAll] unless params[:searchAll]
+    params[:itemType] = cookies[:itemType] unless params[:itemType]
+    params[:keyword] = cookies[:keyword] unless params[:keyword]
+    params[:itemDate] = cookies[:itemDate] unless params[:itemDate]
 
     if !params[:keyword].blank?
       @items = Item.query_params(params[:keyword])
@@ -55,12 +33,13 @@ class ItemsController < ApplicationController
       else
         item_date_end_raw = params[:itemDateEnd]
         item_date_end_parsed = Time.parse(item_date_end_raw)
-        @items = @items.select { |item| item.itemDate >= DateTime.parse(item_date_parsed.to_s) && item.itemDate <= DateTime.parse(item_date_end_parsed.to_s) }
+        @items = @items.select { |item|
+          item.itemDate >= DateTime.parse(item_date_parsed.to_s) && item.itemDate <= DateTime.parse(item_date_end_parsed.to_s)
+        }
       end
     end
 
-    @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged'}
-
+    @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged' }
     @items_found = @items_found.sort_by(&:itemDate).reverse
 
     cookies[:itemLocation] = params[:itemLocation]
@@ -81,6 +60,7 @@ class ItemsController < ApplicationController
     @items_claimed = Item.claimed
     @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:claimed_page])
+
     render template: 'items/admin_items'
   end
 
@@ -88,6 +68,7 @@ class ItemsController < ApplicationController
     @items_claimed = Item.claimed
     @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:page])
+
     render template: 'items/admin_claimed'
   end
 
@@ -102,6 +83,7 @@ class ItemsController < ApplicationController
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
     @item_status_layout = [['Found', 1], ['Claimed', 3]]
+
     render template: 'items/edit'
   end
 
@@ -115,7 +97,9 @@ class ItemsController < ApplicationController
   def update
     begin
       @item = Item.find(params[:id])
-      @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription], itemUpdatedBy: session[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus], itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
+      @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription],
+                   itemUpdatedBy: session[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus],
+                   itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
       @item.update(claimedBy: params[:claimedBy]) unless params[:claimedBy].blank?
       @item.update(image: params[:image]) unless params[:image].nil?
       @item.update(image_url: url_for(@item.image)) if @item.image.attached?
@@ -126,6 +110,7 @@ class ItemsController < ApplicationController
       flash[:alert] = 'Error: Item has invalid parameters'
       log_error(e)
     end
+
     render template: 'items/updated'
   end
 
@@ -157,16 +142,17 @@ class ItemsController < ApplicationController
       @locations_layout = location_setup
       @item_type_layout = item_type_setup
       flash.now.alert = 'Item rejected. Missing required fields'
-     log_error(e)
+      log_error(e)
       render template: 'forms/insert_form'
     end
   end
 
   def item_params
     params.permit(:itemLocation, :itemType, :itemDescription, :image)
- end
+  end
 
   def batch_upload
+    if params[:batch_file] != nil
     recordsUploaded = 0
     recordsfailed = ""
     uploaded_file = params[:batch_file]
@@ -176,7 +162,6 @@ class ItemsController < ApplicationController
       item[0] = '' if item[0] == '('
       item[item.length - 1] = '' if item[item.length - 1] == ')'
       raw_item_values = item.split(',')
-
       modified_item_values = []
       raw_item_values.each do |value|
         modified_item_values.push(value.chomp.gsub("'", '').strip)
@@ -214,14 +199,15 @@ class ItemsController < ApplicationController
 
       modified_item_values[7]
       tmp = DateTime.parse modified_item_values[7] rescue nil
-      p tmp
       while tmp.nil?
         modified_item_values[6] = modified_item_values[6] + ", " + modified_item_values[7]
         modified_item_values.delete_at(7)
         tmp = DateTime.parse modified_item_values[7] rescue nil
       end
 
-      next if modified_item_values[11] == "0" && modified_item_values[12] == "NULL" && modified_item_values[13] == "NULL" && modified_item_values[14] == "0"
+      next if modified_item_values[11] == "0" &&
+        modified_item_values[12] == "NULL" &&
+        modified_item_values[13] == "NULL" && modified_item_values[14] == "0"
 
       @item = Item.new
       @item.itemDate = modified_item_values[1]
@@ -230,8 +216,8 @@ class ItemsController < ApplicationController
       @item.itemLocation = locations[modified_item_values[4].to_i]
       @item.itemType = legacy_types[modified_item_values[5].to_i]
       modified_item_values[6] = modified_item_values[6].gsub('\r', '')
-      modified_item_values[6] = modified_item_values[6].gsub('\n', '') 
-      modified_item_values[6] = modified_item_values[6].gsub('\s', 's') 
+      modified_item_values[6] = modified_item_values[6].gsub('\n', '')
+      modified_item_values[6] = modified_item_values[6].gsub('\s', 's')
       @item.itemDescription = modified_item_values[6].chomp
       @item.itemLastModified = Time.now
       @item.itemStatus = modified_item_values[8]
@@ -251,8 +237,12 @@ class ItemsController < ApplicationController
         recordsfailed = recordsfailed + " -  " + @item.itemDescription
       end
     end
-
-    flash[:success] = " #{recordsUploaded} records added to db"
+    flash[:success] = "Success: #{recordsUploaded} items added"
+    redirect_to admin_items_path
+  else
+    flash[:alert] = "Error: File unreadable"
+    redirect_to admin_items_path
+  end
   end
 
   def purge_items
@@ -268,11 +258,5 @@ class ItemsController < ApplicationController
     end
     flash[:success] = purged_total.to_s + ' items purged'
     admin_items
-  end
-
-  def destroy
-    Item.delete(params[:id])
-    @Items = Item.all
-    redirect_back(fallback_location: root_path)
   end
 end

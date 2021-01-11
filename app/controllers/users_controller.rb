@@ -1,22 +1,5 @@
 class UsersController < ApplicationController
-  def index
-    @users = User.all
-  end
-
-  def show; end
-
-  def all
-    @users = User.all
-  end
-
-  def active
-    @users = User.active
-  end
-
-  def new
-    @user = User.new
-  end
-
+  
   def edit
     @user = User.find(params[:id])
     @roles = Role.all
@@ -35,10 +18,10 @@ class UsersController < ApplicationController
       if @user.valid? && @user.save!
         flash[:success] = "Success: User #{@user.user_name} added"
       else
-        flash[:alert] = "Error: UID #{@user.uid} is not numeric"
+        flash[:alert] = "Error: UID is not numeric"
       end
     rescue StandardError
-      flash[:alert] = "Error: UID #{@user.uid} already exists"
+      flash[:alert] = "Error: UID already exists"
     end
     @users = User.all
     redirect_back(fallback_location: root_path)
@@ -53,34 +36,18 @@ class UsersController < ApplicationController
       else
         flash[:alert] = "Error: UID #{params[:uid]} is not numeric"
       end
-        @users = User.all
+      @users = User.all
     rescue StandardError
       flash[:alert] = "Error: UID #{params[:uid]} already exists"
     end
     redirect_to admin_users_path
   end
 
-  def destroy
-    @user = User.delete(params[:id])
-    @users = User.all
-    redirect_back(fallback_location: root_path)
-  end
-
   def change_status
     @user = User.find(params[:id])
     @user.update(user_active: !@user.user_active)
     @users = User.all
-    flash[:success] = "Success: User #{@user.user_name.titleize} status updated!!"
+    flash[:success] = "Success: User #{@user.user_name.titleize} status updated!"
     redirect_back(fallback_location: root_path)
-  end
-
-  private
-
-  def set_user
-    @user = User.find(params[:id])
-  end
-
-  def user_params
-    params.require(:uid)
   end
 end

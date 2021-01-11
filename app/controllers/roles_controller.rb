@@ -29,9 +29,4 @@ class RolesController < ApplicationController
     redirect_to admin_path
   end
 
-  def destroy
-    Role.delete(params[:id])
-    @Roles = Role.all
-    redirect_back(fallback_location: root_path)
-  end
-  end
+end

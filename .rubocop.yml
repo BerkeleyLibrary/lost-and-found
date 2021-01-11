@@ -2,7 +2,6 @@ AllCops:
   # Exclude generated files
   Exclude:
     - 'bin/**/*'
-    - 'node_modules/**/*'
 
 # Allow one line around block body (Layout/EmptyLines will still disallow two or more)
 Layout/EmptyLinesAroundBlockBody:
@@ -23,6 +22,14 @@ Layout/MultilineMethodCallIndentation:
 # Produces monsters
 Layout/MultilineOperationIndentation:
   Enabled: false
+
+# Produces monsters
+Lint/SuppressedException:
+  AllowComments: true
+
+# Reasonable line-length check; it's too easy for the cure to be worse than the disease
+Metrics/LineLength:
+  Max: 150
 
 # Confusing and weird
 Naming/VariableNumber:
@@ -74,13 +81,4 @@ Style/Lambda:
 
 # Unclear why it's a good idea to give parameters semantically meaningless names
 Style/SingleLineBlockParams:
-  Enabled: false
-
-Style/HashEachMethods:
-    Enabled: false
-
-Style/HashTransformKeys:
-  Enabled: false
-
-Style/HashTransformValues:
   Enabled: false

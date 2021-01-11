@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'user_helper'
 
 def login_as(user_id)
   mock_omniauth_login(user_id)
@@ -8,7 +7,6 @@ end
 def logout!
   OmniAuth.config.mock_auth[:calnet] = nil
   stub_request(:get, 'https://auth-test.berkeley.edu/cas/logout').to_return(status: 200)
-  without_redirects { do_get logout_path }
 end
 
 def with_login(user_id)
@@ -38,19 +36,4 @@ def do_get(path)
   return visit(path) if respond_to?(:visit)
 
   get(path)
-end
-
-
-def without_redirects
-  if respond_to?(:page)
-    was_enabled = page.driver.follow_redirects?
-    begin
-      page.driver.options[:follow_redirects] = false
-      yield
-    ensure
-      page.driver.options[:follow_redirects] = was_enabled
-    end
-  else
-    yield
-  end
 end

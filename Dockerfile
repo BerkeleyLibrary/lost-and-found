@@ -70,7 +70,7 @@ USER lostandfound
 
 # The base image ships bundler 1.17.2, but on macOS, Ruby 2.6.4 comes with
 # bundler 1.17.3 as a default gem, and there's no good way to downgrade.
-RUN gem install bundler -v 1.17.3
+RUN gem install bundler -v 2.2.4
 
 # Install gems by copying over just the Gemfiles ruby version file. We do this
 # before copying over the rest of the codebase to avoid invalidating the
