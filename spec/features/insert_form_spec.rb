@@ -8,7 +8,6 @@ RSpec.describe 'Item insert tasks', type: :feature do
     page.set_rack_session(user_name: "Dante")
     page.set_rack_session(user_active: true)
 
-
     visit '/admin'
     click_link 'Item Types'
     fill_in 'type_name', with: "Test_type"
