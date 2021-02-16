@@ -18,6 +18,8 @@ class ApplicationController < ActionController::Base
       reset_session
       session[:timed_out] = true
       flash[:notice] = timeout_message
+      get "/logout"
+      redirect_to  "/home"
     end
   end
 
@@ -48,7 +50,7 @@ class ApplicationController < ActionController::Base
       session[:user_name] = user.user_name
       session[:uid] = user.uid
       session[:user_role] = user.user_role
-      session[:expires_at] = 60.minutes.from_now
+      session[:expires_at] = 20.seconds.from_now
       logger.debug("Signed in user #{session[:user_name]}")
       logger.debug("Role of #{session[:user_role]}")
     elsif session[:user] = user
