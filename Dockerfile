@@ -40,6 +40,7 @@ RUN apk --no-cache --update upgrade \
         tzdata \
         xz-libs \
         wget \
+        shared-mime-info \
         yarn \
 &&  rm -rf /var/cache/apk/*
 
