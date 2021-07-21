@@ -1,7 +1,7 @@
 # Base class for all controllers
 class ApplicationController < ActionController::Base
   include ExceptionHandling
-  class_attribute :support_email, default: 'bescamilla@berkeley.edu'
+  class_attribute :support_email, default: Rails.application.config.support_email
   helper_method :support_email
 
   class_attribute :timeout_message, default: 'Your session has expired. Please logout and sign in again to continue use.'
@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
       session[:user_name] = user.user_name
       session[:uid] = user.uid
       session[:user_role] = user.user_role
-      session[:expires_at] = 20.seconds.from_now
+      session[:expires_at] = 3600.seconds.from_now
       logger.debug("Signed in user #{session[:user_name]}")
       logger.debug("Role of #{session[:user_role]}")
     elsif session[:user] = user

@@ -1,0 +1,14 @@
+---
+# config/lost_and_found.yml
+
+default: &default
+  support_email: <%= ENV["SUPPORT_EMAIL"] || "helpbox@library.berkeley.edu" %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
