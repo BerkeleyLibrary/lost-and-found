@@ -4,6 +4,8 @@ class SessionsController < ApplicationController
   skip_before_action :check_timeout
   skip_before_action :check_calnet
 
+  # TODO: add authenticated? / authenticate! hooks cf. Framework, UCBEARS
+
   def new
     if session[:user] || session[:timed_out]
       redirect_to '/home'

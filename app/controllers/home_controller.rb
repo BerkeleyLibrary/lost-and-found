@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
+
+  # TODO: require admin user for all admin actions
+
   def index
     render :index
   end
