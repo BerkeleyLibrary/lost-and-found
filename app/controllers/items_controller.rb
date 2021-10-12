@@ -72,12 +72,6 @@ class ItemsController < ApplicationController
     render template: 'items/admin_claimed'
   end
 
-  def show
-    @items = Item.all
-    @items_found = Item.found
-    @items_claimed = Item.claimed
-  end
-
   def edit
     @item = Item.find(params[:id])
     @locations_layout = location_setup
