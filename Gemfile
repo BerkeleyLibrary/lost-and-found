@@ -11,7 +11,6 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap'
 gem "show_me_the_cookies"
-gem 'bootstrap-sass'
 gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'poltergeist'
