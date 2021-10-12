@@ -39,6 +39,7 @@ gem 'pg'
 gem 'pg_search'
 
 group :development, :test do
+  gem 'brakeman', '~> 4.8'
   gem 'bundler-audit'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'colorize'
@@ -47,17 +48,15 @@ end
 
 group :development do
   gem 'listen'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'
 end
 
 group :test do
-  gem 'brakeman', '~> 4.8'
   gem 'capybara', '>= 2.15'
+  gem 'rspec', '~> 3.10'
   gem 'rspec_junit_formatter', '~> 0.4.1'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
-  gem 'webmock'
   gem 'simplecov', require: false
+  gem 'simplecov-rcov', require: false
+  gem 'webmock'
 end
