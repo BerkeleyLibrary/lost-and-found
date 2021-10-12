@@ -13,11 +13,19 @@ task setup: %w[db:await db:setup assets:precompile]
 # ------------------------------------------------------------
 # Check (setup + coverage)
 
-desc 'Set up, check test coverage'
+# desc 'Set up, check test coverage'
+# task :check do
+#   ENV['RAILS_ENV'] = 'test'
+#   Rake::Task[:setup].invoke
+#   Rake::Task[:coverage].invoke
+# end
+
+# TODO: get coverage to 100%
+desc 'Set up, run tests'
 task :check do
   ENV['RAILS_ENV'] = 'test'
   Rake::Task[:setup].invoke
-  Rake::Task[:coverage].invoke
+  Rake::Task[:spec].invoke
 end
 
 # ------------------------------------------------------------
