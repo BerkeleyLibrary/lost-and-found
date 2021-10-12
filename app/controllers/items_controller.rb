@@ -40,7 +40,7 @@ class ItemsController < ApplicationController
     end
 
     @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged' }
-    @items_found = @items_found.sort_by(&:itemDate).reverse
+    @items_found = @items_found.sort_by {|item| item.itemDate || Time.zone.at(0) }.reverse
 
     cookies[:itemLocation] = params[:itemLocation]
     cookies[:searchAll] = params[:searchAll]
