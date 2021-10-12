@@ -18,8 +18,7 @@ class ApplicationController < ActionController::Base
       reset_session
       session[:timed_out] = true
       flash[:notice] = timeout_message
-      get "/logout"
-      redirect_to  "/home"
+      redirect_to "/logout"
     end
   end
 
