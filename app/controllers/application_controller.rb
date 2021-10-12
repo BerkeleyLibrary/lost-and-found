@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
   before_action :check_timeout
   before_action :check_calnet
-  before_action :set_paper_trail_whodunnit
+  before_action :set_paper_trail_whodunnit # mixed in by paper_trail gem
   after_action -> { flash.discard }, if: -> { request.xhr? }
 
   def check_timeout
@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
       session[:expires_at] = 3600.seconds.from_now
       logger.debug("Signed in user #{session[:user_name]}")
       logger.debug("Role of #{session[:user_role]}")
-    elsif session[:user] = user
+    elsif session[:user] = user # TODO: is this right? Or should it be ==?
       session[:user_role] = 'deactivated'
     end
   end
