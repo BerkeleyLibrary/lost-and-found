@@ -32,7 +32,6 @@ gem 'webpacker', '~> 4.0'
 gem 'sass-rails', '~> 5.0'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
-gem 'rubocop'
 gem 'kaminari'
 gem 'rack_session_access'
 gem 'pg'
@@ -48,6 +47,9 @@ end
 
 group :development do
   gem 'listen'
+  gem 'rubocop', '~> 1.18.0'
+  gem 'rubocop-rails', '~> 2.9'
+  gem 'rubocop-rspec', '~> 2.2'
   gem 'web-console', '>= 3.3.0'
 end
 
