@@ -1,4 +1,4 @@
-require 'calnet_helper'
+require 'rails_helper'
 
 describe Item, type: :model do
   it 'Item should default to found' do

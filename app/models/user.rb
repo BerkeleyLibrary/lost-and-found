@@ -1,9 +1,6 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  include ActiveModel::Model
   validates :user_name, presence: true, allow_blank: false
-  validates_numericality_of :uid
+  validates_numericality_of :uid # TODO: fix model to use string UIDs
   has_one :role
   attribute :user_active, :boolean, default: true
 

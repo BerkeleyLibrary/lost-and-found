@@ -2,6 +2,7 @@ class HomeController < ApplicationController
 
   # TODO: require admin user for all admin actions
 
+  # TODO: just redirect to something useful
   def index
     render :index
   end

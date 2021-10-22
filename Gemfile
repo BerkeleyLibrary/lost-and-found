@@ -11,7 +11,6 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 gem 'berkeley_library-logging'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap'
-gem 'show_me_the_cookies' # TODO: do we need this?
 gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'lograge', '>=0.11.2'
@@ -51,6 +50,7 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
+  gem 'database_cleaner-active_record', '~> 2.0'
   gem 'rspec', '~> 3.10'
   gem 'rspec_junit_formatter', '~> 0.4.1'
   gem 'selenium-webdriver'
