@@ -14,7 +14,7 @@ dockerComposePipeline(
   artifacts: [
     junit   : 'artifacts/rspec/**/*.xml',
     html    : [
-//       'Code Coverage': 'artifacts/rcov',
+      'Code Coverage': 'artifacts/rcov',
       // TODO: fix code style
       // 'RuboCop'      : 'artifacts/rubocop',
       'Brakeman'     : 'artifacts/brakeman',
