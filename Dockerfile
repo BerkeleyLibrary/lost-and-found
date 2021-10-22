@@ -1,112 +1,129 @@
-# ============================================================================
+# =============================================================================
 # Target: base
-# Includes system dependencies common to both dev and production.
-FROM ruby:2.6.5-alpine AS base
-
-# This is just metadata and doesn't actually "expose" this port. Rather, it
-# tells other tools (e.g. Traefik) what port the service in this image is
-# expected to listen on.
 #
-# @see https://docs.docker.com/engine/reference/builder/#expose
+# The base stage scaffolds elements which are common to building and running
+# the application, such as installing ca-certificates, creating the app user,
+# and installing runtime system dependencies.
+FROM ruby:2.7.4-alpine AS base
+
+# This declares that the container intends to listen on port 3000. It doesn't
+# actually "expose" the port anywhere -- it is just metadata. It advises tools
+# like Traefik about how to treat this container in staging/production.
 EXPOSE 3000
 
-# Standard documentation. Jenkins injects the build info automatically,
-# allowing us to trace the provenance of a particular image.
-LABEL edu.berkeley.lib.build-number="${BUILD_NUMBER}"
-LABEL edu.berkeley.lib.build-url="${BUILD_URL}"
-LABEL edu.berkeley.lib.git-commit="${GIT_COMMIT}"
-LABEL edu.berkeley.lib.git-repo="${GIT_URL}"
-LABEL edu.berkeley.lib.project-tier="4-hour response during business-hours"
-LABEL edu.berkeley.lib.project-description="The Lost and Found Application \
-is a proprietary service belonging to the UCB library system, tasked with \
-tracking lost items found on library premises."
+ENV APP_USER=lostandfound
+ENV APP_UID=40001
 
-RUN addgroup -S -g 40001 lostandfound \
-&&  adduser -S -u 40001 -G lostandfound lostandfound \
-&&  install -o lostandfound -g lostandfound -d /opt/app \
-&&  chown -R lostandfound:lostandfound /opt
+# Create the application user/group and installation directory
+RUN addgroup -S -g $APP_UID $APP_USER \
+&&  adduser -S -u $APP_UID -G $APP_USER $APP_USER \
+&&  mkdir -p /opt/app /var/opt/app \
+&&  chown -R $APP_USER:$APP_USER /opt/app /var/opt/app /usr/local/bundle
 
-RUN apk --no-cache --update upgrade \
-&&  apk --no-cache add \
-        bash \
-        ca-certificates \
-        git \
-        libc6-compat \
-        mariadb-connector-c-dev \
-        nodejs \
-        openssl \
-        sqlite-libs \
-        postgresql-libs \
-        tzdata \
-        xz-libs \
-        wget \
-        shared-mime-info \
-        yarn \
-&&  rm -rf /var/cache/apk/*
+# Install packages common to dev and prod.
+RUN apk --no-cache --update upgrade && \
+    apk --no-cache add \
+      bash \
+      ca-certificates \
+      git \
+      libc6-compat \
+      nodejs \
+      openssl \
+      postgresql-libs \
+      shared-mime-info \
+      sqlite-libs \
+      tzdata \
+      xz-libs \
+      yarn \
+      && \
+    rm -rf /var/cache/apk/*
 
-# Add and trust InCommon's CA certificates
-RUN cd /usr/local/share/ca-certificates \
-&&  wget https://gist.githubusercontent.com/danschmidt5189/e7aa0c94342013c348987ca9470265ed/raw/47ef2ea414789ca50d755b99031dbcbb58d6d915/entrust-g2-ca-cert.pem \
-&&  wget https://gist.githubusercontent.com/danschmidt5189/e7aa0c94342013c348987ca9470265ed/raw/47ef2ea414789ca50d755b99031dbcbb58d6d915/entrust-l1k-ca-cert.pem \
-&&  wget https://gist.githubusercontent.com/danschmidt5189/e7aa0c94342013c348987ca9470265ed/raw/47ef2ea414789ca50d755b99031dbcbb58d6d915/incommon-rsa-server-ca-cert.pem \
-&&  update-ca-certificates
+# ==============================
+# Selenium testing
 
+# Workaround for https://github.com/rails/rails/issues/41828
+RUN mkdir -p /opt/app/tmp && \
+    mkdir -p /opt/app/artifacts/screenshots && \
+    ln -s ../artifacts/screenshots /opt/app/tmp/screenshots
+
+# ==============================
+# Run configuration
+
+# All subsequent commands are executed relative to this directory.
 WORKDIR /opt/app
 
-# ============================================================================
+# Run as the application user to minimize risk to the host.
+USER $APP_USER
+
+# Add binstubs to the path.
+ENV PATH="/opt/app/bin:$PATH"
+
+# If run with no other arguments, the image will start the rails server by
+# default. Note that we must bind to all interfaces (0.0.0.0) because when
+# running in a docker container, the actual public interface is created
+# dynamically at runtime (we don't know its address in advance).
+#
+# Note that at this point, the rails command hasn't actually been installed
+# yet, so if the build fails before the `bundle install` step below, you
+# will need to override the default command when troubleshooting the buggy
+# image.
+CMD ["rails", "server", "-b", "0.0.0.0"]
+
+# =============================================================================
 # Target: development
-# Installs all dependencies, requiring the (large) build-base package. Build
-# artifacts are copied out in the final stage.
+#
+# The development stage installs build dependencies (system packages needed to
+# install all your gems) along with your bundle. It's "heavier" than the
+# production target.
 FROM base AS development
+
+# Temporarily switch back to root to install build packages.
+USER root
 
 # Install system packages needed to build gems with C extensions.
 RUN apk --update --no-cache add \
-        build-base \
-        coreutils \
-        mariadb-dev \
-        postgresql-dev \
-        sqlite-dev
+      build-base \
+      coreutils \
+      git \
+      postgresql-dev \
+      sqlite-dev \
+&&  rm -rf /var/cache/apk/*
 
-USER lostandfound
+USER $APP_USER
 
-# The base image ships bundler 1.17.2, but on macOS, Ruby 2.6.4 comes with
-# bundler 1.17.3 as a default gem, and there's no good way to downgrade.
-RUN gem install bundler -v 2.2.4
+# Use a recent version of Bundler
+RUN gem install bundler -v 2.2.14
 
-# Install gems by copying over just the Gemfiles ruby version file. We do this
-# before copying over the rest of the codebase to avoid invalidating the
-# Docker cache and forcing an unnecessary bundle-install.
-COPY --chown=lostandfound .ruby-version Gemfile* ./
-RUN bundle install --path /usr/local/bundle
+# Install gems. We don't enforce the validity of the Gemfile.lock until the
+# final (production) stage.
+COPY --chown=$APP_USER:$APP_USER Gemfile* ./
+RUN bundle install
 
-COPY --chown=lostandfound . .
+# Copy the rest of the codebase. We do this after bundle-install so that
+# changes unrelated to the gemset don't invalidate the cache and force a slow
+# re-install.
+COPY --chown=$APP_USER:$APP_USER . .
 
-# Extend the path to include our binstubs. Note that this must be done after
-# we've installed the application (and these scripts) otherwise you'll run
-# into weird path-related issues.
-ENV PATH "/opt/app/bin:$PATH"
-
-RUN rails assets:precompile
-
-CMD ["rails", "server"]
-
-# ============================================================================
+# =============================================================================
 # Target: production
-# Slimmed down, extending the 'base' stage with only the built package from
-# the 'development' stage.
+#
+# The production stage extends the base image with the application and gemset
+# built in the development stage. It includes runtime dependencies but not
+# heavyweight build dependencies.
 FROM base AS production
 
-# Run as the app user to minimize risk to the host.
-USER lostandfound
-
 # Copy the built codebase from the dev stage
-COPY --from=development --chown=lostandfound /opt/app /opt/app
-COPY --from=development --chown=lostandfound /usr/local/bundle /usr/local/bundle
-ENV PATH "/opt/app/bin:$PATH"
+COPY --from=development --chown=$APP_USER /opt/app /opt/app
+COPY --from=development --chown=$APP_USER /usr/local/bundle /usr/local/bundle
+COPY --from=development --chown=$APP_USER /var/opt/app /var/opt/app
 
-# Sanity-check that everything was installed correctly and still runs in the
-# slimmed-down production image.
-RUN bundle install --deployment --local --path=/usr/local/bundle \
-&&  rails log:clear tmp:clear
+# Ensure the bundle is installed and the Gemfile.lock is synced.
+RUN bundle config set frozen 'true'
+RUN bundle install --local
 
-CMD ["rails", "server"]
+# Run the production stage in production mode.
+ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=true
+
+# Pre-compile assets so we don't have to do it in production.
+RUN rails assets:precompile

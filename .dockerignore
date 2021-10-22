@@ -1,3 +1,6 @@
+# Ignore .env
+.env
+
 # Ignore git
 .git
 .gitignore
@@ -17,8 +20,6 @@ docker-compose*
 # Ignore markdown/readme files
 *.md
 
-*.sqlite3
-
 # Ignore all log files
 *.log
 
@@ -31,7 +32,7 @@ storage/*
 
 nginx
 
-/node_modules
+node_modules
 
 # Assets are rebuilt each deploy
 public/assets

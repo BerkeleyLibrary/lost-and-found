@@ -8,18 +8,16 @@ ruby '~> 2.6'
 gem 'activerecord-import'
 gem 'authlogic'
 gem 'bcrypt', '~> 3.1', '>= 3.1.11'
+gem 'berkeley_library-logging'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap'
-gem "show_me_the_cookies"
+gem 'show_me_the_cookies' # TODO: do we need this?
 gem 'coffee-rails', '~> 4.2'
 gem 'devise'
-gem 'poltergeist'
 gem 'lograge', '>=0.11.2'
-gem 'mysql2'
 gem 'omniauth-cas',
     git: 'https://github.com/dlindahl/omniauth-cas.git',
     ref: '7087bda829e14c0f7cab2aece5045ad7015669b1'
-gem 'ougai', '>=1.8.2'
 gem 'puma', '~> 4.1', '>=4.3.9'
 gem 'paper_trail'
 gem 'diffy'
@@ -32,7 +30,6 @@ gem 'sass-rails', '~> 5.0'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'kaminari'
-gem 'rack_session_access'
 gem 'pg'
 gem 'pg_search'
 
@@ -47,8 +44,8 @@ end
 group :development do
   gem 'listen'
   gem 'rubocop', '~> 1.18.0'
-  gem 'rubocop-rails', '~> 2.9'
-  gem 'rubocop-rspec', '~> 2.2'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
   gem 'web-console', '>= 3.3.0'
 end
 
