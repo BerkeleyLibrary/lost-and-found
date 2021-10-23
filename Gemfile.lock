@@ -139,6 +139,11 @@ GEM
     docile (1.4.0)
     erubi (1.10.0)
     execjs (2.8.1)
+    factory_bot (6.2.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     ffi (1.15.4)
     globalid (0.5.2)
       activesupport (>= 5.0)
@@ -386,6 +391,7 @@ DEPENDENCIES
   database_cleaner-active_record (~> 2.0)
   devise
   diffy
+  factory_bot_rails
   jbuilder (~> 2.5)
   jquery-rails
   kaminari

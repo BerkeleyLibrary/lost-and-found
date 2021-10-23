@@ -6,7 +6,7 @@ class Item < ApplicationRecord
   attr_accessor :locations
   attr_accessor :types
 
-  attribute :itemStatus, :integer, default: 1
+  attribute :itemStatus, :integer, default: 1 # TODO: replace magic number with enum
   paginates_per 25
 
   def locations

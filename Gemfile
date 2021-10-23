@@ -37,6 +37,7 @@ group :development, :test do
   gem 'bundler-audit'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'colorize'
+  gem 'factory_bot_rails'
   gem 'rspec-rails'
 end
 

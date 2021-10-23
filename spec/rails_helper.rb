@@ -26,6 +26,11 @@ RSpec.configure do |config|
 end
 
 # ------------------------------------------------------------
+# FactoryBot
+
+require 'support/factory_bot'
+
+# ------------------------------------------------------------
 # Calnet
 
 module CalnetHelper

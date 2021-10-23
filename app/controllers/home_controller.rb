@@ -59,10 +59,12 @@ class HomeController < ApplicationController
     render template: 'items/claimed'
   end
 
+  # TODO: do we still need this?
   def admin_migration_items
     render :admin_migration_items
   end
 
+  # TODO: do we still need this?
   def admin_migration_locations
     render :admin_migration_locations
   end
@@ -75,6 +77,7 @@ class HomeController < ApplicationController
     render :admin_purge
   end
 
+  # TODO: do we still need this?
   def admin_migration_item_types
     render :admin_migration_item_types
   end

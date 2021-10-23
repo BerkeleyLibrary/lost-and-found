@@ -110,8 +110,8 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new
-    @item.itemDate = params[:itemDate] || Time.now
-    @item.itemFoundAt = params[:itemFoundAt] || Time.now
+    @item.itemDate = params[:itemDate] || Time.now # TODO: use Date.current
+    @item.itemFoundAt = params[:itemFoundAt] || Time.now # TODO: use Time.current
     @item.itemLocation = params[:itemLocation]
     @item.itemType = params[:itemType]
     @item.itemDescription = params[:itemDescription]
@@ -122,9 +122,9 @@ class ItemsController < ApplicationController
     @item.itemObsolete = 0
     @item.itemUpdatedBy = session[:user_name]
     @item.itemFoundBy = params[:itemFoundBy] || 'anonymous'
-    @item.libID = 115
-    @item.created_at = Time.now
-    @item.updated_at = Time.now
+    @item.libID = 115 # TODO: do we need this?
+    @item.created_at = Time.now # TODO: let ActiveRecord set timestamps
+    @item.updated_at = Time.now # TODO: let ActiveRecord set timestamps
     @item.claimedBy = ''
     @item.whereFound = params[:whereFound] || 'unknown'
     @item.image.attach(params[:image])
