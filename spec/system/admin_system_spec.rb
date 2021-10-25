@@ -109,6 +109,54 @@ describe 'admin user', type: :system do
         expect(row).to have_link('Deactivate', href: toggle_status_path)
       end
 
+      it 'requires a name' do
+        user_count = User.count
+
+        uid = 5551211
+        role = 'Staff'
+
+        fill_in('uid', with: uid)
+        select(role, from: 'user_role')
+        page.click_link_or_button('Add user')
+
+        # TODO: figure out how to test HTML5 native validation, or replace w/JS validation
+        expect(page).not_to have_selector('tr', text: uid)
+
+        expect(User.count).to eq(user_count)
+      end
+
+      it 'requires a UID' do
+        user_count = User.count
+
+        name = 'Paige J. Poe'
+        role = 'Staff'
+
+        fill_in('user_name', with: name)
+        select(role, from: 'user_role')
+
+        page.click_link_or_button('Add user')
+
+        # TODO: figure out how to test HTML5 native validation, or replace w/JS validation
+        expect(page).not_to have_selector('tr', text: name)
+
+        expect(User.count).to eq(user_count)
+      end
+
+      it 'prevents adding duplicate UIDs' do
+        user_count = User.count
+
+        name = 'Paige J. Poe'
+        role = 'Staff'
+
+        fill_in('uid', with: user.uid)
+        fill_in('user_name', with: name)
+        select(role, from: 'user_role')
+
+        page.click_link_or_button('Add user')
+        expect(page).to have_content('already exists')
+        expect(User.count).to eq(user_count)
+      end
+
       it 'allows editing users' do
         u = User.where(user_role: 'Read-only').take
         expect(u.user_active).to eq(true) # just to be sure
@@ -217,6 +265,17 @@ describe 'admin user', type: :system do
 
         toggle_status_path = toggle_location_status_path(loc.id)
         expect(row).to have_link('Deactivate', href: toggle_status_path)
+      end
+
+      it 'requires a location name' do
+        location_count = Location.count
+
+        page.click_link_or_button('Add location')
+
+        # TODO: figure out how to test HTML5 native validation, or replace w/JS validation
+        rows = page.find_all('tr', text: 'Edit')
+        expect(rows.size).to eq(location_count)
+        expect(Location.count).to eq(location_count)
       end
 
       it 'prevents adding a duplicate location' do
