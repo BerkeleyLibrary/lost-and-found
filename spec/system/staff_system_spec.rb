@@ -15,7 +15,9 @@ describe 'admin user', type: :system do
 
   context 'with data' do
     before(:each) do
-      locations = ['Doe', 'Moffitt', 'East Asian Library'].map { |loc| create(:location, location_name: loc) }
+      # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+      #       - see https://stackoverflow.com/a/2223789/27358
+      locations = ['Doe', 'Moffitt', 'East Asian Library'].map { |loc| create(:location, location_name: loc.downcase) }
       item_types = ['Pencil', 'Pen', 'Trapper Keeper'].map { |it| create(:item_type, type_name: it, type_description: "a #{it.downcase}") }
       locations.each do |loc|
         item_types.each do |type|

@@ -63,8 +63,8 @@ Rails.application.routes.draw do
   get "/roles/:id/role_delete", to: "roles#destroy"
   get "/users/:id/destroy", to: "users#destroy"
   get "/users/:id/change_status", to: "users#change_status", as: :toggle_user_status
-  get "/locations/:id/change_status", to: "locations#change_status"
-  get "/item_types/:id/change_status", to: "item_types#change_status"
+  get "/locations/:id/change_status", to: "locations#change_status", as: :toggle_location_status
+  get "/item_types/:id/change_status", to: "item_types#change_status", as: :toggle_item_status
   get '/item_insert', to: "items#found"
   get '/found_items', to: "items#found"
   get '/logout', to: 'sessions#destroy', as: :logout

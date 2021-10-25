@@ -44,7 +44,7 @@ class UsersController < ApplicationController
 
   def change_status
     @user = User.find(params[:id])
-    @user.update(user_active: !@user.user_active)
+    @user.update(user_active: !@user.user_active, updated_by: session[:user_name])
     @users = User.all
     flash[:success] = "Success: User #{@user.user_name.titleize} status updated!"
     redirect_back(fallback_location: root_path)

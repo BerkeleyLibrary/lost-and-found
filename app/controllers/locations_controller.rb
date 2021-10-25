@@ -1,6 +1,9 @@
 class LocationsController < ApplicationController
 
   def create
+    # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+    #       - see https://stackoverflow.com/a/2223789/27358
+
     @Location = Location.new
     @Location.location_name = params[:location_name].downcase
     @Location.location_active = true
@@ -14,7 +17,7 @@ class LocationsController < ApplicationController
         redirect_back(fallback_location: root_path)
       else
         @Locations = Location.all
-        flash[:alert] = "Error: Location #{@Location.location_name.titleize} Already exists"
+        flash[:alert] = "Error: Location #{@Location.location_name.titleize} already exists"
         redirect_back(fallback_location: root_path)
       end
     rescue Exception => e
@@ -41,7 +44,7 @@ class LocationsController < ApplicationController
 
   def change_status
     @location = Location.find(params[:id])
-    @location.update(location_active: !@location.location_active)
+    @location.update(location_active: !@location.location_active, updated_by: session[:user_name])
     @locations = Location.all
     flash[:success] = "Success: Location #{@location.location_name.titleize} status updated!"
     redirect_back(fallback_location: root_path)
