@@ -133,6 +133,14 @@ module CalnetHelper
     end
   end
 
+  def ensure_all_users!
+    IDS.each do |type, uid|
+      role = ROLES[type]
+      auth_hash = auth_hash_for(uid)
+      ensure_user!(role, auth_hash)
+    end
+  end
+
   private
 
   def ensure_user!(role, auth_hash)

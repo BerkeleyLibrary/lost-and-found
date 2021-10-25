@@ -1,8 +1,10 @@
 require 'capybara_helper'
 
 describe 'admin user', type: :system do
+  attr_reader :user
+
   before(:each) do
-    mock_login(:admin)
+    @user = mock_login(:admin)
   end
 
   describe 'login' do
@@ -11,71 +13,140 @@ describe 'admin user', type: :system do
     end
   end
 
-  context 'with data' do
+  describe 'admin home' do
     before(:each) do
-      locations = ['Doe', 'Moffitt', 'East Asian Library'].map { |loc| create(:location, location_name: loc) }
-      item_types = ['Pencil', 'Pen', 'Trapper Keeper'].map { |it| create(:item_type, type_name: it, type_description: "a #{it.downcase}") }
-      locations.each do |loc|
-        item_types.each do |type|
-          create(
-            :item,
-            itemType: type.type_name,
-            itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
-            image_path: File.join('spec/data/images', "#{type.type_name}.jpg")
-          )
-        end
+      visit(admin_path)
+    end
+
+    it 'displays the admin page' do
+      expected_links = [
+        admin_users_path,
+        admin_locations_path,
+        admin_item_types_path,
+        admin_purge_path,
+        admin_claimed_path
+      ]
+      expected_links.each do |link|
+        next if page.has_link?(href: link)
+        expect(page).to have_link(href: link)
       end
     end
 
-    describe 'search' do
-      it 'finds the items' do
-        page.click_link_or_button('Submit')
-        expect(page).to have_content('Found Items')
+    describe 'add/edit users' do
+      before(:each) do
+        ensure_all_users!
 
-        table = page.find('#found_items_table')
+        link = page.find_link(href: admin_users_path)
+        link.click
+      end
 
-        Item.find_each do |item|
-          item_rows = table.find_all('tr', text: item.itemDescription).to_a
-          expect(item_rows.size).to eq(1)
+      it 'lists users' do
+        User.find_each do |u|
+          user_row = page.find('tr', text: u.uid)
+          expect(user_row).to have_content(u.user_name)
+          expect(user_row).to have_content(u.user_role)
 
-          item_row = item_rows[0]
+          edit_path = edit_user_path(u.id)
+          expect(user_row).to have_link(href: edit_path)
 
-          view_path = item_path(item.id)
-          expect(item_row).to have_link(href: view_path)
-
-          edit_path = edit_item_path(item.id)
-          expect(item_row).to have_link(href: edit_path)
-
-          date_found = item.itemDate ? item.itemDate.strftime("%m/%d/%Y") : 'None'
-          expect(item_row).to have_content(date_found)
-
-          time_found = item.itemFoundAt ? item.itemFoundAt.strftime("%l:%M %P") : 'None'
-          expect(item_row).to have_content(time_found)
-
-          found_by = item.itemFoundBy || 'No one'
-          expect(item_row).to have_content(found_by)
-
-          location = item.itemLocation || 'None'
-          expect(item_row).to have_content(location)
-
-          where_found = item.whereFound || 'None'
-          expect(item_row).to have_content(where_found)
-
-          type = item.itemType || 'No type'
-          expect(item_row).to have_content(type)
+          toggle_status_path = toggle_user_status_path(u.id)
+          toggle_status_link = user_row.find_link(href: toggle_status_path)
+          expected_text = u.user_active ? 'Deactivate' : 'Activate'
+          expect(toggle_status_link).to have_text(expected_text)
         end
+      end
+
+      it 'allows activating/deactivating users' do
+        u = User.where.not(uid: user.uid).take
+        expect(u.user_active).to eq(true) # just to be sure
+
+        user_row = page.find('tr', text: u.uid)
+        toggle_status_path = toggle_user_status_path(u.id)
+
+        deactivate_link = user_row.find_link('Deactivate', href: toggle_status_path)
+
+        # Deactivate, and wait for deactivation to take effect
+        deactivate_link.click
+        activate_link = page.find_link('Activate', href: toggle_status_path)
+
+        u.reload
+        expect(u.user_active).to eq(false)
+
+        # Activate, and wait for activation to take effect
+        activate_link.click
+        expect(page).to have_link('Deactivate', href: toggle_status_path)
+
+        u.reload
+        expect(u.user_active).to eq(true)
+      end
+
+      it 'allows adding users' do
+        uid = 5551211
+        name = 'Paige J. Poe'
+        role = 'Staff'
+
+        fill_in('uid', with: uid)
+        fill_in('user_name', with: name)
+        select(role, from: 'user_role')
+
+        # Add, and wait for add to complete
+        page.click_link_or_button('Add user')
+        user_row = page.find('tr', text: uid)
+
+        u = User.find_by(uid: uid)
+        expect(u.user_name).to eq(name)
+        expect(u.user_role).to eq(role)
+
+        expect(user_row).to have_content(u.user_name)
+        expect(user_row).to have_content(u.user_role)
+
+        edit_path = edit_user_path(u.id)
+        expect(user_row).to have_link(href: edit_path)
+
+        toggle_status_path = toggle_user_status_path(u.id)
+        expect(user_row).to have_link('Deactivate', href: toggle_status_path)
+      end
+
+      it 'allows editing users' do
+        u = User.where(user_role: 'Read-only').take
+        expect(u.user_active).to eq(true) # just to be sure
+
+        user_row = page.find('tr', text: u.uid)
+        edit_path = edit_user_path(u.id)
+
+        edit_link = user_row.find_link(href: edit_path)
+        edit_link.click
+
+        expect(page).to have_content('Edit user')
+
+        role = 'Staff'
+        uid = u.uid * 2
+        name = u.user_name.sub(/[A-Z][a-z]+$/, 'Marumaru')
+
+        fill_in('uid', with: uid)
+        fill_in('user_name', with: name)
+        select(role, from: 'user_role')
+        find('#user_active').set(false)
+
+        # Add, and wait for add to complete
+        page.click_link_or_button('Update user')
+        expect(page).to have_selector('tr', text: name)
+
+        u.reload
+        expect(u.user_name).to eq(name)
+        expect(u.user_role).to eq(role)
+        expect(u.uid).to eq(uid)
+        expect(u.user_active).to eq(false)
+
+        expect(user_row).to have_content(u.user_role)
+
+        edit_path = edit_user_path(u.id)
+        expect(user_row).to have_link(href: edit_path)
+
+        toggle_status_path = toggle_user_status_path(u.id)
+        expect(user_row).to have_link('Deactivate', href: toggle_status_path)
       end
     end
   end
 
-  describe 'search' do
-    context 'without items' do
-      it 'allows search with no parameters' do
-        page.click_link_or_button('Submit')
-        expect(page).to have_content('Found Items')
-      end
-    end
-
-    xcontext 'with items'
-  end
 end

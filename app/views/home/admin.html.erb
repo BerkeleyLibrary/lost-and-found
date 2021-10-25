@@ -1,9 +1,10 @@
 <%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
-<% if user_level_admin? %> 
+<% if user_level_admin? %>
     <h1>Lost & Found - Administration</h1>
+    <%# TODO: use link_to %>
     <div class="nav-link"><a href="/admin_users">Add/Edit Users</a> </div>
      <div class="nav-link"><a href="/admin_locations">Locations</a> </div>
      <div class="nav-link"><a href="/admin_item_types">Item Types</a> </div>
      <div class="nav-link"> <a href="/admin_purge">Remove old items</a> </div>
-    <div class="nav-link"> <a href="admin_claimed">View removed items</a> </div>
+    <div class="nav-link"> <a href="/admin_claimed">View removed items</a> </div>
 <% end %>
