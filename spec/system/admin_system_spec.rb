@@ -20,8 +20,49 @@ describe 'admin user', type: :system do
           create(
             :item,
             itemType: type.type_name,
-            itemDescription: "description of #{loc} #{type}",
+            itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
+            image_path: File.join('spec/data/images', "#{type.type_name}.jpg")
           )
+        end
+      end
+    end
+
+    describe 'search' do
+      it 'finds the items' do
+        page.click_link_or_button('Submit')
+        expect(page).to have_content('Found Items')
+
+        table = page.find('#found_items_table')
+
+        Item.find_each do |item|
+          item_rows = table.find_all('tr', text: item.itemDescription).to_a
+          expect(item_rows.size).to eq(1)
+
+          item_row = item_rows[0]
+
+          view_path = item_path(item.id)
+          expect(item_row).to have_link(href: view_path)
+
+          edit_path = edit_item_path(item.id)
+          expect(item_row).to have_link(href: edit_path)
+
+          date_found = item.itemDate ? item.itemDate.strftime("%m/%d/%Y") : 'None'
+          expect(item_row).to have_content(date_found)
+
+          time_found = item.itemFoundAt ? item.itemFoundAt.strftime("%l:%M %P") : 'None'
+          expect(item_row).to have_content(time_found)
+
+          found_by = item.itemFoundBy || 'No one'
+          expect(item_row).to have_content(found_by)
+
+          location = item.itemLocation || 'None'
+          expect(item_row).to have_content(location)
+
+          where_found = item.whereFound || 'None'
+          expect(item_row).to have_content(where_found)
+
+          type = item.itemType || 'No type'
+          expect(item_row).to have_content(type)
         end
       end
     end

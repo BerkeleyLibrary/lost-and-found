@@ -140,7 +140,7 @@ module CalnetHelper
 
     return User.create(
       uid: uid,
-      user_name: auth_hash['info']['name'],
+      user_name: auth_hash['extra']['displayName'],
       user_role: role,
       updated_by: 'Test'
     ) unless (user = User.find_by(uid: uid))

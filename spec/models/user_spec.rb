@@ -1,4 +1,4 @@
-require 'calnet_helper'
+require 'rails_helper'
 
 describe User, type: :model do
   it 'user should have role' do
