@@ -404,6 +404,96 @@ describe 'admin user', type: :system do
         expect(ItemType.count).to eq(item_type_count)
       end
     end
+
+    describe 'remove old items' do
+      attr_reader :all_item_dates
+
+      before(:each) do
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        #       - see https://stackoverflow.com/a/2223789/27358
+        locations = ['Doe', 'Moffitt', 'East Asian Library'].map { |loc| create(:location, location_name: loc.downcase) }
+        item_types = ['Pencil', 'Pen', 'Trapper Keeper'].map { |it| create(:item_type, type_name: it.downcase, type_description: "a #{it.downcase}") }
+        locations.each_with_index do |loc, i|
+          item_types.each_with_index do |type, j|
+            create(
+              :item,
+              itemType: type.type_name,
+              itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
+              image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
+              itemDate: (Date.current - j.months - i.days)
+            )
+          end
+        end
+
+        @all_item_dates = Item.pluck(:itemDate).sort
+
+        visit(admin_purge_path)
+      end
+
+      it 'purges items' do
+        cutoff_date = all_item_dates[all_item_dates.size / 2]
+
+        purged_ids = Item.where('items."itemDate" <= ?', cutoff_date).pluck(:id)
+        unpurged_ids = Item.where('items."itemDate" > ?', cutoff_date).pluck(:id)
+
+        fill_in('purgeTime', with: cutoff_date.strftime("%m/%d/%Y"))
+        page.click_link_or_button('Purge items')
+
+        expect(page).to have_content("#{purged_ids.size} items purged")
+
+        actually_purged_ids = Item.where(claimedBy: 'Purged', itemUpdatedBy: user.user_name).pluck(:id)
+        expect(actually_purged_ids).to contain_exactly(*purged_ids)
+
+        actually_unpurged_ids = Item.where(claimedBy: nil).pluck(:id)
+        expect(actually_unpurged_ids).to contain_exactly(*unpurged_ids)
+      end
+
+      it "doesn't mess with previously purged items" do
+        cutoff_date_1 = all_item_dates[all_item_dates.size / 4]
+
+        other_user_name = 'J. Other User'
+        Item.where('items."itemDate" <= ?', cutoff_date_1).update_all(claimedBy: 'Purged', itemUpdatedBy: other_user_name)
+        previously_purged_ids = Item.where(claimedBy: 'Purged').pluck(:id)
+
+        cutoff_date_2 = all_item_dates[all_item_dates.size / 2]
+        newly_purged_ids = Item.where('items."itemDate" <= ? AND items."itemDate" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
+
+        fill_in('purgeTime', with: cutoff_date_2.strftime("%m/%d/%Y"))
+        page.click_link_or_button('Purge items')
+
+        expect(page).to have_content("#{newly_purged_ids.size} items purged")
+
+        actually_purged_ids = Item.where(claimedBy: 'Purged', itemUpdatedBy: user.user_name).pluck(:id)
+        expect(actually_purged_ids).to contain_exactly(*newly_purged_ids)
+
+        all_purged_ids = Item.where(claimedBy: 'Purged').pluck(:id)
+        expect(all_purged_ids).to contain_exactly(*(previously_purged_ids + newly_purged_ids))
+
+        actually_previously_purged_ids =  Item.where(claimedBy: 'Purged', itemUpdatedBy: other_user_name).pluck(:id)
+        expect(actually_previously_purged_ids).to contain_exactly(*previously_purged_ids)
+      end
+
+      it "doesn't mess with previously claimed items" do
+        cutoff_date_1 = all_item_dates[all_item_dates.size / 4]
+        other_user_name = 'J. Other User'
+        Item.where('items."itemDate" <= ?', cutoff_date_1).update_all(claimedBy: 'Mr. Magoo', itemStatus: 3, itemUpdatedBy: other_user_name)
+        claimed_ids = Item.where(claimedBy: 'Mr. Magoo').pluck(:id)
+
+        cutoff_date_2 = all_item_dates[all_item_dates.size / 2]
+        newly_purged_ids = Item.where('items."itemDate" <= ? AND items."itemDate" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
+
+        fill_in('purgeTime', with: cutoff_date_2.strftime("%m/%d/%Y"))
+        page.click_link_or_button('Purge items')
+
+        expect(page).to have_content("#{newly_purged_ids.size} items purged")
+
+        actually_purged_ids = Item.where(claimedBy: 'Purged').pluck(:id)
+        expect(actually_purged_ids).to contain_exactly(*newly_purged_ids)
+
+        actually_claimed_ids = Item.where(claimedBy: 'Mr. Magoo', itemStatus: 3).pluck(:id)
+        expect(actually_claimed_ids).to contain_exactly(*claimed_ids)
+      end
+    end
   end
 
 end

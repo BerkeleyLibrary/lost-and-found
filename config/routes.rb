@@ -28,8 +28,7 @@ Rails.application.routes.draw do
   get 'admin_locations', to: 'home#admin_locations'
   get 'admin_item_types', to: 'home#admin_item_types'
   get 'admin_items', to: 'items#admin_items'
-  get 'admin_purge', to: 'home#admin_purge' # TODO: why do we have two of these?
-  get 'purge_items', to: 'home#admin_purge' # TODO: why do we have two of these?
+  get 'admin_purge', to: 'home#admin_purge'
   get 'admin_claimed', to: 'items#claimed_items'
   get 'admin_migration_items', to: 'home#admin_migration_items'
   get '/admin_migration_locations', to: 'home#admin_migration_locations'

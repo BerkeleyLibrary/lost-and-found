@@ -76,6 +76,7 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
+    # TODO: replace magic number with enum
     @item_status_layout = [['Found', 1], ['Claimed', 3]]
 
     render template: 'items/edit'
