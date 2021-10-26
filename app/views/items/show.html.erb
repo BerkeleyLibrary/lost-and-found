@@ -5,7 +5,7 @@
 
 <h2>Current values</h2>
 <div class="form-group row">
-  <h5 class="col-2">Date found</h5> 
+  <h5 class="col-2">Date found</h5>
   <% if @item.itemDate%>
     <div class="col-4"><%= @item.itemDate.strftime("%m/%d/%Y") %></div>
   <% else %>
@@ -13,7 +13,7 @@
 <% end %>
 </div>
 <div class="form-group row">
-  <h5 class="col-2">Time found</h5> 
+  <h5 class="col-2">Time found</h5>
   <% if @item.itemFoundAt%>
   <div class="col-4"><%= @item.itemFoundAt.strftime("%l:%M %P") %></div>
 <% else %>
@@ -22,29 +22,29 @@
 </div>
 
 <div class="form-group row">
-  <h5 class="col-2">Found by</h5> 
+  <h5 class="col-2">Found by</h5>
   <div class="col-4"><%= @item.itemFoundBy || 'No one' %></div>
 </div>
 
 <div class="form-group row">
-  <h5 class="col-2">Item location</h5> 
+  <h5 class="col-2">Item location</h5>
   <div class="col-4"><%= @item.itemLocation || 'None' %></div>
 </div>
 
 <div class="form-group row">
-  <h5 class="col-2">Type of item</h5> 
+  <h5 class="col-2">Type of item</h5>
   <div class="col-4"><%= @item.itemType || 'No type' %></div>
 </div>
 
 <div class="form-group row">
-  <h5 class="col-2">Item description</h5> 
+  <h5 class="col-2">Item description</h5>
   <div class="col-4"><%= @item.itemDescription || 'None' %></div>
 </div>
 
 <div class="form-group row">
   <h5 class="col-2">Item image</h5>
     <% if @item.image.attached? %>
-      <image class="preview_image" src="<%=(url_for(@item.image)) %>">
+      <img class="preview_image" src="<%=(url_for(@item.image)) %>">
     <% else %>
     <div class="col-4">No image </div>
     <% end %>

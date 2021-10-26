@@ -55,9 +55,9 @@
 
     <%= label_tag(:image, "Current image: ") %>
     <% if @item.image.attached? %>
-      <image class="preview_image" src="<%=(url_for(@item.image)) %>" onerror="this.style.display = 'none'">
+      <img class="preview_image" src="<%=(url_for(@item.image)) %>" onerror="this.style.display = 'none'">
     <% else %>
-        No image 
+        No image
     <% end %>
 
     <h4> Update by: </h4>

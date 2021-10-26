@@ -37,7 +37,7 @@
             <td><%= @item.itemType || 'No type' %></td>
             <td class="desc"><%= @item.itemDescription || 'None' %></td>
             <% if @item.image.attached? %>
-                <td><image class="preview_image" src="<%=(url_for(@item.image)) %>" onerror="this.style.display = 'none'"></td>
+                <td><img class="preview_image" src="<%=(url_for(@item.image)) %>" onerror="this.style.display = 'none'"></td>
             <% else %>
                  <td>No image </td>
             <% end %>

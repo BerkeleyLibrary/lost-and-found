@@ -48,7 +48,7 @@
             <td class="desc"><%= item.itemDescription || 'None' %></td>
             <td>
             <% if item.image.attached? %>
-                <image src="<%=(url_for(item.image)) %>"  class="preview_image" onerror="this.style.display = 'none'">
+                <img src="<%=(url_for(item.image)) %>" alt="image of item" class="preview_image" onerror="this.style.display = 'none'">
             <% else %>
                  No image
             <% end %>
@@ -63,6 +63,3 @@
         <% end %>
         </tbody>
     </table>
-
-
- 
