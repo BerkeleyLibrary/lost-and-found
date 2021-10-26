@@ -147,7 +147,7 @@ class ItemsController < ApplicationController
     @item.claimedBy = ''
     @item.whereFound = params[:whereFound] || 'unknown'
 
-    unless params[:image].nil? || item.invalid?
+    unless params[:image].nil? || @item.invalid?
       @item.image.attach(params[:image])
       @item.image_url = url_for(@item.image)
     end
