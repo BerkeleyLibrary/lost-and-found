@@ -9,6 +9,7 @@ FactoryBot.define do
     itemFoundBy { 'Testy McTestface' }
     itemStatus { 1 } # TODO: replace magic number with enum
     itemEnteredBy { 'Test' }
+    itemUpdatedBy { 'Test' }
     whereFound { 'Somewhere' }
 
     after(:build) do |item, ev|

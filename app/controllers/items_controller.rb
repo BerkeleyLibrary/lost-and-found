@@ -40,7 +40,7 @@ class ItemsController < ApplicationController
     end
 
     @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged' }
-    @items_found = @items_found.sort_by {|item| item.itemDate || Time.zone.at(0) }.reverse
+    @items_found = @items_found.sort_by { |item| item.itemDate || Time.zone.at(0) }.reverse
 
     cookies[:itemLocation] = params[:itemLocation]
     cookies[:searchAll] = params[:searchAll]
@@ -86,25 +86,43 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
+    # TODO: replace magic number with enum
     @item_status_layout = [['Found', 1], ['Claimed', 3]]
   end
 
   def update
+    @item = Item.find(params[:id])
+
+    # TODO: just use strong parameters
+
+    @item.itemLocation = params[:itemLocation]
+    @item.itemType = params[:itemType]
+    @item.itemDescription = params[:itemDescription]
+    @item.itemUpdatedBy = session[:user_name]
+    @item.itemFoundBy = params[:itemFoundBy]
+    @item.itemStatus = params[:itemStatus]
+    @item.itemDate = params[:itemDate]
+    @item.itemFoundAt = params[:itemFoundAt]
+    @item.itemLastModified = Time.now
+    @item.whereFound = params[:whereFound]
+    @item.claimedBy = params[:claimedBy].blank? ? nil : params[:claimedBy]
+
+    unless params[:image].nil? || @item.invalid?
+      @item.image_url = url_for(@item.image)
+      @item.image.attach(params[:image])
+    end
+
     begin
-      @item = Item.find(params[:id])
-      @item.update(itemLocation: params[:itemLocation], itemType: params[:itemType], itemDescription: params[:itemDescription],
-                   itemUpdatedBy: session[:user_name], itemFoundBy: params[:itemFoundBy], itemStatus: params[:itemStatus],
-                   itemDate: params[:itemDate], itemFoundAt: params[:itemFoundAt], itemLastModified: Time.now, whereFound: params[:whereFound])
-      @item.update(claimedBy: params[:claimedBy]) unless params[:claimedBy].blank?
-      @item.update(image: params[:image]) unless params[:image].nil?
-      @item.update(image_url: url_for(@item.image)) if @item.image.attached?
-      @items = Item.all
-      @items_found = Item.found
-      @items_claimed = Item.claimed
+      @item.save!
     rescue StandardError => e
       flash[:alert] = 'Error: Item has invalid parameters'
       log_error(e)
     end
+
+    # TODO: why do we need these?
+    @items = Item.all
+    @items_found = Item.found
+    @items_claimed = Item.claimed
 
     render template: 'items/updated'
   end
@@ -117,9 +135,9 @@ class ItemsController < ApplicationController
     @item.itemType = params[:itemType]
     @item.itemDescription = params[:itemDescription]
     @item.itemLastModified = Time.now
+    # TODO: replace magic number with enum
     @item.itemStatus = 1
-    @item.itemEnteredBy = 'unknown'
-    @item.itemImage = 'none'
+    @item.itemEnteredBy = session[:user_name]
     @item.itemObsolete = 0
     @item.itemUpdatedBy = session[:user_name]
     @item.itemFoundBy = params[:itemFoundBy] || 'anonymous'
@@ -128,8 +146,12 @@ class ItemsController < ApplicationController
     @item.updated_at = Time.now # TODO: let ActiveRecord set timestamps
     @item.claimedBy = ''
     @item.whereFound = params[:whereFound] || 'unknown'
-    @item.image.attach(params[:image])
-    !params[:image].nil? ? @item.image_url = url_for(@item.image) : 'NONE'
+
+    unless params[:image].nil? || item.invalid?
+      @item.image.attach(params[:image])
+      @item.image_url = url_for(@item.image)
+    end
+
     begin
       @item.save!
       render template: 'items/new'
@@ -217,7 +239,6 @@ class ItemsController < ApplicationController
         @item.itemLastModified = Time.now
         @item.itemStatus = modified_item_values[8]
         @item.itemEnteredBy = modified_item_values[9]
-        @item.itemImage = 'none'
         @item.itemObsolete = 0
         @item.itemUpdatedBy = modified_item_values[9]
         @item.itemFoundBy = modified_item_values[9]

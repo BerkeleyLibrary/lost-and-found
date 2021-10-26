@@ -7,7 +7,6 @@ class ItemTypesController < ApplicationController
   def create
     @ItemType = ItemType.new
     # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-    #       - see https://stackoverflow.com/a/2223789/27358
     @ItemType.type_name = params[:type_name].downcase
     @ItemType.type_active = true
     @ItemType.updated_at = Time.now

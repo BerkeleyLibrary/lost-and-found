@@ -2,28 +2,27 @@ require 'rails_helper'
 
 describe Item, type: :model do
   it 'Item should default to found' do
-    item = Item.new()
+    # TODO: replace magic number with enum
+    item = Item.new
     assert(1, item.itemStatus)
   end
 
-  describe 'add versioning to the `item` class' do
-    before(:all) do
-      class Item < ApplicationRecord
-        has_paper_trail
-      end
-    end
+  it 'has a paper trail', versioning: true do
+    expect(PaperTrail).to be_enabled
 
-    it 'enables paper trail' do
-      is_expected.to be_versioned
-    end
-  end
+    item = Item.create!(
+      itemDate: Date.current,
+      itemDescription: 'a description',
+      itemFoundAt: Time.current,
+      itemFoundBy: 'Testy McTestface',
+      itemStatus: 1, # TODO: replace magic number with enum
+      itemEnteredBy: 'Test',
+      itemUpdatedBy: 'Test',
+      whereFound: 'Somewhere',
+    )
+    expect(item.versions.size).to eq(1)
 
-end
-
-describe '`have_a_version_with` matcher' do
-  before(:all) do
-    class Item < ApplicationRecord
-      has_paper_trail
-    end
+    item.update(whereFound: 'Somewhere else')
+    expect(item.versions.size).to eq(2)
   end
 end

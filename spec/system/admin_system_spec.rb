@@ -202,7 +202,6 @@ describe 'admin user', type: :system do
     describe 'add/edit locations' do
       before(:each) do
         # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-        #       - see https://stackoverflow.com/a/2223789/27358
         ['Doe', 'Moffitt', 'East Asian Library'].map { |loc| create(:location, location_name: loc.downcase) }
         visit(admin_locations_path)
       end
@@ -305,7 +304,6 @@ describe 'admin user', type: :system do
     describe 'add/edit item types' do
       before(:each) do
         # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-        #       - see https://stackoverflow.com/a/2223789/27358
         ['Biro', 'Pencil', 'Trapper Keeper'].map { |t| create(:item_type, type_name: t.downcase, type_description: "a #{t.downcase}") }
         visit(admin_item_types_path)
       end
@@ -410,7 +408,6 @@ describe 'admin user', type: :system do
 
       before(:each) do
         # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-        #       - see https://stackoverflow.com/a/2223789/27358
         locations = ['Doe', 'Moffitt', 'East Asian Library'].map { |loc| create(:location, location_name: loc.downcase) }
         item_types = ['Pencil', 'Pen', 'Trapper Keeper'].map { |it| create(:item_type, type_name: it.downcase, type_description: "a #{it.downcase}") }
         locations.each_with_index do |loc, i|
@@ -420,7 +417,8 @@ describe 'admin user', type: :system do
               itemType: type.type_name,
               itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
               image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
-              itemDate: (Date.current - j.months - i.days)
+              itemDate: (Date.current - j.months - i.days),
+              itemLocation: loc.location_name
             )
           end
         end
@@ -574,9 +572,12 @@ describe 'admin user', type: :system do
         end
 
         it "doesn't mess with previously claimed items" do
+          # TODO: replace magic number with enum
+          status_claimed = 3
+
           cutoff_date_1 = all_item_dates[all_item_dates.size / 4]
           other_user_name = 'J. Other User'
-          Item.where('items."itemDate" <= ?', cutoff_date_1).update_all(claimedBy: 'Mr. Magoo', itemStatus: 3, itemUpdatedBy: other_user_name)
+          Item.where('items."itemDate" <= ?', cutoff_date_1).update_all(claimedBy: 'Mr. Magoo', itemStatus: status_claimed, itemUpdatedBy: other_user_name)
           claimed_ids = Item.where(claimedBy: 'Mr. Magoo').pluck(:id)
 
           cutoff_date_2 = all_item_dates[all_item_dates.size / 2]
@@ -590,7 +591,7 @@ describe 'admin user', type: :system do
           actually_purged_ids = Item.where(claimedBy: 'Purged').pluck(:id)
           expect(actually_purged_ids).to contain_exactly(*newly_purged_ids)
 
-          actually_claimed_ids = Item.where(claimedBy: 'Mr. Magoo', itemStatus: 3).pluck(:id)
+          actually_claimed_ids = Item.where(claimedBy: 'Mr. Magoo', itemStatus: status_claimed).pluck(:id)
           expect(actually_claimed_ids).to contain_exactly(*claimed_ids)
         end
       end

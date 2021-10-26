@@ -1,6 +1,6 @@
 require 'capybara_helper'
 
-describe 'admin user', type: :system do
+describe 'staff user', type: :system do
   attr_reader :user
 
   before(:each) do
@@ -14,18 +14,23 @@ describe 'admin user', type: :system do
   end
 
   context 'with data' do
+    attr_reader :items
+
     before(:each) do
+      @items = []
+
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-      #       - see https://stackoverflow.com/a/2223789/27358
       locations = ['Doe', 'Moffitt', 'East Asian Library'].map { |loc| create(:location, location_name: loc.downcase) }
       item_types = ['Pencil', 'Pen', 'Trapper Keeper'].map { |it| create(:item_type, type_name: it.downcase, type_description: "a #{it.downcase}") }
-      locations.each do |loc|
-        item_types.each do |type|
-          create(
+      locations.each_with_index do |loc, i|
+        item_types.each_with_index do |type, j|
+          items << create(
             :item,
             itemType: type.type_name,
             itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
-            image_path: File.join('spec/data/images', "#{type.type_name}.jpg")
+            image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
+            itemDate: (Date.current - j.months - i.days),
+            itemLocation: loc.location_name
           )
         end
       end
@@ -80,14 +85,12 @@ describe 'admin user', type: :system do
         item_type = ItemType.take
 
         # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-        #       - see https://stackoverflow.com/a/2223789/27358
         item_type_name = item_type.type_name.capitalize
 
         description = 'unidentified object'
         location = Location.take
 
         # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-        #       - see https://stackoverflow.com/a/2223789/27358
         location_name = location.location_name.capitalize
 
         found_by = 'Mr. Magoo'
@@ -96,18 +99,17 @@ describe 'admin user', type: :system do
         when_found = Date.current
         item_date_str = when_found.strftime("%m/%d/%Y")
 
-        img_path = 'spec/data/images/Object.jpg'
-        img_basename = File.basename(img_path)
 
-        select(item_type_name, from: 'itemType')
-        fill_in('itemDescription', with: description)
         select(location_name, from: 'itemLocation')
         fill_in('itemFoundBy', with: found_by)
+        fill_in('itemDescription', with: description)
         fill_in('whereFound', with: where_found)
+        select(item_type_name, from: 'itemType')
         fill_in('itemDate', with: item_date_str)
         # TODO: figure out how to test this
         # found_at_str = when_found.strftime("%l:%M %P")
         # fill_in('itemFoundAt', with: found_at_str)
+        img_path = 'spec/data/images/Object.jpg'
         attach_file('image', img_path)
 
         page.click_link_or_button('Add item')
@@ -130,6 +132,7 @@ describe 'admin user', type: :system do
         end
 
         img = row.find('img')
+        img_basename = File.basename(img_path)
         expect(img[:src]).to end_with(img_basename)
 
         item = Item.find_by(itemDescription: description)
@@ -139,11 +142,125 @@ describe 'admin user', type: :system do
         expect(item.itemDate.to_date).to eq(when_found.to_date)
       end
 
+      # TODO: make these testable
       xit 'requires a type'
       xit 'requires a location'
       xit 'requires a date'
+    end
 
-      # TODO: anything else required?
+    describe 'edit item' do
+      attr_reader :item
+
+      before(:each) do
+        @item = items.last
+
+        edit_path = edit_item_path(item.id)
+        visit(edit_path)
+      end
+
+      it 'allows editing an item' do
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        new_location = Location.where('LOWER(location_name) <> ?', item.itemLocation.downcase).take
+        new_location_str = new_location.location_name.titleize
+
+        new_found_by = 'Mr. Magoo'
+
+        new_description = 'the new description'
+
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        new_type = ItemType.where('LOWER(type_name) <> ?', item.itemType.downcase).take
+        new_type_str = new_type.type_name.titleize
+
+        new_where_found = 'Pennsylvania'
+
+        new_when_found = item.itemDate - 1.days
+        new_when_found_str = new_when_found.strftime("%m/%d/%Y")
+
+        select(new_location_str, from: 'itemLocation')
+        fill_in('itemFoundBy', with: new_found_by, fill_options: { clear: :backspace })
+        fill_in('itemDescription', with: new_description, fill_options: { clear: :backspace })
+        fill_in('whereFound', with: new_where_found, fill_options: { clear: :backspace })
+        select(new_type_str, from: 'itemType')
+        fill_in('itemDate', with: new_when_found_str, fill_options: { clear: :backspace })
+
+        new_img_path = 'spec/data/images/Object.jpg'
+        attach_file('image', new_img_path)
+
+        page.click_link_or_button('Update item')
+        expect(page).to have_content('item updated')
+
+        item.reload
+        expect(item.itemDescription).to eq(new_description)
+        expect(item.itemLocation).to eq(new_location.location_name)
+        expect(item.itemFoundBy).to eq(new_found_by)
+        expect(item.whereFound).to eq(new_where_found)
+        expect(item.itemDate.to_date).to eq(new_when_found.to_date)
+        expect(item.itemUpdatedBy).to eq(user.user_name)
+      end
+
+      it 'allows claiming an item' do
+        # TODO: replace magic number with enum
+        status_claimed = 3
+        claimed_by = 'Mr. Magoo'
+
+        select('Claimed', from: 'itemStatus')
+        fill_in('claimedBy', with: claimed_by)
+
+        page.click_link_or_button('Update item')
+
+        expect(page).to have_content('item updated')
+
+        item.reload
+        expect(item.itemStatus).to eq(status_claimed)
+        expect(item.claimedBy).to eq(claimed_by)
+      end
+    end
+
+    describe 'history', versioning: true do
+      attr_reader :item
+      attr_reader :show_path
+
+      before(:each) do
+        @item = items.last
+        @show_path = item_path(item.id)
+      end
+
+      it 'shows the creation of an item' do
+        visit(show_path)
+
+        row = page.find('tr', text: 'Create')
+
+        item_date_str = item.itemDate.strftime("%m/%d/%Y")
+        expect(row).to have_content(item_date_str)
+        found_at_str = item.itemFoundAt.strftime("%l:%M %P")
+        expect(row).to have_content(found_at_str)
+        expect(row).to have_content(item.itemFoundBy)
+        expect(row).to have_content(item.itemEnteredBy)
+        expect(row).to have_content(item.itemUpdatedBy)
+        expect(row).to have_content(item.whereFound)
+
+        expect(item.versions.size).to eq(1)
+      end
+
+      it 'shows edits' do
+        edit_path = edit_item_path(item.id)
+        visit(edit_path)
+
+        new_description = 'this is the new description'
+        fill_in('itemDescription', with: new_description, fill_options: { clear: :backspace })
+
+        page.click_link_or_button('Update item')
+        expect(page).to have_content('item updated')
+
+        visit(show_path)
+
+        row = page.find('tr', text: new_description)
+        expect(row).to have_content('Update')
+        expect(row).to have_content(user.user_name)
+
+        item.reload
+        expect(item.versions.size).to eq(2)
+      end
     end
   end
 

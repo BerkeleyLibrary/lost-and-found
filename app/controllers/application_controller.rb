@@ -13,6 +13,16 @@ class ApplicationController < ActionController::Base
   before_action :set_paper_trail_whodunnit # mixed in by paper_trail gem
   after_action -> { flash.discard }, if: -> { request.xhr? }
 
+  def current_user
+    # TODO: something more robust, cf. Framework & UCBEARS
+    session[:user]
+  end
+
+  def user_for_paper_trail
+    # TODO: something more robust, cf. Framework & UCBEARS
+    current_user && current_user['user_name']
+  end
+
   def check_timeout
     if session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
       reset_session
@@ -45,6 +55,7 @@ class ApplicationController < ActionController::Base
 
   def sign_in(user)
     if user.user_active
+      # TODO: don't put so much of this in the session
       session[:user] = user
       session[:user_name] = user.user_name
       session[:uid] = user.uid
