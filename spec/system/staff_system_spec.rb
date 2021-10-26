@@ -247,7 +247,11 @@ describe 'staff user', type: :system do
         visit(edit_path)
 
         new_description = 'this is the new description'
+        claimed_by = 'Mr. Magoo'
+
+        select('Claimed', from: 'itemStatus')
         fill_in('itemDescription', with: new_description, fill_options: { clear: :backspace })
+        fill_in('claimedBy', with: claimed_by)
 
         page.click_link_or_button('Update item')
         expect(page).to have_content('item updated')
@@ -257,6 +261,7 @@ describe 'staff user', type: :system do
         row = page.find('tr', text: new_description)
         expect(row).to have_content('Update')
         expect(row).to have_content(user.user_name)
+        expect(row).to have_content(claimed_by)
 
         item.reload
         expect(item.versions.size).to eq(2)

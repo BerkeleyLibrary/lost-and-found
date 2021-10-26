@@ -164,34 +164,6 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     expect(page).to have_content('Success: Item type Test Item Updated status updated!')
   end
 
-  scenario 'Admin may upload item types in batches, but cannot upload empty files' do
-    visit '/admin_migration_item_types'
-    expect(page).to have_content('Add Item types')
-    click_button "Add Item types"
-    expect(page).to have_content('Error: File unreadable')
-  end
-
-  scenario 'Admin may upload item types in batches' do
-    visit '/admin_migration_item_types'
-    expect(page).to have_content('Add Item types')
-    attach_file('batch_file', File.absolute_path('./spec/data/batches/item_type_batch.txt'))
-    click_button "Add Item types"
-    expect(page).to have_content('Success: item types added')
-  end
-
-  scenario 'Admin may upload items in batches' do
-    visit '/admin_migration_items'
-    attach_file('batch_file', File.absolute_path('./spec/data/batches/item_batch.txt'))
-    click_button "Add Items"
-    expect(page).to have_content('items added')
-  end
-
-  scenario 'Admin may upload items in batches, but may not use an empty file' do
-    visit '/admin_migration_items'
-    click_button "Add Items"
-    expect(page).to have_content('Error: File unreadable')
-  end
-
   scenario 'Admin can perform operations on locations' do
     click_link 'Locations'
     expect(page).to have_content('Active Locations')
@@ -231,21 +203,6 @@ RSpec.describe 'Navigate Admin tasks', type: :feature do
     fill_in 'location_name', with: "Test Location"
     first(:link, "Deactivate").click
     expect(page).to have_content('Success: Location Test Location status updated!')
-  end
-
-  scenario 'Admin may upload locations in batches, but cannot upload empty files' do
-    visit '/admin_migration_locations'
-    expect(page).to have_content('Add locations')
-    click_button "Add Locations"
-    expect(page).to have_content('Error: File unreadable')
-  end
-
-  scenario 'Admin may upload locations in batches' do
-    visit '/admin_migration_locations'
-    expect(page).to have_content('Add locations')
-    attach_file('batch_file', File.absolute_path('./spec/data/batches/location_batch.txt'))
-    click_button "Add Locations"
-    expect(page).to have_content('Success: Locations added')
   end
 
   scenario 'Admin panel not accessible to staff level user' do

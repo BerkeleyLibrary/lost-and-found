@@ -142,6 +142,24 @@ describe 'admin user', type: :system do
         expect(User.count).to eq(user_count)
       end
 
+      it 'rejects non-numeric UIDs' do
+        user_count = User.count
+
+        name = 'Paige J. Poe'
+        role = 'Staff'
+
+        fill_in('user_name', with: name)
+        fill_in('uid', with: 'not a valid UID')
+        select(role, from: 'user_role')
+
+        page.click_link_or_button('Add user')
+
+        # TODO: figure out how to test HTML5 native validation, or replace w/JS validation
+        expect(page).not_to have_selector('tr', text: name)
+
+        expect(User.count).to eq(user_count)
+      end
+
       it 'prevents adding duplicate UIDs' do
         user_count = User.count
 
@@ -196,6 +214,27 @@ describe 'admin user', type: :system do
 
         toggle_status_path = toggle_user_status_path(u.id)
         expect(row).to have_link('Activate', href: toggle_status_path)
+      end
+
+      it 'prevents setting a duplicate UID' do
+        u = User.where(user_role: 'Read-only').take
+
+        old_uid = u.uid
+        other_uid = user.uid
+        expect(other_uid).not_to eq(old_uid) # just to be sure
+
+        edit_path = edit_user_path(u.id)
+        visit(edit_path)
+
+        fill_in('uid', with: other_uid)
+        page.click_link_or_button('Update user')
+
+        expect(page).to have_content('already exists')
+
+        u.reload
+        expect(u.uid).to eq(old_uid)
+
+        expect(User.where(uid: other_uid).count).to eq(1)
       end
     end
 

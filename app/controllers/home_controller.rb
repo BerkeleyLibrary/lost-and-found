@@ -46,40 +46,8 @@ class HomeController < ApplicationController
     render :admin_item_types
   end
 
-  def admin_items
-    @items = Item.all
-    @items_found = Item.found
-    @items_claimed = Item.claimed
-
-    render template: 'items/all'
-  end
-
-  def claimed_items
-    @items_claimed = Item.claimed
-    render template: 'items/claimed'
-  end
-
-  # TODO: do we still need this?
-  def admin_migration_items
-    render :admin_migration_items
-  end
-
-  # TODO: do we still need this?
-  def admin_migration_locations
-    render :admin_migration_locations
-  end
-
-  def item_search
-    render template: 'items/all'
-  end
-
   def admin_purge
     render :admin_purge
-  end
-
-  # TODO: do we still need this?
-  def admin_migration_item_types
-    render :admin_migration_item_types
   end
 
   def admin

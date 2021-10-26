@@ -1,12 +1,11 @@
 module ApplicationHelper
 
+  BOOTSTRAP_ALERT_CLASSES = {"notice"=>"info", "success"=>"success", "error"=>"error", "alert"=>"danger"}
+
   def flash_class(level)
-    case level
-    when "notice" then "alert alert-info alert-dismissible fade show"
-    when "success" then "alert alert-success alert-dismissible fade show"
-    when "error" then "alert alert-error alert-dismissible fade show"
-    when "alert" then "alert alert-danger alert-dismissible fade show"
-    end
+    return unless (alert_class = BOOTSTRAP_ALERT_CLASSES[level])
+
+    "alert alert-#{alert_class} alert-dismissible fade show"
   end
 
   def history_claimed_map(value)
@@ -67,11 +66,6 @@ module ApplicationHelper
 
   def header(text)
     content_for(:header) { text.to_s }
-  end
-
-  def find_version_author_name(version)
-    user = User.find_version_author(version)
-    user ? user.user_name : 'unknown'
   end
 
   def diff(content1, content2)
