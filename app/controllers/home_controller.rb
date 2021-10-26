@@ -2,11 +2,6 @@ class HomeController < ApplicationController
 
   # TODO: require admin user for all admin actions
 
-  # TODO: just redirect to something useful
-  def index
-    render :index
-  end
-
   def health
     check = Health::Check.new
     render json: check, status: check.http_status_code

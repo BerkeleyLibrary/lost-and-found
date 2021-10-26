@@ -40,10 +40,6 @@ module ApplicationHelper
     end
   end
 
-  def login_form
-    render template: "forms/login"
-  end
-
   def history_to_pst(value)
     value.present? ? value.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P") : ""
   end
@@ -54,25 +50,6 @@ module ApplicationHelper
 
   def history_to_readable_day(value)
     value.present? ? value.strftime("%m/%d/%Y") : ""
-  end
-
-  def items_list
-    render template: "items/new"
-  end
-
-  def items_all
-    render template: "items/all"
-  end
-
-  def header(text)
-    content_for(:header) { text.to_s }
-  end
-
-  def diff(content1, content2)
-    changes = Diffy::Diff.new(content1, content2,
-                              include_plus_and_minus_in_html: true,
-                              include_diff_info: true)
-    changes.to_s.present? ? changes.to_s(:html).html_safe : 'No Changes'
   end
 
 end

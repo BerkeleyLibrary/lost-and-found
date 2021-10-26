@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       if @user.valid? && @user.save!
         flash[:success] = "Success: User #{@user.user_name} added"
       else
-        flash[:alert] = "Error: UID is not numeric"
+        flash[:alert] = "Error: UID #{params[:uid].inspect} is not numeric"
       end
     rescue StandardError
       flash[:alert] = "Error: UID already exists"
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
       if @user.update(uid: params[:uid], user_name: params[:user_name], user_role: params[:user_role], user_active: active)
         flash[:success] = "Success: User #{@user.user_name} updated"
       else
-        flash[:alert] = "Error: UID #{params[:uid]} is not numeric"
+        flash[:alert] = "Error: UID #{params[:uid].inspect} is not numeric"
       end
       @users = User.all
     rescue StandardError

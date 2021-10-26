@@ -147,9 +147,10 @@ describe 'admin user', type: :system do
 
         name = 'Paige J. Poe'
         role = 'Staff'
+        invalid_uid = 'not a valid UID'
 
         fill_in('user_name', with: name)
-        fill_in('uid', with: 'not a valid UID')
+        fill_in('uid', with: invalid_uid)
         select(role, from: 'user_role')
 
         page.click_link_or_button('Add user')
@@ -235,6 +236,23 @@ describe 'admin user', type: :system do
         expect(u.uid).to eq(old_uid)
 
         expect(User.where(uid: other_uid).count).to eq(1)
+      end
+
+      it 'prevents setting a non-numeric UID' do
+        u = User.where(user_role: 'Read-only').take
+        old_uid = u.uid
+
+        edit_path = edit_user_path(u.id)
+        visit(edit_path)
+
+        invalid_uid = 'not a valid UID'
+        fill_in('uid', with: invalid_uid)
+
+        page.click_link_or_button('Update user')
+        expect(page).to have_content('not numeric')
+
+        u.reload
+        expect(u.uid).to eq(old_uid)
       end
     end
 
