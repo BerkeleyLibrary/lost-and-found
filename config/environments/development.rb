@@ -26,6 +26,4 @@ Rails.application.configure do
   config.assets.debug = true
   config.assets.quiet = true
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-  config.lograge.enabled = true
-  config.logger = LostAndFoundLogger::Logger.new(config.root.join('log/test.log'))
 end
