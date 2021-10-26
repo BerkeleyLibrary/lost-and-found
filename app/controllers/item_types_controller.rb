@@ -6,6 +6,8 @@ class ItemTypesController < ApplicationController
 
   def create
     @ItemType = ItemType.new
+    # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+    #       - see https://stackoverflow.com/a/2223789/27358
     @ItemType.type_name = params[:type_name].downcase
     @ItemType.type_active = true
     @ItemType.updated_at = Time.now
@@ -18,7 +20,7 @@ class ItemTypesController < ApplicationController
         redirect_back(fallback_location: root_path)
       else
         @item_types = ItemType.all
-        flash[:alert] = "Error: Item Type #{@ItemType.type_name.titleize} Already exists"
+        flash[:alert] = "Error: Item Type #{@ItemType.type_name.titleize} already exists"
         redirect_back(fallback_location: root_path)
       end
     rescue Exception => e
@@ -45,7 +47,7 @@ class ItemTypesController < ApplicationController
 
   def change_status
     @itemType = ItemType.find(params[:id])
-    @itemType.update(type_active: !@itemType.type_active)
+    @itemType.update(type_active: !@itemType.type_active, updated_by: session[:user_name])
     @itemTypes = ItemType.all
     flash[:success] = "Success: Item type #{@itemType.type_name.titleize} status updated!"
     redirect_back(fallback_location: root_path)

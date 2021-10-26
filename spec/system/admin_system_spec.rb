@@ -44,7 +44,7 @@ describe 'admin user', type: :system do
         User.find_each do |u|
           row = page.find('tr', text: u.uid)
           expect(row).to have_content(u.user_name)
-          expect(row).to have_content(u.user_role)
+          expect(row).to have_content(u.user_role) if u.user_role
 
           edit_path = edit_user_path(u.id)
           expect(row).to have_link(href: edit_path)
@@ -299,6 +299,109 @@ describe 'admin user', type: :system do
         expect(page).to have_content('already exists')
         expect(page).to have_selector('tr', text: titleized_name, count: 1)
         expect(Location.count).to eq(location_count)
+      end
+    end
+
+    describe 'add/edit item types' do
+      before(:each) do
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        #       - see https://stackoverflow.com/a/2223789/27358
+        ['Biro', 'Pencil', 'Trapper Keeper'].map { |t| create(:item_type, type_name: t.downcase, type_description: "a #{t.downcase}") }
+        visit(admin_item_types_path)
+      end
+
+      it 'lists item_types' do
+        ItemType.find_each do |t|
+          titleized_name = t.type_name.titleize
+          row = page.find('tr', text: titleized_name)
+
+          edit_path = edit_item_type_path(t.id)
+          expect(row).to have_link(href: edit_path)
+
+          toggle_status_path = toggle_item_type_status_path(t.id)
+          toggle_status_link = row.find_link(href: toggle_status_path)
+          expected_text = t.type_active ? 'Deactivate' : 'Activate'
+          expect(toggle_status_link).to have_text(expected_text)
+        end
+      end
+
+      it 'allows activating/deactivating item_types' do
+        t = ItemType.take
+        expect(t.type_active).to eq(true) # just to be sure
+
+        titleized_name = t.type_name.titleize
+
+        row = page.find('tr', text: titleized_name)
+        toggle_status_path = toggle_item_type_status_path(t.id)
+
+        deactivate_link = row.find_link('Deactivate', href: toggle_status_path)
+
+        # Deactivate, and wait for deactivation to take effect
+        deactivate_link.click
+        activate_link = page.find_link('Activate', href: toggle_status_path)
+
+        t.reload
+        expect(t.type_active).to eq(false)
+        expect(t.updated_by).to eq(user.user_name)
+
+        # Activate, and wait for activation to take effect
+        activate_link.click
+        expect(page).to have_link('Deactivate', href: toggle_status_path)
+
+        t.reload
+        expect(t.type_active).to eq(true)
+      end
+
+      it 'allows adding item_types' do
+        name = 'Widget'
+
+        fill_in('type_name', with: name)
+
+        # Add, and wait for add to complete
+        page.click_link_or_button('Add item type')
+
+        row = page.find('tr', text: name)
+
+        downcased_name = name.downcase
+        t = ItemType.where('lower(type_name) = ?', downcased_name).take
+        expect(t.type_active).to eq(true)
+
+        toggle_status_path = toggle_item_type_status_path(t.id)
+        expect(row).to have_link('Deactivate', href: toggle_status_path)
+      end
+
+      it 'requires a item_type name' do
+        item_type_count = ItemType.count
+
+        page.click_link_or_button('Add item type')
+
+        # TODO: figure out how to test HTML5 native validation, or replace w/JS validation
+        rows = page.find_all('tr', text: 'Edit')
+        expect(rows.size).to eq(item_type_count)
+        expect(ItemType.count).to eq(item_type_count)
+      end
+
+      it 'prevents adding a duplicate item_type' do
+        item_type_count = ItemType.count
+
+        t = ItemType.take
+
+        titleized_name = t.type_name.titleize
+        fill_in('type_name', with: titleized_name)
+        page.click_link_or_button('Add item type')
+
+        expect(page).to have_content('already exists')
+        expect(page).to have_selector('tr', text: titleized_name, count: 1)
+        expect(ItemType.count).to eq(item_type_count)
+
+        downcased_name = t.type_name.downcase
+        fill_in('type_name', with: downcased_name)
+
+        page.click_link_or_button('Add item type')
+
+        expect(page).to have_content('already exists')
+        expect(page).to have_selector('tr', text: titleized_name, count: 1)
+        expect(ItemType.count).to eq(item_type_count)
       end
     end
   end
