@@ -70,6 +70,81 @@ describe 'admin user', type: :system do
         end
       end
     end
+
+    describe 'add item' do
+      before(:each) do
+        visit(insert_form_path)
+      end
+
+      it 'allows adding an item' do
+        item_type = ItemType.take
+
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        #       - see https://stackoverflow.com/a/2223789/27358
+        item_type_name = item_type.type_name.capitalize
+
+        description = 'unidentified object'
+        location = Location.take
+
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        #       - see https://stackoverflow.com/a/2223789/27358
+        location_name = location.location_name.capitalize
+
+        found_by = 'Mr. Magoo'
+        where_found = 'New Jersey'
+
+        when_found = Date.current
+        item_date_str = when_found.strftime("%m/%d/%Y")
+
+        img_path = 'spec/data/images/Object.jpg'
+        img_basename = File.basename(img_path)
+
+        select(item_type_name, from: 'itemType')
+        fill_in('itemDescription', with: description)
+        select(location_name, from: 'itemLocation')
+        fill_in('itemFoundBy', with: found_by)
+        fill_in('whereFound', with: where_found)
+        fill_in('itemDate', with: item_date_str)
+        # TODO: figure out how to test this
+        # found_at_str = when_found.strftime("%l:%M %P")
+        # fill_in('itemFoundAt', with: found_at_str)
+        attach_file('image', img_path)
+
+        page.click_link_or_button('Add item')
+
+        expect(page).to have_content('item added')
+
+        row = page.find('tr', text: description)
+
+        [
+          item_type_name,
+          location_name,
+          found_by,
+          where_found,
+          # TODO: figure out how to test this
+          # found_at_str,
+          item_date_str,
+        ].each do |attr|
+          attr_case_insentitive = /#{attr}/i
+          expect(row).to have_content(attr_case_insentitive)
+        end
+
+        img = row.find('img')
+        expect(img[:src]).to end_with(img_basename)
+
+        item = Item.find_by(itemDescription: description)
+        expect(item.itemLocation).to eq(location.location_name)
+        expect(item.itemFoundBy).to eq(found_by)
+        expect(item.whereFound).to eq(where_found)
+        expect(item.itemDate.to_date).to eq(when_found.to_date)
+      end
+
+      xit 'requires a type'
+      xit 'requires a location'
+      xit 'requires a date'
+
+      # TODO: anything else required?
+    end
   end
 
   context 'without data' do
