@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   validates :user_name, presence: true, allow_blank: false
   validates_numericality_of :uid # TODO: fix model to use string UIDs
-  has_one :role
   attribute :user_active, :boolean, default: true
 
   scope :active, -> { where("user_active = true") }
