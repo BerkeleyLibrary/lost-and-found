@@ -16,10 +16,10 @@
     <div>
       <h2>Search by date range: </h2>
       <%= label_tag(:itemDate, "Start date:") %>
-      <%= date_field_tag(:itemDate, :itemDate) %>
+      <%= date_field_tag(:itemDate) %>
 
       <%= label_tag(:itemDateEnd, " End date:") %>
-      <%= date_field_tag(:itemDateEnd, :itemDateEnd, max: Date.today) %>
+      <%= date_field_tag(:itemDateEnd, nil, max: Date.today) %>
     </div>
 
     <div>

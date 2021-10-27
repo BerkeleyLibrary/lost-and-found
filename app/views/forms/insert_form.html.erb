@@ -30,10 +30,10 @@
 
     <div>
       <%= label_tag(:itemDate, "Date found:") %><span style="color: #ee0000"> * </span>
-      <%= date_field_tag(:itemDate, :itemDate, required: true, max: Date.today) %>
+      <%= date_field_tag(:itemDate, nil, required: true, max: Date.today) %>
 
       <%= label_tag(:itemFoundAt, "Time found:") %>
-      <%= time_field_tag(:itemFoundAt, :itemFoundAt) %>
+      <%= time_field_tag(:itemFoundAt) %>
     </div>
 
     <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= current_user.user_name %>
