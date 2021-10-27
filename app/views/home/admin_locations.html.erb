@@ -1,67 +1,65 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
 
-<% if user_level_admin? %>
 <h1>Add/Edit Lost & Found Locations</h1>
 <p style="color: #ee0000">* Required</p>
 <div class="mb-4 form-group">
-    <h2>Add a new location</h2>
-    <%= form_tag("location_insert", method: "post") do %>
+  <h2>Add a new location</h2>
+  <%= form_tag("location_insert", method: "post") do %>
     <%= label_tag(:location_name, "Location name:") %><span style="color: #ee0000"> * </span>
-    <%=text_field_tag :location_name, nil, placeholder: 'Moffitt Circ', required: true %>
+    <%= text_field_tag :location_name, nil, placeholder: 'Moffitt Circ', required: true %>
 
     <div>
-        <div class="btn-group" role="group">
-          <input type="submit" name="commit" value="Add location" class="btn btn-primary" data-disable-with="Submit">
-        </div>
+      <div class="btn-group" role="group">
+        <input type="submit" name="commit" value="Add location" class="btn btn-primary" data-disable-with="Submit">
+      </div>
     </div>
-<% end %>
+  <% end %>
 </div>
 
 <h2>Active Locations</h2>
 <table class="table mt-5">
-    <!-- the header row -->
-    <thead class="thead-light">
-        <tr>
-            <th scope="col">Actions</th>
-            <th scope="col">Location name</th>
-        </tr>
-    </thead>
-    <!-- Layout all those beautiful requests -->
-    <tbody>
-        <% @actived_locations.each do |location| %>
-        <tr>
-            <td>
-                <%= link_to 'Deactivate', location_path(location)+"/change_status"%>
-                <%= link_to 'Edit', edit_location_path(location.id) %>
-            </td>
-            <td><%= location.location_name.titleize %></td>
-            </tr>
-        <% end %>
-        </tbody>
-    </table>
+  <!-- the header row -->
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">Actions</th>
+    <th scope="col">Location name</th>
+  </tr>
+  </thead>
+  <!-- Layout all those beautiful requests -->
+  <tbody>
+  <% @actived_locations.each do |location| %>
+    <tr>
+      <td>
+        <%= link_to 'Deactivate', location_path(location) + "/change_status" %>
+        <%= link_to 'Edit', edit_location_path(location.id) %>
+      </td>
+      <td><%= location.location_name.titleize %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
 
 
 
 <h2>Deactivated Locations</h2>
 <table class="table mt-5">
-    <!-- the header row -->
-    <thead class="thead-light">
-        <tr>
-            <th scope="col">Actions</th>
-            <th scope="col">Location name</th>
-        </tr>
-    </thead>
-    <!-- Layout all those beautiful requests -->
-    <tbody>
-        <% @deactivated_locations.each do |location| %>
-        <tr>
-            <td>
-                <%= link_to 'Activate', location_path(location)+"/change_status"%>
-                <%= link_to 'Edit', edit_location_path(location.id) %>
-            </td>
-            <td><%= location.location_name.titleize %></td>
-            </tr>
-        <% end %>
-        </tbody>
-    </table>
-<% end %>
+  <!-- the header row -->
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">Actions</th>
+    <th scope="col">Location name</th>
+  </tr>
+  </thead>
+  <!-- Layout all those beautiful requests -->
+  <tbody>
+  <% @deactivated_locations.each do |location| %>
+    <tr>
+      <td>
+        <%= link_to 'Activate', location_path(location) + "/change_status" %>
+        <%= link_to 'Edit', edit_location_path(location.id) %>
+      </td>
+      <td><%= location.location_name.titleize %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

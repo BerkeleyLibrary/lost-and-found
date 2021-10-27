@@ -1,65 +1,64 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
-<% if user_level_admin? %>
+
 <h1>Add/Edit Lost & Found Item Types</h1>
 <p style="color: #ee0000">* Required</p>
 <div class="mb-4 form-group">
-    <h2>Add a new Item Type</h2>
-    <%= form_tag("itemType_insert", method: "post") do %>
+  <h2>Add a new Item Type</h2>
+  <%= form_tag("itemType_insert", method: "post") do %>
     <%= label_tag(:type_name, "Item type name:") %> <span style="color: #ee0000"> * </span>
-    <%=text_field_tag :type_name, nil, placeholder: 'Electronics', required: true %>
+    <%= text_field_tag :type_name, nil, placeholder: 'Electronics', required: true %>
 
     <div>
-        <div class="btn-group" role="group">
-          <input type="submit" name="commit" value="Add item type" class="btn btn-primary" data-disable-with="Submit">
-        </div>
+      <div class="btn-group" role="group">
+        <input type="submit" name="commit" value="Add item type" class="btn btn-primary" data-disable-with="Submit">
+      </div>
     </div>
-<% end %>
+  <% end %>
 </div>
 
 <h2>Active Item Types</h2>
 <table class="table mt-5">
-    <!-- the header row -->
-    <thead class="thead-light">
-        <tr>
-            <th scope="col">Actions</th>
-            <th scope="col">Item type name:</th>
-        </tr>
-    </thead>
-    <!-- Layout all those beautiful requests -->
-    <tbody>
-        <% @actived_item_types.each do |item_type| %>
-        <tr>
-            <td>
-                <%= link_to 'Deactivate', item_type_path(item_type)+"/change_status"%>
-                <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
-            </td>
-            <td><%= item_type.type_name.titleize %></td>
-            </tr>
-        <% end %>
-        </tbody>
-    </table>
+  <!-- the header row -->
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">Actions</th>
+    <th scope="col">Item type name:</th>
+  </tr>
+  </thead>
+  <!-- Layout all those beautiful requests -->
+  <tbody>
+  <% @actived_item_types.each do |item_type| %>
+    <tr>
+      <td>
+        <%= link_to 'Deactivate', item_type_path(item_type) + "/change_status" %>
+        <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
+      </td>
+      <td><%= item_type.type_name.titleize %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
 
 
 <h2>Deactivated Item Types</h2>
 <table class="table mt-5">
-    <!-- the header row -->
-    <thead class="thead-light">
-        <tr>
-            <th scope="col">Actions</th>
-            <th scope="col">Item type name</th>
-        </tr>
-    </thead>
-    <!-- Layout all those beautiful requests -->
-    <tbody>
-        <% @deactivated_item_types.each do |item_type| %>
-        <tr>
-            <td>
-                <%= link_to 'Activate', item_type_path(item_type)+"/change_status"%>
-                <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
-            </td>
-            <td><%= item_type.type_name.titleize %></td>
-            </tr>
-        <% end %>
-        </tbody>
-    </table>
-<% end %>
+  <!-- the header row -->
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">Actions</th>
+    <th scope="col">Item type name</th>
+  </tr>
+  </thead>
+  <!-- Layout all those beautiful requests -->
+  <tbody>
+  <% @deactivated_item_types.each do |item_type| %>
+    <tr>
+      <td>
+        <%= link_to 'Activate', item_type_path(item_type) + "/change_status" %>
+        <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
+      </td>
+      <td><%= item_type.type_name.titleize %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

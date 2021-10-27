@@ -47,11 +47,6 @@ module CalnetHelper
     read_only: 'Read-only'
   }
 
-  # TODO: separate login and root
-  def login_path
-    root_path
-  end
-
   def mock_login(type)
     role = ROLES[type]
     auth_hash = mock_auth_hash(type)
@@ -150,7 +145,8 @@ module CalnetHelper
       uid: uid,
       user_name: auth_hash['extra']['displayName'],
       user_role: role,
-      updated_by: 'Test'
+      updated_by: 'Test',
+      user_active: true
     ) unless (user = User.find_by(uid: uid))
 
     user.tap do |u|

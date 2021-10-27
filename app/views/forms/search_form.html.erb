@@ -1,39 +1,31 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
-<% if user_level_read_only? %>
-  <h1>Search for lost items</h1>
-  <ul style="font-size:80%">
-    <li>To <b>browse</b> all lost items for your library, just click search</li>
-    <li>To <b>browse</b> all lost items in all libraries, check "Search all libraries and locations" and click search</li>
-  </ul>
-  <div class="mb-4 form-group">
-        <%= form_tag("item_search", method: "post") do %>
+<h1>Search for lost items</h1>
+<div class="mb-4 form-group">
+  <%= form_tag("item_search", method: "post") do %>
 
-        <%= label_tag(:itemType, "Item type:") %>
-        <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
+    <%= label_tag(:itemType, "Item type:") %>
+    <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
 
-        <%= label_tag(:keyword, "Keywords:") %>
-        <%=text_field_tag :keyword, nil, placeholder: 'Enter search term'%>
+    <%= label_tag(:keyword, "Keywords:") %>
+    <%= text_field_tag :keyword, nil, placeholder: 'Enter search term' %>
 
-        <%= label_tag(:itemLocation, "Location:") %>
-        <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
+    <%= label_tag(:itemLocation, "Location:") %>
+    <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
 
 
-        <div>
-          <h2>Search by date range: </h2>
-          <%= label_tag(:itemDate, "Start date:") %>
-          <%= date_field_tag(:itemDate, :itemDate) %>
+    <div>
+      <h2>Search by date range: </h2>
+      <%= label_tag(:itemDate, "Start date:") %>
+      <%= date_field_tag(:itemDate, :itemDate) %>
 
-          <%= label_tag(:itemDateEnd, " End date:") %>
-          <%= date_field_tag(:itemDateEnd, :itemDateEnd, max: Date.today) %>
+      <%= label_tag(:itemDateEnd, " End date:") %>
+      <%= date_field_tag(:itemDateEnd, :itemDateEnd, max: Date.today) %>
+    </div>
+
+    <div>
+      <div class="btn-group" role="group">
+        <input type="submit" name="commit" value="Submit" class="btn btn-primary mb-2" data-disable-with="Submit">
       </div>
-
-        <div>Search all libraries and locations:</div>
-        <%= check_box_tag(:searchAll, value = true, checked = false, 'aria-label' => 'Search all check') %>
-        <div>
-          <div class="btn-group" role="group">
-            <input type="submit" name="commit" value="Submit" class="btn btn-primary mb-2" data-disable-with="Submit">
-          </div>
-      </div>
+    </div>
   <% end %>
-  </div>
-  <% end %>
+</div>

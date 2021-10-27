@@ -1,4 +1,10 @@
 class ItemsController < ApplicationController
+  before_action :logout_if_expired!
+  before_action :authenticate!
+
+  before_action(:require_staff_or_admin!, except: [:found, :param_search]) # TODO: is this right?
+  before_action(:require_admin!, only: [:purge_items]) # TODO: is this right?
+
   def found
     @items_found = Item.found.page params[:page]
 
@@ -98,7 +104,7 @@ class ItemsController < ApplicationController
     @item.itemLocation = params[:itemLocation]
     @item.itemType = params[:itemType]
     @item.itemDescription = params[:itemDescription]
-    @item.itemUpdatedBy = session[:user_name]
+    @item.itemUpdatedBy = current_user.user_name
     @item.itemFoundBy = params[:itemFoundBy]
     @item.itemStatus = params[:itemStatus]
     @item.itemDate = params[:itemDate]
@@ -137,9 +143,9 @@ class ItemsController < ApplicationController
     @item.itemLastModified = Time.now
     # TODO: replace magic number with enum
     @item.itemStatus = 1
-    @item.itemEnteredBy = session[:user_name]
+    @item.itemEnteredBy = current_user.user_name
     @item.itemObsolete = 0
-    @item.itemUpdatedBy = session[:user_name]
+    @item.itemUpdatedBy = current_user.user_name
     @item.itemFoundBy = params[:itemFoundBy] || 'anonymous'
     @item.libID = 115 # TODO: do we need this?
     @item.created_at = Time.now # TODO: let ActiveRecord set timestamps
@@ -175,7 +181,7 @@ class ItemsController < ApplicationController
 
     Item.find_each do |item|
       if item.itemDate <= DateTime.parse(purge_date.to_s) && item.claimedBy != 'Purged' && item.itemStatus == 1
-        item.update(itemUpdatedBy: session[:user_name], itemLastModified: Time.now, claimedBy: 'Purged')
+        item.update(itemUpdatedBy: current_user.user_name, itemLastModified: Time.now, claimedBy: 'Purged')
         purged_total += 1
       end
     end

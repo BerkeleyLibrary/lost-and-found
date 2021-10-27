@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
-
-  # TODO: require admin user for all admin actions
+  before_action(:logout_if_expired!, except: :health)
+  before_action(:require_admin!, except: :health)
 
   def health
     check = Health::Check.new
@@ -11,7 +11,6 @@ class HomeController < ApplicationController
     @users = User.all
     @actived_users = @users.select(&:user_active)
     @deactivated_users = @users.reject(&:user_active)
-    @roles_layout = [%w[Administrator Administrator], %w[Read-only Read-only], %w[Staff Staff]]
     render :admin_users
   end
 
@@ -53,9 +52,6 @@ class HomeController < ApplicationController
     @item_types = ItemType.all
     @actived_item_types = @item_types.select(&:type_active)
     @deactivated_item_types = @item_types.reject(&:type_active)
-
-    @roles = Role.all
-    @roles_layout = [%w[Administrator Administrator], %w[Read-only Read-only], %w[Staff Staff]]
 
     render :admin
   end

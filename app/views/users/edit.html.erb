@@ -1,22 +1,20 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
-<% if user_level_staff? %>
 <h1>Edit user</h1>
 <div class="table mt-5">
   <%= form_tag("user_update", method: "post") do %>
 
     <%= label_tag(:user_role, "User role:") %>
-    <%= select_tag(:user_role, options_for_select(@roles_layout, @user.user_role)) %>
+    <%= select_tag(:user_role, options_for_select(User::ROLES, @user.user_role)) %>
 
     <%= label_tag(:user_name, "User name:") %>
-    <%=text_field_tag :user_name, @user.user_name %>
+    <%= text_field_tag :user_name, @user.user_name %>
 
     <%= label_tag(:uid, "UID:") %>
-    <%=text_field_tag :uid, @user.uid %>
+    <%= text_field_tag :uid, @user.uid %>
 
     <%= label_tag(:user_active, "Active user") %>
-    <%= check_box_tag( :user_active, value = true, checked = @user.user_active) %>
+    <%= check_box_tag(:user_active, value = true, checked = @user.user_active) %>
     <%= hidden_field_tag(:id, @user.id) %>
     <div><%= submit_tag("Update user") %></div>
   <% end %>
 </div>
-<% end %>

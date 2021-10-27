@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
+  before_action :logout_if_expired!
+  before_action :require_admin!
+
   def edit
     @user = User.find(params[:id])
-    @roles = Role.all
-    @roles_layout = [%w[Administrator Administrator], %w[Read-only Read-only], %w[Staff Staff]]
   end
 
   def create
@@ -11,7 +12,7 @@ class UsersController < ApplicationController
     @user.user_name = params[:user_name]
     @user.user_role = params[:user_role]
     @user.user_active = true
-    @user.updated_by = session[:user_name]
+    @user.updated_by = current_user.user_name
     @user.updated_at = Time.now
     begin
       if @user.valid? && @user.save!
@@ -23,14 +24,21 @@ class UsersController < ApplicationController
       flash[:alert] = "Error: UID already exists"
     end
     @users = User.all
-    redirect_back(fallback_location: root_path)
+    redirect_back(fallback_location: login_path)
   end
 
   def update
     begin
       active = params[:user_active] == 'true'
       @user = User.find(params[:id])
-      if @user.update(uid: params[:uid], user_name: params[:user_name], user_role: params[:user_role], user_active: active)
+      # TODO: just use strong parameters
+      if @user.update(
+        uid: params[:uid],
+        user_name: params[:user_name],
+        user_role: params[:user_role],
+        updated_by: current_user.user_name,
+        user_active: active
+      )
         flash[:success] = "Success: User #{@user.user_name} updated"
       else
         flash[:alert] = "Error: UID #{params[:uid].inspect} is not numeric"
@@ -44,9 +52,9 @@ class UsersController < ApplicationController
 
   def change_status
     @user = User.find(params[:id])
-    @user.update(user_active: !@user.user_active, updated_by: session[:user_name])
+    @user.update(user_active: !@user.user_active, updated_by: current_user.user_name)
     @users = User.all
     flash[:success] = "Success: User #{@user.user_name.titleize} status updated!"
-    redirect_back(fallback_location: root_path)
+    redirect_back(fallback_location: login_path)
   end
 end

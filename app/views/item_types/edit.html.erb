@@ -1,5 +1,4 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
-<% if user_level_staff? %>
 <h1>Edit item type</h1>
 <div class="table mt-5">
   <%= form_tag("item_type_update", method: "post") do %>
@@ -11,4 +10,3 @@
   <div><%= submit_tag("Update item type") %></div>
   <% end %>
 </div>
-<% end %>

@@ -4,62 +4,62 @@
 <h1>Found Items</h1>
 
 <table id="found_items_table" class="table mt-5">
-    <thead class="thead-light">
-        <tr>
-            <% if user_level_staff? true %>
-            <th scope="col">Actions</th>
-            <% end %>
-            <th scope="col">Date found</th>
-            <th scope="col">Time found</th>
-            <th scope="col">Found by</th>
-            <th scope="col">Item location</th>
-            <th scope="col">Where found</th>
-            <th scope="col">Type of item</th>
-            <th scope="col">Item description</th>
-            <th scope="col">Item image</th>
-            <th scope="col">Updated by</th>
-            <th scope="col">Updated at </th>
-        </tr>
-    </thead>
-    <tbody>
-        <%= paginate @items_found %>
-        <% @items_found.each do |item| %>
-        <tr>
-            <% if user_level_staff? true %>
-                <td>
-                    <%= link_to 'Edit', edit_item_path(item.id) %>
-                    <%= link_to 'History', item_path(item.id) %>
-                </td>
-            <% end %>
-            <% if item.itemDate %>
-                <td><%= item.itemDate.strftime("%m/%d/%Y")  %></td>
-            <% else %>
-                <td><%=  'None'%> </td>
-            <% end %>
-                <% if item.itemFoundAt %>
-                    <td><%= item.itemFoundAt.strftime("%l:%M %P")  %></td>
-                <% else %>
-                    <td><%=  'None'%> </td>
-                <% end %>
-            <td><%= item.itemFoundBy || 'No one' %></td>
-            <td><%= item.itemLocation || 'None' %></td>
-            <td><%= item.whereFound || 'None' %></td>
-            <td><%= item.itemType || 'No type' %></td>
-            <td class="desc"><%= item.itemDescription || 'None' %></td>
-            <td>
-            <% if item.image.attached? %>
-                <img src="<%=(url_for(item.image)) %>" alt="image of item" class="preview_image" onerror="this.style.display = 'none'">
-            <% else %>
-                 No image
-            <% end %>
-            </td>
-            <td><%= item.itemUpdatedBy || 'None' %></td>
-                <% if item.itemLastModified %>
-                    <td><%= item.itemLastModified.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P")  %></td>
-                <% else %>
-                    <td><%=  'None'%> </td>
-                <% end %>
-            </tr>
+  <thead class="thead-light">
+  <tr>
+    <% if current_user.staff_or_admin? %>
+      <th scope="col">Actions</th>
+    <% end %>
+    <th scope="col">Date found</th>
+    <th scope="col">Time found</th>
+    <th scope="col">Found by</th>
+    <th scope="col">Item location</th>
+    <th scope="col">Where found</th>
+    <th scope="col">Type of item</th>
+    <th scope="col">Item description</th>
+    <th scope="col">Item image</th>
+    <th scope="col">Updated by</th>
+    <th scope="col">Updated at</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%= paginate @items_found %>
+  <% @items_found.each do |item| %>
+    <tr>
+      <% if current_user.staff_or_admin? %>
+        <td>
+          <%= link_to 'Edit', edit_item_path(item.id) %>
+          <%= link_to 'History', item_path(item.id) %>
+        </td>
+      <% end %>
+      <% if item.itemDate %>
+        <td><%= item.itemDate.strftime("%m/%d/%Y") %></td>
+      <% else %>
+        <td><%= 'None' %> </td>
+      <% end %>
+      <% if item.itemFoundAt %>
+        <td><%= item.itemFoundAt.strftime("%l:%M %P") %></td>
+      <% else %>
+        <td><%= 'None' %> </td>
+      <% end %>
+      <td><%= item.itemFoundBy || 'No one' %></td>
+      <td><%= item.itemLocation || 'None' %></td>
+      <td><%= item.whereFound || 'None' %></td>
+      <td><%= item.itemType || 'No type' %></td>
+      <td class="desc"><%= item.itemDescription || 'None' %></td>
+      <td>
+        <% if item.image.attached? %>
+          <img src="<%= (url_for(item.image)) %>" alt="image of item" class="preview_image" onerror="this.style.display = 'none'">
+        <% else %>
+          No image
         <% end %>
-        </tbody>
-    </table>
+      </td>
+      <td><%= item.itemUpdatedBy || 'None' %></td>
+      <% if item.itemLastModified %>
+        <td><%= item.itemLastModified.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P") %></td>
+      <% else %>
+        <td><%= 'None' %> </td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

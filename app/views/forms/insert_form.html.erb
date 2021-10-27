@@ -1,31 +1,29 @@
-
 <%= stylesheet_link_tag 'admin', media: 'all' %>
-<% if user_level_staff? %>
 <h1>Add a lost item</h1>
 <p style="color: #ee0000">* Required</p>
 
 <div class="mb-4 form-group">
-    <%= form_tag("item_insert", method: "post", multipart: true) do %>
+  <%= form_tag("item_insert", method: "post", multipart: true) do %>
 
     <%= label_tag(:itemType, "Item type:") %><span style="color: #ee0000"> * </span>
     <%= select_tag(:itemType, options_for_select(@item_type_layout), :include_blank => true, required: true) %>
 
     <%= label_tag(:itemDescription, "Describe the item:") %><span style="color: #ee0000"> * </span>
-    <%=text_field_tag :itemDescription, nil, placeholder: 'Item description', required: true%>
+    <%= text_field_tag :itemDescription, nil, placeholder: 'Item description', required: true %>
 
     <%= label_tag(:itemLocation, "Location held at:") %><span style="color: #ee0000"> * </span>
     <%= select_tag(:itemLocation, options_for_select(@locations_layout), :include_blank => true, required: true) %>
 
     <%= label_tag(:itemFoundBy, "Found by:") %><span style="color: #ee0000"> * </span>
-    <%=text_field_tag :itemFoundBy, nil, placeholder: "Finder's name" , required: true%>
+    <%= text_field_tag :itemFoundBy, nil, placeholder: "Finder's name", required: true %>
 
 
 
 
     <div>
-    <%= label_tag(:whereFound, "Where found:") %><span style="color: #ee0000"> * </span>
-    <%=text_field_tag :whereFound, nil, placeholder: 'Where was this found?', required: true%>
-  </div>
+      <%= label_tag(:whereFound, "Where found:") %><span style="color: #ee0000"> * </span>
+      <%= text_field_tag :whereFound, nil, placeholder: 'Where was this found?', required: true %>
+    </div>
 
     <%= label_tag(:image, "Image: ") %>
     <%= file_field_tag(:image) %>
@@ -36,16 +34,15 @@
 
       <%= label_tag(:itemFoundAt, "Time found:") %>
       <%= time_field_tag(:itemFoundAt, :itemFoundAt) %>
-  </div>
-
-    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= session[:user_name] %>
-</div>
-
-<div>
-    <div class="btn-group" role="group">
-      <input type="submit" name="commit" value="Add item" class="btn btn-primary" data-disable-with="Submit">
     </div>
+
+    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= current_user.user_name %>
+    </div>
+
+    <div>
+      <div class="btn-group" role="group">
+        <input type="submit" name="commit" value="Add item" class="btn btn-primary" data-disable-with="Submit">
+      </div>
+    </div>
+  <% end %>
 </div>
-<% end %>
-</div>
-<% end %>

@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
 
-<%= render template: "items/found"%>
+<%= render template: "items/found" %>
 
-<% if user_level_admin?  && url = request.path_info.include?('admin')%>
-    <%= render template: "items/claimed"%>
+<% if current_user.administrator? %>
+  <%= render template: "items/claimed" %>
 <% end %>

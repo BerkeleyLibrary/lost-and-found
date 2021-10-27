@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root to: "sessions#new"
+  root to: "sessions#new", as: :login
 
   get '/home', to: 'forms#search_form'
   get '/admin', to: 'home#admin'
   get '/health', to: 'home#health'
 
+  # TODO: clean these up
   resources :items
   resources :users, only: [:edit, :update, :delete, :destroy]
   resources :locations, only: [:edit, :update, :delete, :destroy]

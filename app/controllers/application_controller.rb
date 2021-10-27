@@ -1,32 +1,118 @@
 # Base class for all controllers
 class ApplicationController < ActionController::Base
   include ExceptionHandling
-  class_attribute :support_email, default: Rails.application.config.support_email
+
+  # ------------------------------------------------------------
+  # Global controller configuration
+
+  # @see https://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection/ClassMethods.html
+  protect_from_forgery with: :exception
+
+  # ------------------------------
+  # Email helpers
+
+  SUPPORT_EMAIL_STAFF = 'helpbox@library.berkeley.edu'.freeze
+
+  attr_writer :support_email
+
+  def support_email
+    @support_email || support_email_default
+  end
   helper_method :support_email
 
-  class_attribute :timeout_message, default: 'Your session has expired. Please logout and sign in again to continue use.'
-  helper_method :timeout_message
-
-  skip_before_action :verify_authenticity_token
-  before_action :check_timeout
-  before_action :check_calnet
-  before_action :set_paper_trail_whodunnit # mixed in by paper_trail gem
-  after_action -> { flash.discard }, if: -> { request.xhr? }
-
-  def current_user
-    # TODO: something more robust, cf. Framework & UCBEARS
-    session[:user]
+  def support_email_default
+    Rails.application.config.support_email || SUPPORT_EMAIL_STAFF
   end
+
+  # ------------------------------------------------------------
+  # Public methods
+
+  # ------------------------------
+  # Authentication/Authorization
+
+  # Require that the current user be authenticated
+  #
+  # @return [void]
+  # @raise [Error::UnauthorizedError] If the user is not
+  #   authenticated
+  def authenticate!
+    raise Error::UnauthorizedError, "Endpoint #{controller_name}/#{action_name} requires authentication" unless authenticated?
+
+    yield current_user if block_given?
+  end
+
+  # Return whether the current user is authenticated
+  #
+  # @return [Boolean]
+  def authenticated?
+    current_user.authenticated?
+  end
+  helper_method :authenticated?
+
+  # Return the current user
+  #
+  # This always returns a user object, even if the user isn't authenticated.
+  # Call {User#authenticated?} to determine if they were actually auth'd, or
+  # use the shortcut {#authenticated?} to see if the current user is auth'd.
+  #
+  # @return [User]
+  def current_user
+    @current_user ||= (User.from_session(session) || User.new)
+  end
+  helper_method :current_user
+
+  # Sign in the user by storing their data in the session
+  #
+  # @param [User]
+  # @return [void]
+  def sign_in(user)
+    # TODO: connect session to DB users in less hacky way
+    session[:user] = { 'uid' => user.uid }
+    session[:expires_at] = 3600.seconds.from_now
+  end
+
+  # Sign out the current user by clearing all session data
+  #
+  # @return [void]
+  def sign_out
+    reset_session
+  end
+
+  def require_authorization!
+    authenticate!
+    return if current_user.authorized?
+
+    raise Error::ForbiddenError, 'This page is restricted to authorized users.'
+  end
+
+  def require_staff_or_admin!
+    authenticate!
+    return if current_user.staff_or_admin?
+
+    raise Error::ForbiddenError, 'This page is restricted to authorized staff and administrative users.'
+  end
+
+  def require_admin!
+    authenticate!
+    return if current_user.administrator?
+
+    raise Error::ForbiddenError, 'This page is restricted to administrative users.'
+  end
+
+  # ------------------------------
+  # Version tracking
 
   def user_for_paper_trail
     # TODO: something more robust, cf. Framework & UCBEARS
-    current_user && current_user['user_name']
+    current_user && current_user.user_name
   end
 
-  def check_timeout
+  # ------------------------------
+  # Session expiration
+
+  def logout_if_expired!
     if session_expired?
       reset_session
-      session[:timed_out] = true
       flash[:notice] = timeout_message
       redirect_to "/logout"
     end
@@ -36,65 +122,18 @@ class ApplicationController < ActionController::Base
     session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
   end
 
-  def check_calnet
-    unless cookies[:_lost_and_found_session]
-      reset_session
-      session[:timed_out] = true
-      flash[:notice] = timeout_message
-    end
+  # ------------------------------
+  # Display helpers
+
+  # TODO: use Rails i18n
+  def timeout_message
+    'Your session has expired. Please logout and sign in again to continue use.'
   end
 
-  def sign_in(user)
-    if user.user_active
-      # TODO: don't put so much of this in the session
-      session[:user] = user
-      session[:user_name] = user.user_name
-      session[:uid] = user.uid
-      session[:user_role] = user.user_role
-      session[:expires_at] = 3600.seconds.from_now
-      logger.debug("Signed in user #{session[:user_name]}")
-      logger.debug("Role of #{session[:user_role]}")
-    elsif session[:user] == user
-      session[:user_role] = 'deactivated'
-    end
-  end
+  # ------------------------------
+  # Form helpers
 
-  def sign_out
-    cookies.clear
-    reset_session
-  end
-
-  def user_level_admin?(suppress_alert = false)
-    if session[:user_role] != 'Administrator'
-      flash.now.alert = 'You must have Admin level permission to view this page' unless suppress_alert || !session[:user]
-      check_timeout
-      return false
-    end
-    true
-  end
-
-  def user_level_staff?(suppress_alert = false)
-    if session[:user_role] != 'Staff' && session[:user_role] != 'Administrator'
-      flash.now.alert = 'You must have staff level permission or greater to view this page' unless suppress_alert || !session[:user]
-      check_timeout
-      return false
-    end
-    true
-  end
-
-  def user_level_read_only?(suppress_alert = false)
-    if session[:user_role] != 'Read-only' && session[:user_role] != 'Staff' && session[:user_role] != 'Administrator'
-      flash.now.alert = 'You must be a registered user to view this page' unless suppress_alert || !session[:user]
-      check_timeout
-      return false
-    end
-    true
-  end
-
-  helper_method :user_level_admin?
-  helper_method :user_level_staff?
-  helper_method :user_level_read_only?
-
+  # TODO: simplify this
   def location_setup(initial_values = [%w[None none]])
     locations = Location.active
     locations.map { |location| location.location_name.downcase! }
@@ -106,6 +145,7 @@ class ApplicationController < ActionController::Base
     locations_layout
   end
 
+  # TODO: simplify this
   def item_type_setup(initial_values = [%w[None none]])
     item_types = ItemType.active
     item_types.map { |itemType| itemType.type_name.downcase! }

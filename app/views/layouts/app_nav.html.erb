@@ -10,17 +10,17 @@
     </ul>
 
     <ul class="navbar-nav">
-      <% if user_level_staff?(true) %> 
+      <% if current_user.staff_or_admin? %>
       <li>
         <p class="nav-link" ><a href="/insert_form">Add Item</a></p>
       </li>
       <% end %>
-      <% if user_level_read_only?(true) %> 
+      <% if current_user.authorized? %>
       <li>
         <p class="nav-link"><%= link_to "Search", search_form_path %></p>
       </li>
-      <% end %> 
-      <% if user_level_admin?(true) %> 
+      <% end %>
+      <% if current_user.administrator? %>
       <li>
           <p class="nav-link"><%= link_to "Admin Home", admin_path %></p>
       </li>

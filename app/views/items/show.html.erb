@@ -1,24 +1,23 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
 
-<% if user_level_staff? %>
 <h1>Item history</h1>
 
 <h2>Current values</h2>
 <div class="form-group row">
   <h5 class="col-2">Date found</h5>
-  <% if @item.itemDate%>
+  <% if @item.itemDate %>
     <div class="col-4"><%= @item.itemDate.strftime("%m/%d/%Y") %></div>
   <% else %>
-    <div class="col-4"> None </div>
-<% end %>
+    <div class="col-4"> None</div>
+  <% end %>
 </div>
 <div class="form-group row">
   <h5 class="col-2">Time found</h5>
-  <% if @item.itemFoundAt%>
-  <div class="col-4"><%= @item.itemFoundAt.strftime("%l:%M %P") %></div>
-<% else %>
-  <div class="col-4"> None </div>
-<% end %>
+  <% if @item.itemFoundAt %>
+    <div class="col-4"><%= @item.itemFoundAt.strftime("%l:%M %P") %></div>
+  <% else %>
+    <div class="col-4"> None</div>
+  <% end %>
 </div>
 
 <div class="form-group row">
@@ -43,77 +42,75 @@
 
 <div class="form-group row">
   <h5 class="col-2">Item image</h5>
-    <% if @item.image.attached? %>
-      <img class="preview_image" src="<%=(url_for(@item.image)) %>">
-    <% else %>
-    <div class="col-4">No image </div>
-    <% end %>
-  </div>
-  <div class="form-group row">
-    <h5 class="col-2">Last updated by</h5>
-    <div class="col-4"><%= @item.itemUpdatedBy || 'None' %></div>
+  <% if @item.image.attached? %>
+    <img class="preview_image" src="<%= (url_for(@item.image)) %>">
+  <% else %>
+    <div class="col-4">No image</div>
+  <% end %>
+</div>
+<div class="form-group row">
+  <h5 class="col-2">Last updated by</h5>
+  <div class="col-4"><%= @item.itemUpdatedBy || 'None' %></div>
 </div>
 <div class="form-group row">
   <h5 class="col-2">Last updated</h5>
-  <% if @item.itemLastModified%>
+  <% if @item.itemLastModified %>
     <div class="col-4"><%= @item.itemLastModified.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P") %></div>
   <% else %>
-      <div class="col-4"> None </div>
+    <div class="col-4"> None</div>
   <% end %>
 </div>
 
-  <h2>Change history</h2>
-  <table class="table mt-5">
-    <thead class="thead-light">
+<h2>Change history</h2>
+<table class="table mt-5">
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">Date/time</th>
+    <th scope="col">Updated by</th>
+    <th scope="col">Action</th>
+    <th scope="col"> What changed</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @item.versions.reverse.each do |version| %>
+    <% if !version.changeset.except(:updated_at).empty? %>
       <tr>
-        <th scope="col" >Date/time</th>
-        <th scope="col" >Updated by</th>
-        <th scope="col">Action</th>
-        <th scope="col"> What changed </th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @item.versions.reverse.each do |version| %>
-      <% if !version.changeset.except(:updated_at).empty?%>
-        <tr>
-          <td><%= version.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P")  %></td>
-          <td><%= version.whodunnit || "unknown"%></td>
-          <td><%= version.event.humanize %></td>
-          <td>
-            <ul>
+        <td><%= version.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P") %></td>
+        <td><%= version.whodunnit || "unknown" %></td>
+        <td><%= version.event.humanize %></td>
+        <td>
+          <ul>
             <% version.changeset.except(:updated_at).each do |value| %>
-            <% if( value[0] == "image_url") %>
-              <li>
-                New image upload
-              </li>
-            <% elsif( value[0] == "itemStatus")  %>
-              <li><%= "Item status : " + status_codes(value[1][0]) + " to " +  status_codes(value[1][1])%> </li>
-            <% elsif( value[0] == "itemLastModified")  %>
-              <li><%= value[0] + " : " + history_to_pst(value[1][0])  + " to " +  history_to_pst(value[1][1]) %>
-            <% elsif( value[0] == "created_at")  %>
-                <li><%= "Created at " +  history_to_pst(value[1][1]) %>
-            <% elsif( value[0] == "itemFoundAt")  %>
-                  <li><%= value[0] + " : " + history_to_readable(value[1][0])  + " to " +  history_to_readable(value[1][1]) %>
-            <% elsif( value[0] == "itemObsolete")  %>
-            <% elsif(value[0] == "claimedBy") %>
-                    <% if(history_claimed_map(value[1][0]) == history_claimed_map(value[1][1]) ) %>
-                        <li><%= "Claimed by : " + history_claimed_map(value[1][0]) %></li>
-                      <% else %>
-                        <li><%= "Claimed by : " + history_claimed_map(value[1][0]) + " to " + history_claimed_map(value[1][1])%> </li>
-                    <% end %>
-            <% elsif( value[0] == "itemDate")  %>
-                    <li><%= value[0] + " : " + history_to_readable_day(value[1][0])  + " to " +  history_to_readable_day(value[1][1]) %>
-            <% else %>
-              <li><%= value[0] + " : " + value[1][0].to_s  + " to " +  value[1][1].to_s%> </li>
+              <% if (value[0] == "image_url") %>
+                <li>
+                  New image upload
+                </li>
+              <% elsif (value[0] == "itemStatus") %>
+                <li><%= "Item status : " + status_codes(value[1][0]) + " to " + status_codes(value[1][1]) %> </li>
+              <% elsif (value[0] == "itemLastModified") %>
+                <li><%= value[0] + " : " + history_to_pst(value[1][0]) + " to " + history_to_pst(value[1][1]) %>
+              <% elsif (value[0] == "created_at") %>
+                <li><%= "Created at " + history_to_pst(value[1][1]) %>
+              <% elsif (value[0] == "itemFoundAt") %>
+                <li><%= value[0] + " : " + history_to_readable(value[1][0]) + " to " + history_to_readable(value[1][1]) %>
+              <% elsif (value[0] == "itemObsolete") %>
+              <% elsif (value[0] == "claimedBy") %>
+                <% if (history_claimed_map(value[1][0]) == history_claimed_map(value[1][1])) %>
+                  <li><%= "Claimed by : " + history_claimed_map(value[1][0]) %></li>
+                <% else %>
+                  <li><%= "Claimed by : " + history_claimed_map(value[1][0]) + " to " + history_claimed_map(value[1][1]) %> </li>
+                <% end %>
+              <% elsif (value[0] == "itemDate") %>
+                <li><%= value[0] + " : " + history_to_readable_day(value[1][0]) + " to " + history_to_readable_day(value[1][1]) %>
+              <% else %>
+                <li><%= value[0] + " : " + value[1][0].to_s + " to " + value[1][1].to_s %> </li>
+              <% end %>
             <% end %>
-            <% end %>
-            </ul>
-          </td>
-        </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-
-<% end %>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>

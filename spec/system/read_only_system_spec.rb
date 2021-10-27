@@ -1,5 +1,4 @@
-require 'capybara_helper'
-require 'support/authz_shared_examples'
+require 'system_helper'
 
 describe 'read-only user', type: :system do
   attr_reader :user

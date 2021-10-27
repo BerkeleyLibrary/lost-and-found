@@ -15,6 +15,8 @@ RSpec.shared_examples 'admin access is denied' do
     end
   end
 
+  xit 'disallows purging items' # TODO: implement this
+
   context 'users' do
     before(:each) do
       ensure_all_users!
