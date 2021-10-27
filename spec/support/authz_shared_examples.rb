@@ -18,10 +18,8 @@ RSpec.shared_examples 'admin access is denied' do
 
   xit 'disallows purging items' # TODO: implement this
 
-  xit 'disallows viewing claimed items' # TODO: implement this
-
   xit 'disallows editing claimed items' # TODO: implement this
-  
+
   context 'users' do
     before(:each) do
       ensure_all_users!

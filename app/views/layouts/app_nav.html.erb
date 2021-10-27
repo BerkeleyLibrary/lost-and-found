@@ -5,6 +5,8 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
+  <%# TODO: clean this up %>
+
   <div id="navbar-dropdown" class="navbar-collapse collapse" >
     <ul class="navbar-nav mr-auto">
     </ul>
@@ -23,6 +25,10 @@
       <% if current_user.administrator? %>
       <li>
           <p class="nav-link"><%= link_to "Admin Home", admin_path %></p>
+      </li>
+      <% elsif current_user.staff? %>
+      <li>
+        <p class="nav-link"><%= link_to "View claimed items", admin_claimed_path %></p>
       </li>
       <% end %>
       <li>

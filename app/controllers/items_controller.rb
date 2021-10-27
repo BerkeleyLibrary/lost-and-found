@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   before_action :authenticate!
 
   before_action(:require_staff_or_admin!, except: [:found, :param_search]) # TODO: is this right?
-  before_action(:require_admin!, only: [:purge_items, :claimed_items]) # TODO: is this right?
+  before_action(:require_admin!, only: [:purge_items])
 
   def found
     @items_found = Item.found.page params[:page]
@@ -71,7 +71,8 @@ class ItemsController < ApplicationController
   end
 
   def claimed_items
-    @items_claimed = Item.claimed
+    # TODO: clean this up
+    @items_claimed = current_user.administrator? ? Item.claimed : Item.where(itemStatus: 3).where.not(claimedBy: 'Purged')
     @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:page])
 

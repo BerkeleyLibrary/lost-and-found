@@ -146,10 +146,9 @@ describe 'staff user', type: :system do
         expect(item.itemDate.to_date).to eq(when_found.to_date)
       end
 
-      # TODO: make these testable
-      xit 'requires a type'
-      xit 'requires a location'
-      xit 'requires a date'
+      xit 'requires a type' # TODO: make this testable
+      xit 'requires a location' # TODO: make this testable
+      xit 'requires a date' # TODO: make this testable
     end
 
     describe 'edit item' do
@@ -291,6 +290,8 @@ describe 'staff user', type: :system do
 
     context 'admin pages' do
       it_behaves_like 'admin access is denied'
+
+      xit 'allows viewing claimed items, but not purged items' # TODO: implement this
     end
   end
 

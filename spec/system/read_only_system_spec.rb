@@ -214,6 +214,8 @@ describe 'read-only user', type: :system do
 
     context 'admin pages' do
       it_behaves_like 'admin access is denied'
+
+      xit 'disallows viewing claimed or purged items' # TODO: implement this
     end
 
     context 'staff pages' do
