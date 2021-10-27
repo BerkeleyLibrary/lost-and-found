@@ -8,8 +8,7 @@ RSpec.shared_examples 'admin access is denied' do
       admin_users_path,
       admin_locations_path,
       admin_item_types_path,
-      admin_purge_path,
-      admin_claimed_path
+      admin_purge_path
     ]
     admin_links.each do |link|
       expect(page).not_to have_link(href: link)
