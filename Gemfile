@@ -12,7 +12,6 @@ gem 'berkeley_library-logging'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap'
 gem 'coffee-rails', '~> 4.2'
-gem 'devise'
 gem 'diffy'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
