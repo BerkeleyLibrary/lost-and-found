@@ -7,6 +7,10 @@ describe 'read-only user', type: :system do
     @user = mock_login(:read_only)
   end
 
+  after(:each) do
+    logout!
+  end
+
   describe 'login' do
     it 'redirects to the item search page' do
       expect(page).to have_content('Search for lost items')

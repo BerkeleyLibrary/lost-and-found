@@ -9,7 +9,9 @@ module ExceptionHandling
     end
 
     rescue_from Error::ForbiddenError do |error|
-      logger.error(error)
+      # this isn't really an error condition, it just means the user's
+      # not authorized, so we don't need the full stack trace etc.
+      logger.info(error.to_s)
       render :forbidden, status: :forbidden, locals: { exception: error }
     end
 

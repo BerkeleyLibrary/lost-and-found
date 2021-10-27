@@ -7,6 +7,10 @@ describe 'admin user', type: :system do
     @user = mock_login(:admin)
   end
 
+  after(:each) do
+    logout!
+  end
+
   describe 'login' do
     it 'redirects to the item search page' do
       expect(page).to have_content('Search for lost items')

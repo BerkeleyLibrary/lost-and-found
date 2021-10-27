@@ -7,6 +7,10 @@ describe 'staff user', type: :system do
     @user = mock_login(:staff)
   end
 
+  after(:each) do
+    logout!
+  end
+
   describe 'login' do
     it 'redirects to the item search page' do
       expect(page).to have_content('Search for lost items')
@@ -284,6 +288,10 @@ describe 'staff user', type: :system do
         expect(item.versions.size).to eq(2)
       end
     end
+
+    context 'admin pages' do
+      it_behaves_like 'admin access is denied'
+    end
   end
 
   context 'without data' do
@@ -293,9 +301,5 @@ describe 'staff user', type: :system do
         expect(page).to have_content('Found Items')
       end
     end
-  end
-
-  context 'admin pages' do
-    it_behaves_like 'admin access is denied'
   end
 end

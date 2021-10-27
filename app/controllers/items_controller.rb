@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   before_action :authenticate!
 
   before_action(:require_staff_or_admin!, except: [:found, :param_search]) # TODO: is this right?
-  before_action(:require_admin!, only: [:purge_items]) # TODO: is this right?
+  before_action(:require_admin!, only: [:purge_items, :claimed_items]) # TODO: is this right?
 
   def found
     @items_found = Item.found.page params[:page]
@@ -80,6 +80,8 @@ class ItemsController < ApplicationController
 
   def edit
     @item = Item.find(params[:id])
+    require_admin! if @item.claimed?
+
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
     # TODO: replace magic number with enum
@@ -98,6 +100,7 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
+    require_admin! if @item.claimed?
 
     # TODO: just use strong parameters
 

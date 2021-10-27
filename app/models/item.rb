@@ -21,4 +21,9 @@ class Item < ApplicationRecord
     end
     records
   }
+
+  def claimed?
+    # TODO: replace magic number with enum
+    itemStatus == 3 || claimedBy != nil
+  end
 end

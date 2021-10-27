@@ -1,6 +1,7 @@
 RSpec.shared_examples 'admin access is denied' do
   it 'disallows access to the admin home page' do
     visit(admin_path)
+    expect(page).to have_content('Forbidden')
     expect(page).not_to have_content('Lost & Found - Administration')
 
     admin_links = [
@@ -17,6 +18,10 @@ RSpec.shared_examples 'admin access is denied' do
 
   xit 'disallows purging items' # TODO: implement this
 
+  xit 'disallows viewing claimed items' # TODO: implement this
+
+  xit 'disallows editing claimed items' # TODO: implement this
+  
   context 'users' do
     before(:each) do
       ensure_all_users!
@@ -24,6 +29,7 @@ RSpec.shared_examples 'admin access is denied' do
 
     it 'disallows access to the add/edit users page' do
       visit(admin_users_path)
+      expect(page).to have_content('Forbidden')
       expect(page).not_to have_content('Add/Edit Lost & Found Users')
     end
 
@@ -31,6 +37,7 @@ RSpec.shared_examples 'admin access is denied' do
       u = User.take
       edit_path = edit_user_path(u.id)
       visit(edit_path)
+      expect(page).to have_content('Forbidden')
       expect(page).not_to have_content('Edit user')
     end
 
@@ -41,6 +48,7 @@ RSpec.shared_examples 'admin access is denied' do
       toggle_status_path = toggle_user_status_path(u.id)
       visit(toggle_status_path)
 
+      expect(page).to have_content('Forbidden')
       expect(page).not_to have_link('Activate', href: toggle_status_path)
 
       u.reload
@@ -56,6 +64,7 @@ RSpec.shared_examples 'admin access is denied' do
 
     it 'disallows access to the add/edit locations page' do
       visit(admin_locations_path)
+      expect(page).to have_content('Forbidden')
       expect(page).not_to have_content('Add/Edit Lost & Found Locations')
     end
 
@@ -63,6 +72,7 @@ RSpec.shared_examples 'admin access is denied' do
       l = Location.take
       edit_path = edit_location_path(l.id)
       visit(edit_path)
+      expect(page).to have_content('Forbidden')
       expect(page).not_to have_content('Edit location')
     end
 
@@ -73,6 +83,7 @@ RSpec.shared_examples 'admin access is denied' do
       toggle_status_path = toggle_location_status_path(l.id)
       visit(toggle_status_path)
 
+      expect(page).to have_content('Forbidden')
       expect(page).not_to have_link('Activate', href: toggle_status_path)
 
       l.reload
@@ -88,6 +99,7 @@ RSpec.shared_examples 'admin access is denied' do
 
     it 'disallows access to the add/edit item types page' do
       visit(admin_item_types_path)
+      expect(page).to have_content('Forbidden')
       expect(page).not_to have_content('Add/Edit Lost & Found Item Types')
     end
 
@@ -95,6 +107,7 @@ RSpec.shared_examples 'admin access is denied' do
       t = ItemType.take
       edit_path = edit_item_type_path(t.id)
       visit(edit_path)
+      expect(page).to have_content('Forbidden')
       expect(page).not_to have_content('Edit item type')
     end
 
@@ -105,6 +118,7 @@ RSpec.shared_examples 'admin access is denied' do
       toggle_status_path = toggle_item_type_status_path(t.id)
       visit(toggle_status_path)
 
+      expect(page).to have_content('Forbidden')
       expect(page).not_to have_link('Activate', href: toggle_status_path)
 
       t.reload
