@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   post "/delete_item", to: "items#destroy"
   get "/found_items", to: "items#found"
   get "/item_insert", to: "items#found"
-  get "/item_search", to: "items#param_search"
+  get "/item_search", to: "items#param_search" # TODO: do we need GET for this route?
   post "/item_search", to: "items#param_search"
   post "/purge_items", to: "items#purge_items"
   post "/items/:id/item_update", to: "items#update"

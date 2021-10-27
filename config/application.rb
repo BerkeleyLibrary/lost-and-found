@@ -14,6 +14,9 @@ module LostAndFound
   class Application < Rails::Application
     config.load_defaults 6.0
 
+    # Set time zone
+    config.time_zone = 'America/Los_Angeles'
+
     # Load L&F config
     config.lost_and_found = config_for(:lost_and_found)
 
