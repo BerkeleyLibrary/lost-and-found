@@ -474,7 +474,7 @@ describe 'admin user', type: :system do
               itemType: type.type_name,
               itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
               image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
-              itemDate: (Date.current - j.months - i.days),
+              itemDate: (Date.current - j.months - (i + 1).days),
               itemLocation: loc.location_name
             )
           end

@@ -29,7 +29,7 @@ describe 'staff user', type: :system do
             itemType: type.type_name,
             itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
             image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
-            itemDate: (Date.current - j.months - i.days),
+            itemDate: (Date.current - j.months - (i + 1).days),
             itemLocation: loc.location_name
           )
         end
@@ -96,7 +96,7 @@ describe 'staff user', type: :system do
         found_by = 'Mr. Magoo'
         where_found = 'New Jersey'
 
-        when_found = Date.current
+        when_found = Date.current - 1
         item_date_str = when_found.strftime("%m/%d/%Y")
 
 
@@ -150,11 +150,12 @@ describe 'staff user', type: :system do
 
     describe 'edit item' do
       attr_reader :item
+      attr_reader :edit_path
 
       before(:each) do
         @item = items.last
 
-        edit_path = edit_item_path(item.id)
+        @edit_path = edit_item_path(item.id)
         visit(edit_path)
       end
 
@@ -196,6 +197,22 @@ describe 'staff user', type: :system do
         expect(item.whereFound).to eq(new_where_found)
         expect(item.itemDate.to_date).to eq(new_when_found.to_date)
         expect(item.itemUpdatedBy).to eq(user.user_name)
+      end
+
+      it 'allows adding an image to an item with no image' do
+        image_blob = item.image
+        item.update!(image: nil, image_url: nil)
+        image_blob.purge
+
+        visit(edit_path)
+        new_img_path = 'spec/data/images/Object.jpg'
+        attach_file('image', new_img_path)
+
+        page.click_link_or_button('Update item')
+        expect(page).to have_content('item updated')
+
+        item.reload
+        expect(item.image_url).to end_with(File.basename(new_img_path))
       end
 
       it 'allows claiming an item' do

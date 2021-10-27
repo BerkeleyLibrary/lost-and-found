@@ -37,14 +37,14 @@ module CalnetHelper
   IDS = {
     admin: '5551215'.freeze,
     staff: '5551214'.freeze,
-    sle: '5551212'.freeze,
+    read_only: '5551212'.freeze,
     other: '5551213'.freeze,
   }.freeze
 
   ROLES = {
     admin: 'Administrator',
     staff: 'Staff',
-    sle: 'Read-only'
+    read_only: 'Read-only'
   }
 
   # TODO: separate login and root

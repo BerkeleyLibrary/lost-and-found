@@ -24,12 +24,16 @@ class ApplicationController < ActionController::Base
   end
 
   def check_timeout
-    if session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
+    if session_expired?
       reset_session
       session[:timed_out] = true
       flash[:notice] = timeout_message
       redirect_to "/logout"
     end
+  end
+
+  def session_expired?
+    session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
   end
 
   def check_calnet
@@ -38,19 +42,6 @@ class ApplicationController < ActionController::Base
       session[:timed_out] = true
       flash[:notice] = timeout_message
     end
-  end
-
-  def log_error(error)
-    msg = {
-      error: error.inspect.to_s,
-      cause: error.cause.inspect.to_s
-    }
-    msg[:backtrace] = error.backtrace if Rails.logger.level < Logger::INFO
-    logger.error(msg)
-  end
-
-  def redirect_with_params(opts = {})
-    redirect_to request.parameters.update(opts)
   end
 
   def sign_in(user)
@@ -63,7 +54,7 @@ class ApplicationController < ActionController::Base
       session[:expires_at] = 3600.seconds.from_now
       logger.debug("Signed in user #{session[:user_name]}")
       logger.debug("Role of #{session[:user_role]}")
-    elsif session[:user] = user # TODO: is this right? Or should it be ==?
+    elsif session[:user] == user
       session[:user_role] = 'deactivated'
     end
   end

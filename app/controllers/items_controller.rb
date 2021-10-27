@@ -108,15 +108,15 @@ class ItemsController < ApplicationController
     @item.claimedBy = params[:claimedBy].blank? ? nil : params[:claimedBy]
 
     unless params[:image].nil? || @item.invalid?
-      @item.image_url = url_for(@item.image)
       @item.image.attach(params[:image])
+      @item.image_url = url_for(@item.image)
     end
 
     begin
       @item.save!
     rescue StandardError => e
       flash[:alert] = 'Error: Item has invalid parameters'
-      log_error(e)
+      logger.error(e)
     end
 
     # TODO: why do we need these?
@@ -159,7 +159,7 @@ class ItemsController < ApplicationController
       @locations_layout = location_setup
       @item_type_layout = item_type_setup
       flash.now.alert = 'Item rejected. Missing required fields'
-      log_error(e)
+      logger.error(e)
       render template: 'forms/insert_form'
     end
   end

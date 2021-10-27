@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :item do
     transient { image_path { nil } }
 
-    itemDate { Date.current }
+    itemDate { Date.current - 1.days }
     itemFoundAt { Time.current }
     itemFoundBy { 'Testy McTestface' }
     itemStatus { 1 } # TODO: replace magic number with enum

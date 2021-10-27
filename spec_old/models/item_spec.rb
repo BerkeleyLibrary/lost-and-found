@@ -11,7 +11,7 @@ describe Item, type: :model do
     expect(PaperTrail).to be_enabled
 
     item = Item.create!(
-      itemDate: Date.current,
+      itemDate: Date.current - 1.days,
       itemDescription: 'a description',
       itemFoundAt: Time.current,
       itemFoundBy: 'Testy McTestface',
