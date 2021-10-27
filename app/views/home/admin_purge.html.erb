@@ -1,5 +1,5 @@
 
-<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'admin', media: 'all' %>
 <% if user_level_staff? %>
 <h1>Enter date (all items found before this date will be deleted)</h1>
 
@@ -9,7 +9,7 @@
     <%= label_tag(:purgeTime, "Purge date:") %>
     <%= date_field_tag(:purgeTime, :itemDate, required: true) %>
 
-    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Current user: <%= session[:user_name] %> 
+    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Current user: <%= session[:user_name] %>
 </div>
 
     <%= submit_tag("Purge items") %>

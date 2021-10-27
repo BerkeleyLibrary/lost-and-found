@@ -11,14 +11,9 @@
 // about supported directives.
 //
 //= require activestorage
-//= require turbolinks
 //= require jquery
 //= require jquery3
 //= require popper
 //= require bootstrap
 //=require lostandfound
 //= require_tree .
-
-
-
-

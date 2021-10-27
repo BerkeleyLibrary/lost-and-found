@@ -28,7 +28,6 @@ gem 'puma', '~> 4.1', '>=4.3.9'
 gem 'pundit'
 gem 'rails', '>= 6.1'
 gem 'sass-rails', '~> 6.0'
-gem 'turbolinks', '~> 5'
 gem 'typesafe_enum'
 gem 'webpacker', '~> 5.4'
 

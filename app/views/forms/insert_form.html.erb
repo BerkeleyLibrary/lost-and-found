@@ -1,5 +1,5 @@
 
-<%= stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'admin', media: 'all' %>
 <% if user_level_staff? %>
 <h1>Add a lost item</h1>
 <p style="color: #ee0000">* Required</p>
@@ -38,7 +38,7 @@
       <%= time_field_tag(:itemFoundAt, :itemFoundAt) %>
   </div>
 
-    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= session[:user_name] %> 
+    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= session[:user_name] %>
 </div>
 
 <div>
