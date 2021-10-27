@@ -356,6 +356,71 @@ describe 'admin user', type: :system do
         expect(page).to have_selector('tr', text: titleized_name, count: 1)
         expect(Location.count).to eq(location_count)
       end
+
+      it 'allows editing locations' do
+        t = Location.take
+        expect(t.location_active).to eq(true) # just to be sure
+
+        edit_path = edit_location_path(id: t.id)
+        visit(edit_path)
+
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        new_name = "Not #{t.location_name.titleize}"
+        titleized_name = new_name.titleize
+        fill_in('location_name', with: new_name, fill_options: { clear: :backspace })
+
+        page.click_link_or_button('Update location')
+        expect(page).to have_selector('tr', text: titleized_name, count: 1)
+
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        t.reload
+        expect(t.location_name.downcase).to eq(new_name.downcase)
+      end
+
+      it 'allows deactivating locations through the edit page' do
+        t = Location.take
+        expect(t.location_active).to eq(true) # just to be sure
+
+        edit_path = edit_location_path(id: t.id)
+        visit(edit_path)
+
+        page.uncheck('location_active')
+        page.click_link_or_button('Update location')
+
+        toggle_status_path = toggle_location_status_path(t.id)
+        expect(page).to have_link('Activate', href: toggle_status_path)
+
+        t.reload
+        expect(t.location_active).to eq(false)
+      end
+
+      it 'prevents setting a duplicate location name' do
+        num_types = Location.count
+
+        t = Location.take
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        original_name = t.location_name.titleize
+
+        t2 = Location.where.not(id: t.id).take
+
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        new_name = t2.location_name.titleize
+
+        edit_path = edit_location_path(id: t.id)
+        visit(edit_path)
+
+        fill_in('location_name', with: new_name, fill_options: { clear: :backspace })
+        page.click_link_or_button('Update location')
+
+        # TODO: display an error message?
+
+        expect(page).to have_selector('tr', text: original_name, count: 1)
+
+        t.reload
+        expect(t.location_name.downcase).to eq(original_name.downcase)
+
+        expect(Location.count).to eq(num_types)
+      end
     end
 
     describe 'add/edit item types' do
