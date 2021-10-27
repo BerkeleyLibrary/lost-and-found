@@ -192,8 +192,8 @@ describe 'admin user', type: :system do
         uid = u.uid * 2
         name = u.user_name.sub(/[A-Z][a-z]+$/, 'Marumaru')
 
-        fill_in('uid', with: uid)
-        fill_in('user_name', with: name)
+        fill_in('uid', with: uid, fill_options: { clear: :backspace })
+        fill_in('user_name', with: name, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
         find('#user_active').set(false)
 
@@ -227,7 +227,7 @@ describe 'admin user', type: :system do
         edit_path = edit_user_path(u.id)
         visit(edit_path)
 
-        fill_in('uid', with: other_uid)
+        fill_in('uid', with: other_uid, fill_options: { clear: :backspace })
         page.click_link_or_button('Update user')
 
         expect(page).to have_content('already exists')
@@ -246,7 +246,7 @@ describe 'admin user', type: :system do
         visit(edit_path)
 
         invalid_uid = 'not a valid UID'
-        fill_in('uid', with: invalid_uid)
+        fill_in('uid', with: invalid_uid, fill_options: { clear: :backspace })
 
         page.click_link_or_button('Update user')
         expect(page).to have_content('not numeric')
@@ -308,7 +308,7 @@ describe 'admin user', type: :system do
       it 'allows adding locations' do
         name = 'Gardner'
 
-        fill_in('location_name', with: name)
+        fill_in('location_name', with: name, fill_options: { clear: :backspace })
 
         # Add, and wait for add to complete
         page.click_link_or_button('Add location')
@@ -340,7 +340,7 @@ describe 'admin user', type: :system do
         loc = Location.take
 
         titleized_name = loc.location_name.titleize
-        fill_in('location_name', with: titleized_name)
+        fill_in('location_name', with: titleized_name, fill_options: { clear: :backspace })
         page.click_link_or_button('Add location')
 
         expect(page).to have_content('already exists')
@@ -348,7 +348,7 @@ describe 'admin user', type: :system do
         expect(Location.count).to eq(location_count)
 
         downcased_name = loc.location_name.downcase
-        fill_in('location_name', with: downcased_name)
+        fill_in('location_name', with: downcased_name, fill_options: { clear: :backspace })
 
         page.click_link_or_button('Add location')
 
@@ -365,7 +365,7 @@ describe 'admin user', type: :system do
         visit(admin_item_types_path)
       end
 
-      it 'lists item_types' do
+      it 'lists item types' do
         ItemType.find_each do |t|
           titleized_name = t.type_name.titleize
           row = page.find('tr', text: titleized_name)
@@ -380,7 +380,7 @@ describe 'admin user', type: :system do
         end
       end
 
-      it 'allows activating/deactivating item_types' do
+      it 'allows activating/deactivating item types' do
         t = ItemType.take
         expect(t.type_active).to eq(true) # just to be sure
 
@@ -407,10 +407,10 @@ describe 'admin user', type: :system do
         expect(t.type_active).to eq(true)
       end
 
-      it 'allows adding item_types' do
+      it 'allows adding item types' do
         name = 'Widget'
 
-        fill_in('type_name', with: name)
+        fill_in('type_name', with: name, fill_options: { clear: :backspace })
 
         # Add, and wait for add to complete
         page.click_link_or_button('Add item type')
@@ -442,7 +442,7 @@ describe 'admin user', type: :system do
         t = ItemType.take
 
         titleized_name = t.type_name.titleize
-        fill_in('type_name', with: titleized_name)
+        fill_in('type_name', with: titleized_name, fill_options: { clear: :backspace })
         page.click_link_or_button('Add item type')
 
         expect(page).to have_content('already exists')
@@ -450,13 +450,78 @@ describe 'admin user', type: :system do
         expect(ItemType.count).to eq(item_type_count)
 
         downcased_name = t.type_name.downcase
-        fill_in('type_name', with: downcased_name)
+        fill_in('type_name', with: downcased_name, fill_options: { clear: :backspace })
 
         page.click_link_or_button('Add item type')
 
         expect(page).to have_content('already exists')
         expect(page).to have_selector('tr', text: titleized_name, count: 1)
         expect(ItemType.count).to eq(item_type_count)
+      end
+
+      it 'allows editing item types' do
+        t = ItemType.take
+        expect(t.type_active).to eq(true) # just to be sure
+
+        edit_path = edit_item_type_path(id: t.id)
+        visit(edit_path)
+
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        new_name = "Not #{t.type_name.titleize}"
+        titleized_name = new_name.titleize
+        fill_in('type_name', with: new_name, fill_options: { clear: :backspace })
+
+        page.click_link_or_button('Update item type')
+        expect(page).to have_selector('tr', text: titleized_name, count: 1)
+
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        t.reload
+        expect(t.type_name.downcase).to eq(new_name.downcase)
+      end
+
+      it 'allows deactivating item types through the edit page' do
+        t = ItemType.take
+        expect(t.type_active).to eq(true) # just to be sure
+
+        edit_path = edit_item_type_path(id: t.id)
+        visit(edit_path)
+
+        page.uncheck('type_active')
+        page.click_link_or_button('Update item type')
+
+        toggle_status_path = toggle_item_type_status_path(t.id)
+        expect(page).to have_link('Activate', href: toggle_status_path)
+
+        t.reload
+        expect(t.type_active).to eq(false)
+      end
+
+      it 'prevents setting a duplicate item type name' do
+        num_types = ItemType.count
+
+        t = ItemType.take
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        original_name = t.type_name.titleize
+
+        t2 = ItemType.where.not(id: t.id).take
+
+        # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+        new_name = t2.type_name.titleize
+
+        edit_path = edit_item_type_path(id: t.id)
+        visit(edit_path)
+
+        fill_in('type_name', with: new_name, fill_options: { clear: :backspace })
+        page.click_link_or_button('Update item type')
+
+        # TODO: display an error message?
+
+        expect(page).to have_selector('tr', text: original_name, count: 1)
+
+        t.reload
+        expect(t.type_name.downcase).to eq(original_name.downcase)
+
+        expect(ItemType.count).to eq(num_types)
       end
     end
 
