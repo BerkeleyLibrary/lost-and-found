@@ -1,3 +1,4 @@
+# TODO: merge into ItemsController
 class FormsController < ApplicationController
   def search_form
     @locations_layout = location_setup

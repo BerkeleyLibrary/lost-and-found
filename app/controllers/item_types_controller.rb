@@ -51,36 +51,4 @@ class ItemTypesController < ApplicationController
     flash[:success] = "Success: Item type #{@itemType.type_name.titleize} status updated!"
     redirect_back(fallback_location: root_path)
   end
-
-  def batch_upload
-    if params[:batch_file] != nil
-      uploaded_file = params[:batch_file]
-      file_content = uploaded_file.read
-      upload_items = file_content.split('),(')
-      upload_items.each do |item|
-        item[0] = '' if item[0] == '('
-        item[item.length - 1] = '' if item[item.length - 1] == ')'
-        raw_item_values = item.split(',')
-        modified_item_values = []
-        raw_item_values.each do |value|
-          modified_item_values.push(value.gsub("'", '').strip)
-        end
-
-        @ItemType = ItemType.new
-        @ItemType.type_name = modified_item_values[1].downcase
-        @ItemType.type_active = true
-        @ItemType.updated_at = Time.now
-        @ItemType.updated_by = 'Legacy'
-        begin
-          @ItemType.save!
-        rescue StandardError
-        end
-      end
-      redirect_to admin_item_types_path
-      flash[:success] = "Success: item types added"
-    else
-      redirect_to admin_item_types_path
-      flash[:alert] = "Error: File unreadable"
-    end
-  end
 end
