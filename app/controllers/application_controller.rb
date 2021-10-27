@@ -64,10 +64,6 @@ class ApplicationController < ActionController::Base
     reset_session
   end
 
-  def user_present?
-    session[:user].present?
-  end
-
   def user_level_admin?(suppress_alert = false)
     if session[:user_role] != 'Administrator'
       flash.now.alert = 'You must have Admin level permission to view this page' unless suppress_alert || !session[:user]
