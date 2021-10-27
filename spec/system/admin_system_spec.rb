@@ -19,15 +19,15 @@ describe 'admin user', type: :system do
     end
 
     it 'displays the admin page' do
-      expected_links = [
+      expect(page).to have_content('Lost & Found - Administration')
+      admin_links = [
         admin_users_path,
         admin_locations_path,
         admin_item_types_path,
         admin_purge_path,
         admin_claimed_path
       ]
-      expected_links.each do |link|
-        next if page.has_link?(href: link)
+      admin_links.each do |link|
         expect(page).to have_link(href: link)
       end
     end
@@ -41,6 +41,7 @@ describe 'admin user', type: :system do
       end
 
       it 'lists users' do
+        expect(page).to have_content('Add/Edit Lost & Found Users')
         User.find_each do |u|
           row = page.find('tr', text: u.uid)
           expect(row).to have_content(u.user_name)
@@ -783,6 +784,5 @@ describe 'admin user', type: :system do
         end
       end
     end
-
   end
 end

@@ -1,4 +1,5 @@
 require 'capybara_helper'
+require 'support/authz_shared_examples'
 
 describe 'read-only user', type: :system do
   attr_reader :user
@@ -205,6 +206,24 @@ describe 'read-only user', type: :system do
         odd_items.each do |item|
           expect(table).not_to have_selector('tr', text: item.itemDescription)
         end
+      end
+    end
+
+    context 'admin pages' do
+      it_behaves_like 'admin access is denied'
+    end
+
+    context 'staff pages' do
+      it 'disallows access to the add items page' do
+        visit(insert_form_path)
+        expect(page).not_to have_content('Add a lost item')
+      end
+
+      it 'disallows access to the edit item page' do
+        item = items.last
+        edit_path = edit_item_path(item.id)
+        visit(edit_path)
+        expect(page).not_to have_content('Edit item')
       end
     end
   end

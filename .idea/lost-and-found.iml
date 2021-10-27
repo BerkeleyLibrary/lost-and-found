@@ -26,6 +26,7 @@
       <excludeFolder url="file://$MODULE_DIR$/public/system" />
       <excludeFolder url="file://$MODULE_DIR$/components" />
       <excludeFolder url="file://$MODULE_DIR$/artifacts" />
+      <excludeFolder url="file://$MODULE_DIR$/spec_old" />
     </content>
     <orderEntry type="jdk" jdkName="RVM: ruby-2.7.4" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

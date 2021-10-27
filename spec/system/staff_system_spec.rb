@@ -1,4 +1,5 @@
 require 'capybara_helper'
+require 'support/authz_shared_examples'
 
 describe 'staff user', type: :system do
   attr_reader :user
@@ -293,5 +294,9 @@ describe 'staff user', type: :system do
         expect(page).to have_content('Found Items')
       end
     end
+  end
+
+  context 'admin pages' do
+    it_behaves_like 'admin access is denied'
   end
 end
