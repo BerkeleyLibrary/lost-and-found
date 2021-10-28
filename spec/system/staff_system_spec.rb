@@ -83,38 +83,43 @@ describe 'staff user', type: :system do
       end
 
       describe 'add item' do
+
+        let(:description) { 'unidentified object' }
+        let(:found_by) { 'Mr. Magoo' }
+        let(:where_found) { 'New Jersey' }
+        let(:img_path) { 'spec/data/images/Object.jpg' }
+
+        attr_reader :item_type
+        attr_reader :item_type_name
+        attr_reader :location
+        attr_reader :location_name
+        attr_reader :when_found
+        attr_reader :item_date_str
+
         before(:each) do
           visit(insert_form_path)
+
+          @item_type = ItemType.take
+          @location = Location.take
+          @when_found = Date.current - 1
+          @item_date_str = when_found.strftime("%m/%d/%Y")
+
+          # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+          @item_type_name = item_type.type_name.capitalize
+
+          # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+          @location_name = location.location_name.capitalize
         end
 
         it 'allows adding an item' do
-          item_type = ItemType.take
-
-          # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-          item_type_name = item_type.type_name.capitalize
-
-          description = 'unidentified object'
-          location = Location.take
-
-          # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-          location_name = location.location_name.capitalize
-
-          found_by = 'Mr. Magoo'
-          where_found = 'New Jersey'
-
-          when_found = Date.current - 1
-          item_date_str = when_found.strftime("%m/%d/%Y")
-
           select(location_name, from: 'itemLocation')
           fill_in('itemFoundBy', with: found_by)
           fill_in('itemDescription', with: description)
           fill_in('whereFound', with: where_found)
           select(item_type_name, from: 'itemType')
           fill_in('itemDate', with: item_date_str)
-          # TODO: figure out how to test this
-          # found_at_str = when_found.strftime("%l:%M %P")
+          # TODO: figure out how to test time widget
           # fill_in('itemFoundAt', with: found_at_str)
-          img_path = 'spec/data/images/Object.jpg'
           attach_file('image', img_path)
 
           page.click_link_or_button('Add item')
@@ -122,14 +127,11 @@ describe 'staff user', type: :system do
           expect(page).to have_content('item added')
 
           row = page.find('tr', text: description)
-
           [
             item_type_name,
             location_name,
             found_by,
             where_found,
-            # TODO: figure out how to test this
-            # found_at_str,
             item_date_str,
           ].each do |attr|
             attr_case_insentitive = /#{attr}/i
@@ -147,9 +149,53 @@ describe 'staff user', type: :system do
           expect(item.itemDate.to_date).to eq(when_found.to_date)
         end
 
-        xit 'requires a type' # TODO: make this testable
-        xit 'requires a location' # TODO: make this testable
-        xit 'requires a date' # TODO: make this testable
+        it 'requires a description' do
+          select(location_name, from: 'itemLocation')
+          fill_in('itemFoundBy', with: found_by)
+          fill_in('whereFound', with: where_found)
+          select(item_type_name, from: 'itemType')
+          fill_in('itemDate', with: item_date_str)
+          attach_file('image', img_path)
+
+          page.click_link_or_button('Add item')
+          expect(page).not_to have_content('item added')
+        end
+
+        it 'requires a type' do
+          select(location_name, from: 'itemLocation')
+          fill_in('itemFoundBy', with: found_by)
+          fill_in('itemDescription', with: description)
+          fill_in('whereFound', with: where_found)
+          fill_in('itemDate', with: item_date_str)
+          attach_file('image', img_path)
+
+          page.click_link_or_button('Add item')
+          expect(page).not_to have_content('item added')
+        end
+
+        it 'requires a location' do
+          fill_in('itemFoundBy', with: found_by)
+          fill_in('itemDescription', with: description)
+          fill_in('whereFound', with: where_found)
+          select(item_type_name, from: 'itemType')
+          fill_in('itemDate', with: item_date_str)
+          attach_file('image', img_path)
+
+          page.click_link_or_button('Add item')
+          expect(page).not_to have_content('item added')
+        end
+
+        it 'requires a date' do
+          select(location_name, from: 'itemLocation')
+          fill_in('itemFoundBy', with: found_by)
+          fill_in('itemDescription', with: description)
+          fill_in('whereFound', with: where_found)
+          select(item_type_name, from: 'itemType')
+          attach_file('image', img_path)
+
+          page.click_link_or_button('Add item')
+          expect(page).not_to have_content('item added')
+        end
       end
 
       describe 'edit item' do
