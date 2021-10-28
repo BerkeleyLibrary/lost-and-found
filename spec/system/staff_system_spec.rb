@@ -143,6 +143,7 @@ describe 'staff user', type: :system do
           expect(img[:src]).to end_with(img_basename)
 
           item = Item.find_by(itemDescription: description)
+          expect(item.itemType).to eq(item_type.type_name)
           expect(item.itemLocation).to eq(location.location_name)
           expect(item.itemFoundBy).to eq(found_by)
           expect(item.whereFound).to eq(where_found)
@@ -185,12 +186,24 @@ describe 'staff user', type: :system do
           expect(page).not_to have_content('item added')
         end
 
-        it 'requires a date' do
+        it 'requires a date found' do
           select(location_name, from: 'itemLocation')
           fill_in('itemFoundBy', with: found_by)
           fill_in('itemDescription', with: description)
           fill_in('whereFound', with: where_found)
           select(item_type_name, from: 'itemType')
+          attach_file('image', img_path)
+
+          page.click_link_or_button('Add item')
+          expect(page).not_to have_content('item added')
+        end
+
+        it 'requires a place found' do
+          select(location_name, from: 'itemLocation')
+          fill_in('itemFoundBy', with: found_by)
+          fill_in('itemDescription', with: description)
+          select(item_type_name, from: 'itemType')
+          fill_in('itemDate', with: item_date_str)
           attach_file('image', img_path)
 
           page.click_link_or_button('Add item')

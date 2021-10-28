@@ -18,6 +18,8 @@ describe Item, type: :model do
       itemStatus: 1, # TODO: replace magic number with enum
       itemEnteredBy: 'Test',
       itemUpdatedBy: 'Test',
+      itemType: 'pen',
+      itemLocation: 'the library',
       whereFound: 'Somewhere',
       )
     expect(item.versions.size).to eq(1)

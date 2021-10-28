@@ -115,8 +115,7 @@ class ItemsController < ApplicationController
     begin
       @item.save!
     rescue StandardError => e
-      flash[:alert] = 'Error: Item has invalid parameters'
-      logger.error(e)
+      flash_errors(@item, e)
     end
 
     # TODO: why do we need these?
@@ -129,8 +128,8 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new
-    @item.itemDate = params[:itemDate] || Time.now # TODO: use Date.current
-    @item.itemFoundAt = params[:itemFoundAt] || Time.now # TODO: use Time.current
+    @item.itemDate = params[:itemDate]
+    @item.itemFoundAt = params[:itemFoundAt] || Time.current
     @item.itemLocation = params[:itemLocation]
     @item.itemType = params[:itemType]
     @item.itemDescription = params[:itemDescription]
@@ -145,7 +144,7 @@ class ItemsController < ApplicationController
     @item.created_at = Time.now # TODO: let ActiveRecord set timestamps
     @item.updated_at = Time.now # TODO: let ActiveRecord set timestamps
     @item.claimedBy = ''
-    @item.whereFound = params[:whereFound] || 'unknown'
+    @item.whereFound = params[:whereFound]
 
     unless params[:image].nil? || @item.invalid?
       @item.image.attach(params[:image])

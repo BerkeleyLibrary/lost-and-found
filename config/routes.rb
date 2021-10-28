@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   post "/item_insert", to: "items#create"
   post "/delete_item", to: "items#destroy"
   post "/purge_items", to: "items#purge_items"
-  post "/items/:id/item_update", to: "items#update"
+  post "/items/:id/item_update", to: "items#update", as: :item_update
 
   get "/locations/:id/change_status", to: "locations#change_status", as: :toggle_location_status
   post "/location_insert", to: "locations#create"

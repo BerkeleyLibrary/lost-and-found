@@ -1,12 +1,15 @@
 class Item < ApplicationRecord
   has_paper_trail
+  validates :itemType, presence: true, allow_blank: false
   validates :itemDescription, presence: true, allow_blank: false
+  validates :itemLocation, presence: true, allow_blank: false
   validates :whereFound, presence: true, allow_blank: false
+  validates :itemDate, presence: true
+
   has_one_attached :image
-  attr_accessor :locations
-  attr_accessor :types
 
   attribute :itemStatus, :integer, default: 1 # TODO: replace magic number with enum
+
   paginates_per 25
 
   # TODO: clean this up
