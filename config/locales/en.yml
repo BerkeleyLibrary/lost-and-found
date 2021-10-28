@@ -3,3 +3,6 @@ en:
     errors:
       messages:
         taken: "already exists"
+    attributes:
+      user:
+        uid: "UID"

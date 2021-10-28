@@ -254,7 +254,7 @@ describe 'admin user', type: :system do
         fill_in('uid', with: invalid_uid, fill_options: { clear: :backspace })
 
         page.click_link_or_button('Update user')
-        expect(page).to have_content('not numeric')
+        expect(page).to have_content('not a number')
 
         u.reload
         expect(u.uid).to eq(old_uid)
