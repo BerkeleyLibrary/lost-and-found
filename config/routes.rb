@@ -31,13 +31,9 @@ Rails.application.routes.draw do
   get "/admin_claimed", to: "items#claimed_items"
   post "/item_insert", to: "items#create"
   post "/delete_item", to: "items#destroy"
-  get "/found_items", to: "items#found"
-  get "/item_insert", to: "items#found"
-  get "/item_search", to: "items#param_search" # TODO: do we need GET for this route?
   post "/item_search", to: "items#param_search"
   post "/purge_items", to: "items#purge_items"
   post "/items/:id/item_update", to: "items#update"
-  post "/items/:id/items_update", to: "items#update"
 
   get "/locations/:id/change_status", to: "locations#change_status", as: :toggle_location_status
   post "/location_insert", to: "locations#create"

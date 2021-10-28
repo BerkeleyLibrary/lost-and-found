@@ -5,12 +5,6 @@ class ItemsController < ApplicationController
   before_action(:require_staff_or_admin!, except: [:found, :param_search]) # TODO: is this right?
   before_action(:require_admin!, only: [:purge_items])
 
-  def found
-    @items_found = Item.found.page params[:page]
-
-    render template: 'items/found'
-  end
-
   def param_search
     params[:itemLocation] = cookies[:itemLocation] unless params[:itemLocation]
     params[:searchAll] = cookies[:searchAll] unless params[:searchAll]
