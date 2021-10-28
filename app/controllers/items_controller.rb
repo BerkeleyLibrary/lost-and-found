@@ -7,11 +7,11 @@ class ItemsController < ApplicationController
 
   def index
     keyword = param_or_cookie(:keyword)
-    item_location = param_or_cookie(:itemLocation)
-    item_type = param_or_cookie(:itemType)
+    item_location = param_or_cookie(:location)
+    item_type = param_or_cookie(:item_type)
     search_all = param_or_cookie(:searchAll)
-    start_date = param_or_cookie(:itemDate)
-    end_date = param_or_cookie(:itemDateEnd)
+    start_date = param_or_cookie(:date_found)
+    end_date = param_or_cookie(:date_foundEnd)
 
     # TODO: move this logic into the model
     # TODO: just construct the right SQL query to begin with instead of filtering in the app
@@ -22,35 +22,35 @@ class ItemsController < ApplicationController
                Item.query_params(keyword)
              end
 
-    @items = @items.select { |item| item.itemLocation == item_location } unless search_all || item_location.blank?
-    @items = @items.select { |item| item.itemType == item_type } if !(search_all || item_type.blank?) && !item_type.nil?
+    @items = @items.select { |item| item.location == item_location } unless search_all || item_location.blank?
+    @items = @items.select { |item| item.item_type == item_type } if !(search_all || item_type.blank?) && !item_type.nil?
 
     unless start_date.blank?
-      item_date_raw = start_date
-      item_date_parsed = Time.parse(item_date_raw)
+      date_found_raw = start_date
+      date_found_parsed = Time.parse(date_found_raw)
       if end_date.blank?
-        @items = @items.select { |item| item.itemDate == DateTime.parse(item_date_parsed.to_s) }
+        @items = @items.select { |item| item.date_found == DateTime.parse(date_found_parsed.to_s) }
       else
-        item_date_end_raw = end_date
-        item_date_end_parsed = Time.parse(item_date_end_raw)
+        date_found_end_raw = end_date
+        date_found_end_parsed = Time.parse(date_found_end_raw)
         @items = @items.select do |item|
-          item.itemDate >= DateTime.parse(item_date_parsed.to_s) && item.itemDate <= DateTime.parse(item_date_end_parsed.to_s)
+          item.date_found >= DateTime.parse(date_found_parsed.to_s) && item.date_found <= DateTime.parse(date_found_end_parsed.to_s)
         end
       end
     end
 
-    @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged' }
-    @items_found = @items_found.sort_by { |item| item.itemDate || Time.zone.at(0) }.reverse
+    @items_found = @items.select { |item| item.status == 1 && item.claimed_by != 'Purged' }
+    @items_found = @items_found.sort_by { |item| item.date_found || Time.zone.at(0) }.reverse
 
     @items_found = Kaminari.paginate_array(@items_found.reverse).page(params[:page])
   end
 
   def admin_items
     @items_found = Item.found
-    @items_found = @items_found.sort_by(&:itemDate).reverse
+    @items_found = @items_found.sort_by(&:date_found).reverse
     @items_found = Kaminari.paginate_array(@items_found.reverse).page(params[:page])
     @items_claimed = Item.claimed
-    @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
+    @items_claimed = @items_claimed.sort_by(&:date_found).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:claimed_page])
 
     render template: 'items/admin_items'
@@ -58,8 +58,8 @@ class ItemsController < ApplicationController
 
   def claimed_items
     # TODO: clean this up
-    @items_claimed = current_user.administrator? ? Item.claimed : Item.where(itemStatus: 3).where.not(claimedBy: 'Purged')
-    @items_claimed = @items_claimed.sort_by(&:itemDate).reverse
+    @items_claimed = current_user.administrator? ? Item.claimed : Item.where(status: 3).where.not(claimed_by: 'Purged')
+    @items_claimed = @items_claimed.sort_by(&:date_found).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:page])
 
     render template: 'items/admin_claimed'
@@ -91,17 +91,17 @@ class ItemsController < ApplicationController
 
     # TODO: just use strong parameters
 
-    @item.itemLocation = params[:itemLocation]
-    @item.itemType = params[:itemType]
-    @item.itemDescription = params[:itemDescription]
-    @item.itemUpdatedBy = current_user.user_name
-    @item.itemFoundBy = params[:itemFoundBy]
-    @item.itemStatus = params[:itemStatus]
-    @item.itemDate = params[:itemDate]
-    @item.itemFoundAt = params[:itemFoundAt]
+    @item.location = params[:location]
+    @item.item_type = params[:item_type]
+    @item.description = params[:description]
+    @item.updated_by = current_user.user_name
+    @item.found_by = params[:found_by]
+    @item.status = params[:status]
+    @item.date_found = params[:date_found]
+    @item.found_at = params[:found_at]
     @item.itemLastModified = Time.now
-    @item.whereFound = params[:whereFound]
-    @item.claimedBy = params[:claimedBy].blank? ? nil : params[:claimedBy]
+    @item.where_found = params[:where_found]
+    @item.claimed_by = params[:claimed_by].blank? ? nil : params[:claimed_by]
 
     unless params[:image].nil? || @item.invalid?
       @item.image.attach(params[:image])
@@ -124,23 +124,23 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new
-    @item.itemDate = params[:itemDate]
-    @item.itemFoundAt = params[:itemFoundAt] || Time.current
-    @item.itemLocation = params[:itemLocation]
-    @item.itemType = params[:itemType]
-    @item.itemDescription = params[:itemDescription]
+    @item.date_found = params[:date_found]
+    @item.found_at = params[:found_at] || Time.current
+    @item.location = params[:location]
+    @item.item_type = params[:item_type]
+    @item.description = params[:description]
     @item.itemLastModified = Time.now
     # TODO: replace magic number with enum
-    @item.itemStatus = 1
-    @item.itemEnteredBy = current_user.user_name
+    @item.status = 1
+    @item.entered_by = current_user.user_name
     @item.itemObsolete = 0
-    @item.itemUpdatedBy = current_user.user_name
-    @item.itemFoundBy = params[:itemFoundBy] || 'anonymous'
+    @item.updated_by = current_user.user_name
+    @item.found_by = params[:found_by] || 'anonymous'
     @item.libID = 115 # TODO: do we need this?
     @item.created_at = Time.now # TODO: let ActiveRecord set timestamps
     @item.updated_at = Time.now # TODO: let ActiveRecord set timestamps
-    @item.claimedBy = ''
-    @item.whereFound = params[:whereFound]
+    @item.claimed_by = ''
+    @item.where_found = params[:where_found]
 
     unless params[:image].nil? || @item.invalid?
       @item.image.attach(params[:image])
@@ -165,8 +165,8 @@ class ItemsController < ApplicationController
     purged_total = 0
 
     Item.find_each do |item|
-      if item.itemDate <= DateTime.parse(purge_date.to_s) && item.claimedBy != 'Purged' && item.itemStatus == 1
-        item.update(itemUpdatedBy: current_user.user_name, itemLastModified: Time.now, claimedBy: 'Purged')
+      if item.date_found <= DateTime.parse(purge_date.to_s) && item.claimed_by != 'Purged' && item.status == 1
+        item.update(updated_by: current_user.user_name, itemLastModified: Time.now, claimed_by: 'Purged')
         purged_total += 1
       end
     end

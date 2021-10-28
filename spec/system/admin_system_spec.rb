@@ -596,7 +596,7 @@ describe 'admin user', type: :system do
     end
 
     describe 'item actions' do
-      attr_reader :all_item_dates
+      attr_reader :all_date_founds
 
       before(:each) do
         # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
@@ -606,23 +606,23 @@ describe 'admin user', type: :system do
           item_types.each_with_index do |type, j|
             create(
               :item,
-              itemType: type.type_name,
-              itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
+              item_type: type.type_name,
+              description: "description of #{type.type_name} found in #{loc.location_name}",
               image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
-              itemDate: (Date.current - j.months - (i + 1).days),
-              itemLocation: loc.location_name
+              date_found: (Date.current - j.months - (i + 1).days),
+              location: loc.location_name
             )
           end
         end
 
-        @all_item_dates = Item.pluck(:itemDate).sort
+        @all_date_founds = Item.pluck(:date_found).sort
       end
 
       describe 'view removed items' do
         before(:each) do
           Item.all.to_a.each_with_index do |item, i|
-            next item.update!(claimedBy: 'Purged') if (i % 3) == 0
-            next item.update!(claimedBy: "Claimer #{i}", itemStatus: 3) if i.even?
+            next item.update!(claimed_by: 'Purged') if (i % 3) == 0
+            next item.update!(claimed_by: "Claimer #{i}", status: 3) if i.even?
           end
 
           visit(admin_claimed_path)
@@ -631,11 +631,11 @@ describe 'admin user', type: :system do
         it 'displays purged items' do
           table = page.find('#claimed_items_table')
 
-          purged_items = Item.where(claimedBy: 'Purged')
+          purged_items = Item.where(claimed_by: 'Purged')
           expect(purged_items.count).not_to eq(0) # just to be sure
 
           purged_items.find_each do |item|
-            item_row = table.find('tr', text: item.itemDescription)
+            item_row = table.find('tr', text: item.description)
 
             view_path = item_path(item.id)
             expect(item_row).to have_link(href: view_path)
@@ -643,22 +643,22 @@ describe 'admin user', type: :system do
             edit_path = edit_item_path(item.id)
             expect(item_row).to have_link(href: edit_path)
 
-            date_found = item.itemDate ? item.itemDate.strftime('%m/%d/%Y') : 'None'
+            date_found = item.date_found ? item.date_found.strftime('%m/%d/%Y') : 'None'
             expect(item_row).to have_content(date_found)
 
-            time_found = item.itemFoundAt ? item.itemFoundAt.strftime('%l:%M %P') : 'None'
+            time_found = item.found_at ? item.found_at.strftime('%l:%M %P') : 'None'
             expect(item_row).to have_content(time_found)
 
-            found_by = item.itemFoundBy || 'No one'
+            found_by = item.found_by || 'No one'
             expect(item_row).to have_content(found_by)
 
-            location = item.itemLocation || 'None'
+            location = item.location || 'None'
             expect(item_row).to have_content(location)
 
-            where_found = item.whereFound || 'None'
+            where_found = item.where_found || 'None'
             expect(item_row).to have_content(where_found)
 
-            type = item.itemType || 'No type'
+            type = item.item_type || 'No type'
             expect(item_row).to have_content(type)
 
             expect(item_row).to have_content('Purged')
@@ -668,11 +668,11 @@ describe 'admin user', type: :system do
         it 'displays claimed items' do
           table = page.find('#claimed_items_table')
 
-          claimed_items = Item.where('items."claimedBy" LIKE ?', 'Claimer %')
+          claimed_items = Item.where('items."claimed_by" LIKE ?', 'Claimer %')
           expect(claimed_items.count).not_to eq(0) # just to be sure
 
           claimed_items.find_each do |item|
-            item_row = table.find('tr', text: item.itemDescription)
+            item_row = table.find('tr', text: item.description)
 
             view_path = item_path(item.id)
             expect(item_row).to have_link(href: view_path)
@@ -680,36 +680,36 @@ describe 'admin user', type: :system do
             edit_path = edit_item_path(item.id)
             expect(item_row).to have_link(href: edit_path)
 
-            date_found = item.itemDate ? item.itemDate.strftime('%m/%d/%Y') : 'None'
+            date_found = item.date_found ? item.date_found.strftime('%m/%d/%Y') : 'None'
             expect(item_row).to have_content(date_found)
 
-            time_found = item.itemFoundAt ? item.itemFoundAt.strftime('%l:%M %P') : 'None'
+            time_found = item.found_at ? item.found_at.strftime('%l:%M %P') : 'None'
             expect(item_row).to have_content(time_found)
 
-            found_by = item.itemFoundBy || 'No one'
+            found_by = item.found_by || 'No one'
             expect(item_row).to have_content(found_by)
 
-            location = item.itemLocation || 'None'
+            location = item.location || 'None'
             expect(item_row).to have_content(location)
 
-            where_found = item.whereFound || 'None'
+            where_found = item.where_found || 'None'
             expect(item_row).to have_content(where_found)
 
-            type = item.itemType || 'No type'
+            type = item.item_type || 'No type'
             expect(item_row).to have_content(type)
 
-            expect(item_row).to have_content(item.claimedBy)
+            expect(item_row).to have_content(item.claimed_by)
           end
         end
 
         it 'does not display unclaimed items' do
           table = page.find('#claimed_items_table')
 
-          unclaimed_items = Item.where(claimedBy: nil)
+          unclaimed_items = Item.where(claimed_by: nil)
           expect(unclaimed_items.count).not_to eq(0) # just to be sure
 
           unclaimed_items.find_each do |item|
-            expect(table).not_to have_content(item.itemDescription)
+            expect(table).not_to have_content(item.description)
           end
         end
       end
@@ -721,45 +721,45 @@ describe 'admin user', type: :system do
         end
 
         it 'purges items' do
-          cutoff_date = all_item_dates[all_item_dates.size / 2]
+          cutoff_date = all_date_founds[all_date_founds.size / 2]
 
-          purged_ids = Item.where('items."itemDate" <= ?', cutoff_date).pluck(:id)
-          unpurged_ids = Item.where('items."itemDate" > ?', cutoff_date).pluck(:id)
+          purged_ids = Item.where('items."date_found" <= ?', cutoff_date).pluck(:id)
+          unpurged_ids = Item.where('items."date_found" > ?', cutoff_date).pluck(:id)
 
           fill_in('purgeTime', with: cutoff_date.strftime('%m/%d/%Y'))
           page.click_link_or_button('Purge items')
 
           expect(page).to have_content("#{purged_ids.size} items purged")
 
-          actually_purged_ids = Item.where(claimedBy: 'Purged', itemUpdatedBy: user.user_name).pluck(:id)
+          actually_purged_ids = Item.where(claimed_by: 'Purged', updated_by: user.user_name).pluck(:id)
           expect(actually_purged_ids).to contain_exactly(*purged_ids)
 
-          actually_unpurged_ids = Item.where(claimedBy: nil).pluck(:id)
+          actually_unpurged_ids = Item.where(claimed_by: nil).pluck(:id)
           expect(actually_unpurged_ids).to contain_exactly(*unpurged_ids)
         end
 
         it "doesn't mess with previously purged items" do
-          cutoff_date_1 = all_item_dates[all_item_dates.size / 4]
+          cutoff_date_1 = all_date_founds[all_date_founds.size / 4]
 
           other_user_name = 'J. Other User'
-          Item.where('items."itemDate" <= ?', cutoff_date_1).update_all(claimedBy: 'Purged', itemUpdatedBy: other_user_name)
-          previously_purged_ids = Item.where(claimedBy: 'Purged').pluck(:id)
+          Item.where('items."date_found" <= ?', cutoff_date_1).update_all(claimed_by: 'Purged', updated_by: other_user_name)
+          previously_purged_ids = Item.where(claimed_by: 'Purged').pluck(:id)
 
-          cutoff_date_2 = all_item_dates[all_item_dates.size / 2]
-          newly_purged_ids = Item.where('items."itemDate" <= ? AND items."itemDate" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
+          cutoff_date_2 = all_date_founds[all_date_founds.size / 2]
+          newly_purged_ids = Item.where('items."date_found" <= ? AND items."date_found" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
 
           fill_in('purgeTime', with: cutoff_date_2.strftime('%m/%d/%Y'))
           page.click_link_or_button('Purge items')
 
           expect(page).to have_content("#{newly_purged_ids.size} items purged")
 
-          actually_purged_ids = Item.where(claimedBy: 'Purged', itemUpdatedBy: user.user_name).pluck(:id)
+          actually_purged_ids = Item.where(claimed_by: 'Purged', updated_by: user.user_name).pluck(:id)
           expect(actually_purged_ids).to contain_exactly(*newly_purged_ids)
 
-          all_purged_ids = Item.where(claimedBy: 'Purged').pluck(:id)
+          all_purged_ids = Item.where(claimed_by: 'Purged').pluck(:id)
           expect(all_purged_ids).to contain_exactly(*(previously_purged_ids + newly_purged_ids))
 
-          actually_previously_purged_ids = Item.where(claimedBy: 'Purged', itemUpdatedBy: other_user_name).pluck(:id)
+          actually_previously_purged_ids = Item.where(claimed_by: 'Purged', updated_by: other_user_name).pluck(:id)
           expect(actually_previously_purged_ids).to contain_exactly(*previously_purged_ids)
         end
 
@@ -767,24 +767,24 @@ describe 'admin user', type: :system do
           # TODO: replace magic number with enum
           status_claimed = 3
 
-          cutoff_date_1 = all_item_dates[all_item_dates.size / 4]
+          cutoff_date_1 = all_date_founds[all_date_founds.size / 4]
           other_user_name = 'J. Other User'
-          Item.where('items."itemDate" <= ?', cutoff_date_1).update_all(claimedBy: 'Mr. Magoo', itemStatus: status_claimed,
-                                                                        itemUpdatedBy: other_user_name)
-          claimed_ids = Item.where(claimedBy: 'Mr. Magoo').pluck(:id)
+          Item.where('items."date_found" <= ?', cutoff_date_1).update_all(claimed_by: 'Mr. Magoo', status: status_claimed,
+                                                                        updated_by: other_user_name)
+          claimed_ids = Item.where(claimed_by: 'Mr. Magoo').pluck(:id)
 
-          cutoff_date_2 = all_item_dates[all_item_dates.size / 2]
-          newly_purged_ids = Item.where('items."itemDate" <= ? AND items."itemDate" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
+          cutoff_date_2 = all_date_founds[all_date_founds.size / 2]
+          newly_purged_ids = Item.where('items."date_found" <= ? AND items."date_found" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
 
           fill_in('purgeTime', with: cutoff_date_2.strftime('%m/%d/%Y'))
           page.click_link_or_button('Purge items')
 
           expect(page).to have_content("#{newly_purged_ids.size} items purged")
 
-          actually_purged_ids = Item.where(claimedBy: 'Purged').pluck(:id)
+          actually_purged_ids = Item.where(claimed_by: 'Purged').pluck(:id)
           expect(actually_purged_ids).to contain_exactly(*newly_purged_ids)
 
-          actually_claimed_ids = Item.where(claimedBy: 'Mr. Magoo', itemStatus: status_claimed).pluck(:id)
+          actually_claimed_ids = Item.where(claimed_by: 'Mr. Magoo', status: status_claimed).pluck(:id)
           expect(actually_claimed_ids).to contain_exactly(*claimed_ids)
         end
       end

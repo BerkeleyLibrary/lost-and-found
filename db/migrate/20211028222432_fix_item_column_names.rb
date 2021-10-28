@@ -1,20 +1,19 @@
 class FixItemColumnNames < ActiveRecord::Migration[6.1]
   COLUMNS = {
     claimed_by: :claimedBy,
-    date: :itemDate,
+    date_found: :itemDate,
     description: :itemDescription,
     entered_by: :itemEnteredBy,
     found_at: :itemFoundAt,
     found_by: :itemFoundBy,
-    image: :itemImage,
+    item_type: :itemType,
     location: :itemLocation,
     status: :itemStatus,
-    type: :itemType,
     updated_by: :itemUpdatedBy,
     where_found: :whereFound
   }
 
-  # TODO: drop libID, itemObsolete, itemLastModified
+  # TODO: drop libID, itemObsolete, itemLastModified, itemImage
 
   def up
     COLUMNS.each do |right, wrong|

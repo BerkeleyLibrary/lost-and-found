@@ -5,16 +5,16 @@
 <h2>Current values</h2>
 <div class="form-group row">
   <h5 class="col-2">Date found</h5>
-  <% if @item.itemDate %>
-    <div class="col-4"><%= @item.itemDate.strftime("%m/%d/%Y") %></div>
+  <% if @item.date_found %>
+    <div class="col-4"><%= @item.date_found.strftime("%m/%d/%Y") %></div>
   <% else %>
     <div class="col-4"> None</div>
   <% end %>
 </div>
 <div class="form-group row">
   <h5 class="col-2">Time found</h5>
-  <% if @item.itemFoundAt %>
-    <div class="col-4"><%= @item.itemFoundAt.strftime("%l:%M %P") %></div>
+  <% if @item.found_at %>
+    <div class="col-4"><%= @item.found_at.strftime("%l:%M %P") %></div>
   <% else %>
     <div class="col-4"> None</div>
   <% end %>
@@ -22,22 +22,22 @@
 
 <div class="form-group row">
   <h5 class="col-2">Found by</h5>
-  <div class="col-4"><%= @item.itemFoundBy || 'No one' %></div>
+  <div class="col-4"><%= @item.found_by || 'No one' %></div>
 </div>
 
 <div class="form-group row">
   <h5 class="col-2">Item location</h5>
-  <div class="col-4"><%= @item.itemLocation || 'None' %></div>
+  <div class="col-4"><%= @item.location || 'None' %></div>
 </div>
 
 <div class="form-group row">
   <h5 class="col-2">Type of item</h5>
-  <div class="col-4"><%= @item.itemType || 'No type' %></div>
+  <div class="col-4"><%= @item.item_type || 'No type' %></div>
 </div>
 
 <div class="form-group row">
   <h5 class="col-2">Item description</h5>
-  <div class="col-4"><%= @item.itemDescription || 'None' %></div>
+  <div class="col-4"><%= @item.description || 'None' %></div>
 </div>
 
 <div class="form-group row">
@@ -50,7 +50,7 @@
 </div>
 <div class="form-group row">
   <h5 class="col-2">Last updated by</h5>
-  <div class="col-4"><%= @item.itemUpdatedBy || 'None' %></div>
+  <div class="col-4"><%= @item.updated_by || 'None' %></div>
 </div>
 <div class="form-group row">
   <h5 class="col-2">Last updated</h5>
@@ -86,22 +86,22 @@
                 <li>
                   New image upload
                 </li>
-              <% elsif (value[0] == "itemStatus") %>
+              <% elsif (value[0] == "status") %>
                 <li><%= "Item status : " + status_codes(value[1][0]) + " to " + status_codes(value[1][1]) %> </li>
               <% elsif (value[0] == "itemLastModified") %>
                 <li><%= value[0] + " : " + history_to_pst(value[1][0]) + " to " + history_to_pst(value[1][1]) %>
               <% elsif (value[0] == "created_at") %>
                 <li><%= "Created at " + history_to_pst(value[1][1]) %>
-              <% elsif (value[0] == "itemFoundAt") %>
+              <% elsif (value[0] == "found_at") %>
                 <li><%= value[0] + " : " + history_to_readable(value[1][0]) + " to " + history_to_readable(value[1][1]) %>
               <% elsif (value[0] == "itemObsolete") %>
-              <% elsif (value[0] == "claimedBy") %>
+              <% elsif (value[0] == "claimed_by") %>
                 <% if (history_claimed_map(value[1][0]) == history_claimed_map(value[1][1])) %>
                   <li><%= "Claimed by : " + history_claimed_map(value[1][0]) %></li>
                 <% else %>
                   <li><%= "Claimed by : " + history_claimed_map(value[1][0]) + " to " + history_claimed_map(value[1][1]) %> </li>
                 <% end %>
-              <% elsif (value[0] == "itemDate") %>
+              <% elsif (value[0] == "date_found") %>
                 <li><%= value[0] + " : " + history_to_readable_day(value[1][0]) + " to " + history_to_readable_day(value[1][1]) %>
               <% else %>
                 <li><%= value[0] + " : " + value[1][0].to_s + " to " + value[1][1].to_s %> </li>

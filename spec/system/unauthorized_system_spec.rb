@@ -25,11 +25,11 @@ describe 'unauthorized CalNet user', type: :system do
         item_types.each_with_index do |type, j|
           items << create(
             :item,
-            itemType: type.type_name,
-            itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
+            item_type: type.type_name,
+            description: "description of #{type.type_name} found in #{loc.location_name}",
             image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
-            itemDate: (Date.current - j.months - (i + 1).days),
-            itemLocation: loc.location_name
+            date_found: (Date.current - j.months - (i + 1).days),
+            location: loc.location_name
           )
         end
       end

@@ -5,27 +5,27 @@
 
     <%
       # TODO: more elegant way to cache last selection
-      item_type_options = options_for_select(@item_type_layout, cookies[:itemType] || '(any type)')
-      location_options = options_for_select(@locations_layout, cookies[:itemLocation] || '(any location)')
+      item_type_options = options_for_select(@item_type_layout, cookies[:item_type] || '(any type)')
+      location_options = options_for_select(@locations_layout, cookies[:location] || '(any location)')
     %>
 
-    <%= label_tag(:itemType, "Item type:") %>
-    <%= select_tag(:itemType, item_type_options) %>
+    <%= label_tag(:item_type, "Item type:") %>
+    <%= select_tag(:item_type, item_type_options) %>
 
     <%= label_tag(:keyword, "Keywords:") %>
     <%= text_field_tag :keyword, nil, placeholder: 'Enter search term' %>
 
-    <%= label_tag(:itemLocation, "Location:") %>
-    <%= select_tag(:itemLocation, location_options) %>
+    <%= label_tag(:location, "Location:") %>
+    <%= select_tag(:location, location_options) %>
 
 
     <div>
       <h2>Search by date range: </h2>
-      <%= label_tag(:itemDate, "Start date:") %>
-      <%= date_field_tag(:itemDate) %>
+      <%= label_tag(:date_found, "Start date:") %>
+      <%= date_field_tag(:date_found) %>
 
-      <%= label_tag(:itemDateEnd, " End date:") %>
-      <%= date_field_tag(:itemDateEnd, nil, max: Date.today) %>
+      <%= label_tag(:date_foundEnd, " End date:") %>
+      <%= date_field_tag(:date_foundEnd, nil, max: Date.today) %>
     </div>
 
     <div>

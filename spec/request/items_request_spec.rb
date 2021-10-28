@@ -14,11 +14,11 @@ describe ItemsController, type: :request do
       item_types.each_with_index do |type, j|
         items << create(
           :item,
-          itemType: type.type_name,
-          itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
+          item_type: type.type_name,
+          description: "description of #{type.type_name} found in #{loc.location_name}",
           image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
-          itemDate: (Date.current - j.months - (i + 1).days),
-          itemLocation: loc.location_name
+          date_found: (Date.current - j.months - (i + 1).days),
+          location: loc.location_name
         )
       end
     end
@@ -37,7 +37,7 @@ describe ItemsController, type: :request do
     attr_reader :location
     attr_reader :location_name
     attr_reader :when_found
-    attr_reader :item_date_str
+    attr_reader :date_found_str
 
     before(:each) do
       @count_before = Item.count
@@ -45,7 +45,7 @@ describe ItemsController, type: :request do
       @item_type = ItemType.take
       @location = Location.take
       @when_found = Date.current - 1
-      @item_date_str = when_found.strftime('%Y-%m-%d') # TODO: standardize date formats
+      @date_found_str = when_found.strftime('%Y-%m-%d') # TODO: standardize date formats
 
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
       @item_type_name = item_type.type_name.capitalize
@@ -57,34 +57,34 @@ describe ItemsController, type: :request do
     describe :create do
       it 'creates an item' do
         params = {
-          itemType: item_type.type_name,
-          itemDescription: description,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          whereFound: where_found,
-          itemDate: item_date_str
+          item_type: item_type.type_name,
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found,
+          date_found: date_found_str
         }
 
         post(items_path, params: params)
         expect(response).to be_successful
 
-        item = Item.find_by(itemDescription: description)
-        expect(item.itemType).to eq(item_type.type_name)
-        expect(item.itemLocation).to eq(location.location_name)
-        expect(item.itemFoundBy).to eq(found_by)
-        expect(item.whereFound).to eq(where_found)
-        expect(item.itemDate.to_date).to eq(when_found.to_date)
+        item = Item.find_by(description: description)
+        expect(item.item_type).to eq(item_type.type_name)
+        expect(item.location).to eq(location.location_name)
+        expect(item.found_by).to eq(found_by)
+        expect(item.where_found).to eq(where_found)
+        expect(item.date_found.to_date).to eq(when_found.to_date)
 
         expect(Item.count).to eq(1 + count_before)
       end
 
       it 'requires a description' do
         params = {
-          itemType: item_type.type_name,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          whereFound: where_found,
-          itemDate: item_date_str
+          item_type: item_type.type_name,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found,
+          date_found: date_found_str
         }
 
         post(items_path, params: params)
@@ -93,11 +93,11 @@ describe ItemsController, type: :request do
 
       it 'requires a type' do
         params = {
-          itemDescription: description,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          whereFound: where_found,
-          itemDate: item_date_str
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found,
+          date_found: date_found_str
         }
 
         post(items_path, params: params)
@@ -106,11 +106,11 @@ describe ItemsController, type: :request do
 
       it 'requires a location' do
         params = {
-          itemType: item_type.type_name,
-          itemDescription: description,
-          itemFoundBy: found_by,
-          whereFound: where_found,
-          itemDate: item_date_str
+          item_type: item_type.type_name,
+          description: description,
+          found_by: found_by,
+          where_found: where_found,
+          date_found: date_found_str
         }
 
         post(items_path, params: params)
@@ -119,11 +119,11 @@ describe ItemsController, type: :request do
 
       it 'requires a date found' do
         params = {
-          itemType: item_type.type_name,
-          itemDescription: description,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          whereFound: where_found
+          item_type: item_type.type_name,
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found
         }
 
         post(items_path, params: params)
@@ -132,11 +132,11 @@ describe ItemsController, type: :request do
 
       it 'requires a place found' do
         params = {
-          itemType: item_type.type_name,
-          itemDescription: description,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          itemDate: item_date_str
+          item_type: item_type.type_name,
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          date_found: date_found_str
         }
 
         post(items_path, params: params)
@@ -159,12 +159,12 @@ describe ItemsController, type: :request do
       it 'updates an item' do
         params = {
           id: item.id,
-          itemType: item_type.type_name,
-          itemDescription: description,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          whereFound: where_found,
-          itemDate: item_date_str
+          item_type: item_type.type_name,
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found,
+          date_found: date_found_str
         }
 
         post(update_path, params: params)
@@ -174,21 +174,21 @@ describe ItemsController, type: :request do
         item.reload
         expect(item.updated_at).not_to eq(previously_updated_at)
 
-        expect(item.itemType).to eq(item_type.type_name)
-        expect(item.itemLocation).to eq(location.location_name)
-        expect(item.itemFoundBy).to eq(found_by)
-        expect(item.whereFound).to eq(where_found)
-        expect(item.itemDate.to_date).to eq(when_found.to_date)
+        expect(item.item_type).to eq(item_type.type_name)
+        expect(item.location).to eq(location.location_name)
+        expect(item.found_by).to eq(found_by)
+        expect(item.where_found).to eq(where_found)
+        expect(item.date_found.to_date).to eq(when_found.to_date)
       end
 
       it 'requires a description' do
         params = {
           id: item.id,
-          itemType: item_type.type_name,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          whereFound: where_found,
-          itemDate: item_date_str
+          item_type: item_type.type_name,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found,
+          date_found: date_found_str
         }
 
         post(update_path, params: params)
@@ -198,11 +198,11 @@ describe ItemsController, type: :request do
       it 'requires a type' do
         params = {
           id: item.id,
-          itemDescription: description,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          whereFound: where_found,
-          itemDate: item_date_str
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found,
+          date_found: date_found_str
         }
 
         post(update_path, params: params)
@@ -212,11 +212,11 @@ describe ItemsController, type: :request do
       it 'requires a location' do
         params = {
           id: item.id,
-          itemType: item_type.type_name,
-          itemDescription: description,
-          itemFoundBy: found_by,
-          whereFound: where_found,
-          itemDate: item_date_str
+          item_type: item_type.type_name,
+          description: description,
+          found_by: found_by,
+          where_found: where_found,
+          date_found: date_found_str
         }
 
         post(update_path, params: params)
@@ -226,11 +226,11 @@ describe ItemsController, type: :request do
       it 'requires a date found' do
         params = {
           id: item.id,
-          itemType: item_type.type_name,
-          itemDescription: description,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          whereFound: where_found
+          item_type: item_type.type_name,
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found
         }
 
         post(update_path, params: params)
@@ -240,11 +240,11 @@ describe ItemsController, type: :request do
       it 'requires a place found' do
         params = {
           id: item.id,
-          itemType: item_type.type_name,
-          itemDescription: description,
-          itemLocation: location.location_name,
-          itemFoundBy: found_by,
-          itemDate: item_date_str
+          item_type: item_type.type_name,
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          date_found: date_found_str
         }
 
         post(update_path, params: params)

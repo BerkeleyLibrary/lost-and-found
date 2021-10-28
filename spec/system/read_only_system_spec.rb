@@ -43,14 +43,14 @@ describe 'read-only user', type: :system do
       item_types = ['Pencil', 'Pen', 'Trapper Keeper'].map { |it| create(:item_type, type_name: it.downcase, type_description: "a #{it.downcase}") }
       locations.each_with_index do |loc, i|
         item_types.each_with_index do |type, j|
-          item_date = (Date.current - j.months - (i + 1).days).to_date
+          date_found = (Date.current - j.months - (i + 1).days).to_date
           items << create(
             :item,
-            itemType: type.type_name,
-            itemDescription: "description of #{type.type_name} found in #{loc.location_name}",
+            item_type: type.type_name,
+            description: "description of #{type.type_name} found in #{loc.location_name}",
             image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
-            itemDate: item_date.to_time,
-            itemLocation: loc.location_name
+            date_found: date_found.to_time,
+            location: loc.location_name
           )
         end
       end
@@ -68,7 +68,7 @@ describe 'read-only user', type: :system do
         table = page.find('#found_items_table')
 
         Item.find_each do |item|
-          item_rows = table.find_all('tr', text: item.itemDescription).to_a
+          item_rows = table.find_all('tr', text: item.description).to_a
           expect(item_rows.size).to eq(1)
 
           item_row = item_rows[0]
@@ -79,22 +79,22 @@ describe 'read-only user', type: :system do
           edit_path = edit_item_path(item.id)
           expect(item_row).not_to have_link(href: edit_path)
 
-          date_found = item.itemDate ? item.itemDate.strftime('%m/%d/%Y') : 'None'
+          date_found = item.date_found ? item.date_found.strftime('%m/%d/%Y') : 'None'
           expect(item_row).to have_content(date_found)
 
-          time_found = item.itemFoundAt ? item.itemFoundAt.strftime('%l:%M %P') : 'None'
+          time_found = item.found_at ? item.found_at.strftime('%l:%M %P') : 'None'
           expect(item_row).to have_content(time_found)
 
-          found_by = item.itemFoundBy || 'No one'
+          found_by = item.found_by || 'No one'
           expect(item_row).to have_content(found_by)
 
-          location = item.itemLocation || 'None'
+          location = item.location || 'None'
           expect(item_row).to have_content(location)
 
-          where_found = item.whereFound || 'None'
+          where_found = item.where_found || 'None'
           expect(item_row).to have_content(where_found)
 
-          type = item.itemType || 'No type'
+          type = item.item_type || 'No type'
           expect(item_row).to have_content(type)
         end
       end
@@ -103,19 +103,19 @@ describe 'read-only user', type: :system do
         location = Location.take
         # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
         location_str = location.location_name.titleize
-        select(location_str, from: 'itemLocation')
+        select(location_str, from: 'location')
 
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
 
         table = page.find('#found_items_table')
 
-        Item.where(itemLocation: location.location_name).find_each do |item|
-          expect(table).to have_selector('tr', text: item.itemDescription)
+        Item.where(location: location.location_name).find_each do |item|
+          expect(table).to have_selector('tr', text: item.description)
         end
 
-        Item.where.not(itemLocation: location.location_name).find_each do |item|
-          expect(table).not_to have_selector('tr', text: item.itemDescription)
+        Item.where.not(location: location.location_name).find_each do |item|
+          expect(table).not_to have_selector('tr', text: item.description)
         end
       end
 
@@ -123,31 +123,31 @@ describe 'read-only user', type: :system do
         type = ItemType.take
         # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
         type_str = type.type_name.titleize
-        select(type_str, from: 'itemType')
+        select(type_str, from: 'item_type')
 
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
 
         table = page.find('#found_items_table')
 
-        Item.where(itemType: type.type_name).find_each do |item|
-          expect(table).to have_selector('tr', text: item.itemDescription)
+        Item.where(item_type: type.type_name).find_each do |item|
+          expect(table).to have_selector('tr', text: item.description)
         end
 
-        Item.where.not(itemType: type.type_name).find_each do |item|
-          expect(table).not_to have_selector('tr', text: item.itemDescription)
+        Item.where.not(item_type: type.type_name).find_each do |item|
+          expect(table).not_to have_selector('tr', text: item.description)
         end
       end
 
       it 'finds items by date range' do
-        all_item_dates = Item.pluck(:itemDate).sort
-        date_start = all_item_dates[all_item_dates.size / 4]
-        date_end = all_item_dates[all_item_dates.size / 2]
+        all_date_founds = Item.pluck(:date_found).sort
+        date_start = all_date_founds[all_date_founds.size / 4]
+        date_end = all_date_founds[all_date_founds.size / 2]
 
-        fill_in('itemDate', with: date_start.strftime('%m/%d/%Y'))
-        fill_in('itemDateEnd', with: date_end.strftime('%m/%d/%Y'))
+        fill_in('date_found', with: date_start.strftime('%m/%d/%Y'))
+        fill_in('date_foundEnd', with: date_end.strftime('%m/%d/%Y'))
 
-        expected_ids = Item.where('items."itemDate" <= ? AND items."itemDate" >= ?', date_end, date_start).pluck(:id)
+        expected_ids = Item.where('items."date_found" <= ? AND items."date_found" >= ?', date_end, date_start).pluck(:id)
 
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
@@ -157,11 +157,11 @@ describe 'read-only user', type: :system do
         aggregate_failures do
           items.each do |item|
             if expected_ids.include?(item.id)
-              expect(table).to have_selector('tr', text: item.itemDescription),
-                               "Item not found; itemDate = #{item.itemDate} (range: #{date_start} - #{date_end})"
+              expect(table).to have_selector('tr', text: item.description),
+                               "Item not found; date_found = #{item.date_found} (range: #{date_start} - #{date_end})"
             else
-              expect(table).not_to have_selector('tr', text: item.itemDescription),
-                                   "Item found unexpectedly; itemDate = #{item.itemDate} (range: #{date_start} - #{date_end})"
+              expect(table).not_to have_selector('tr', text: item.description),
+                                   "Item found unexpectedly; date_found = #{item.date_found} (range: #{date_start} - #{date_end})"
             end
           end
         end
@@ -169,9 +169,9 @@ describe 'read-only user', type: :system do
 
       it 'finds items by exact date' do
         expected_item = items[items.size / 2]
-        item_date = expected_item.itemDate
+        date_found = expected_item.date_found
 
-        fill_in('itemDate', with: item_date.strftime('%m/%d/%Y'))
+        fill_in('date_found', with: date_found.strftime('%m/%d/%Y'))
 
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
@@ -181,9 +181,9 @@ describe 'read-only user', type: :system do
         aggregate_failures do
           items.each do |item|
             if item == expected_item
-              expect(table).to have_selector('tr', text: item.itemDescription)
+              expect(table).to have_selector('tr', text: item.description)
             else
-              expect(table).not_to have_selector('tr', text: item.itemDescription)
+              expect(table).not_to have_selector('tr', text: item.description)
             end
           end
         end
@@ -196,7 +196,7 @@ describe 'read-only user', type: :system do
           (i.even? ? even_items : odd_items) << item
         end
 
-        even_items.each_with_index { |item, i| item.update(itemDescription: "searchy test ##{i}") }
+        even_items.each_with_index { |item, i| item.update(description: "searchy test ##{i}") }
 
         page.fill_in('keyword', with: 'searchy')
         page.click_link_or_button('Submit')
@@ -205,11 +205,11 @@ describe 'read-only user', type: :system do
         table = page.find('#found_items_table')
 
         even_items.each do |item|
-          expect(table).to have_selector('tr', text: item.itemDescription)
+          expect(table).to have_selector('tr', text: item.description)
         end
 
         odd_items.each do |item|
-          expect(table).not_to have_selector('tr', text: item.itemDescription)
+          expect(table).not_to have_selector('tr', text: item.description)
         end
       end
     end

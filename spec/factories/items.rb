@@ -4,13 +4,13 @@ FactoryBot.define do
   factory :item do
     transient { image_path { nil } }
 
-    itemDate { Date.current - 1.days }
-    itemFoundAt { Time.current }
-    itemFoundBy { 'Testy McTestface' }
-    itemStatus { 1 } # TODO: replace magic number with enum
-    itemEnteredBy { 'Test' }
-    itemUpdatedBy { 'Test' }
-    whereFound { 'Somewhere' }
+    date_found { Date.current - 1.days }
+    found_at { Time.current }
+    found_by { 'Testy McTestface' }
+    status { 1 } # TODO: replace magic number with enum
+    entered_by { 'Test' }
+    updated_by { 'Test' }
+    where_found { 'Somewhere' }
 
     after(:build) do |item, ev|
       next unless (image_path = ev.image_path)

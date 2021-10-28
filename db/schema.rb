@@ -53,15 +53,15 @@ ActiveRecord::Schema.define(version: 2021_10_28_222432) do
   end
 
   create_table "items", force: :cascade do |t|
-    t.datetime "date"
+    t.datetime "date_found"
     t.datetime "found_at"
     t.string "location"
-    t.string "type"
+    t.string "item_type"
     t.string "description"
     t.datetime "itemLastModified"
     t.integer "status"
     t.string "entered_by"
-    t.string "image"
+    t.string "itemImage"
     t.integer "itemObsolete"
     t.string "updated_by"
     t.string "found_by"

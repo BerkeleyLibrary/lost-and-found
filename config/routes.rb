@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   get '/admin_users', to: 'home#admin_users'
 
   get '/item_types/:id/change_status', to: 'item_types#change_status', as: :toggle_item_type_status
-  post '/itemType_insert', to: 'item_types#create'
-  post '/itemType_delete', to: 'item_types#destroy'
+  post '/item_type_insert', to: 'item_types#create'
+  post '/item_type_delete', to: 'item_types#destroy'
   post '/item_types/:id/item_type_update', to: 'item_types#update'
 
   get '/items', to: 'items#index'

@@ -26,7 +26,7 @@ RSpec.shared_examples 'admin access is denied' do
     status_claimed = 3
 
     item = Item.take
-    item.update(itemStatus: status_claimed, claimedBy: 'Mr. Magoo')
+    item.update(status: status_claimed, claimed_by: 'Mr. Magoo')
 
     edit_path = edit_item_path(item.id)
     visit(edit_path)

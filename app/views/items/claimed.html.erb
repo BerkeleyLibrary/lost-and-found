@@ -29,21 +29,21 @@
           <%= link_to 'History', item_path(item.id) %>
         </td>
       <% end %>
-      <% if item.itemDate %>
-        <td><%= item.itemDate.strftime("%m/%d/%Y") %></td>
+      <% if item.date_found %>
+        <td><%= item.date_found.strftime("%m/%d/%Y") %></td>
       <% else %>
         <td><%= 'None' %> </td>
       <% end %>
-      <% if item.itemFoundAt %>
-        <td><%= item.itemFoundAt.strftime("%l:%M %P") %></td>
+      <% if item.found_at %>
+        <td><%= item.found_at.strftime("%l:%M %P") %></td>
       <% else %>
         <td><%= 'None' %> </td>
       <% end %>
-      <td><%= item.itemFoundBy || 'No one' %></td>
-      <td><%= item.itemLocation || 'None' %></td>
-      <td><%= item.whereFound || 'None' %></td>
-      <td><%= item.itemType || 'No type' %></td>
-      <td class="desc"><%= item.itemDescription || 'None' %></td>
+      <td><%= item.found_by || 'No one' %></td>
+      <td><%= item.location || 'None' %></td>
+      <td><%= item.where_found || 'None' %></td>
+      <td><%= item.item_type || 'No type' %></td>
+      <td class="desc"><%= item.description || 'None' %></td>
       <td>
         <% if item.image.attached? %>
           <img class="preview_image" src="<%= (url_for(item.image)) %>" onerror="this.style.display = 'none'">
@@ -51,13 +51,13 @@
           No image
         <% end %>
       </td>
-      <td><%= item.itemUpdatedBy || 'None' %></td>
+      <td><%= item.updated_by || 'None' %></td>
       <% if item.itemLastModified %>
         <td><%= item.itemLastModified.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></td>
       <% else %>
         <td><%= 'None' %> </td>
       <% end %>
-      <td><%= item.claimedBy || 'None' %></td>
+      <td><%= item.claimed_by || 'None' %></td>
     </tr>
   <% end %>
   </tbody>

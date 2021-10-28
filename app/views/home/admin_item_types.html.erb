@@ -4,7 +4,7 @@
 <p style="color: #ee0000">* Required</p>
 <div class="mb-4 form-group">
   <h2>Add a new Item Type</h2>
-  <%= form_tag("itemType_insert", method: "post") do %>
+  <%= form_tag("item_type_insert", method: "post") do %>
     <%= label_tag(:type_name, "Item type name:") %> <span style="color: #ee0000"> * </span>
     <%= text_field_tag :type_name, nil, placeholder: 'Electronics', required: true %>
 
