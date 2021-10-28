@@ -1,8 +1,8 @@
 class ItemsController < ApplicationController
   before_action :logout_if_expired!
-  before_action :authenticate!
 
-  before_action(:require_staff_or_admin!, except: [:index]) # TODO: is this right?
+  before_action(:require_staff_or_admin!, except: [:index, :purge_items])
+  before_action(:require_authorization!, only: [:index])
   before_action(:require_admin!, only: [:purge_items])
 
   def index

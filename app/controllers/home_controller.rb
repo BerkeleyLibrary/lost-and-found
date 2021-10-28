@@ -1,3 +1,4 @@
+# TODO: split into HomeController & AdminController
 class HomeController < ApplicationController
   before_action(:logout_if_expired!, except: :health)
   before_action(:require_admin!, except: :health)

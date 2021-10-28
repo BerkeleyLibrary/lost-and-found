@@ -1,8 +1,9 @@
 # TODO: merge into ItemsController
 class FormsController < ApplicationController
   before_action :logout_if_expired!
-  before_action :authenticate!
-  before_action(:require_staff_or_admin!, except: :search_form)
+
+  before_action(:require_authorization!, only: :search_form)
+  before_action(:require_staff_or_admin!, only: :insert_form)
 
   def search_form
     @locations_layout = location_setup

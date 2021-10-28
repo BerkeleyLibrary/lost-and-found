@@ -139,3 +139,25 @@ RSpec.shared_examples 'admin access is denied' do
     end
   end
 end
+
+RSpec.shared_examples 'staff access is denied' do
+  it 'disallows viewing claimed or purged items' do
+    visit(admin_claimed_path)
+    expect(page).to have_content('Forbidden')
+    expect(page).not_to have_selector(('#claimed_items_table'))
+  end
+
+  it 'disallows access to the add items page' do
+    visit(insert_form_path)
+    expect(page).to have_content('Forbidden')
+    expect(page).not_to have_content('Add a lost item')
+  end
+
+  it 'disallows access to the edit item page' do
+    item = items.last
+    edit_path = edit_item_path(item.id)
+    visit(edit_path)
+    expect(page).to have_content('Forbidden')
+    expect(page).not_to have_content('Edit item')
+  end
+end

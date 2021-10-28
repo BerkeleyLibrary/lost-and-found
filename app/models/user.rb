@@ -28,7 +28,8 @@ class User < ApplicationRecord
       return unless session && session[:user]
 
       # TODO: connect session to DB users in less hacky way
-      log_in_as(session[:user]['uid'])
+      session_uid = session[:user]['uid']
+      log_in_as(session_uid) || User.new(uid: session_uid)
     end
 
     private
