@@ -103,7 +103,6 @@ describe 'staff user', type: :system do
         when_found = Date.current - 1
         item_date_str = when_found.strftime("%m/%d/%Y")
 
-
         select(location_name, from: 'itemLocation')
         fill_in('itemFoundBy', with: found_by)
         fill_in('itemDescription', with: description)
@@ -291,7 +290,29 @@ describe 'staff user', type: :system do
     context 'admin pages' do
       it_behaves_like 'admin access is denied'
 
-      xit 'allows viewing claimed items, but not purged items' # TODO: implement this
+      it 'allows viewing claimed items, but not purged items' do
+        Item.all.to_a.each_with_index do |item, i|
+          next item.update!(claimedBy: 'Purged') if (i % 3) == 0
+          next item.update!(claimedBy: "Claimer #{i}", itemStatus: 3) if i.even?
+        end
+
+        visit(admin_claimed_path)
+
+        table = page.find('#claimed_items_table')
+
+        purged_items = Item.where(claimedBy: 'Purged')
+        expect(purged_items.count).not_to eq(0) # just to be sure
+        purged_items.find_each do |item|
+          expect(table).not_to have_selector('tr', text: item.itemDescription)
+        end
+
+        claimed_items = Item.where('items."claimedBy" LIKE ?', 'Claimer %')
+        expect(claimed_items.count).not_to eq(0) # just to be sure
+
+        claimed_items.find_each do |item|
+          expect(table).to have_selector('tr', text: item.itemDescription)
+        end
+      end
     end
   end
 

@@ -215,12 +215,17 @@ describe 'read-only user', type: :system do
     context 'admin pages' do
       it_behaves_like 'admin access is denied'
 
-      xit 'disallows viewing claimed or purged items' # TODO: implement this
+      it 'disallows viewing claimed or purged items' do
+        visit(admin_claimed_path)
+        expect(page).to have_content('Forbidden')
+        expect(page).not_to have_selector(('#claimed_items_table'))
+      end
     end
 
     context 'staff pages' do
       it 'disallows access to the add items page' do
         visit(insert_form_path)
+        expect(page).to have_content('Forbidden')
         expect(page).not_to have_content('Add a lost item')
       end
 
@@ -228,6 +233,7 @@ describe 'read-only user', type: :system do
         item = items.last
         edit_path = edit_item_path(item.id)
         visit(edit_path)
+        expect(page).to have_content('Forbidden')
         expect(page).not_to have_content('Edit item')
       end
     end

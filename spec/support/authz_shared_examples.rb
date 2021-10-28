@@ -15,9 +15,25 @@ RSpec.shared_examples 'admin access is denied' do
     end
   end
 
-  xit 'disallows purging items' # TODO: implement this
+  it 'disallows purging items' do
+    visit(admin_purge_path)
+    expect(page).to have_content('Forbidden')
+    expect(page).not_to have_content('Purge items')
+  end
 
-  xit 'disallows editing claimed items' # TODO: implement this
+  it 'disallows editing claimed items' do
+    # TODO: replace magic number with enum
+    status_claimed = 3
+
+    item = Item.take
+    item.update(itemStatus: status_claimed, claimedBy: 'Mr. Magoo')
+
+    edit_path = edit_item_path(item.id)
+    visit(edit_path)
+
+    expect(page).to have_content('Forbidden')
+    expect(page).not_to have_content('Update item')
+  end
 
   context 'users' do
     before(:each) do
@@ -122,8 +138,4 @@ RSpec.shared_examples 'admin access is denied' do
       expect(t.type_active).to eq(true)
     end
   end
-end
-
-RSpec.shared_examples 'user is not authenticated' do
-  xit "can't do anything" # TODO: implement this
 end

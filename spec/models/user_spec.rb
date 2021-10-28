@@ -5,6 +5,13 @@ describe User, type: :model do
     ensure_all_users!
   end
 
+  describe :from_omniauth do
+    it 'rejects invalid providers' do
+      auth = { 'provider' => 'not calnet' }
+      expect { User.from_omniauth(auth) }.to raise_error(Error::InvalidAuthProviderError)
+    end
+  end
+
   describe :user_role do
     it 'matches the flags' do
       flags = {
