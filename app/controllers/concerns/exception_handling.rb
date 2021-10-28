@@ -1,8 +1,8 @@
+# :nocov:
 module ExceptionHandling
   extend ActiveSupport::Concern
 
   included do
-
     rescue_from StandardError do |error|
       logger.error(error)
       render :standard_error, status: :internal_server_error
@@ -23,3 +23,4 @@ module ExceptionHandling
     end
   end
 end
+# :nocov:

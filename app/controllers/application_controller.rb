@@ -100,14 +100,6 @@ class ApplicationController < ActionController::Base
   end
 
   # ------------------------------
-  # Version tracking
-
-  def user_for_paper_trail
-    # TODO: something more robust, cf. Framework & UCBEARS
-    current_user && current_user.user_name
-  end
-
-  # ------------------------------
   # Session expiration
 
   def logout_if_expired!

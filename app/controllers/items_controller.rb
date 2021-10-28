@@ -163,10 +163,6 @@ class ItemsController < ApplicationController
     end
   end
 
-  def item_params
-    params.permit(:itemLocation, :itemType, :itemDescription, :image)
-  end
-
   def purge_items
     purge_raw = params[:purgeTime]
     purge_date = Time.parse(purge_raw)
