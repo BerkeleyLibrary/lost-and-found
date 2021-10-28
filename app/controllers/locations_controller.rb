@@ -2,12 +2,12 @@ class LocationsController < ApplicationController
   before_action :logout_if_expired!
   before_action :require_admin!
 
+  # TODO: clean this up further
+  # rubocop:disable Metrics/MethodLength
   def create
     # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-    location_name = params[:location_name].downcase
-
     location = Location.new(
-      location_name: location_name,
+      location_name: params[:location_name].downcase,
       location_active: true,
       updated_by: current_user.user_name
     )
@@ -22,19 +22,20 @@ class LocationsController < ApplicationController
 
     redirect_to(admin_locations_path)
   end
+  # rubocop:enable Metrics/MethodLength
 
   def edit
     @location = Location.find(params[:id])
   end
 
+  # TODO: clean this up further
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def update
     # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-    location_name = params[:location_name].downcase
-
     location = Location.find(params[:id])
     begin
       location.update!(
-        location_name: location_name,
+        location_name: params[:location_name].downcase,
         location_active: (params[:location_active] == 'true'),
         updated_by: current_user.user_name
       )
@@ -46,6 +47,7 @@ class LocationsController < ApplicationController
 
     redirect_to admin_locations_path
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def change_status
     location = Location.find(params[:id])

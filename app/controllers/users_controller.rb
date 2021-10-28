@@ -6,6 +6,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  # TODO: clean this up further
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def create
     @user = User.new(
       uid: params[:uid],
@@ -24,9 +26,11 @@ class UsersController < ApplicationController
     @users = User.all
     redirect_to admin_users_path
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
+  # TODO: clean this up further
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def update
-    active = params[:user_active] == 'true'
     @user = User.find(params[:id])
 
     begin
@@ -36,7 +40,7 @@ class UsersController < ApplicationController
         user_name: params[:user_name],
         user_role: params[:user_role],
         updated_by: current_user.user_name,
-        user_active: active
+        user_active: (params[:user_active] == 'true')
       )
       flash[:success] = "Success: User #{@user.user_name} updated"
       redirect_to admin_users_path
@@ -47,6 +51,7 @@ class UsersController < ApplicationController
       @users = User.all
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def change_status
     @user = User.find(params[:id])

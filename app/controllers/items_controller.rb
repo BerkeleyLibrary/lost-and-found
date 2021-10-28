@@ -1,3 +1,5 @@
+# TODO: clean this up further
+# rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 class ItemsController < ApplicationController
   before_action :logout_if_expired!
 
@@ -181,3 +183,4 @@ class ItemsController < ApplicationController
   end
 
 end
+# rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
