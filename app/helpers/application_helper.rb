@@ -41,7 +41,7 @@ module ApplicationHelper
   end
 
   def history_to_pst(value)
-    value.present? ? value.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P") : ""
+    value.present? ? value.in_time_zone.strftime("%m/%d/%Y %l:%M %P") : ""
   end
 
   def history_to_readable(value)

@@ -43,7 +43,7 @@
             <% end %>
             <td><%= @item.itemUpdatedBy || 'None' %></td>
             <% if @item.itemLastModified %>
-                <td><%= @item.itemLastModified.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P")  %></td>
+                <td><%= @item.itemLastModified.in_time_zone.strftime("%m/%d/%Y %l:%M %P")  %></td>
             <% else %>
                 <td><%=  'None'%> </td>
             <% end %>

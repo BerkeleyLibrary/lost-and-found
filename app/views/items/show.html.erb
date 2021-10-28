@@ -55,7 +55,7 @@
 <div class="form-group row">
   <h5 class="col-2">Last updated</h5>
   <% if @item.itemLastModified %>
-    <div class="col-4"><%= @item.itemLastModified.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P") %></div>
+    <div class="col-4"><%= @item.itemLastModified.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></div>
   <% else %>
     <div class="col-4"> None</div>
   <% end %>
@@ -76,7 +76,7 @@
   <% @item.versions.reverse.each do |version| %>
     <% if !version.changeset.except(:updated_at).empty? %>
       <tr>
-        <td><%= version.created_at.in_time_zone("Pacific Time (US & Canada)").strftime("%m/%d/%Y %l:%M %P") %></td>
+        <td><%= version.created_at.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></td>
         <td><%= version.whodunnit || "unknown" %></td>
         <td><%= version.event.humanize %></td>
         <td>
