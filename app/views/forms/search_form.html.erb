@@ -1,16 +1,22 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
 <h1>Search for lost items</h1>
 <div class="mb-4 form-group">
-  <%= form_tag("item_search", method: "post") do %>
+  <%= form_tag("items", method: "get") do %>
+
+    <%
+      # TODO: more elegant way to cache last selection
+      item_type_options = options_for_select(@item_type_layout, cookies[:itemType] || '(any type)')
+      location_options = options_for_select(@locations_layout, cookies[:itemLocation] || '(any location)')
+    %>
 
     <%= label_tag(:itemType, "Item type:") %>
-    <%= select_tag(:itemType, options_for_select(@item_type_layout)) %>
+    <%= select_tag(:itemType, item_type_options) %>
 
     <%= label_tag(:keyword, "Keywords:") %>
     <%= text_field_tag :keyword, nil, placeholder: 'Enter search term' %>
 
     <%= label_tag(:itemLocation, "Location:") %>
-    <%= select_tag(:itemLocation, options_for_select(@locations_layout)) %>
+    <%= select_tag(:itemLocation, location_options) %>
 
 
     <div>

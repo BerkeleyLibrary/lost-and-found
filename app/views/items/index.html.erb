@@ -42,9 +42,11 @@
         <td><%= 'None' %> </td>
       <% end %>
       <td><%= item.itemFoundBy || 'No one' %></td>
-      <td><%= item.itemLocation || 'None' %></td>
+      <%# TODO: enforce case-insensitive uniqueness w/o mangling user-entered names %>
+      <td><%= (item.itemLocation || 'None').titleize %></td>
       <td><%= item.whereFound || 'None' %></td>
-      <td><%= item.itemType || 'No type' %></td>
+      <%# TODO: enforce case-insensitive uniqueness w/o mangling user-entered names %>
+      <td><%= (item.itemType || 'No type').titleize %></td>
       <td class="desc"><%= item.itemDescription || 'None' %></td>
       <td>
         <% if item.image.attached? %>

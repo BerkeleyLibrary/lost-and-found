@@ -2,36 +2,40 @@ class ItemsController < ApplicationController
   before_action :logout_if_expired!
   before_action :authenticate!
 
-  before_action(:require_staff_or_admin!, except: [:found, :param_search]) # TODO: is this right?
+  before_action(:require_staff_or_admin!, except: [:index]) # TODO: is this right?
   before_action(:require_admin!, only: [:purge_items])
 
-  def param_search
-    params[:itemLocation] = cookies[:itemLocation] unless params[:itemLocation]
-    params[:searchAll] = cookies[:searchAll] unless params[:searchAll]
-    params[:itemType] = cookies[:itemType] unless params[:itemType]
-    params[:keyword] = cookies[:keyword] unless params[:keyword]
-    params[:itemDate] = cookies[:itemDate] unless params[:itemDate]
+  def index
+    keyword = param_or_cookie(:keyword)
+    item_location = param_or_cookie(:itemLocation)
+    item_type = param_or_cookie(:itemType)
+    search_all = param_or_cookie(:searchAll)
+    start_date = param_or_cookie(:itemDate)
+    end_date = param_or_cookie(:itemDateEnd)
 
-    if !params[:keyword].blank?
-      @items = Item.query_params(params[:keyword])
-    else
+    # TODO: move this logic into the model
+    # TODO: just construct the right SQL query to begin with instead of filtering in the app
+
+    if keyword.blank?
       @items = Item.all
+    else
+      @items = Item.query_params(keyword)
     end
 
-    unless params[:searchAll] || params[:itemLocation] == 'none'
-      @items = @items.select { |item| item.itemLocation == params[:itemLocation] } unless params[:itemLocation].nil?
+    unless search_all || item_location.blank?
+      @items = @items.select { |item| item.itemLocation == item_location }
     end
-    unless params[:searchAll] || params[:itemType] == 'none'
-      @items = @items.select { |item| item.itemType == params[:itemType] } unless params[:itemType].nil?
+    unless search_all || item_type.blank?
+      @items = @items.select { |item| item.itemType == item_type } unless item_type.nil?
     end
 
-    unless params[:itemDate].blank? || params[:itemDate] == "itemDate"
-      item_date_raw = params[:itemDate]
+    unless start_date.blank?
+      item_date_raw = start_date
       item_date_parsed = Time.parse(item_date_raw)
-      if params[:itemDateEnd].blank? || params[:itemDateEnd] == "itemDateEnd"
+      if end_date.blank?
         @items = @items.select { |item| item.itemDate == DateTime.parse(item_date_parsed.to_s) }
       else
-        item_date_end_raw = params[:itemDateEnd]
+        item_date_end_raw = end_date
         item_date_end_parsed = Time.parse(item_date_end_raw)
         @items = @items.select { |item|
           item.itemDate >= DateTime.parse(item_date_parsed.to_s) && item.itemDate <= DateTime.parse(item_date_end_parsed.to_s)
@@ -42,15 +46,7 @@ class ItemsController < ApplicationController
     @items_found = @items.select { |item| item.itemStatus == 1 && item.claimedBy != 'Purged' }
     @items_found = @items_found.sort_by { |item| item.itemDate || Time.zone.at(0) }.reverse
 
-    cookies[:itemLocation] = params[:itemLocation]
-    cookies[:searchAll] = params[:searchAll]
-    cookies[:itemType] = params[:itemType]
-    cookies[:keyword] = params[:keyword]
-    cookies[:itemDate] = params[:itemDate]
-
     @items_found = Kaminari.paginate_array(@items_found.reverse).page(params[:page])
-
-    render template: 'items/found'
   end
 
   def admin_items
@@ -186,4 +182,14 @@ class ItemsController < ApplicationController
     flash[:success] = purged_total.to_s + ' items purged'
     admin_items
   end
+
+  private
+
+  # TODO: do we really need these cookies here?
+  def param_or_cookie(param)
+    cookies.delete(param)
+    param_value = params[param]
+    cookies[param] = param_value unless param_value.blank?
+  end
+
 end

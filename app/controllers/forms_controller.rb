@@ -12,8 +12,8 @@ class FormsController < ApplicationController
   end
 
   def insert_form
-    @locations_layout = location_setup []
-    @item_type_layout = item_type_setup []
+    @locations_layout = location_setup
+    @item_type_layout = item_type_setup
 
     render :insert_form
   end

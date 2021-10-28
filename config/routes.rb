@@ -27,11 +27,12 @@ Rails.application.routes.draw do
   post "/itemType_delete", to: "item_types#destroy"
   post "/item_types/:id/item_type_update", to: "item_types#update"
 
+  get '/items', to: 'items#index'
+
   get "/admin_items", to: "items#admin_items"
   get "/admin_claimed", to: "items#claimed_items"
   post "/item_insert", to: "items#create"
   post "/delete_item", to: "items#destroy"
-  post "/item_search", to: "items#param_search"
   post "/purge_items", to: "items#purge_items"
   post "/items/:id/item_update", to: "items#update"
 
