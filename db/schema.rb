@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_28_180215) do
+ActiveRecord::Schema.define(version: 2021_10_28_222432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,24 +53,24 @@ ActiveRecord::Schema.define(version: 2021_10_28_180215) do
   end
 
   create_table "items", force: :cascade do |t|
-    t.datetime "itemDate"
-    t.datetime "itemFoundAt"
-    t.string "itemLocation"
-    t.string "itemType"
-    t.string "itemDescription"
+    t.datetime "date"
+    t.datetime "found_at"
+    t.string "location"
+    t.string "type"
+    t.string "description"
     t.datetime "itemLastModified"
-    t.integer "itemStatus"
-    t.string "itemEnteredBy"
-    t.string "itemImage"
+    t.integer "status"
+    t.string "entered_by"
+    t.string "image"
     t.integer "itemObsolete"
-    t.string "itemUpdatedBy"
-    t.string "itemFoundBy"
+    t.string "updated_by"
+    t.string "found_by"
     t.integer "libID"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "image_url"
-    t.string "claimedBy"
-    t.string "whereFound", null: false
+    t.string "claimed_by"
+    t.string "where_found", null: false
   end
 
   create_table "locations", force: :cascade do |t|
