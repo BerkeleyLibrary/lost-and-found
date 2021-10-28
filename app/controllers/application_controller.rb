@@ -144,4 +144,41 @@ class ApplicationController < ActionController::Base
     type_names = ItemType.active.pluck(:type_name).sort
     type_names.map { |n| [n.titleize, n] }.unshift(['(any type)', nil])
   end
+
+  # ------------------------------
+  # Flash alerts
+
+  def flash_errors(model, exception = nil)
+    msg = error_messages_from(model) || exception || 'An unexpected error occurred'
+
+    flash!(:alert, msg)
+  end
+
+  def flash!(lvl, msg)
+    add_flash(flash, lvl, msg)
+  end
+
+  # ------------------------------------------------------------
+  # Private methods
+
+  private
+
+  def error_messages_from(model)
+    return unless model
+    return unless (errors = model.errors)
+    return unless (full_messages = errors.full_messages)
+    return if full_messages.empty?
+
+    full_messages
+  end
+
+  def add_flash(flash_obj, lvl, msg)
+    flash_array = ensure_flash_array(flash_obj, lvl)
+    msg.is_a?(Array) ? flash_array.concat(msg) : flash_array << msg
+  end
+
+  def ensure_flash_array(flash_obj, lvl)
+    current = (flash_obj[lvl] ||= [])
+    current.is_a?(Array) ? current : (flash_obj[lvl] = Array(current))
+  end
 end

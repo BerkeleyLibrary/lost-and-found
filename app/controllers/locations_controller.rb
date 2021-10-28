@@ -4,29 +4,23 @@ class LocationsController < ApplicationController
 
   def create
     # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-    #       - see https://stackoverflow.com/a/2223789/27358
+    location_name = params[:location_name].downcase
 
-    @location = Location.new
-    @location.location_name = params[:location_name].downcase
-    @location.location_active = true
-    @location.updated_at = Time.now
-    @location.updated_by = current_user.user_name
+    location = Location.new(
+      location_name: location_name,
+      location_active: true,
+      updated_by: current_user.user_name
+    )
 
     begin
-      if @location.valid? && @location.save!
-        @locations = Location.all
-        flash[:success] = "Success: Location #{@location.location_name} added"
-        redirect_back(fallback_location: login_path)
-      else
-        @locations = Location.all
-        flash[:alert] = "Error: Location #{@location.location_name.titleize} already exists"
-        redirect_back(fallback_location: login_path)
-      end
-    rescue Exception => e
-      @locations = Location.all
-      flash[:alert] = "Error: Location #{@location.location_name.titleize} failed to be added"
-      redirect_back(fallback_location: login_path)
+      location.save!
+      # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+      flash[:success] = "Location #{location.location_name.titleize} added"
+    rescue => e
+      flash_errors(location, e)
     end
+
+    redirect_to(admin_locations_path)
   end
 
   def edit
@@ -34,21 +28,34 @@ class LocationsController < ApplicationController
   end
 
   def update
-    active = params[:location_active] == 'true'
-    @location = Location.find(params[:id])
-    @location.update(location_name: params[:location_name].downcase, location_active: active, updated_at: Time.now, updated_by: current_user.user_name)
-    @locations = Location.all
-    redirect_to admin_locations_path
-  rescue Exception => e
-    flash[:alert] = "Error: Location #{params[:location_name].titleize} failed to be added"
+    # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+    location_name = params[:location_name].downcase
+
+    location = Location.find(params[:id])
+    begin
+      location.update!(
+        location_name: location_name,
+        location_active: (params[:location_active] == 'true'),
+        updated_by: current_user.user_name
+      )
+      # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+      flash[:success] = "Location #{location.location_name.titleize} updated"
+    rescue => e
+      flash_errors(location, e)
+    end
+
     redirect_to admin_locations_path
   end
 
   def change_status
-    @location = Location.find(params[:id])
-    @location.update(location_active: !@location.location_active, updated_by: current_user.user_name)
-    @locations = Location.all
-    flash[:success] = "Success: Location #{@location.location_name.titleize} status updated!"
-    redirect_back(fallback_location: login_path)
+    location = Location.find(params[:id])
+    location.update!(
+      location_active: !location.location_active,
+      updated_by: current_user.user_name
+    )
+
+    # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+    flash[:success] = "Location #{location.location_name.titleize} updated"
+    redirect_to admin_locations_path
   end
 end
