@@ -10,6 +10,25 @@ describe User, type: :model do
       auth = { 'provider' => 'not calnet' }
       expect { User.from_omniauth(auth) }.to raise_error(Error::InvalidAuthProviderError)
     end
+
+    it 'constructs an unauthorized user' do
+      auth_data = File.read('spec/data/calnet/5551213.yml')
+        .gsub('5551213', '8675309')
+        .gsub('Natalie', 'Jennifer')
+
+      auth_hash = YAML.load(auth_data)
+      user = User.from_omniauth(auth_hash)
+      expect(user.authenticated?).to eq(true)
+      expect(user.authorized?).to eq(false)
+      expect(user.user_role).to eq(nil)
+    end
+
+    it 'loads an existing user' do
+      expected_user = User.take
+      auth_hash = { 'provider' => 'calnet', 'uid' => expected_user.uid }
+      user = User.from_omniauth(auth_hash)
+      expect(user).to eq(expected_user)
+    end
   end
 
   describe :user_role do
