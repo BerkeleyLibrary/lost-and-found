@@ -16,7 +16,7 @@ class ItemTypesController < ApplicationController
       item_type.save!
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
       flash[:success] = "Item type #{item_type.type_name.titleize} added"
-    rescue => e
+    rescue StandardError => e
       flash_errors(item_type, e)
     end
 
@@ -40,7 +40,7 @@ class ItemTypesController < ApplicationController
       )
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
       flash[:success] = "Item type #{item_type.type_name.titleize} updated"
-    rescue => e
+    rescue StandardError => e
       flash_errors(item_type, e)
     end
 

@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :logout_if_expired!
 
-  before_action(:require_staff_or_admin!, except: [:index, :purge_items])
+  before_action(:require_staff_or_admin!, except: %i[index purge_items])
   before_action(:require_authorization!, only: [:index])
   before_action(:require_admin!, only: [:purge_items])
 
@@ -16,18 +16,14 @@ class ItemsController < ApplicationController
     # TODO: move this logic into the model
     # TODO: just construct the right SQL query to begin with instead of filtering in the app
 
-    if keyword.blank?
-      @items = Item.all
-    else
-      @items = Item.query_params(keyword)
-    end
+    @items = if keyword.blank?
+               Item.all
+             else
+               Item.query_params(keyword)
+             end
 
-    unless search_all || item_location.blank?
-      @items = @items.select { |item| item.itemLocation == item_location }
-    end
-    unless search_all || item_type.blank?
-      @items = @items.select { |item| item.itemType == item_type } unless item_type.nil?
-    end
+    @items = @items.select { |item| item.itemLocation == item_location } unless search_all || item_location.blank?
+    @items = @items.select { |item| item.itemType == item_type } if !(search_all || item_type.blank?) && !item_type.nil?
 
     unless start_date.blank?
       item_date_raw = start_date
@@ -37,9 +33,9 @@ class ItemsController < ApplicationController
       else
         item_date_end_raw = end_date
         item_date_end_parsed = Time.parse(item_date_end_raw)
-        @items = @items.select { |item|
+        @items = @items.select do |item|
           item.itemDate >= DateTime.parse(item_date_parsed.to_s) && item.itemDate <= DateTime.parse(item_date_end_parsed.to_s)
-        }
+        end
       end
     end
 
@@ -174,7 +170,7 @@ class ItemsController < ApplicationController
         purged_total += 1
       end
     end
-    flash[:success] = purged_total.to_s + ' items purged'
+    flash[:success] = "#{purged_total} items purged"
     admin_items
   end
 

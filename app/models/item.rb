@@ -17,7 +17,7 @@ class Item < ApplicationRecord
   scope :found, -> { where(itemStatus: 1).where.not(claimedBy: 'Purged') }
 
   scope :query_params, ->(searchText) {
-    keywords = searchText.split(' ')
+    keywords = searchText.split
     arel = Item.arel_table
     records = []
     keywords.each do |keyword|
@@ -29,6 +29,6 @@ class Item < ApplicationRecord
 
   def claimed?
     # TODO: replace magic number with enum
-    itemStatus == 3 || claimedBy != nil
+    itemStatus == 3 || !claimedBy.nil?
   end
 end

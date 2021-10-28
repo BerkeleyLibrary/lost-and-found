@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-  BOOTSTRAP_ALERT_CLASSES = {"notice"=>"info", "success"=>"success", "error"=>"error", "alert"=>"danger"}
+  BOOTSTRAP_ALERT_CLASSES = { 'notice' => 'info', 'success' => 'success', 'error' => 'error', 'alert' => 'danger' }.freeze
 
   def flash_class(level)
     return unless (alert_class = BOOTSTRAP_ALERT_CLASSES[level])
@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def history_claimed_map(value)
-    return !value || value.blank? ? "unclaimed" : value
+    !value || value.blank? ? 'unclaimed' : value
   end
 
   def logo_link
@@ -21,11 +21,11 @@ module ApplicationHelper
   end
 
   def layouts_footer
-    render template: "layouts/footer"
+    render template: 'layouts/footer'
   end
 
   def layouts_nav
-    render template: "layouts/app_nav"
+    render template: 'layouts/app_nav'
   end
 
   def questions_link
@@ -36,20 +36,20 @@ module ApplicationHelper
     case value
     when 1 then 'Found'
     when 3 then 'Claimed'
-    else ""
+    else ''
     end
   end
 
   def history_to_pst(value)
-    value.present? ? value.in_time_zone.strftime("%m/%d/%Y %l:%M %P") : ""
+    value.present? ? value.in_time_zone.strftime('%m/%d/%Y %l:%M %P') : ''
   end
 
   def history_to_readable(value)
-    value.present? ? value.strftime("%l:%M %P") : ""
+    value.present? ? value.strftime('%l:%M %P') : ''
   end
 
   def history_to_readable_day(value)
-    value.present? ? value.strftime("%m/%d/%Y") : ""
+    value.present? ? value.strftime('%m/%d/%Y') : ''
   end
 
 end

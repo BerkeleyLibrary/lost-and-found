@@ -16,7 +16,7 @@ class LocationsController < ApplicationController
       location.save!
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
       flash[:success] = "Location #{location.location_name.titleize} added"
-    rescue => e
+    rescue StandardError => e
       flash_errors(location, e)
     end
 
@@ -40,7 +40,7 @@ class LocationsController < ApplicationController
       )
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
       flash[:success] = "Location #{location.location_name.titleize} updated"
-    rescue => e
+    rescue StandardError => e
       flash_errors(location, e)
     end
 

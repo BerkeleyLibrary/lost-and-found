@@ -21,7 +21,7 @@ class UsersController < ApplicationController
         flash[:alert] = "Error: UID #{params[:uid].inspect} is not numeric"
       end
     rescue StandardError
-      flash[:alert] = "Error: UID already exists"
+      flash[:alert] = 'Error: UID already exists'
     end
     @users = User.all
     redirect_back(fallback_location: login_path)

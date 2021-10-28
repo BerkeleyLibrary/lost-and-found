@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
     if session_expired?
       reset_session
       flash[:notice] = timeout_message
-      redirect_to "/logout"
+      redirect_to '/logout'
     end
   end
 
