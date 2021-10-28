@@ -13,8 +13,6 @@ class FixItemColumnNames < ActiveRecord::Migration[6.1]
     where_found: :whereFound
   }
 
-  # TODO: drop libID, itemObsolete, itemLastModified, itemImage
-
   def up
     COLUMNS.each do |right, wrong|
       rename_column :items, wrong, right

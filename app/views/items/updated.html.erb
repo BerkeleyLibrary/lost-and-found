@@ -1,52 +1,52 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
 <h2>Lost and Found item updated</h2>
 <table class="table mt-5">
-    <thead class="thead-light">
-        <tr>
-            <th scope="col">Actions</th>
-            <th scope="col">Date found</th>
-            <th scope="col">Time found</th>
-            <th scope="col">Found by</th>
-            <th scope="col">Item location</th>
-            <th scope="col">Where Found </th>
-            <th scope="col">Type of item</th>
-            <th scope="col">Item description</th>
-            <th scope="col">Item image</th>
-            <th scope="col">Updated by</th>
-            <th scope="col">Updated at</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <%= link_to 'Edit', edit_item_path(@item.id) %>
-            </td>
-            <% if @item.date_found %>
-                <td><%= @item.date_found.strftime("%m/%d/%Y")  %></td>
-            <% else %>
-                <td><%=  'None'%> </td>
-            <% end %>
-                <% if @item.found_at %>
-                    <td><%= @item.found_at.strftime("%l:%M %P")  %></td>
-                <% else %>
-                    <td><%=  'None'%> </td>
-                <% end %>
-            <td><%= @item.found_by || 'No one' %></td>
-            <td><%= @item.location || 'None' %></td>
-            <td><%= @item.where_found || 'None' %></td>
-            <td><%= @item.item_type || 'No type' %></td>
-            <td class="desc"><%= @item.description || 'None' %></td>
-            <% if @item.image.attached? %>
-                <td><img class="preview_image" src="<%=(url_for(@item.image)) %>" onerror="this.style.display = 'none'"></td>
-            <% else %>
-                 <td>No image </td>
-            <% end %>
-            <td><%= @item.updated_by || 'None' %></td>
-            <% if @item.itemLastModified %>
-                <td><%= @item.itemLastModified.in_time_zone.strftime("%m/%d/%Y %l:%M %P")  %></td>
-            <% else %>
-                <td><%=  'None'%> </td>
-            <% end %>
-            </tr>
-        </tbody>
-    </table>
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">Actions</th>
+    <th scope="col">Date found</th>
+    <th scope="col">Time found</th>
+    <th scope="col">Found by</th>
+    <th scope="col">Item location</th>
+    <th scope="col">Where Found</th>
+    <th scope="col">Type of item</th>
+    <th scope="col">Item description</th>
+    <th scope="col">Item image</th>
+    <th scope="col">Updated by</th>
+    <th scope="col">Updated at</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>
+      <%= link_to 'Edit', edit_item_path(@item.id) %>
+    </td>
+    <% if @item.date_found %>
+      <td><%= @item.date_found.strftime("%m/%d/%Y") %></td>
+    <% else %>
+      <td><%= 'None' %> </td>
+    <% end %>
+    <% if @item.found_at %>
+      <td><%= @item.found_at.strftime("%l:%M %P") %></td>
+    <% else %>
+      <td><%= 'None' %> </td>
+    <% end %>
+    <td><%= @item.found_by || 'No one' %></td>
+    <td><%= @item.location || 'None' %></td>
+    <td><%= @item.where_found || 'None' %></td>
+    <td><%= @item.item_type || 'No type' %></td>
+    <td class="desc"><%= @item.description || 'None' %></td>
+    <% if @item.image.attached? %>
+      <td><img class="preview_image" src="<%= (url_for(@item.image)) %>" onerror="this.style.display = 'none'"></td>
+    <% else %>
+      <td>No image</td>
+    <% end %>
+    <td><%= @item.updated_by || 'None' %></td>
+    <% if @item.updated_at != @item.created_at %>
+      <td><%= @item.updated_at.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></td>
+    <% else %>
+      <td><%= 'None' %> </td>
+    <% end %>
+  </tr>
+  </tbody>
+</table>

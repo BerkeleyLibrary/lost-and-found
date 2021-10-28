@@ -51,8 +51,8 @@
         <% end %>
       </td>
       <td><%= item.updated_by || 'None' %></td>
-      <% if item.itemLastModified %>
-        <td><%= item.itemLastModified.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></td>
+      <% if item.updated_at != item.created_at %>
+        <td><%= item.updated_at.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></td>
       <% else %>
         <td><%= 'None' %> </td>
       <% end %>

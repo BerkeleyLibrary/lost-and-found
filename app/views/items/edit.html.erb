@@ -20,10 +20,10 @@
     <%= select_tag(:status, options_for_select(@item_status_layout, @item.status)) %>
 
     <% if @item.claimed_by.blank? %>
-      <%= label_tag(:claimed_byLabel, "Claimed By:", class: 'hidden', id: 'claimed_byLabel') %>
+      <%= label_tag(:claimed_by_label, "Claimed By:", class: 'hidden', id: 'claimed_by_label') %>
       <%= text_field_tag(:claimed_by, @item.claimed_by, class: 'hidden') %>
     <% else %>
-      <%= label_tag(:claimed_byLabel, "Claimed By:", class: '', id: 'claimed_byLabel') %>
+      <%= label_tag(:claimed_by_label, "Claimed By:", class: '', id: 'claimed_by_label') %>
       <%= text_field_tag(:claimed_by, @item.claimed_by, class: 'required') %>
     <% end %>
 

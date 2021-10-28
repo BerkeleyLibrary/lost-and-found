@@ -99,7 +99,6 @@ class ItemsController < ApplicationController
     @item.status = params[:status]
     @item.date_found = params[:date_found]
     @item.found_at = params[:found_at]
-    @item.itemLastModified = Time.now
     @item.where_found = params[:where_found]
     @item.claimed_by = params[:claimed_by].blank? ? nil : params[:claimed_by]
 
@@ -129,14 +128,11 @@ class ItemsController < ApplicationController
     @item.location = params[:location]
     @item.item_type = params[:item_type]
     @item.description = params[:description]
-    @item.itemLastModified = Time.now
     # TODO: replace magic number with enum
     @item.status = 1
     @item.entered_by = current_user.user_name
-    @item.itemObsolete = 0
     @item.updated_by = current_user.user_name
     @item.found_by = params[:found_by] || 'anonymous'
-    @item.libID = 115 # TODO: do we need this?
     @item.created_at = Time.now # TODO: let ActiveRecord set timestamps
     @item.updated_at = Time.now # TODO: let ActiveRecord set timestamps
     @item.claimed_by = ''
@@ -166,7 +162,7 @@ class ItemsController < ApplicationController
 
     Item.find_each do |item|
       if item.date_found <= DateTime.parse(purge_date.to_s) && item.claimed_by != 'Purged' && item.status == 1
-        item.update(updated_by: current_user.user_name, itemLastModified: Time.now, claimed_by: 'Purged')
+        item.update(updated_by: current_user.user_name, claimed_by: 'Purged')
         purged_total += 1
       end
     end
