@@ -103,11 +103,11 @@ class ApplicationController < ActionController::Base
   # Session expiration
 
   def logout_if_expired!
-    if session_expired?
-      reset_session
-      flash[:notice] = timeout_message
-      redirect_to '/logout'
-    end
+    return unless session_expired?
+
+    reset_session
+    flash[:notice] = timeout_message
+    redirect_to '/logout'
   end
 
   def session_expired?
@@ -140,14 +140,10 @@ class ApplicationController < ActionController::Base
   # ------------------------------
   # Flash alerts
 
-  def flash_errors(model, exception = nil)
+  def flash_errors(model, exception = nil, now: false)
     msg = error_messages_from(model) || exception || 'An unexpected error occurred'
 
-    flash!(:alert, msg)
-  end
-
-  def flash!(lvl, msg)
-    add_flash(flash, lvl, msg)
+    add_flash(now ? flash.now : flash, :alert, msg)
   end
 
   # ------------------------------------------------------------

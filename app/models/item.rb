@@ -16,8 +16,8 @@ class Item < ApplicationRecord
   scope :claimed, -> { where(status: 3).or(where(claimed_by: 'Purged')) }
   scope :found, -> { where(status: 1).where.not(claimed_by: 'Purged') }
 
-  scope :query_params, ->(searchText) {
-    keywords = searchText.split
+  scope :query_params, ->(search_text) {
+    keywords = search_text.split
     arel = Item.arel_table
     records = []
     keywords.each do |keyword|

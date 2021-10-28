@@ -33,7 +33,7 @@ gem 'webpacker', '~> 5.4'
 group :development, :test do
   gem 'brakeman', '~> 4.8'
   gem 'bundler-audit'
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'colorize'
   gem 'factory_bot_rails'
   gem 'rspec-rails'

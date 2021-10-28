@@ -770,7 +770,7 @@ describe 'admin user', type: :system do
           cutoff_date_1 = all_date_founds[all_date_founds.size / 4]
           other_user_name = 'J. Other User'
           Item.where('items."date_found" <= ?', cutoff_date_1).update_all(claimed_by: 'Mr. Magoo', status: status_claimed,
-                                                                        updated_by: other_user_name)
+                                                                          updated_by: other_user_name)
           claimed_ids = Item.where(claimed_by: 'Mr. Magoo').pluck(:id)
 
           cutoff_date_2 = all_date_founds[all_date_founds.size / 2]

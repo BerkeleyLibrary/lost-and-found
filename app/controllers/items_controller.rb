@@ -91,16 +91,18 @@ class ItemsController < ApplicationController
 
     # TODO: just use strong parameters
 
-    @item.location = params[:location]
-    @item.item_type = params[:item_type]
-    @item.description = params[:description]
-    @item.updated_by = current_user.user_name
-    @item.found_by = params[:found_by]
-    @item.status = params[:status]
-    @item.date_found = params[:date_found]
-    @item.found_at = params[:found_at]
-    @item.where_found = params[:where_found]
-    @item.claimed_by = params[:claimed_by].blank? ? nil : params[:claimed_by]
+    @item.assign_attributes(
+      location: params[:location],
+      item_type: params[:item_type],
+      description: params[:description],
+      updated_by: current_user.user_name,
+      found_by: params[:found_by],
+      status: params[:status],
+      date_found: params[:date_found],
+      found_at: params[:found_at],
+      where_found: params[:where_found],
+      claimed_by: params[:claimed_by].blank? ? nil : params[:claimed_by]
+    )
 
     unless params[:image].nil? || @item.invalid?
       @item.image.attach(params[:image])
@@ -123,20 +125,20 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new
-    @item.date_found = params[:date_found]
-    @item.found_at = params[:found_at] || Time.current
-    @item.location = params[:location]
-    @item.item_type = params[:item_type]
-    @item.description = params[:description]
-    # TODO: replace magic number with enum
-    @item.status = 1
-    @item.entered_by = current_user.user_name
-    @item.updated_by = current_user.user_name
-    @item.found_by = params[:found_by] || 'anonymous'
-    @item.created_at = Time.now # TODO: let ActiveRecord set timestamps
-    @item.updated_at = Time.now # TODO: let ActiveRecord set timestamps
-    @item.claimed_by = ''
-    @item.where_found = params[:where_found]
+
+    @item.assign_attributes(
+      location: params[:location],
+      item_type: params[:item_type],
+      description: params[:description],
+      entered_by: current_user.user_name,
+      updated_by: current_user.user_name,
+      found_by: params[:found_by] || 'anonymous',
+      status: 1, # TODO: replace magic number with enum
+      date_found: params[:date_found],
+      found_at: params[:found_at] || params[:date_found],
+      where_found: params[:where_found],
+      claimed_by: nil
+    )
 
     unless params[:image].nil? || @item.invalid?
       @item.image.attach(params[:image])
@@ -147,10 +149,9 @@ class ItemsController < ApplicationController
       @item.save!
       render template: 'items/new'
     rescue StandardError => e
+      flash_errors(@item, e, now: true)
       @locations_layout = location_setup
       @item_type_layout = item_type_setup
-      flash.now.alert = 'Item rejected. Missing required fields'
-      logger.error(e)
       render template: 'forms/insert_form'
     end
   end
