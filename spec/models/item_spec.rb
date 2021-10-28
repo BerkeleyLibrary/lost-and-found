@@ -20,8 +20,8 @@ describe Item, type: :model do
       itemUpdatedBy: 'Test',
       itemType: 'pen',
       itemLocation: 'the library',
-      whereFound: 'Somewhere',
-      )
+      whereFound: 'Somewhere'
+    )
     expect(item.versions.size).to eq(1)
 
     item.update(whereFound: 'Somewhere else')

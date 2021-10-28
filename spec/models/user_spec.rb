@@ -16,7 +16,7 @@ describe User, type: :model do
         .gsub('5551213', '8675309')
         .gsub('Natalie', 'Jennifer')
 
-      auth_hash = YAML.load(auth_data)
+      auth_hash = YAML.safe_load(auth_data)
       user = User.from_omniauth(auth_hash)
       expect(user.authenticated?).to eq(true)
       expect(user.authorized?).to eq(false)
@@ -61,7 +61,7 @@ describe User, type: :model do
     end
 
     it 'defaults to nil' do
-      user = User.new(uid: 12345, user_name: 'Testy McTestface', user_active: false)
+      user = User.new(uid: 12_345, user_name: 'Testy McTestface', user_active: false)
       expect(user.user_role).to eq(nil)
     end
   end
@@ -74,7 +74,7 @@ describe User, type: :model do
     end
 
     it 'returns true for non-persisted users with UIDs' do
-      user = User.new(uid: 12345)
+      user = User.new(uid: 12_345)
       expect(user.authenticated?).to eq(true)
     end
 
@@ -92,7 +92,7 @@ describe User, type: :model do
     end
 
     it 'returns false for non-persisted users with roles' do
-      user = User.new(uid: 12345, user_role: :administrator, user_active: true)
+      user = User.new(uid: 12_345, user_role: :administrator, user_active: true)
       expect(user.authorized?).to eq(false)
     end
 

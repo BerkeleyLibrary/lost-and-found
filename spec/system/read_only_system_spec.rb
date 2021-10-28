@@ -79,10 +79,10 @@ describe 'read-only user', type: :system do
           edit_path = edit_item_path(item.id)
           expect(item_row).not_to have_link(href: edit_path)
 
-          date_found = item.itemDate ? item.itemDate.strftime("%m/%d/%Y") : 'None'
+          date_found = item.itemDate ? item.itemDate.strftime('%m/%d/%Y') : 'None'
           expect(item_row).to have_content(date_found)
 
-          time_found = item.itemFoundAt ? item.itemFoundAt.strftime("%l:%M %P") : 'None'
+          time_found = item.itemFoundAt ? item.itemFoundAt.strftime('%l:%M %P') : 'None'
           expect(item_row).to have_content(time_found)
 
           found_by = item.itemFoundBy || 'No one'
@@ -144,8 +144,8 @@ describe 'read-only user', type: :system do
         date_start = all_item_dates[all_item_dates.size / 4]
         date_end = all_item_dates[all_item_dates.size / 2]
 
-        fill_in('itemDate', with: date_start.strftime("%m/%d/%Y"))
-        fill_in('itemDateEnd', with: date_end.strftime("%m/%d/%Y"))
+        fill_in('itemDate', with: date_start.strftime('%m/%d/%Y'))
+        fill_in('itemDateEnd', with: date_end.strftime('%m/%d/%Y'))
 
         expected_ids = Item.where('items."itemDate" <= ? AND items."itemDate" >= ?', date_end, date_start).pluck(:id)
 
@@ -157,9 +157,11 @@ describe 'read-only user', type: :system do
         aggregate_failures do
           items.each do |item|
             if expected_ids.include?(item.id)
-              expect(table).to have_selector('tr', text: item.itemDescription), "Item not found; itemDate = #{item.itemDate} (range: #{date_start} - #{date_end})"
+              expect(table).to have_selector('tr', text: item.itemDescription),
+                               "Item not found; itemDate = #{item.itemDate} (range: #{date_start} - #{date_end})"
             else
-              expect(table).not_to have_selector('tr', text: item.itemDescription), "Item found unexpectedly; itemDate = #{item.itemDate} (range: #{date_start} - #{date_end})"
+              expect(table).not_to have_selector('tr', text: item.itemDescription),
+                                   "Item found unexpectedly; itemDate = #{item.itemDate} (range: #{date_start} - #{date_end})"
             end
           end
         end
@@ -169,7 +171,7 @@ describe 'read-only user', type: :system do
         expected_item = items[items.size / 2]
         item_date = expected_item.itemDate
 
-        fill_in('itemDate', with: item_date.strftime("%m/%d/%Y"))
+        fill_in('itemDate', with: item_date.strftime('%m/%d/%Y'))
 
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')

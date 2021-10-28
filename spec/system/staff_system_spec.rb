@@ -61,10 +61,10 @@ describe 'staff user', type: :system do
             edit_path = edit_item_path(item.id)
             expect(item_row).to have_link(href: edit_path)
 
-            date_found = item.itemDate ? item.itemDate.strftime("%m/%d/%Y") : 'None'
+            date_found = item.itemDate ? item.itemDate.strftime('%m/%d/%Y') : 'None'
             expect(item_row).to have_content(date_found)
 
-            time_found = item.itemFoundAt ? item.itemFoundAt.strftime("%l:%M %P") : 'None'
+            time_found = item.itemFoundAt ? item.itemFoundAt.strftime('%l:%M %P') : 'None'
             expect(item_row).to have_content(time_found)
 
             found_by = item.itemFoundBy || 'No one'
@@ -102,7 +102,7 @@ describe 'staff user', type: :system do
           @item_type = ItemType.take
           @location = Location.take
           @when_found = Date.current - 1
-          @item_date_str = when_found.strftime("%m/%d/%Y")
+          @item_date_str = when_found.strftime('%m/%d/%Y')
 
           # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
           @item_type_name = item_type.type_name.capitalize
@@ -132,7 +132,7 @@ describe 'staff user', type: :system do
             location_name,
             found_by,
             where_found,
-            item_date_str,
+            item_date_str
           ].each do |attr|
             attr_case_insentitive = /#{attr}/i
             expect(row).to have_content(attr_case_insentitive)
@@ -238,7 +238,7 @@ describe 'staff user', type: :system do
           new_where_found = 'Pennsylvania'
 
           new_when_found = item.itemDate - 1.days
-          new_when_found_str = new_when_found.strftime("%m/%d/%Y")
+          new_when_found_str = new_when_found.strftime('%m/%d/%Y')
 
           select(new_location_str, from: 'itemLocation')
           fill_in('itemFoundBy', with: new_found_by, fill_options: { clear: :backspace })
@@ -310,9 +310,9 @@ describe 'staff user', type: :system do
 
           row = page.find('tr', text: 'Create')
 
-          item_date_str = item.itemDate.strftime("%m/%d/%Y")
+          item_date_str = item.itemDate.strftime('%m/%d/%Y')
           expect(row).to have_content(item_date_str)
-          found_at_str = item.itemFoundAt.strftime("%l:%M %P")
+          found_at_str = item.itemFoundAt.strftime('%l:%M %P')
           expect(row).to have_content(found_at_str)
           expect(row).to have_content(item.itemFoundBy)
           expect(row).to have_content(item.itemEnteredBy)

@@ -45,7 +45,7 @@ describe ItemsController, type: :request do
       @item_type = ItemType.take
       @location = Location.take
       @when_found = Date.current - 1
-      @item_date_str = when_found.strftime("%Y-%m-%d") # TODO: standardize date formats
+      @item_date_str = when_found.strftime('%Y-%m-%d') # TODO: standardize date formats
 
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
       @item_type_name = item_type.type_name.capitalize
@@ -62,7 +62,7 @@ describe ItemsController, type: :request do
           itemLocation: location.location_name,
           itemFoundBy: found_by,
           whereFound: where_found,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(items_path, params: params)
@@ -84,7 +84,7 @@ describe ItemsController, type: :request do
           itemLocation: location.location_name,
           itemFoundBy: found_by,
           whereFound: where_found,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(items_path, params: params)
@@ -97,7 +97,7 @@ describe ItemsController, type: :request do
           itemLocation: location.location_name,
           itemFoundBy: found_by,
           whereFound: where_found,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(items_path, params: params)
@@ -110,7 +110,7 @@ describe ItemsController, type: :request do
           itemDescription: description,
           itemFoundBy: found_by,
           whereFound: where_found,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(items_path, params: params)
@@ -136,7 +136,7 @@ describe ItemsController, type: :request do
           itemDescription: description,
           itemLocation: location.location_name,
           itemFoundBy: found_by,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(items_path, params: params)
@@ -164,7 +164,7 @@ describe ItemsController, type: :request do
           itemLocation: location.location_name,
           itemFoundBy: found_by,
           whereFound: where_found,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(update_path, params: params)
@@ -188,7 +188,7 @@ describe ItemsController, type: :request do
           itemLocation: location.location_name,
           itemFoundBy: found_by,
           whereFound: where_found,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(update_path, params: params)
@@ -202,7 +202,7 @@ describe ItemsController, type: :request do
           itemLocation: location.location_name,
           itemFoundBy: found_by,
           whereFound: where_found,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(update_path, params: params)
@@ -216,7 +216,7 @@ describe ItemsController, type: :request do
           itemDescription: description,
           itemFoundBy: found_by,
           whereFound: where_found,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(update_path, params: params)
@@ -244,7 +244,7 @@ describe ItemsController, type: :request do
           itemDescription: description,
           itemLocation: location.location_name,
           itemFoundBy: found_by,
-          itemDate: item_date_str,
+          itemDate: item_date_str
         }
 
         post(update_path, params: params)

@@ -87,7 +87,7 @@ describe 'admin user', type: :system do
       end
 
       it 'allows adding users' do
-        uid = 5551211
+        uid = 5_551_211
         name = 'Paige J. Poe'
         role = 'Staff'
 
@@ -117,7 +117,7 @@ describe 'admin user', type: :system do
       it 'requires a name' do
         user_count = User.count
 
-        uid = 5551211
+        uid = 5_551_211
         role = 'Staff'
 
         fill_in('uid', with: uid)
@@ -643,10 +643,10 @@ describe 'admin user', type: :system do
             edit_path = edit_item_path(item.id)
             expect(item_row).to have_link(href: edit_path)
 
-            date_found = item.itemDate ? item.itemDate.strftime("%m/%d/%Y") : 'None'
+            date_found = item.itemDate ? item.itemDate.strftime('%m/%d/%Y') : 'None'
             expect(item_row).to have_content(date_found)
 
-            time_found = item.itemFoundAt ? item.itemFoundAt.strftime("%l:%M %P") : 'None'
+            time_found = item.itemFoundAt ? item.itemFoundAt.strftime('%l:%M %P') : 'None'
             expect(item_row).to have_content(time_found)
 
             found_by = item.itemFoundBy || 'No one'
@@ -680,10 +680,10 @@ describe 'admin user', type: :system do
             edit_path = edit_item_path(item.id)
             expect(item_row).to have_link(href: edit_path)
 
-            date_found = item.itemDate ? item.itemDate.strftime("%m/%d/%Y") : 'None'
+            date_found = item.itemDate ? item.itemDate.strftime('%m/%d/%Y') : 'None'
             expect(item_row).to have_content(date_found)
 
-            time_found = item.itemFoundAt ? item.itemFoundAt.strftime("%l:%M %P") : 'None'
+            time_found = item.itemFoundAt ? item.itemFoundAt.strftime('%l:%M %P') : 'None'
             expect(item_row).to have_content(time_found)
 
             found_by = item.itemFoundBy || 'No one'
@@ -726,7 +726,7 @@ describe 'admin user', type: :system do
           purged_ids = Item.where('items."itemDate" <= ?', cutoff_date).pluck(:id)
           unpurged_ids = Item.where('items."itemDate" > ?', cutoff_date).pluck(:id)
 
-          fill_in('purgeTime', with: cutoff_date.strftime("%m/%d/%Y"))
+          fill_in('purgeTime', with: cutoff_date.strftime('%m/%d/%Y'))
           page.click_link_or_button('Purge items')
 
           expect(page).to have_content("#{purged_ids.size} items purged")
@@ -748,7 +748,7 @@ describe 'admin user', type: :system do
           cutoff_date_2 = all_item_dates[all_item_dates.size / 2]
           newly_purged_ids = Item.where('items."itemDate" <= ? AND items."itemDate" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
 
-          fill_in('purgeTime', with: cutoff_date_2.strftime("%m/%d/%Y"))
+          fill_in('purgeTime', with: cutoff_date_2.strftime('%m/%d/%Y'))
           page.click_link_or_button('Purge items')
 
           expect(page).to have_content("#{newly_purged_ids.size} items purged")
@@ -769,13 +769,14 @@ describe 'admin user', type: :system do
 
           cutoff_date_1 = all_item_dates[all_item_dates.size / 4]
           other_user_name = 'J. Other User'
-          Item.where('items."itemDate" <= ?', cutoff_date_1).update_all(claimedBy: 'Mr. Magoo', itemStatus: status_claimed, itemUpdatedBy: other_user_name)
+          Item.where('items."itemDate" <= ?', cutoff_date_1).update_all(claimedBy: 'Mr. Magoo', itemStatus: status_claimed,
+                                                                        itemUpdatedBy: other_user_name)
           claimed_ids = Item.where(claimedBy: 'Mr. Magoo').pluck(:id)
 
           cutoff_date_2 = all_item_dates[all_item_dates.size / 2]
           newly_purged_ids = Item.where('items."itemDate" <= ? AND items."itemDate" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
 
-          fill_in('purgeTime', with: cutoff_date_2.strftime("%m/%d/%Y"))
+          fill_in('purgeTime', with: cutoff_date_2.strftime('%m/%d/%Y'))
           page.click_link_or_button('Purge items')
 
           expect(page).to have_content("#{newly_purged_ids.size} items purged")

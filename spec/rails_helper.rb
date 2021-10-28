@@ -38,14 +38,14 @@ module CalnetHelper
     admin: '5551215'.freeze,
     staff: '5551214'.freeze,
     read_only: '5551212'.freeze,
-    other: '5551213'.freeze,
+    other: '5551213'.freeze
   }.freeze
 
   ROLES = {
     admin: 'Administrator',
     staff: 'Staff',
     read_only: 'Read-only'
-  }
+  }.freeze
 
   def mock_login(type)
     role = ROLES[type]
@@ -141,13 +141,15 @@ module CalnetHelper
   def ensure_user!(role, auth_hash)
     uid = auth_hash['uid'].to_i # TODO: fix model to use string UIDs
 
-    return User.create(
-      uid: uid,
-      user_name: auth_hash['extra']['displayName'],
-      user_role: role,
-      updated_by: 'Test',
-      user_active: true
-    ) unless (user = User.find_by(uid: uid))
+    unless (user = User.find_by(uid: uid))
+      return User.create(
+        uid: uid,
+        user_name: auth_hash['extra']['displayName'],
+        user_role: role,
+        updated_by: 'Test',
+        user_active: true
+      )
+    end
 
     user.tap do |u|
       u.update!(user_role: role, user_active: true) unless u.user_role == role && u.user_active?
