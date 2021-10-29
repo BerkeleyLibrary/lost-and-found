@@ -59,7 +59,7 @@
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.2.14, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler-audit (v0.9.0.1, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="byebug (v11.1.3, RVM: ruby-2.7.4) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="capybara (v3.35.3, RVM: ruby-2.7.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="capybara (v3.36.0, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="childprocess (v4.1.0, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="coffee-rails (v4.2.2, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="coffee-script (v2.4.1, RVM: ruby-2.7.4) [gem]" level="application" />
@@ -93,6 +93,7 @@
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.12.0, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.7.1, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v1.0.2, RVM: ruby-2.7.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="matrix (v0.4.2, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="method_source (v1.0.0, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.2, RVM: ruby-2.7.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.14.4, RVM: ruby-2.7.4) [gem]" level="application" />
@@ -530,6 +531,8 @@
           <RakeTaskImpl id="spec">
             <subtasks>
               <RakeTaskImpl description="Run the code examples in spec/lib" fullCommand="spec:lib" id="lib" />
+              <RakeTaskImpl description="Run the code examples in spec/models" fullCommand="spec:models" id="models" />
+              <RakeTaskImpl description="Run the code examples in spec/request" fullCommand="spec:request" id="request" />
               <RakeTaskImpl description="Run the code examples in spec/system" fullCommand="spec:system" id="system" />
               <RakeTaskImpl id="system">
                 <subtasks>
@@ -537,6 +540,7 @@
                   <RakeTaskImpl description="Run specs in home_system_spec.rb" fullCommand="spec:system:home" id="home" />
                   <RakeTaskImpl description="Run specs in read_only_system_spec.rb" fullCommand="spec:system:read_only" id="read_only" />
                   <RakeTaskImpl description="Run specs in staff_system_spec.rb" fullCommand="spec:system:staff" id="staff" />
+                  <RakeTaskImpl description="Run specs in unauthorized_system_spec.rb" fullCommand="spec:system:unauthorized" id="unauthorized" />
                 </subtasks>
               </RakeTaskImpl>
               <RakeTaskImpl description="" fullCommand="spec:prepare" id="prepare" />

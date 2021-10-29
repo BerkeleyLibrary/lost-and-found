@@ -48,11 +48,11 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 2.15'
+  gem 'capybara', '~> 3.36'
   gem 'database_cleaner-active_record', '~> 2.0'
   gem 'rspec', '~> 3.10'
   gem 'rspec_junit_formatter', '~> 0.4.1'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '~> 4.0'
   gem 'simplecov', require: false
   gem 'simplecov-rcov', require: false
   gem 'webmock'
