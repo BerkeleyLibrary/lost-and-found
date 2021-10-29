@@ -3,6 +3,9 @@ services:
     build:
       context: .
       target: production
+    environment:
+      RAILS_ENV: production
+      SECRET_KEY_BASE: '1'
     depends_on:
       - db
       - selenium

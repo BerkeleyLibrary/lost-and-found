@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'capybara_helper'
 
 describe HomeController, type: :system do
   describe :health do
