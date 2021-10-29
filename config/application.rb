@@ -2,6 +2,10 @@
 require_relative '../lib/docker'
 Docker::Secret.setup_environment!
 
+# Dummy SECRET_KEY_BASE to prevent spurious initializer issues
+# -- see https://github.com/rails/rails/issues/32947
+ENV['SECRET_KEY_BASE'] ||= '1' if ENV['CI']
+
 require File.expand_path('boot', __dir__)
 
 require 'rails'

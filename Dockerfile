@@ -126,4 +126,6 @@ ENV RAILS_ENV=production
 ENV RAILS_SERVE_STATIC_FILES=true
 
 # Pre-compile assets so we don't have to do it in production.
-RUN rails assets:precompile
+# NOTE: dummy SECRET_KEY_BASE to prevent spurious initializer issues
+#       -- see https://github.com/rails/rails/issues/32947
+RUN SECRET_KEY_BASE=1 rails assets:precompile --trace
