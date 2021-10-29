@@ -27,11 +27,11 @@
       <%= text_field_tag(:claimed_by, @item.claimed_by, class: 'required') %>
     <% end %>
 
-    <%= label_tag(:found_at, 'Time found:') %>
-    <% if @item.found_at? %>
-      <%= time_field_tag :found_at, :found_at, value: @item.found_at.strftime('%T.%L') %>
+    <%= label_tag(:time_found, 'Time found:') %>
+    <% if @item.datetime_found? %>
+      <%= time_field_tag :time_found, :datetime_found, value: @item.datetime_found.strftime('%H:%M') %>
     <% else %>
-      <%= time_field_tag(:found_at) %>
+      <%= time_field_tag(:time_found) %>
     <% end %>
 
     <%= label_tag(:date_found, 'Date found:') %>

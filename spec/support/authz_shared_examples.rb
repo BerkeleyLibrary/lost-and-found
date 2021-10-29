@@ -148,7 +148,7 @@ RSpec.shared_examples 'staff access is denied' do
   end
 
   it 'disallows access to the add items page' do
-    visit(insert_form_path)
+    visit(item_new_path)
     expect(page).to have_content('Forbidden')
     expect(page).not_to have_content('Add a lost item')
   end

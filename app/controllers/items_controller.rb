@@ -1,5 +1,5 @@
 # TODO: clean this up further
-# rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/ClassLength
 class ItemsController < ApplicationController
   before_action :logout_if_expired!
 
@@ -11,40 +11,28 @@ class ItemsController < ApplicationController
     keyword = param_or_cookie(:keyword)
     item_location = param_or_cookie(:location)
     item_type = param_or_cookie(:item_type)
-    search_all = param_or_cookie(:searchAll)
     start_date = param_or_cookie(:date_found)
     end_date = param_or_cookie(:date_foundEnd)
+    search_all = param_or_cookie(:searchAll) # TODO: reimplement search_all?
 
     # TODO: move this logic into the model
-    # TODO: just construct the right SQL query to begin with instead of filtering in the app
+    query = keyword.blank? ? Item : Item.query_params(keyword)
+    query = query.where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged'))
+    query = query.where(status: 1)
 
-    @items = if keyword.blank?
-               Item.all
-             else
-               Item.query_params(keyword)
-             end
-
-    @items = @items.select { |item| item.location == item_location } unless search_all || item_location.blank?
-    @items = @items.select { |item| item.item_type == item_type } if !(search_all || item_type.blank?) && !item_type.nil?
-
-    unless start_date.blank?
-      date_found_raw = start_date
-      date_found_parsed = Time.parse(date_found_raw)
-      if end_date.blank?
-        @items = @items.select { |item| item.date_found == DateTime.parse(date_found_parsed.to_s) }
-      else
-        date_found_end_raw = end_date
-        date_found_end_parsed = Time.parse(date_found_end_raw)
-        @items = @items.select do |item|
-          item.date_found >= DateTime.parse(date_found_parsed.to_s) && item.date_found <= DateTime.parse(date_found_end_parsed.to_s)
-        end
-      end
+    if (start_date = parse_date_found(start_date))
+      query = if (end_date = parse_date_found(end_date))
+                query.where('date_found >= ? AND date_found <= ?', start_date, end_date)
+              else
+                query.where(date_found: start_date)
+              end
     end
 
-    @items_found = @items.select { |item| item.status == 1 && item.claimed_by != 'Purged' }
-    @items_found = @items_found.sort_by { |item| item.date_found || Time.zone.at(0) }.reverse
+    query = query.where(item_type: item_type) unless item_type.blank?
+    query = query.where(location: item_location) unless item_location.blank? || search_all # TODO: reimplement search_all?
+    query = query.order(date_found: :desc)
 
-    @items_found = Kaminari.paginate_array(@items_found.reverse).page(params[:page])
+    @items_found = query.page(params[:page]) # TODO: test pagination
   end
 
   def admin_items
@@ -91,8 +79,9 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     require_admin! if @item.claimed?
 
-    # TODO: just use strong parameters
+    date_found, datetime_found = date_and_datetime_found_values
 
+    # TODO: just use strong parameters
     @item.assign_attributes(
       location: params[:location],
       item_type: params[:item_type],
@@ -100,8 +89,8 @@ class ItemsController < ApplicationController
       updated_by: current_user.user_name,
       found_by: params[:found_by],
       status: params[:status],
-      date_found: params[:date_found],
-      found_at: params[:found_at],
+      date_found: date_found,
+      datetime_found: datetime_found,
       where_found: params[:where_found],
       claimed_by: params[:claimed_by].blank? ? nil : params[:claimed_by]
     )
@@ -128,6 +117,9 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new
 
+    date_found, datetime_found = date_and_datetime_found_values
+
+    # TODO: just use strong parameters
     @item.assign_attributes(
       location: params[:location],
       item_type: params[:item_type],
@@ -136,8 +128,8 @@ class ItemsController < ApplicationController
       updated_by: current_user.user_name,
       found_by: params[:found_by] || 'anonymous',
       status: 1, # TODO: replace magic number with enum
-      date_found: params[:date_found],
-      found_at: params[:found_at] || params[:date_found],
+      date_found: date_found,
+      datetime_found: datetime_found,
       where_found: params[:where_found],
       claimed_by: nil
     )
@@ -159,21 +151,38 @@ class ItemsController < ApplicationController
   end
 
   def purge_items
-    purge_raw = params[:purgeTime]
-    purge_date = Time.parse(purge_raw)
-    purged_total = 0
+    purge_date = parse_date_found(params[:purgeTime])
 
-    Item.find_each do |item|
-      if item.date_found <= DateTime.parse(purge_date.to_s) && item.claimed_by != 'Purged' && item.status == 1
-        item.update(updated_by: current_user.user_name, claimed_by: 'Purged')
-        purged_total += 1
-      end
-    end
+    items_to_purge = Item
+      .where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged'))
+      .where(status: 1)
+      .where('date_found <= ?', purge_date)
+
+    purged_total = items_to_purge
+      .update_all(updated_by: current_user.user_name, claimed_by: 'Purged')
+
     flash[:success] = "#{purged_total} items purged"
+
     admin_items
   end
 
   private
+
+  def date_and_datetime_found_values
+    return unless (date_found = parse_date_found(params[:date_found]))
+    return date_found unless (dp_param = params[:time_found])
+
+    datetime_found_param = "#{params[:date_found]} #{dp_param}"
+    datetime_found = Time.strptime(datetime_found_param, '%Y-%m-%d %H:%M').in_time_zone
+
+    [date_found, datetime_found]
+  end
+
+  def parse_date_found(df_param)
+    return unless df_param
+
+    Date.strptime(df_param, '%Y-%m-%d')
+  end
 
   # TODO: do we really need these cookies here?
   def param_or_cookie(param)
@@ -183,4 +192,4 @@ class ItemsController < ApplicationController
   end
 
 end
-# rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+# rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/ClassLength

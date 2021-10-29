@@ -49,7 +49,7 @@ describe 'read-only user', type: :system do
             item_type: type.type_name,
             description: "description of #{type.type_name} found in #{loc.location_name}",
             image_path: File.join('spec/data/images', "#{type.type_name.titleize}.jpg"),
-            date_found: date_found.to_time,
+            date_found: date_found,
             location: loc.location_name
           )
         end
@@ -82,7 +82,7 @@ describe 'read-only user', type: :system do
           date_found = item.date_found ? item.date_found.strftime('%m/%d/%Y') : 'None'
           expect(item_row).to have_content(date_found)
 
-          time_found = item.found_at ? item.found_at.strftime('%l:%M %P') : 'None'
+          time_found = item.datetime_found ? item.datetime_found.strftime('%l:%M %P') : 'None'
           expect(item_row).to have_content(time_found)
 
           found_by = item.found_by || 'No one'
@@ -190,25 +190,33 @@ describe 'read-only user', type: :system do
       end
 
       it 'finds items by description' do
-        even_items = []
-        odd_items = []
+        unexpected = []
+        expected = []
         items.each_with_index do |item, i|
-          (i.even? ? even_items : odd_items) << item
+          if (i % 3) == 0
+            item.update(description: "searchy texty #{i}")
+          elsif (i % 4) == 0
+            item.update(description: "texty #{i}")
+          elsif i.even?
+            item.update(description: "searchy #{i}")
+          else
+            unexpected << item
+            next
+          end
+          expected << item
         end
 
-        even_items.each_with_index { |item, i| item.update(description: "searchy test ##{i}") }
-
-        page.fill_in('keyword', with: 'searchy')
+        page.fill_in('keyword', with: 'texty searchy')
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
 
         table = page.find('#found_items_table')
 
-        even_items.each do |item|
+        expected.each do |item|
           expect(table).to have_selector('tr', text: item.description)
         end
 
-        odd_items.each do |item|
+        unexpected.each do |item|
           expect(table).not_to have_selector('tr', text: item.description)
         end
       end

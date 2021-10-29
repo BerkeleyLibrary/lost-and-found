@@ -646,7 +646,7 @@ describe 'admin user', type: :system do
             date_found = item.date_found ? item.date_found.strftime('%m/%d/%Y') : 'None'
             expect(item_row).to have_content(date_found)
 
-            time_found = item.found_at ? item.found_at.strftime('%l:%M %P') : 'None'
+            time_found = item.datetime_found ? item.datetime_found.strftime('%l:%M %P') : 'None'
             expect(item_row).to have_content(time_found)
 
             found_by = item.found_by || 'No one'
@@ -683,7 +683,7 @@ describe 'admin user', type: :system do
             date_found = item.date_found ? item.date_found.strftime('%m/%d/%Y') : 'None'
             expect(item_row).to have_content(date_found)
 
-            time_found = item.found_at ? item.found_at.strftime('%l:%M %P') : 'None'
+            time_found = item.datetime_found ? item.datetime_found.strftime('%l:%M %P') : 'None'
             expect(item_row).to have_content(time_found)
 
             found_by = item.found_by || 'No one'

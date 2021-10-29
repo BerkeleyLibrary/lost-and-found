@@ -13,8 +13,8 @@
 </div>
 <div class="form-group row">
   <h5 class="col-2">Time found</h5>
-  <% if @item.found_at %>
-    <div class="col-4"><%= @item.found_at.strftime('%l:%M %P') %></div>
+  <% if @item.datetime_found %>
+    <div class="col-4"><%= @item.datetime_found.strftime('%l:%M %P') %></div>
   <% else %>
     <div class="col-4"> None</div>
   <% end %>
@@ -100,7 +100,7 @@
                 <li><%= attr + ' : ' + history_to_pst(val_old) + ' to ' + history_to_pst(val_new) %>
               <% elsif attr == 'created_at' %>
                 <li><%= 'Created at ' + history_to_pst(val_new) %>
-              <% elsif attr == 'found_at' %>
+              <% elsif attr == 'datetime_found' %>
                 <li><%= attr + ' : ' + history_to_readable(val_old) + ' to ' + history_to_readable(val_new) %>
               <% elsif attr == 'claimed_by' %>
                 <% if history_claimed_map(val_old) == history_claimed_map(val_new) %>

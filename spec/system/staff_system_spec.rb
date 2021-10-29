@@ -64,7 +64,7 @@ describe 'staff user', type: :system do
             date_found = item.date_found ? item.date_found.strftime('%m/%d/%Y') : 'None'
             expect(item_row).to have_content(date_found)
 
-            time_found = item.found_at ? item.found_at.strftime('%l:%M %P') : 'None'
+            time_found = item.datetime_found ? item.datetime_found.strftime('%l:%M %P') : 'None'
             expect(item_row).to have_content(time_found)
 
             found_by = item.found_by || 'No one'
@@ -97,7 +97,7 @@ describe 'staff user', type: :system do
         attr_reader :date_found_str
 
         before(:each) do
-          visit(insert_form_path)
+          visit(item_new_path)
 
           @item_type = ItemType.take
           @location = Location.take
@@ -119,7 +119,7 @@ describe 'staff user', type: :system do
           select(item_type_name, from: 'item_type')
           fill_in('date_found', with: date_found_str)
           # TODO: figure out how to test time widget
-          # fill_in('found_at', with: found_at_str)
+          # fill_in('datetime_found', with: datetime_found_str)
           attach_file('image', img_path)
 
           page.click_link_or_button('Add item')
@@ -312,8 +312,8 @@ describe 'staff user', type: :system do
 
           date_found_str = item.date_found.strftime('%m/%d/%Y')
           expect(row).to have_content(date_found_str)
-          found_at_str = item.found_at.strftime('%l:%M %P')
-          expect(row).to have_content(found_at_str)
+          datetime_found_str = item.datetime_found.strftime('%l:%M %P')
+          expect(row).to have_content(datetime_found_str)
           expect(row).to have_content(item.found_by)
           expect(row).to have_content(item.entered_by)
           expect(row).to have_content(item.updated_by)

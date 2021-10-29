@@ -29,8 +29,8 @@
       <%= label_tag(:date_found, 'Date found:') %><span style="color: #ee0000"> * </span>
       <%= date_field_tag(:date_found, nil, required: true, max: Date.today) %>
 
-      <%= label_tag(:found_at, 'Time found:') %>
-      <%= time_field_tag(:found_at) %>
+      <%= label_tag(:time_found, 'Time found:') %>
+      <%= time_field_tag(:time_found) %>
     </div>
 
     <div style="padding-top: 10px; padding-bottom: 10px; font-weight: bold;">Added by: <%= current_user.user_name %>

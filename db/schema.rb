@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_28_224957) do
+ActiveRecord::Schema.define(version: 2021_10_29_193955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 2021_10_28_224957) do
   end
 
   create_table "items", force: :cascade do |t|
-    t.datetime "date_found"
-    t.datetime "found_at"
+    t.datetime "legacy_date_found"
+    t.datetime "legacy_time_found"
     t.string "location"
     t.string "item_type"
     t.string "description"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(version: 2021_10_28_224957) do
     t.string "image_url"
     t.string "claimed_by"
     t.string "where_found", null: false
+    t.date "date_found"
+    t.datetime "datetime_found"
   end
 
   create_table "locations", force: :cascade do |t|

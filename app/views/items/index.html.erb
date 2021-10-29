@@ -36,8 +36,8 @@
       <% else %>
         <td><%= 'None' %> </td>
       <% end %>
-      <% if item.found_at %>
-        <td><%= item.found_at.strftime('%l:%M %P') %></td>
+      <% if item.datetime_found %>
+        <td><%= item.datetime_found.strftime('%l:%M %P') %></td>
       <% else %>
         <td><%= 'None' %> </td>
       <% end %>

@@ -5,7 +5,7 @@ FactoryBot.define do
     transient { image_path { nil } }
 
     date_found { Date.current - 1.days }
-    found_at { Time.current }
+    datetime_found { Time.current }
     found_by { 'Testy McTestface' }
     status { 1 } # TODO: replace magic number with enum
     entered_by { 'Test' }

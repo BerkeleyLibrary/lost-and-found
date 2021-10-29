@@ -14,17 +14,12 @@ class Item < ApplicationRecord
 
   # TODO: clean this up
   scope :claimed, -> { where(status: 3).or(where(claimed_by: 'Purged')) }
-  scope :found, -> { where(status: 1).where.not(claimed_by: 'Purged') }
+  scope :found, -> { where(status: 1).where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged')) } # TODO: is this right?
 
   scope :query_params, ->(search_text) {
-    keywords = search_text.split
-    arel = Item.arel_table
-    records = []
-    keywords.each do |keyword|
-      like_ast = arel[:description].matches("%#{keyword}%")
-      records += Item.where(like_ast)
+    search_text.split.inject(Item) do |query, keyword|
+      query.where('description LIKE ?', "%#{keyword}%")
     end
-    records
   }
 
   def claimed?
