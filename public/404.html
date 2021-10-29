@@ -1,68 +1,54 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Audio / Video: Record not found</title>
-  <link rel="stylesheet" href="https://use.typekit.net/rxa5jay.css"/>
+  <title>LostAndFound</title>
+
   <link rel="stylesheet" media="all" href="/assets/application.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-<header>
-  <h1 class="header-logo">
-    <a href="https://www.lib.berkeley.edu/">
-      <img class="header-logo" alt="UC Berkeley Library" src="/assets/UCBerkeley_Library_wordmark_black.svg"/>
-      <span class="site-name">Audio / Video</span>
-    </a>
-  </h1>
-  <nav>
-    <input type="checkbox" id="nav-menu">
-    <label class="nav-menu-label" for="nav-menu">
-      <img alt="Menu" src="/assets/nav-menu.svg"/>
-    </label>
-    <ul>
-      <li>
-        <a href="https://digital.lib.berkeley.edu/">Digital Collections Home</a>
-      </li>
-      <li>
-        <a href="https://www.lib.berkeley.edu/">Library Home</a>
-      </li>
-    </ul>
-  </nav>
-</header>
+<main id="main">
+  <a href="#main" class="visually-hidden focusable skip-link">Skip to main content</a>
+  <div id="app" class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a id="home_button" class="navbar-brand no-link-style" href="https://www.lib.berkeley.edu/"><img height="30" alt="UC Berkeley Library" src="/assets/UCB_logo-a80a80dbd6aa05639ca85e7cab3e8e1563617c194e0945c618a4591f4b295861.png" /></a>
 
-<main>
-  <section class="record">
-    <h2>Record not found</h2>
+      <button onclick="toggleFunction()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-dropdown" aria-controls="navbar-dropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <p>The specified record could not be found.</p>
-  </section>
+      <div id="navbar-dropdown" class="navbar-collapse collapse" >
+        <ul class="navbar-nav mr-auto">
+        </ul>
+
+        <ul class="navbar-nav">
+          <li>
+            <p class="nav-link" ><a href="/insert_form">Add Item</a></p>
+          </li>
+          <li>
+            <p class="nav-link"><a href="/search_form">Search</a></p>
+          </li>
+          <li>
+            <p class="nav-link"><a href="/admin">Admin Home</a></p>
+          </li>
+          <li>
+            <p class="nav-link"><a href="/logout">CalNet Logout</a></p>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <h2>We're sorry, but something went wrong.</h2>
+    <p>The specified object could not be found.</p>
+    <footer class="page-footer font-small blue pt-4">
+      <div class="container text-center">
+        <p class="text-muted"><a class="support-email" href="mailto:helpbox@library.berkeley.edu">Questions?</a></p>
+        <p class="text-muted">Copyright &copy; 2021 The Regents of the University of California. All rights reserved.</p>
+      </div>
+      <br />
+    </footer>
+
+  </div>
 </main>
-
-<footer>
-  <section class="copyright-info">
-    <p>
-      Copyright &copy; 2020 The Regents of the University of California. All rights reserved.
-    </p>
-    <p>
-      Except where otherwise noted, this work is subject to a
-      <a href="http://www.lib.berkeley.edu/about/creative-commons">Creative Commons Attribution-Noncommercial 4.0
-        License</a>.
-    </p>
-  </section>
-  <section class="social-media">
-    <a href="https://www.facebook.com/ucberkeleylibrary/"><img class="social-media-icon" alt="Facebook"
-                                                               src="/assets/icons/facebook-square.svg"/></a>
-    <a href="https://twitter.com/UCBerkeleyLib"><img class="social-media-icon" alt="Twitter"
-                                                     src="/assets/icons/twitter-square.svg"/></a>
-    <a href="https://www.youtube.com/channel/UCrwP3Cw1FHwqslSAG5JkLTQ"><img class="social-media-icon" alt="YouTube"
-                                                                            src="/assets/icons/youtube-square.svg"/></a>
-    <a href="https://www.instagram.com/ucberkeleylibrary/"><img class="social-media-icon" alt="Instagram"
-                                                                src="/assets/icons/instagram.svg"/></a>
-  </section>
-  <section class="footer-logo">
-    <a href="http://www.berkeley.edu/"><img class="footer-logo" alt="UC Berkeley" src="/assets/UCBerkeley_wordmark_white.svg"/></a>
-  </section>
-</footer>
 </body>
-</html>
