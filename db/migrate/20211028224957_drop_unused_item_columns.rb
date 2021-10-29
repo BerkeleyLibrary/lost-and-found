@@ -7,10 +7,10 @@ class DropUnusedItemColumns < ActiveRecord::Migration[6.1]
   end
 
   def down
-    add_column :items, :libID
-    add_column :items, :itemObsolete
-    add_column :items, :itemLastModified
-    add_column :items, :itemImage
+    add_column :items, :libID, :integer
+    add_column :items, :itemObsolete, :integer
+    add_column :items, :itemLastModified, :datetime
+    add_column :items, :itemImage, :string
 
     Item.find_each do |item|
       item.update(itemLastModified: item.updated_at)
