@@ -2,7 +2,15 @@
 require_relative '../lib/docker'
 Docker::Secret.setup_environment!
 
-require_relative 'boot'
+require File.expand_path('boot', __dir__)
+
+require 'rails'
+require 'active_storage/engine'
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_view/railtie'
+require 'sprockets/railtie'
+
 require 'rails/all'
 
 # TODO: figure out why Bundler.require() doesn't pick this up

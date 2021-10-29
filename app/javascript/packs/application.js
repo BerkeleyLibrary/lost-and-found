@@ -1,17 +1,44 @@
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
+import Rails from '@rails/ujs'
 
-require("@rails/ujs").start()
-require("@rails/activestorage").start()
-require("channels")
+import * as ActiveStorage from '@rails/activestorage'
+Rails.start()
+ActiveStorage.start()
 
+// TODO: only load this on edit items page
+window.addEventListener('DOMContentLoaded', () => {
+  const status = document.getElementById('status')
+  if (!status) {
+    console.log('#status not found')
+    return
+  }
 
+  const claimedBy = document.getElementById('claimed_by')
+  if (!claimedBy) {
+    console.log('#claimed_by not found')
+    return
+  }
 
-// Uncomment to copy all static images under ../images to the output folder and reference
-// them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
-// or the `imagePath` JavaScript helper below.
-//
-// const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
+  const claimedByLabel = document.getElementById('claimed_by_label')
+  if (!claimedByLabel) {
+    console.log('#claimed_by_label not found')
+    return
+  }
+
+  status.addEventListener('change', () => {
+    const statusVal = status.value
+    // TODO: replace magic number with enum
+    if (statusVal === '3') {
+      claimedBy.setAttribute('required', true)
+      claimedBy.style.display = 'inline-block'
+      claimedByLabel.style.display = 'inline-block'
+    } else {
+      claimedBy.setAttribute('required', false)
+      claimedBy.style.display = 'none'
+      claimedByLabel.style.display = 'none'
+    }
+  })
+})
+
+export function toggleFunction () {
+  document.getElementById('navbar-dropdown').classList.toggle('collapse')
+}
