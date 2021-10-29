@@ -1,16 +1,16 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
 <h1>Edit location</h1>
 <div class="table mt-5">
-<%= form_tag("location_update", method: "post") do %>
+  <%= form_tag('location_update', method: 'post') do %>
 
-  <%= label_tag(:location_name, "Location name:") %>
-  <%=text_field_tag :location_name, @location.location_name %>
+    <%= label_tag(:location_name, 'Location name:') %>
+    <%= text_field_tag :location_name, @location.location_name %>
 
-  <%= label_tag(:location_active, "Active location:") %>
-  <%= check_box_tag( :location_active, value = true, checked = @location.location_active) %>
+    <%= label_tag(:location_active, 'Active location:') %>
+    <%= check_box_tag(:location_active, value = true, checked = @location.location_active) %>
 
-  <%= hidden_field_tag(:id, @location.id) %>
+    <%= hidden_field_tag(:id, @location.id) %>
 
-  <div><%= submit_tag("Update location") %></div>
-<% end %>
+    <div><%= submit_tag('Update location') %></div>
+  <% end %>
 </div>

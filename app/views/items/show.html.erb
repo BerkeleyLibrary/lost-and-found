@@ -6,7 +6,7 @@
 <div class="form-group row">
   <h5 class="col-2">Date found</h5>
   <% if @item.date_found %>
-    <div class="col-4"><%= @item.date_found.strftime("%m/%d/%Y") %></div>
+    <div class="col-4"><%= @item.date_found.strftime('%m/%d/%Y') %></div>
   <% else %>
     <div class="col-4"> None</div>
   <% end %>
@@ -14,7 +14,7 @@
 <div class="form-group row">
   <h5 class="col-2">Time found</h5>
   <% if @item.found_at %>
-    <div class="col-4"><%= @item.found_at.strftime("%l:%M %P") %></div>
+    <div class="col-4"><%= @item.found_at.strftime('%l:%M %P') %></div>
   <% else %>
     <div class="col-4"> None</div>
   <% end %>
@@ -43,7 +43,7 @@
 <div class="form-group row">
   <h5 class="col-2">Item image</h5>
   <% if @item.image.attached? %>
-    <img class="preview_image" src="<%= (url_for(@item.image)) %>">
+    <img class="preview_image" alt="image of item" src="<%= (url_for(@item.image)) %>">
   <% else %>
     <div class="col-4">No image</div>
   <% end %>
@@ -55,7 +55,7 @@
 <div class="form-group row">
   <h5 class="col-2">Last updated</h5>
   <% if @item.updated_at != @item.created_at %>
-    <div class="col-4"><%= @item.updated_at.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></div>
+    <div class="col-4"><%= @item.updated_at.in_time_zone.strftime('%m/%d/%Y %l:%M %P') %></div>
   <% else %>
     <div class="col-4"> None</div>
   <% end %>
@@ -77,8 +77,8 @@
     <% changeset = version.changeset %>
     <% unless changeset.empty? %>
       <tr>
-        <td><%= version.created_at.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></td>
-        <td><%= version.whodunnit || "unknown" %></td>
+        <td><%= version.created_at.in_time_zone.strftime('%m/%d/%Y %l:%M %P') %></td>
+        <td><%= version.whodunnit || 'unknown' %></td>
         <td><%= version.event.humanize %></td>
         <td>
           <ul>
@@ -90,28 +90,28 @@
                 val_new = values[1]
               %>
               <%# TODO: clean this up %>
-              <% if attr == "image_url" %>
+              <% if attr == 'image_url' %>
                 <li>
                   New image upload
                 </li>
-              <% elsif attr == "status" %>
-                <li><%= "Item status : " + status_codes(val_old) + " to " + status_codes(val_new) %> </li>
-              <% elsif attr == "updated_at" %>
-                <li><%= attr + " : " + history_to_pst(val_old) + " to " + history_to_pst(val_new) %>
-              <% elsif attr == "created_at" %>
-                <li><%= "Created at " + history_to_pst(val_new) %>
-              <% elsif attr == "found_at" %>
-                <li><%= attr + " : " + history_to_readable(val_old) + " to " + history_to_readable(val_new) %>
-              <% elsif attr == "claimed_by" %>
+              <% elsif attr == 'status' %>
+                <li><%= 'Item status : ' + status_codes(val_old) + ' to ' + status_codes(val_new) %> </li>
+              <% elsif attr == 'updated_at' %>
+                <li><%= attr + ' : ' + history_to_pst(val_old) + ' to ' + history_to_pst(val_new) %>
+              <% elsif attr == 'created_at' %>
+                <li><%= 'Created at ' + history_to_pst(val_new) %>
+              <% elsif attr == 'found_at' %>
+                <li><%= attr + ' : ' + history_to_readable(val_old) + ' to ' + history_to_readable(val_new) %>
+              <% elsif attr == 'claimed_by' %>
                 <% if history_claimed_map(val_old) == history_claimed_map(val_new) %>
-                  <li><%= "Claimed by : " + history_claimed_map(val_old) %></li>
+                  <li><%= 'Claimed by : ' + history_claimed_map(val_old) %></li>
                 <% else %>
-                  <li><%= "Claimed by : " + history_claimed_map(val_old) + " to " + history_claimed_map(val_new) %> </li>
+                  <li><%= 'Claimed by : ' + history_claimed_map(val_old) + ' to ' + history_claimed_map(val_new) %> </li>
                 <% end %>
-              <% elsif attr == "date_found" %>
-                <li><%= attr + " : " + history_to_readable_day(val_old) + " to " + history_to_readable_day(val_new) %>
+              <% elsif attr == 'date_found' %>
+                <li><%= attr + ' : ' + history_to_readable_day(val_old) + ' to ' + history_to_readable_day(val_new) %>
               <% else %>
-                <li><%= attr + " : " + val_old.to_s + " to " + val_new.to_s %> </li>
+                <li><%= attr + ' : ' + val_old.to_s + ' to ' + val_new.to_s %> </li>
               <% end %>
             <% end %>
           </ul>

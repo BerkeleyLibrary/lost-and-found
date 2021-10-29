@@ -2,39 +2,39 @@
 
 <h1>Edit item</h1>
 <div class="table mt-5">
-  <%= form_tag("item_update", method: "post", multipart: true) do %>
+  <%= form_tag('item_update', method: 'post', multipart: true) do %>
 
-    <%= label_tag(:location, "Item location:") %>
+    <%= label_tag(:location, 'Item location:') %>
     <%= select_tag(:location, options_for_select(@locations_layout, @item.location)) %>
 
-    <%= label_tag(:found_by, "Item found by:") %>
+    <%= label_tag(:found_by, 'Item found by:') %>
     <%= text_field_tag(:found_by, @item.found_by) %>
 
-    <%= label_tag(:description, "Item description:") %>
+    <%= label_tag(:description, 'Item description:') %>
     <%= text_field_tag :description, @item.description %>
 
-    <%= label_tag(:item_type, "Item type:") %>
+    <%= label_tag(:item_type, 'Item type:') %>
     <%= select_tag(:item_type, options_for_select(@item_type_layout, @item.item_type)) %>
 
-    <%= label_tag(:status, "Item status:") %>
+    <%= label_tag(:status, 'Item status:') %>
     <%= select_tag(:status, options_for_select(@item_status_layout, @item.status)) %>
 
     <% if @item.claimed_by.blank? %>
-      <%= label_tag(:claimed_by_label, "Claimed By:", class: 'hidden', id: 'claimed_by_label') %>
+      <%= label_tag(:claimed_by_label, 'Claimed By:', class: 'hidden', id: 'claimed_by_label') %>
       <%= text_field_tag(:claimed_by, @item.claimed_by, class: 'hidden') %>
     <% else %>
-      <%= label_tag(:claimed_by_label, "Claimed By:", class: '', id: 'claimed_by_label') %>
+      <%= label_tag(:claimed_by_label, 'Claimed By:', class: '', id: 'claimed_by_label') %>
       <%= text_field_tag(:claimed_by, @item.claimed_by, class: 'required') %>
     <% end %>
 
-    <%= label_tag(:found_at, "Time found:") %>
+    <%= label_tag(:found_at, 'Time found:') %>
     <% if @item.found_at? %>
       <%= time_field_tag :found_at, :found_at, value: @item.found_at.strftime('%T.%L') %>
     <% else %>
       <%= time_field_tag(:found_at) %>
     <% end %>
 
-    <%= label_tag(:date_found, "Date found:") %>
+    <%= label_tag(:date_found, 'Date found:') %>
     <% if @item.date_found? %>
       <%= date_field_tag :date_found, :date_found, value: @item.date_found.strftime('%Y-%m-%d') %>
     <% else %>
@@ -42,19 +42,19 @@
     <% end %>
 
     <div>
-      <%= label_tag(:where_found, "Where found:") %>
+      <%= label_tag(:where_found, 'Where found:') %>
       <%= text_field_tag :where_found, @item.where_found %>
     </div>
 
-    <%= label_tag(:image, "Image: ") %>
+    <%= label_tag(:image, 'Image: ') %>
     <%= file_field_tag(:image) %>
 
     <%= hidden_field_tag(:id, @item.id) %>
 
 
-    <%= label_tag(:image, "Current image: ") %>
+    <%= label_tag(:image, 'Current image: ') %>
     <% if @item.image.attached? %>
-      <img class="preview_image" src="<%= (url_for(@item.image)) %>" onerror="this.style.display = 'none'">
+      <img class="preview_image" alt="image of item" src="<%= (url_for(@item.image)) %>">
     <% else %>
       No image
     <% end %>
@@ -63,8 +63,8 @@
     <%= current_user.user_name %>
 
     <h4>Last updated at: </h4>
-    <%= @item.updated_at.in_time_zone.strftime("%B %e, %Y at %I:%M %P") %>
+    <%= @item.updated_at.in_time_zone.strftime('%B %e, %Y at %I:%M %P') %>
 
-    <div><%= submit_tag("Update item") %></div>
+    <div><%= submit_tag('Update item') %></div>
   <% end %>
 </div>

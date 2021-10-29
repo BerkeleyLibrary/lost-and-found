@@ -4,15 +4,15 @@
   <h1>Add/Edit Lost & Found Users</h1>
   <p style="color: #ee0000">* Required</p>
   <h2>Add a new user</h2>
-  <%= form_tag("user_insert", method: "post") do %>
+  <%= form_tag('user_insert', method: 'post') do %>
 
-    <%= label_tag(:user_role, "User role:") %> <span style="color: #ee0000"> * </span>
+    <%= label_tag(:user_role, 'User role:') %> <span style="color: #ee0000"> * </span>
     <%= select_tag(:user_role, options_for_select(User::ROLES), :include_blank => true, required: true) %>
 
-    <%= label_tag(:user_name, "User name:") %><span style="color: #ee0000"> * </span>
+    <%= label_tag(:user_name, 'User name:') %><span style="color: #ee0000"> * </span>
     <%= text_field_tag :user_name, nil, placeholder: 'John Smith', required: true %>
 
-    <%= label_tag(:uid, "User ID:") %><span style="color: #ee0000"> * </span>
+    <%= label_tag(:uid, 'User ID:') %><span style="color: #ee0000"> * </span>
     <%= text_field_tag :uid, nil, placeholder: 'UID', required: true %>
 
     <div>
@@ -39,7 +39,7 @@
   <% @actived_users.each do |user| %>
     <tr>
       <td>
-        <%= link_to 'Deactivate', user_path(user) + "/change_status" %>
+        <%= link_to 'Deactivate', toggle_user_status_path(user) %>
         <%= link_to 'Edit', edit_user_path(user.id) %>
       </td>
       <td><%= user.uid %></td>
@@ -65,7 +65,7 @@
   <% @deactivated_users.each do |user| %>
     <tr>
       <td>
-        <%= link_to 'Activate', user_path(user) + "/change_status" %>
+        <%= link_to 'Activate', toggle_user_status_path(user) %>
         <%= link_to 'Edit', edit_user_path(user.id) %>
       </td>
       <td><%= user.uid %></td>

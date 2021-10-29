@@ -32,12 +32,12 @@
         </td>
       <% end %>
       <% if item.date_found %>
-        <td><%= item.date_found.strftime("%m/%d/%Y") %></td>
+        <td><%= item.date_found.strftime('%m/%d/%Y') %></td>
       <% else %>
         <td><%= 'None' %> </td>
       <% end %>
       <% if item.found_at %>
-        <td><%= item.found_at.strftime("%l:%M %P") %></td>
+        <td><%= item.found_at.strftime('%l:%M %P') %></td>
       <% else %>
         <td><%= 'None' %> </td>
       <% end %>
@@ -50,14 +50,14 @@
       <td class="desc"><%= item.description || 'None' %></td>
       <td>
         <% if item.image.attached? %>
-          <img src="<%= (url_for(item.image)) %>" alt="image of item" class="preview_image" onerror="this.style.display = 'none'">
+          <img src="<%= (url_for(item.image)) %>" alt="image of item" class="preview_image">
         <% else %>
           No image
         <% end %>
       </td>
       <td><%= item.updated_by || 'None' %></td>
       <% if item.updated_at != item.created_at %>
-        <td><%= item.updated_at.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></td>
+        <td><%= item.updated_at.in_time_zone.strftime('%m/%d/%Y %l:%M %P') %></td>
       <% else %>
         <td><%= 'None' %> </td>
       <% end %>

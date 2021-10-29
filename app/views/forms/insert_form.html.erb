@@ -3,37 +3,37 @@
 <p style="color: #ee0000">* Required</p>
 
 <div class="mb-4 form-group">
-  <%= form_tag("item_insert", method: "post", multipart: true) do %>
+  <%= form_tag('item_insert', method: 'post', multipart: true) do %>
 
-    <%= label_tag(:item_type, "Item type:") %><span style="color: #ee0000"> * </span>
+    <%= label_tag(:item_type, 'Item type:') %><span style="color: #ee0000"> * </span>
     <%= select_tag(:item_type, options_for_select(@item_type_layout), :include_blank => true, required: true) %>
 
-    <%= label_tag(:description, "Describe the item:") %><span style="color: #ee0000"> * </span>
+    <%= label_tag(:description, 'Describe the item:') %><span style="color: #ee0000"> * </span>
     <%= text_field_tag :description, nil, placeholder: 'Item description', required: true %>
 
-    <%= label_tag(:location, "Location held at:") %><span style="color: #ee0000"> * </span>
+    <%= label_tag(:location, 'Location held at:') %><span style="color: #ee0000"> * </span>
     <%= select_tag(:location, options_for_select(@locations_layout), :include_blank => true, required: true) %>
 
-    <%= label_tag(:found_by, "Found by:") %><span style="color: #ee0000"> * </span>
-    <%= text_field_tag :found_by, nil, placeholder: "Finder's name", required: true %>
+    <%= label_tag(:found_by, 'Found by:') %><span style="color: #ee0000"> * </span>
+    <%= text_field_tag :found_by, nil, placeholder: 'Finder\'s name', required: true %>
 
     <div>
-      <%= label_tag(:where_found, "Where found:") %><span style="color: #ee0000"> * </span>
+      <%= label_tag(:where_found, 'Where found:') %><span style="color: #ee0000"> * </span>
       <%= text_field_tag :where_found, nil, placeholder: 'Where was this found?', required: true %>
     </div>
 
-    <%= label_tag(:image, "Image: ") %>
+    <%= label_tag(:image, 'Image: ') %>
     <%= file_field_tag(:image) %>
 
     <div>
-      <%= label_tag(:date_found, "Date found:") %><span style="color: #ee0000"> * </span>
+      <%= label_tag(:date_found, 'Date found:') %><span style="color: #ee0000"> * </span>
       <%= date_field_tag(:date_found, nil, required: true, max: Date.today) %>
 
-      <%= label_tag(:found_at, "Time found:") %>
+      <%= label_tag(:found_at, 'Time found:') %>
       <%= time_field_tag(:found_at) %>
     </div>
 
-    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Added by: <%= current_user.user_name %>
+    <div style="padding-top: 10px; padding-bottom: 10px; font-weight: bold;">Added by: <%= current_user.user_name %>
     </div>
 
     <div>

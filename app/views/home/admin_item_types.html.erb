@@ -4,8 +4,8 @@
 <p style="color: #ee0000">* Required</p>
 <div class="mb-4 form-group">
   <h2>Add a new Item Type</h2>
-  <%= form_tag("item_type_insert", method: "post") do %>
-    <%= label_tag(:type_name, "Item type name:") %> <span style="color: #ee0000"> * </span>
+  <%= form_tag('item_type_insert', method: 'post') do %>
+    <%= label_tag(:type_name, 'Item type name:') %> <span style="color: #ee0000"> * </span>
     <%= text_field_tag :type_name, nil, placeholder: 'Electronics', required: true %>
 
     <div>
@@ -30,7 +30,7 @@
   <% @actived_item_types.each do |item_type| %>
     <tr>
       <td>
-        <%= link_to 'Deactivate', item_type_path(item_type) + "/change_status" %>
+        <%= link_to 'Deactivate', toggle_item_type_status_path(item_type) %>
         <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
       </td>
       <td><%= item_type.type_name.titleize %></td>
@@ -54,7 +54,7 @@
   <% @deactivated_item_types.each do |item_type| %>
     <tr>
       <td>
-        <%= link_to 'Activate', item_type_path(item_type) + "/change_status" %>
+        <%= link_to 'Activate', toggle_item_type_status_path(item_type) %>
         <%= link_to 'Edit', edit_item_type_path(item_type.id) %>
       </td>
       <td><%= item_type.type_name.titleize %></td>

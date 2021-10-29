@@ -1,8 +1,8 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
 <h1>Lost & Found - Administration</h1>
 <%# TODO: use link_to %>
-<div class="nav-link"><a href="/admin_users">Add/Edit Users</a></div>
-<div class="nav-link"><a href="/admin_locations">Locations</a></div>
-<div class="nav-link"><a href="/admin_item_types">Item Types</a></div>
-<div class="nav-link"><a href="/admin_purge">Remove old items</a></div>
-<div class="nav-link"><a href="/admin_claimed">View removed items</a></div>
+<div class="nav-link"><%= link_to('Add/Edit Users', admin_users_path) %></div>
+<div class="nav-link"><%= link_to('Locations', admin_locations_path) %></div>
+<div class="nav-link"><%= link_to('Item Types', admin_item_types_path) %></div>
+<div class="nav-link"><%= link_to('Remove old items', admin_purge_path) %></div>
+<div class="nav-link"><%= link_to('View removed items', admin_claimed_path) %></div>

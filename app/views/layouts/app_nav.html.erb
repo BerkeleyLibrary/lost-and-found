@@ -7,39 +7,39 @@
 
   <%# TODO: clean this up %>
 
-  <div id="navbar-dropdown" class="navbar-collapse collapse" >
+  <div id="navbar-dropdown" class="navbar-collapse collapse">
     <ul class="navbar-nav mr-auto">
     </ul>
 
     <ul class="navbar-nav">
       <% if current_user.staff_or_admin? %>
-      <li>
-        <p class="nav-link" ><a href="/insert_form">Add Item</a></p>
-      </li>
+        <li>
+          <p class="nav-link"><%= link_to 'Add Item', new_item_path %></p>
+        </li>
       <% end %>
       <% if current_user.authorized? %>
-      <li>
-        <p class="nav-link"><%= link_to "Search", search_form_path %></p>
-      </li>
+        <li>
+          <p class="nav-link"><%= link_to 'Search', search_form_path %></p>
+        </li>
       <% end %>
       <% if current_user.administrator? %>
-      <li>
-          <p class="nav-link"><%= link_to "Admin Home", admin_path %></p>
-      </li>
+        <li>
+          <p class="nav-link"><%= link_to 'Admin Home', admin_path %></p>
+        </li>
       <% elsif current_user.staff? %>
-      <li>
-        <p class="nav-link"><%= link_to "View claimed items", admin_claimed_path %></p>
-      </li>
+        <li>
+          <p class="nav-link"><%= link_to 'View claimed items', admin_claimed_path %></p>
+        </li>
       <% end %>
       <li>
-         <p class="nav-link"><a href="/logout">CalNet Logout</a></p>
-     </li>
+        <p class="nav-link"><%= link_to 'CalNet Logout', logout_path %></p>
+      </li>
     </ul>
   </div>
 </nav>
 
 <script>
-  function toggleFunction() {
-    document.getElementById("navbar-dropdown").classList.toggle("collapse");
+  function toggleFunction () {
+    document.getElementById('navbar-dropdown').classList.toggle('collapse')
   }
 </script>

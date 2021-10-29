@@ -2,14 +2,14 @@
 <h1>Enter date (all items found before this date will be deleted)</h1>
 
 <div class="mb-4 form-group">
-  <%= form_tag("purge_items", method: "post", multipart: true) do %>
+  <%= form_tag('purge_items', method: 'post', multipart: true) do %>
 
-    <%= label_tag(:purgeTime, "Purge date:") %>
+    <%= label_tag(:purgeTime, 'Purge date:') %>
     <%= date_field_tag(:purgeTime, :date_found, required: true) %>
 
-    <div style="padding: 10px 0px 10px 0px; font-weight: bold;">Current user: <%= current_user.user_name %>
+    <div style="padding-top: 10px; padding-bottom: 10px; font-weight: bold;">Current user: <%= current_user.user_name %>
     </div>
 
-    <%= submit_tag("Purge items") %>
+    <%= submit_tag('Purge items') %>
   <% end %>
 </div>

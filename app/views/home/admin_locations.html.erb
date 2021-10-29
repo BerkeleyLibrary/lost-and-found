@@ -4,8 +4,8 @@
 <p style="color: #ee0000">* Required</p>
 <div class="mb-4 form-group">
   <h2>Add a new location</h2>
-  <%= form_tag("location_insert", method: "post") do %>
-    <%= label_tag(:location_name, "Location name:") %><span style="color: #ee0000"> * </span>
+  <%= form_tag('location_insert', method: 'post') do %>
+    <%= label_tag(:location_name, 'Location name:') %><span style="color: #ee0000"> * </span>
     <%= text_field_tag :location_name, nil, placeholder: 'Moffitt Circ', required: true %>
 
     <div>
@@ -30,7 +30,7 @@
   <% @actived_locations.each do |location| %>
     <tr>
       <td>
-        <%= link_to 'Deactivate', location_path(location) + "/change_status" %>
+        <%= link_to 'Deactivate', toggle_location_status_path(location) %>
         <%= link_to 'Edit', edit_location_path(location.id) %>
       </td>
       <td><%= location.location_name.titleize %></td>
@@ -55,7 +55,7 @@
   <% @deactivated_locations.each do |location| %>
     <tr>
       <td>
-        <%= link_to 'Activate', location_path(location) + "/change_status" %>
+        <%= link_to 'Activate', toggle_location_status_path(location) %>
         <%= link_to 'Edit', edit_location_path(location.id) %>
       </td>
       <td><%= location.location_name.titleize %></td>

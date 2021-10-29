@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>LostAndFound</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= javascript_pack_tag 'application' %>
-    <%= javascript_include_tag 'application' %>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
+<head>
+  <title>LostAndFound</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_pack_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
-  <body>
-    <main id="main">
-      <a href="#main" class="visually-hidden focusable skip-link">Skip to main content</a>
-      <div id="app" class="container">
-        <%= layouts_nav %>
-        <% flash.each do |key, value| %>
-        <div class="<%= flash_class(key) %> " role="alert">
-          <% if key!="success" && key !="notice" %>
-            <h5 class="alert-heading">The following error occurred:</h5>
-            <ul>
-              <li><%= value %></li>
-            </ul>
-         <% else %>
-            <div><%= value %></div>
-          <% end %>
-        </div>
-      <% end %>
-          <%= yield %>
-          <%= layouts_footer %>
+<body>
+<main id="main">
+  <a href="#main" class="visually-hidden focusable skip-link">Skip to main content</a>
+  <div id="app" class="container">
+    <%= layouts_nav %>
+    <% flash.each do |key, value| %>
+      <div class="<%= flash_class(key) %> " role="alert">
+        <% if key != 'success' && key != 'notice' %>
+          <h5 class="alert-heading">The following error occurred:</h5>
+          <ul>
+            <li><%= value %></li>
+          </ul>
+        <% else %>
+          <div><%= value %></div>
+        <% end %>
       </div>
-    </main>
-  </body>
+    <% end %>
+    <%= yield %>
+    <%= layouts_footer %>
+  </div>
+</main>
+</body>
 </html>

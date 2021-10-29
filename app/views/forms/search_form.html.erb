@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag 'admin', media: 'all' %>
 <h1>Search for lost items</h1>
 <div class="mb-4 form-group">
-  <%= form_tag("items", method: "get") do %>
+  <%= form_tag('items', method: 'get') do %>
 
     <%
       # TODO: more elegant way to cache last selection
@@ -9,22 +9,22 @@
       location_options = options_for_select(@locations_layout, cookies[:location] || '(any location)')
     %>
 
-    <%= label_tag(:item_type, "Item type:") %>
+    <%= label_tag(:item_type, 'Item type:') %>
     <%= select_tag(:item_type, item_type_options) %>
 
-    <%= label_tag(:keyword, "Keywords:") %>
+    <%= label_tag(:keyword, 'Keywords:') %>
     <%= text_field_tag :keyword, nil, placeholder: 'Enter search term' %>
 
-    <%= label_tag(:location, "Location:") %>
+    <%= label_tag(:location, 'Location:') %>
     <%= select_tag(:location, location_options) %>
 
 
     <div>
       <h2>Search by date range: </h2>
-      <%= label_tag(:date_found, "Start date:") %>
+      <%= label_tag(:date_found, 'Start date:') %>
       <%= date_field_tag(:date_found) %>
 
-      <%= label_tag(:date_foundEnd, " End date:") %>
+      <%= label_tag(:date_foundEnd, ' End date:') %>
       <%= date_field_tag(:date_foundEnd, nil, max: Date.today) %>
     </div>
 
