@@ -48,7 +48,7 @@ describe 'read-only user', type: :system do
             :item,
             item_type: type.type_name,
             description: "description of #{type.type_name} found in #{loc.location_name}",
-            image_path: File.join('spec/data/images', "#{type.type_name}.jpg"),
+            image_path: File.join('spec/data/images', "#{type.type_name.titleize}.jpg"),
             date_found: date_found.to_time,
             location: loc.location_name
           )
