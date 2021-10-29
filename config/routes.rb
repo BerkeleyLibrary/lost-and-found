@@ -8,13 +8,13 @@ Rails.application.routes.draw do
   get '/health', to: 'home#health'
 
   # TODO: clean these up
-  resources :items
+  resources :items, only: %i[edit update delete destroy]
   resources :users, only: %i[edit update delete destroy]
   resources :locations, only: %i[edit update delete destroy]
   resources :item_types, only: %i[edit update delete destroy]
   resources :roles, only: %i[edit update delete destroy]
 
-  get '/insert_form', to: 'forms#insert_form'
+  get '/insert_form', to: 'forms#insert_form', as: :item_new
   get '/search_form', to: 'forms#search_form'
 
   get '/admin_item_types', to: 'home#admin_item_types'
