@@ -14,12 +14,14 @@ class FixItemDateTimeColumns < ActiveRecord::Migration[6.1]
 
       item.update(date_found: date_found, datetime_found: datetime_found)
     end
+    Item.reset_column_information
   end
 
   def down
     remove_columns(:items, :date_found, :datetime_found)
     rename_column(:items, :legacy_date_found, :date_found)
     rename_column(:items, :legacy_time_found, :found_at)
+    Item.reset_column_information
   end
 
   private

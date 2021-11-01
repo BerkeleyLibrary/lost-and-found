@@ -1,5 +1,6 @@
 class SetItemDateWhereMissing < ActiveRecord::Migration[6.1]
   def change
+    Item.reset_column_information
     Item.where(itemDate: nil).find_each do |item|
       item.update(itemDate: item.created_at.to_date)
     end
