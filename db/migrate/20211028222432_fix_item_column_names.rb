@@ -17,13 +17,11 @@ class FixItemColumnNames < ActiveRecord::Migration[6.1]
     COLUMNS.each do |right, wrong|
       rename_column :items, wrong, right
     end
-    Item.reset_column_information
   end
 
   def down
     COLUMNS.each do |right, wrong|
       rename_column :items, right, wrong
     end
-    Item.reset_column_information
   end
 end

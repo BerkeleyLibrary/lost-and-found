@@ -8,20 +8,20 @@ class FixItemDateTimeColumns < ActiveRecord::Migration[6.1]
       t.column(:datetime_found, :datetime)
     end
 
+    Item.reset_column_information
     Item.find_each do |item|
       date_found = (item.legacy_date_found || item.created_at).utc.to_date
       datetime_found = datetime_found(date_found, item.legacy_time_found)
 
-      item.update(date_found: date_found, datetime_found: datetime_found)
+      item.assign_attributes(date_found: date_found, datetime_found: datetime_found)
+      item.save!(validate: false, touch: false)
     end
-    Item.reset_column_information
   end
 
   def down
     remove_columns(:items, :date_found, :datetime_found)
     rename_column(:items, :legacy_date_found, :date_found)
     rename_column(:items, :legacy_time_found, :found_at)
-    Item.reset_column_information
   end
 
   private
@@ -29,10 +29,13 @@ class FixItemDateTimeColumns < ActiveRecord::Migration[6.1]
   def datetime_found(date_found, time_found)
     return unless date_found && time_found
 
-    year, month, day = [:year, :month, :day].map { |attr| date_found.send(attr) }
-    hour, min, sec = [:hour, :min, :sec].map { |attr| time_found.send(attr) }
-    offset = time_found.strftime('%:z')
+    year, month, day = %i[year month day].map { |attr| date_found.send(attr) }
 
-    DateTime.new(year, month, day, hour, min, sec, offset)
+    # legacy time_found column stores literal Pacific time; Rails assumes it's
+    # UTC and converts it to Pacific on load, so before we can extract the hour
+    # we need to convert it back to 'UTC'
+    time_found_utc = time_found.utc
+    hour, min, sec = %i[hour min sec].map { |attr| time_found_utc.send(attr) }
+    Time.zone.local(year, month, day, hour, min, sec)
   end
 end

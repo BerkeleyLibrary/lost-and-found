@@ -4,7 +4,6 @@ class DropUnusedItemColumns < ActiveRecord::Migration[6.1]
     remove_column :items, :itemObsolete
     remove_column :items, :itemLastModified
     remove_column :items, :itemImage
-    Item.reset_column_information
   end
 
   def down
@@ -13,9 +12,10 @@ class DropUnusedItemColumns < ActiveRecord::Migration[6.1]
     add_column :items, :itemLastModified, :datetime
     add_column :items, :itemImage, :string
 
-    Item.find_each do |item|
-      item.update(itemLastModified: item.updated_at)
-    end
     Item.reset_column_information
+    Item.find_each do |item|
+      item.itemLastModified = item.updated_at
+      item.save!(validate: false, touch: false)
+    end
   end
 end
