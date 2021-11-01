@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   post '/item_types/:id/item_type_update', to: 'item_types#update'
 
   get '/items', to: 'items#index'
+  post '/items', to: 'items#create'
 
   get '/admin_items', to: 'items#admin_items'
   get '/admin_claimed', to: 'items#claimed_items'
