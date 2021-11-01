@@ -16,7 +16,7 @@ class ItemsController < ApplicationController
     search_all = param_or_cookie(:searchAll) # TODO: reimplement search_all?
 
     # TODO: move this logic into the model
-    query = keyword.blank? ? Item : Item.query_params(keyword)
+    query = keyword.blank? ? Item : Item.by_keywords(keyword.split)
     query = query.where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged'))
     query = query.where(status: 1)
 

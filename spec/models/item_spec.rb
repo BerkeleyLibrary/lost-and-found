@@ -27,4 +27,19 @@ describe Item, type: :model do
     item.update(where_found: 'Somewhere else')
     expect(item.versions.size).to eq(2)
   end
+
+  describe :by_keywords do
+    it 'finds items by keywords' do
+      keywords = %w[foo bar]
+      expected_items = ['foo bar', 'bar foo corge', 'bar baz', 'foo baz', 'qux foo']
+        .map { |desc| create(:item, description: desc, item_type: 'pen', location: 'the library') }
+      unexpected_items = ['corge qux', 'qux baz', 'baz qux corge']
+        .map { |desc| create(:item, description: desc, item_type: 'pen', location: 'the library') }
+
+      results = Item.by_keywords(keywords)
+      expect(results).to contain_exactly(*expected_items)
+
+      unexpected_items.each { |item| expect(results).not_to include(item) }
+    end
+  end
 end

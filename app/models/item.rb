@@ -16,9 +16,15 @@ class Item < ApplicationRecord
   scope :claimed, -> { where(status: 3).or(where(claimed_by: 'Purged')) }
   scope :found, -> { where(status: 1).where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged')) } # TODO: is this right?
 
-  scope :query_params, ->(search_text) {
-    search_text.split.inject(Item) do |query, keyword|
-      query.where('description LIKE ?', "%#{keyword}%")
+  scope :by_keywords, ->(keywords) {
+    return Item if keywords.nil? || keywords.empty?
+
+    conditions = keywords.filter_map do |keyword|
+      Item.where('description LIKE ?', "%#{keyword}%") unless keyword.blank?
+    end
+
+    conditions.inject do |query, condition|
+      query.or(condition)
     end
   }
 
