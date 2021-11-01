@@ -230,4 +230,69 @@ describe 'read-only user', type: :system do
       it_behaves_like 'staff access is denied'
     end
   end
+
+  context 'pagination' do
+    attr_reader :locations, :item_types
+
+    before(:each) do
+      @locations = ['Doe', 'Moffitt', 'East Asian Library'].map { |loc| create(:location, location_name: loc.downcase) }
+      @item_types = ['Pencil', 'Pen', 'Trapper Keeper'].map { |it| create(:item_type, type_name: it.downcase, type_description: "a #{it.downcase}") }
+
+      visit(search_form_path)
+    end
+
+    it 'paginates the default search results' do
+      page_size = Kaminari.config.default_per_page
+      expect(page_size).not_to be_nil # just to be sure
+
+      items = Array.new(2 * page_size + 1) do |i|
+        loc = locations[i % locations.size]
+        type = item_types[i % item_types.size]
+        create(
+          :item,
+          item_type: type.type_name,
+          description: "item #{i} desc",
+          date_found: Date.current,
+          location: loc.location_name
+        )
+      end
+      expect(Item.count).to eq(items.size) # just to be sure
+
+      expected_page_1 = items[0...page_size]
+      expect(expected_page_1).not_to be_empty # just to be sure
+      expect(Item.page(1)).to contain_exactly(*expected_page_1)
+
+      expected_page_2 = items[page_size...(2 * page_size)]
+      expect(expected_page_2).not_to be_empty # just to be sure
+      expect(Item.page(2)).to contain_exactly(*expected_page_2)
+
+      expected_page_3 = items[(2 * page_size)...]
+      expect(expected_page_3).not_to be_empty # just to be sure
+      expect(Item.page(3)).to contain_exactly(*expected_page_3)
+
+      page.click_link_or_button('Submit')
+      expect(page).to have_content('Found Items')
+
+      table = page.find('#found_items_table')
+      expected_page_1.each { |item| expect(table).to have_selector('tr', text: item.description) }
+      expected_page_2.each { |item| expect(table).not_to have_selector('tr', text: item.description) }
+      expected_page_3.each { |item| expect(table).not_to have_selector('tr', text: item.description) }
+
+      # click "Next" and wait for page to load
+      page.click_link(nil, text: /next/i)
+      expect(page).to have_link(nil, text: /first/i)
+
+      expected_page_1.each { |item| expect(table).not_to have_selector('tr', text: item.description) }
+      expected_page_2.each { |item| expect(table).to have_selector('tr', text: item.description) }
+      expected_page_3.each { |item| expect(table).not_to have_selector('tr', text: item.description) }
+
+      # click "Next" and wait for page to load
+      page.click_link(nil, text: /last/i)
+      expect(page).not_to have_link(nil, text: /last/i)
+
+      expected_page_1.each { |item| expect(table).not_to have_selector('tr', text: item.description) }
+      expected_page_2.each { |item| expect(table).not_to have_selector('tr', text: item.description) }
+      expected_page_3.each { |item| expect(table).to have_selector('tr', text: item.description) }
+    end
+  end
 end
