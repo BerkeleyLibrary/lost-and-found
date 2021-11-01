@@ -169,8 +169,8 @@ class ItemsController < ApplicationController
   private
 
   def date_and_datetime_found_values
-    return unless (date_found = parse_date_found(params[:date_found]))
-    return date_found unless (dp_param = params[:time_found])
+    return if (date_found = parse_date_found(params[:date_found])).blank?
+    return date_found if (dp_param = params[:time_found]).blank?
 
     datetime_found_param = "#{params[:date_found]} #{dp_param}"
     datetime_found = Time.strptime(datetime_found_param, '%Y-%m-%d %H:%M').in_time_zone
