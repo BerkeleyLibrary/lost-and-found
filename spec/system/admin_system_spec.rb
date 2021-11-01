@@ -95,8 +95,8 @@ describe 'admin user', type: :system do
         name = 'Paige J. Poe'
         role = 'Staff'
 
-        fill_in('uid', with: uid)
-        fill_in('user_name', with: name)
+        fill_in('uid', with: uid, fill_options: { clear: :backspace })
+        fill_in('user_name', with: name, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
 
         # Add, and wait for add to complete
@@ -126,7 +126,7 @@ describe 'admin user', type: :system do
         uid = 5_551_211
         role = 'Staff'
 
-        fill_in('uid', with: uid)
+        fill_in('uid', with: uid, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
         page.click_link_or_button('Add user')
 
@@ -143,7 +143,7 @@ describe 'admin user', type: :system do
         name = 'Paige J. Poe'
         role = 'Staff'
 
-        fill_in('user_name', with: name)
+        fill_in('user_name', with: name, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
 
         page.click_link_or_button('Add user')
@@ -162,8 +162,8 @@ describe 'admin user', type: :system do
         role = 'Staff'
         invalid_uid = 'not a valid UID'
 
-        fill_in('user_name', with: name)
-        fill_in('uid', with: invalid_uid)
+        fill_in('user_name', with: name, fill_options: { clear: :backspace })
+        fill_in('uid', with: invalid_uid, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
 
         page.click_link_or_button('Add user')
@@ -177,12 +177,13 @@ describe 'admin user', type: :system do
 
       it 'prevents adding duplicate UIDs' do
         user_count = User.count
+        duplicate_uid = User.where(user_role: 'Read-only').take.uid
 
         name = 'Paige J. Poe'
         role = 'Staff'
 
-        fill_in('uid', with: user.uid)
-        fill_in('user_name', with: name)
+        fill_in('uid', with: duplicate_uid, fill_options: { clear: :backspace })
+        fill_in('user_name', with: name, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
 
         page.click_link_or_button('Add user')
@@ -366,16 +367,20 @@ describe 'admin user', type: :system do
         titleized_name = loc.location_name.titleize
         fill_in('location_name', with: titleized_name, fill_options: { clear: :backspace })
         page.click_link_or_button('Add location')
-
         expect(page).to have_content('already exists')
         expect(page).to have_selector('tr', text: titleized_name, count: 1)
         expect(Location.count).to eq(location_count)
+      end
+
+      it 'prevents adding a duplicate location that differs only by case' do
+        location_count = Location.count
+
+        loc = Location.take
 
         downcased_name = loc.location_name.downcase
         fill_in('location_name', with: downcased_name, fill_options: { clear: :backspace })
 
         page.click_link_or_button('Add location')
-
         expect(page).to have_content('already exists')
         expect(page).to have_selector('tr', text: titleized_name, count: 1)
         expect(Location.count).to eq(location_count)
@@ -541,6 +546,12 @@ describe 'admin user', type: :system do
         expect(page).to have_content('already exists')
         expect(page).to have_selector('tr', text: titleized_name, count: 1)
         expect(ItemType.count).to eq(item_type_count)
+      end
+
+      it 'prevents adding an item type that differs only by case' do
+        item_type_count = ItemType.count
+
+        t = ItemType.take
 
         downcased_name = t.type_name.downcase
         fill_in('type_name', with: downcased_name, fill_options: { clear: :backspace })
