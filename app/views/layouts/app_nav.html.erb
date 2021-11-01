@@ -14,7 +14,7 @@
     <ul class="navbar-nav">
       <% if current_user.staff_or_admin? %>
         <li>
-          <p class="nav-link"><%= link_to 'Add Item', item_new_path %></p>
+          <p class="nav-link"><%= link_to 'Add Item', new_item_path %></p>
         </li>
       <% end %>
       <% if current_user.authorized? %>

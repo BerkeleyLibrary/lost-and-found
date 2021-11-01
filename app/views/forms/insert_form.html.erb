@@ -3,7 +3,7 @@
 <p style="color: #ee0000">* Required</p>
 
 <div class="mb-4 form-group">
-  <%= form_tag('item_insert', method: 'post', multipart: true) do %>
+  <%= form_tag('items', method: 'post', multipart: true) do %>
 
     <%= label_tag(:item_type, 'Item type:') %><span style="color: #ee0000"> * </span>
     <%= select_tag(:item_type, options_for_select(@item_type_layout), :include_blank => true, required: true) %>

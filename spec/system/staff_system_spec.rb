@@ -97,7 +97,7 @@ describe 'staff user', type: :system do
         attr_reader :date_found_str
 
         before(:each) do
-          visit(item_new_path)
+          visit(new_item_path)
 
           @item_type = ItemType.take
           @location = Location.take
