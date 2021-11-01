@@ -5,7 +5,7 @@
   <%= form_tag('purge_items', method: 'post', multipart: true) do %>
 
     <%= label_tag(:purgeTime, 'Purge date:') %>
-    <%= date_field_tag(:purgeTime, :date_found, required: true) %>
+    <%= date_field_tag(:purgeTime, required: true) %>
 
     <div style="padding-top: 10px; padding-bottom: 10px; font-weight: bold;">Current user: <%= current_user.user_name %>
     </div>
