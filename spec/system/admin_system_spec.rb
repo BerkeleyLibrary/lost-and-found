@@ -72,6 +72,8 @@ describe 'admin user', type: :system do
 
         # Deactivate, and wait for deactivation to take effect
         deactivate_link.click
+        expect(page).to have_content("User #{u.user_name} deactivated")
+
         activate_link = page.find_link('Activate', href: toggle_status_path)
 
         u.reload
@@ -80,6 +82,8 @@ describe 'admin user', type: :system do
 
         # Activate, and wait for activation to take effect
         activate_link.click
+        expect(page).to have_content("User #{u.user_name} activated")
+
         expect(page).to have_link('Deactivate', href: toggle_status_path)
 
         u.reload
@@ -97,6 +101,8 @@ describe 'admin user', type: :system do
 
         # Add, and wait for add to complete
         page.click_link_or_button('Add user')
+        expect(page).to have_content("User #{name} added")
+
         row = page.find('tr', text: uid)
 
         u = User.find_by(uid: uid)
@@ -125,6 +131,7 @@ describe 'admin user', type: :system do
         page.click_link_or_button('Add user')
 
         # TODO: figure out how to test HTML5 native validation, or replace w/JS validation
+        expect(page).not_to have_content(/User .* added/)
         expect(page).not_to have_selector('tr', text: uid)
 
         expect(User.count).to eq(user_count)
@@ -142,6 +149,7 @@ describe 'admin user', type: :system do
         page.click_link_or_button('Add user')
 
         # TODO: figure out how to test HTML5 native validation, or replace w/JS validation
+        expect(page).not_to have_content("User #{name} added")
         expect(page).not_to have_selector('tr', text: name)
 
         expect(User.count).to eq(user_count)
@@ -161,6 +169,7 @@ describe 'admin user', type: :system do
         page.click_link_or_button('Add user')
 
         # TODO: figure out how to test HTML5 native validation, or replace w/JS validation
+        expect(page).not_to have_content("User #{name} added")
         expect(page).not_to have_selector('tr', text: name)
 
         expect(User.count).to eq(user_count)
@@ -178,6 +187,8 @@ describe 'admin user', type: :system do
 
         page.click_link_or_button('Add user')
         expect(page).to have_content('already exists')
+        expect(page).not_to have_content("User #{name} added")
+
         expect(User.count).to eq(user_count)
       end
 
@@ -195,19 +206,21 @@ describe 'admin user', type: :system do
 
         role = 'Staff'
         uid = u.uid * 2
-        name = u.user_name.sub(/[A-Z][a-z]+$/, 'Marumaru')
+        new_name = u.user_name.sub(/[A-Z][a-z]+$/, 'Marumaru')
 
         fill_in('uid', with: uid, fill_options: { clear: :backspace })
-        fill_in('user_name', with: name, fill_options: { clear: :backspace })
+        fill_in('user_name', with: new_name, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
         find('#user_active').set(false)
 
         # Add, and wait for add to complete
         page.click_link_or_button('Update user')
-        expect(page).to have_selector('tr', text: name)
+        expect(page).to have_content("User #{new_name} updated")
+
+        expect(page).to have_selector('tr', text: new_name)
 
         u.reload
-        expect(u.user_name).to eq(name)
+        expect(u.user_name).to eq(new_name)
         expect(u.user_role).to eq(role)
         expect(u.uid).to eq(uid)
         expect(u.user_active).to eq(false)
@@ -236,6 +249,7 @@ describe 'admin user', type: :system do
         page.click_link_or_button('Update user')
 
         expect(page).to have_content('already exists')
+        expect(page).not_to have_content("User #{u.user_name} updated")
 
         u.reload
         expect(u.uid).to eq(old_uid)
@@ -255,6 +269,7 @@ describe 'admin user', type: :system do
 
         page.click_link_or_button('Update user')
         expect(page).to have_content('not a number')
+        expect(page).not_to have_content("User #{u.user_name} updated")
 
         u.reload
         expect(u.uid).to eq(old_uid)

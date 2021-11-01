@@ -7,9 +7,9 @@ class UsersController < ApplicationController
   end
 
   # TODO: clean this up further
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:disable Metrics/MethodLength
   def create
-    @user = User.new(
+    user = User.new(
       uid: params[:uid],
       user_name: params[:user_name],
       user_role: params[:user_role],
@@ -18,46 +18,42 @@ class UsersController < ApplicationController
     )
 
     begin
-      @user.save!
-      flash[:success] = "Success: User #{@user.user_name} added"
+      user.save!
+      flash[:success] = "User #{user.user_name} added"
     rescue StandardError => e
-      flash_errors(@user, e)
+      flash_errors(user, e)
     end
-    @users = User.all
     redirect_to admin_users_path
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/MethodLength
 
   # TODO: clean this up further
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def update
-    @user = User.find(params[:id])
+    user = User.find(params[:id])
 
     begin
       # TODO: just use strong parameters
-      @user.update!(
+      user.update!(
         uid: params[:uid],
         user_name: params[:user_name],
         user_role: params[:user_role],
         updated_by: current_user.user_name,
         user_active: (params[:user_active] == 'true')
       )
-      flash[:success] = "Success: User #{@user.user_name} updated"
+      flash[:success] = "User #{user.user_name} updated"
       redirect_to admin_users_path
     rescue StandardError => e
-      flash_errors(@user, e)
-      redirect_to edit_user_path(id: @user.id)
-    ensure
-      @users = User.all
+      flash_errors(user, e)
+      redirect_to edit_user_path(id: user.id)
     end
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def change_status
-    @user = User.find(params[:id])
-    @user.update(user_active: !@user.user_active, updated_by: current_user.user_name)
-    @users = User.all
-    flash[:success] = "Success: User #{@user.user_name.titleize} status updated!"
+    user = User.find(params[:id])
+    user.update(user_active: !user.user_active, updated_by: current_user.user_name)
+    flash[:success] = "User #{user.user_name} #{user.user_active? ? 'activated' : 'deactivated'}"
     redirect_to admin_users_path
   end
 end
