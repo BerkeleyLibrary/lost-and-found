@@ -296,6 +296,8 @@ describe 'admin user', type: :system do
 
         # Deactivate, and wait for deactivation to take effect
         deactivate_link.click
+        expect(page).to have_content("Location #{titleized_name} deactivated")
+
         activate_link = page.find_link('Activate', href: toggle_status_path)
 
         loc.reload
@@ -304,6 +306,8 @@ describe 'admin user', type: :system do
 
         # Activate, and wait for activation to take effect
         activate_link.click
+        expect(page).to have_content("Location #{titleized_name} activated")
+
         expect(page).to have_link('Deactivate', href: toggle_status_path)
 
         loc.reload
@@ -463,6 +467,8 @@ describe 'admin user', type: :system do
 
         # Deactivate, and wait for deactivation to take effect
         deactivate_link.click
+        expect(page).to have_content("Item type #{titleized_name} deactivated")
+
         activate_link = page.find_link('Activate', href: toggle_status_path)
 
         t.reload
@@ -471,6 +477,8 @@ describe 'admin user', type: :system do
 
         # Activate, and wait for activation to take effect
         activate_link.click
+        expect(page).to have_content("Item type #{titleized_name} activated")
+
         expect(page).to have_link('Deactivate', href: toggle_status_path)
 
         t.reload

@@ -57,7 +57,7 @@ class LocationsController < ApplicationController
     )
 
     # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-    flash[:success] = "Location #{location.location_name.titleize} updated"
+    flash[:success] = "Location #{location.location_name.titleize} #{location.location_active? ? 'activated' : 'deactivated'}"
     redirect_to admin_locations_path
   end
 end

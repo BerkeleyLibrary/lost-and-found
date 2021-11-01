@@ -57,7 +57,7 @@ class ItemTypesController < ApplicationController
     )
 
     # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
-    flash[:success] = "Item type #{item_type.type_name.titleize} updated"
+    flash[:success] = "Item type #{item_type.type_name.titleize} #{item_type.type_active? ? 'activated' : 'deactivated'}"
     redirect_to admin_item_types_path
   end
 end
