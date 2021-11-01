@@ -382,6 +382,8 @@ describe 'admin user', type: :system do
 
         page.click_link_or_button('Add location')
         expect(page).to have_content('already exists')
+
+        titleized_name = loc.location_name.titleize
         expect(page).to have_selector('tr', text: titleized_name, count: 1)
         expect(Location.count).to eq(location_count)
       end
@@ -559,6 +561,7 @@ describe 'admin user', type: :system do
         page.click_link_or_button('Add item type')
 
         expect(page).to have_content('already exists')
+        titleized_name = t.type_name.titleize
         expect(page).to have_selector('tr', text: titleized_name, count: 1)
         expect(ItemType.count).to eq(item_type_count)
       end
