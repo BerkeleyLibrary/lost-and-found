@@ -30,7 +30,11 @@ class ItemsController < ApplicationController
 
     query = query.where(item_type: item_type) unless item_type.blank?
     query = query.where(location: item_location) unless item_location.blank? || search_all # TODO: reimplement search_all?
-    query = query.order(date_found: :desc)
+
+    # datetime_found can be null, and we want to sort those to the end, so we need to use
+    # NULLS LAST (see https://www.postgresql.org/docs/current/queries-order.html) and
+    # string sort expressions
+    query = query.order('date_found DESC', 'datetime_found DESC NULLS LAST', 'created_at DESC')
 
     @items_found = query.page(params[:page]) # TODO: test pagination
   end
