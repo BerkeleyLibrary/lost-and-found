@@ -8,19 +8,16 @@ ActiveStorage.start()
 window.addEventListener('DOMContentLoaded', () => {
   const status = document.getElementById('status')
   if (!status) {
-    console.log('#status not found')
     return
   }
 
   const claimedBy = document.getElementById('claimed_by')
   if (!claimedBy) {
-    console.log('#claimed_by not found')
     return
   }
 
   const claimedByLabel = document.getElementById('claimed_by_label')
   if (!claimedByLabel) {
-    console.log('#claimed_by_label not found')
     return
   }
 
@@ -38,7 +35,3 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   })
 })
-
-export function toggleFunction () {
-  document.getElementById('navbar-dropdown').classList.toggle('collapse')
-}
