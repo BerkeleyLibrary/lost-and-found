@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   # Global controller configuration
 
   # @see https://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection/ClassMethods.html
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :exception, prepend: true
 
   # ------------------------------
   # Email helpers
@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
   #
   # @return [User]
   def current_user
-    @current_user ||= (User.from_session(session) || User.new)
+    @current_user ||= User.from_session(session)
   end
   helper_method :current_user
 
@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   # @return [void]
   def sign_in(user)
     # TODO: connect session to DB users in less hacky way
-    session[:user] = { 'uid' => user.uid }
+    session[:user] = user
     session[:expires_at] = 3600.seconds.from_now
   end
 

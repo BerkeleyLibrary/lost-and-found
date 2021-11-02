@@ -25,11 +25,18 @@ class User < ApplicationRecord
     end
 
     def from_session(session)
-      return unless session && session[:user]
-
+      attrs = OpenStruct.new((session && session[:user]) || {})
       # TODO: connect session to DB users in less hacky way
-      session_uid = session[:user]['uid']
-      log_in_as(session_uid) || User.new(uid: session_uid)
+
+      session_uid = attrs.uid
+      existing_user = log_in_as(session_uid)
+      return existing_user if existing_user
+
+      User.new(
+        uid: session_uid,
+        user_name: attrs.user_name,
+        user_active: false
+      )
     end
 
     private

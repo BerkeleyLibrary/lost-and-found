@@ -45,6 +45,7 @@ describe 'staff user', type: :system do
       describe 'search' do
         it 'finds the items' do
           page.click_link_or_button('Submit')
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).to have_content('Found Items')
 
           table = page.find('#found_items_table')
@@ -123,7 +124,7 @@ describe 'staff user', type: :system do
           attach_file('image', img_path)
 
           page.click_link_or_button('Add item')
-
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).to have_content('item added')
 
           row = page.find('tr', text: description)
@@ -159,6 +160,7 @@ describe 'staff user', type: :system do
           attach_file('image', img_path)
 
           page.click_link_or_button('Add item')
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).not_to have_content('item added')
         end
 
@@ -171,6 +173,7 @@ describe 'staff user', type: :system do
           attach_file('image', img_path)
 
           page.click_link_or_button('Add item')
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).not_to have_content('item added')
         end
 
@@ -183,6 +186,7 @@ describe 'staff user', type: :system do
           attach_file('image', img_path)
 
           page.click_link_or_button('Add item')
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).not_to have_content('item added')
         end
 
@@ -195,6 +199,7 @@ describe 'staff user', type: :system do
           attach_file('image', img_path)
 
           page.click_link_or_button('Add item')
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).not_to have_content('item added')
         end
 
@@ -207,6 +212,7 @@ describe 'staff user', type: :system do
           attach_file('image', img_path)
 
           page.click_link_or_button('Add item')
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).not_to have_content('item added')
         end
       end
@@ -251,6 +257,7 @@ describe 'staff user', type: :system do
           attach_file('image', new_img_path)
 
           page.click_link_or_button('Update item')
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).to have_content('item updated')
 
           item.reload
@@ -272,6 +279,7 @@ describe 'staff user', type: :system do
           attach_file('image', new_img_path)
 
           page.click_link_or_button('Update item')
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).to have_content('item updated')
 
           item.reload
@@ -287,7 +295,7 @@ describe 'staff user', type: :system do
           fill_in('claimed_by', with: claimed_by)
 
           page.click_link_or_button('Update item')
-
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).to have_content('item updated')
 
           item.reload
@@ -334,6 +342,7 @@ describe 'staff user', type: :system do
           fill_in('claimed_by', with: claimed_by)
 
           page.click_link_or_button('Update item')
+          expect(page).not_to have_content('Internal Server Error')
           expect(page).to have_content('item updated')
 
           visit(show_path)
@@ -383,6 +392,7 @@ describe 'staff user', type: :system do
     describe 'search' do
       it 'allows search with no parameters' do
         page.click_link_or_button('Submit')
+        expect(page).not_to have_content('Internal Server Error')
         expect(page).to have_content('Found Items')
       end
     end
