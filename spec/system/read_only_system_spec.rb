@@ -248,27 +248,46 @@ describe 'read-only user', type: :system do
       items = Array.new(2 * page_size + 1) do |i|
         loc = locations[i % locations.size]
         type = item_types[i % item_types.size]
+
+        start_date = Date.current
+
         create(
           :item,
           item_type: type.type_name,
           description: "item #{i} desc",
-          date_found: Date.current,
+          date_found: start_date,
+          datetime_found: start_date + i.seconds,
           location: loc.location_name
         )
       end
       expect(Item.count).to eq(items.size) # just to be sure
 
+      ordered_items = Item.order('date_found DESC', 'datetime_found DESC NULLS LAST', 'created_at DESC')
+      items.sort! do |i1, i2|
+        df1 = i1.date_found
+        df2 = i2.date_found
+        o = df2 <=> df1                 # NOTE: reverse order
+        next o if o != 0
+
+        dt1 = i1.datetime_found || Time.new(0)
+        dt2 = i2.datetime_found || Time.new(0)
+        o = dt2 <=> dt1                 # NOTE: reverse order
+        next o if o != 0
+
+        i2.created_at <=> i1.created_at # NOTE: reverse order
+      end
+
       expected_page_1 = items[0...page_size]
       expect(expected_page_1).not_to be_empty # just to be sure
-      expect(Item.page(1)).to contain_exactly(*expected_page_1)
+      expect(ordered_items.page(1)).to contain_exactly(*expected_page_1)
 
       expected_page_2 = items[page_size...(2 * page_size)]
       expect(expected_page_2).not_to be_empty # just to be sure
-      expect(Item.page(2)).to contain_exactly(*expected_page_2)
+      expect(ordered_items.page(2)).to contain_exactly(*expected_page_2)
 
       expected_page_3 = items[(2 * page_size)...]
       expect(expected_page_3).not_to be_empty # just to be sure
-      expect(Item.page(3)).to contain_exactly(*expected_page_3)
+      expect(ordered_items.page(3)).to contain_exactly(*expected_page_3)
 
       page.click_link_or_button('Submit')
       expect(page).to have_content('Found Items')
