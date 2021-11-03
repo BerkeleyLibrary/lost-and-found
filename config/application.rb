@@ -15,8 +15,6 @@ require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'sprockets/railtie'
 
-require 'rails/all'
-
 # TODO: figure out why Bundler.require() doesn't pick this up
 require 'berkeley_library/logging/railtie'
 
