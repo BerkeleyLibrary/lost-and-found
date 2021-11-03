@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/BerkeleyLibrary/logging.git
-  revision: 4485e2f50927301e84737f9a805c0e0806ffc009
+  revision: 07824ad1cc97d6e1fa92c9dc2d4691e1353b0365
   branch: main
   specs:
     berkeley_library-logging (0.2.4)
@@ -150,7 +150,7 @@ GEM
       activesupport (>= 5.0)
     hashdiff (1.0.1)
     hashie (4.1.0)
-    i18n (1.8.10)
+    i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
