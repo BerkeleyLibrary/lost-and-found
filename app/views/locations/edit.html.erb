@@ -1,16 +1,14 @@
-<%= stylesheet_link_tag 'admin', media: 'all' %>
 <h1>Edit location</h1>
 <div class="table mt-5">
-  <%= form_tag('location_update', method: 'post') do %>
+  <%= form_with(url: location_path, method: :put, local: true) do |form| %>
+    <%# TODO: enforce case-insensitive uniqueness w/o mangling user-entered names %>
+    <%= form.label(:location_name, 'Location name:') %>
+    <%= form.text_field(:location_name, value: @location.location_name.titleize) %>
 
-    <%= label_tag(:location_name, 'Location name:') %>
-    <%= text_field_tag :location_name, @location.location_name %>
+    <%= form.label(:location_active, 'Location active') %>
+    <%= form.check_box(:location_active, checked: @location.location_active) %>
 
-    <%= label_tag(:location_active, 'Active location:') %>
-    <%= check_box_tag(:location_active, value = true, checked = @location.location_active) %>
-
-    <%= hidden_field_tag(:id, @location.id) %>
-
-    <div><%= submit_tag('Update location') %></div>
+    <%= form.hidden_field(:id, value: @location.id) %>
+    <div><%= form.submit('Update location') %></div>
   <% end %>
 </div>

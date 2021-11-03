@@ -1,19 +1,18 @@
-<%= stylesheet_link_tag 'admin', media: 'all' %>
 
 <div class="mb-4 form-group">
   <h1>Add/Edit Lost & Found Users</h1>
   <p style="color: #ee0000">* Required</p>
   <h2>Add a new user</h2>
-  <%= form_tag('user_insert', method: 'post') do %>
+  <%= form_with(url: user_insert_path, local: true) do |form| %>
 
-    <%= label_tag(:user_role, 'User role:') %> <span style="color: #ee0000"> * </span>
-    <%= select_tag(:user_role, options_for_select(User::ROLES), :include_blank => true, required: true) %>
+    <%= form.label(:user_role, 'User role:') %> <span style="color: #ee0000"> * </span>
+    <%= form.select(:user_role, options_for_select(User::ROLES), include_blank: true, required: true) %>
 
-    <%= label_tag(:user_name, 'User name:') %><span style="color: #ee0000"> * </span>
-    <%= text_field_tag :user_name, nil, placeholder: 'John Smith', required: true %>
+    <%= form.label(:user_name, 'User name:') %><span style="color: #ee0000"> * </span>
+    <%= form.text_field :user_name, placeholder: 'John Smith', required: true %>
 
-    <%= label_tag(:uid, 'User ID:') %><span style="color: #ee0000"> * </span>
-    <%= text_field_tag :uid, nil, placeholder: 'UID', required: true %>
+    <%= form.label(:uid, 'User ID:') %><span style="color: #ee0000"> * </span>
+    <%= form.text_field :uid, placeholder: 'UID', required: true %>
 
     <div>
       <div class="btn-group" role="group">
@@ -36,7 +35,7 @@
   </thead>
   <!-- Layout all those beautiful requests -->
   <tbody>
-  <% @actived_users.each do |user| %>
+  <% @active_users.each do |user| %>
     <tr>
       <td>
         <%= link_to 'Deactivate', toggle_user_status_path(user) %>
@@ -62,7 +61,7 @@
   </tr>
   </thead>
   <tbody>
-  <% @deactivated_users.each do |user| %>
+  <% @inactive_users.each do |user| %>
     <tr>
       <td>
         <%= link_to 'Activate', toggle_user_status_path(user) %>

@@ -9,6 +9,9 @@ class User < ApplicationRecord
   validates :uid, presence: true, numericality: true
   validates :user_role, inclusion: ROLES
 
+  scope :active, -> { where(user_active: true) } # TODO: just rename the columns
+  scope :inactive, -> { where(user_active: false) }
+
   class << self
     def from_omniauth(auth)
       ensure_valid_provider(auth['provider'])

@@ -1,12 +1,15 @@
-<%= stylesheet_link_tag 'admin', media: 'all' %>
 <h1>Edit item type</h1>
 <div class="table mt-5">
-  <%= form_tag('item_type_update', method: 'post') do %>
-    <%= label_tag(:type_name, 'Item type name:') %>
-    <%= text_field_tag :type_name, @item_type.type_name %>
-    <%= label_tag(:type_active, 'Active item type') %>
-    <%= check_box_tag(:type_active, value = true, checked = @item_type.type_active) %>
-    <%= hidden_field_tag(:id, @item_type.id) %>
-    <div><%= submit_tag('Update item type') %></div>
+  <%= form_with(url: item_type_path, method: :put, local: true) do |form| %>
+    <%# TODO: enforce case-insensitive uniqueness w/o mangling user-entered names %>
+    <%= form.label(:type_name, 'Item type name:') %>
+    <%= form.text_field(:type_name, value: @item_type.type_name.titleize) %>
+
+    <%= form.label(:type_active, 'Item type active:') %>
+    <%= form.check_box(:type_active, checked: @item_type.type_active) %>
+
+    <%= form.hidden_field(:id, value: @item_type.id) %>
+
+    <div><%= form.submit('Update item type') %></div>
   <% end %>
 </div>

@@ -1,20 +1,19 @@
-<%= stylesheet_link_tag 'admin', media: 'all' %>
 <h1>Edit user</h1>
 <div class="table mt-5">
-  <%= form_tag("user_update", method: "post") do %>
+  <%= form_with(url: user_path, method: :put, local: true) do |form| %>
 
-    <%= label_tag(:user_role, "User role:") %>
-    <%= select_tag(:user_role, options_for_select(User::ROLES, @user.user_role)) %>
+    <%= form.label(:user_role, "User role:") %>
+    <%= form.select(:user_role, options_for_select(User::ROLES, @user.user_role)) %>
 
-    <%= label_tag(:user_name, "User name:") %>
-    <%= text_field_tag :user_name, @user.user_name %>
+    <%= form.label(:user_name, "User name:") %>
+    <%= form.text_field :user_name, value: @user.user_name %>
 
-    <%= label_tag(:uid, "UID:") %>
-    <%= text_field_tag :uid, @user.uid %>
+    <%= form.label(:uid, "UID:") %>
+    <%= form.text_field :uid, value: @user.uid %>
 
-    <%= label_tag(:user_active, "Active user") %>
-    <%= check_box_tag(:user_active, value = true, checked = @user.user_active) %>
-    <%= hidden_field_tag(:id, @user.id) %>
+    <%= form.label(:user_active, "Active user") %>
+    <%= form.check_box(:user_active, checked: @user.user_active) %>
+    <%= form.hidden_field(:id, value: @user.id) %>
     <div><%= submit_tag("Update user") %></div>
   <% end %>
 </div>

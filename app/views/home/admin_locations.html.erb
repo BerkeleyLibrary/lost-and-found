@@ -1,12 +1,11 @@
-<%= stylesheet_link_tag 'admin', media: 'all' %>
 
 <h1>Add/Edit Lost & Found Locations</h1>
 <p style="color: #ee0000">* Required</p>
 <div class="mb-4 form-group">
   <h2>Add a new location</h2>
-  <%= form_tag('location_insert', method: 'post') do %>
-    <%= label_tag(:location_name, 'Location name:') %><span style="color: #ee0000"> * </span>
-    <%= text_field_tag :location_name, nil, placeholder: 'Moffitt Circ', required: true %>
+  <%= form_with(url: location_insert_path, local: true) do |form| %>
+    <%= form.label(:location_name, 'Location name:') %><span style="color: #ee0000"> * </span>
+    <%= form.text_field(:location_name, placeholder: 'Moffitt Circ', required: true) %>
 
     <div>
       <div class="btn-group" role="group">
@@ -27,7 +26,7 @@
   </thead>
   <!-- Layout all those beautiful requests -->
   <tbody>
-  <% @actived_locations.each do |location| %>
+  <% @active_locations.each do |location| %>
     <tr>
       <td>
         <%= link_to 'Deactivate', toggle_location_status_path(location) %>
@@ -52,7 +51,7 @@
   </thead>
   <!-- Layout all those beautiful requests -->
   <tbody>
-  <% @deactivated_locations.each do |location| %>
+  <% @inactive_locations.each do |location| %>
     <tr>
       <td>
         <%= link_to 'Activate', toggle_location_status_path(location) %>

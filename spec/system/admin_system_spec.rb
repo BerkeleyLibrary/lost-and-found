@@ -763,7 +763,7 @@ describe 'admin user', type: :system do
           purged_ids = Item.where('items."date_found" <= ?', cutoff_date).pluck(:id)
           unpurged_ids = Item.where('items."date_found" > ?', cutoff_date).pluck(:id)
 
-          fill_in('purgeTime', with: cutoff_date.strftime('%m/%d/%Y'))
+          fill_in('purge_date', with: cutoff_date.strftime('%m/%d/%Y'))
           page.click_link_or_button('Purge items')
 
           expect(page).to have_content("#{purged_ids.size} items purged")
@@ -785,7 +785,7 @@ describe 'admin user', type: :system do
           cutoff_date_2 = all_date_founds[all_date_founds.size / 2]
           newly_purged_ids = Item.where('items."date_found" <= ? AND items."date_found" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
 
-          fill_in('purgeTime', with: cutoff_date_2.strftime('%m/%d/%Y'))
+          fill_in('purge_date', with: cutoff_date_2.strftime('%m/%d/%Y'))
           page.click_link_or_button('Purge items')
 
           expect(page).to have_content("#{newly_purged_ids.size} items purged")
@@ -813,7 +813,7 @@ describe 'admin user', type: :system do
           cutoff_date_2 = all_date_founds[all_date_founds.size / 2]
           newly_purged_ids = Item.where('items."date_found" <= ? AND items."date_found" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
 
-          fill_in('purgeTime', with: cutoff_date_2.strftime('%m/%d/%Y'))
+          fill_in('purge_date', with: cutoff_date_2.strftime('%m/%d/%Y'))
           page.click_link_or_button('Purge items')
 
           expect(page).to have_content("#{newly_purged_ids.size} items purged")

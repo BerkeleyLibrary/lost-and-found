@@ -1,12 +1,11 @@
-<%= stylesheet_link_tag 'admin', media: 'all' %>
 
 <h1>Add/Edit Lost & Found Item Types</h1>
 <p style="color: #ee0000">* Required</p>
 <div class="mb-4 form-group">
   <h2>Add a new Item Type</h2>
-  <%= form_tag('item_type_insert', method: 'post') do %>
-    <%= label_tag(:type_name, 'Item type name:') %> <span style="color: #ee0000"> * </span>
-    <%= text_field_tag :type_name, nil, placeholder: 'Electronics', required: true %>
+  <%= form_with(url: item_type_insert_path, local: true) do |form| %>
+    <%= form.label(:type_name, 'Item type name:') %> <span style="color: #ee0000"> * </span>
+    <%= form.text_field(:type_name, placeholder: 'Electronics', required: true) %>
 
     <div>
       <div class="btn-group" role="group">
@@ -27,7 +26,7 @@
   </thead>
   <!-- Layout all those beautiful requests -->
   <tbody>
-  <% @actived_item_types.each do |item_type| %>
+  <% @active_item_types.each do |item_type| %>
     <tr>
       <td>
         <%= link_to 'Deactivate', toggle_item_type_status_path(item_type) %>
@@ -51,7 +50,7 @@
   </thead>
   <!-- Layout all those beautiful requests -->
   <tbody>
-  <% @deactivated_item_types.each do |item_type| %>
+  <% @inactive_item_types.each do |item_type| %>
     <tr>
       <td>
         <%= link_to 'Activate', toggle_item_type_status_path(item_type) %>

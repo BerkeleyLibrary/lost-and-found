@@ -36,7 +36,7 @@ class LocationsController < ApplicationController
     begin
       location.update!(
         location_name: params[:location_name].downcase,
-        location_active: (params[:location_active] == 'true'),
+        location_active: (params[:location_active] == '1'),
         updated_by: current_user.user_name
       )
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names

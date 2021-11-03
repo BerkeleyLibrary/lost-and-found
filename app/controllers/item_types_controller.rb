@@ -36,7 +36,7 @@ class ItemTypesController < ApplicationController
     begin
       item_type.update!(
         type_name: params[:type_name].downcase,
-        type_active: (params[:type_active] == 'true'),
+        type_active: (params[:type_active] == '1'),
         updated_by: current_user.user_name
       )
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names

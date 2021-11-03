@@ -1,58 +1,49 @@
-<%= stylesheet_link_tag 'admin', media: 'all' %>
 
 <h1>Edit item</h1>
 <div class="table mt-5">
-  <%= form_tag('item_update', method: 'post', multipart: true) do %>
+  <%# TODO: Update controller to support form_with(model:) and scoped params %>
+  <%= form_with(url: item_update_path, local: true) do |form| %>
+    <%= form.label(:location, 'Item location:') %>
+    <%= form.select(:location, options_for_select(@locations_layout, @item.location)) %>
 
-    <%= label_tag(:location, 'Item location:') %>
-    <%= select_tag(:location, options_for_select(@locations_layout, @item.location)) %>
+    <%= form.label(:found_by, 'Item found by:') %>
+    <%= form.text_field(:found_by, value: @item.found_by) %>
 
-    <%= label_tag(:found_by, 'Item found by:') %>
-    <%= text_field_tag(:found_by, @item.found_by) %>
+    <%= form.label(:description, 'Item description:') %>
+    <%= form.text_field :description, value: @item.description %>
 
-    <%= label_tag(:description, 'Item description:') %>
-    <%= text_field_tag :description, @item.description %>
+    <%= form.label(:item_type, 'Item type:') %>
+    <%= form.select(:item_type, options_for_select(@item_type_layout, @item.item_type)) %>
 
-    <%= label_tag(:item_type, 'Item type:') %>
-    <%= select_tag(:item_type, options_for_select(@item_type_layout, @item.item_type)) %>
-
-    <%= label_tag(:status, 'Item status:') %>
-    <%= select_tag(:status, options_for_select(@item_status_layout, @item.status)) %>
+    <%= form.label(:status, 'Item status:') %>
+    <%= form.select(:status, options_for_select(@item_status_layout, @item.status)) %>
 
     <% if @item.claimed_by.blank? %>
-      <%= label_tag(:claimed_by_label, 'Claimed By:', class: 'hidden', id: 'claimed_by_label') %>
-      <%= text_field_tag(:claimed_by, @item.claimed_by, class: 'hidden') %>
+      <%= form.label(:claimed_by_label, 'Claimed By:', class: 'hidden', id: 'claimed_by_label') %>
+      <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'hidden') %>
     <% else %>
-      <%= label_tag(:claimed_by_label, 'Claimed By:', class: '', id: 'claimed_by_label') %>
-      <%= text_field_tag(:claimed_by, @item.claimed_by, class: 'required') %>
+      <%= form.label(:claimed_by_label, 'Claimed By:', class: '', id: 'claimed_by_label') %>
+      <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'required') %>
     <% end %>
 
-    <%= label_tag(:time_found, 'Time found:') %>
-    <% if @item.datetime_found? %>
-      <%= time_field_tag :time_found, :datetime_found, value: @item.datetime_found.strftime('%H:%M') %>
-    <% else %>
-      <%= time_field_tag(:time_found) %>
-    <% end %>
+    <%= form.label(:time_found, 'Time found:') %>
+    <%= form.time_field :time_found, value: @item.datetime_found %>
 
-    <%= label_tag(:date_found, 'Date found:') %>
-    <% if @item.date_found? %>
-      <%= date_field_tag :date_found, :date_found, value: @item.date_found.strftime('%Y-%m-%d') %>
-    <% else %>
-      <%= date_field_tag(:date_found) %>
-    <% end %>
+    <%= form.label(:date_found, 'Date found:') %>
+    <%= form.date_field(:date_found, value: @item.date_found) %>
 
     <div>
-      <%= label_tag(:where_found, 'Where found:') %>
-      <%= text_field_tag :where_found, @item.where_found %>
+      <%= form.label(:where_found, 'Where found:') %>
+      <%= form.text_field(:where_found, value: @item.where_found) %>
     </div>
 
-    <%= label_tag(:image, 'Image: ') %>
-    <%= file_field_tag(:image) %>
+    <%= form.label(:image, 'Image: ') %>
+    <%= form.file_field(:image) %>
 
-    <%= hidden_field_tag(:id, @item.id) %>
+    <%= form.hidden_field(:id, value: @item.id) %>
 
 
-    <%= label_tag(:image, 'Current image: ') %>
+    <%= form.label(:image, 'Current image: ') %>
     <% if @item.image.attached? %>
       <img class="preview_image" alt="image of item" src="<%= (url_for(@item.image)) %>">
     <% else %>
@@ -65,6 +56,6 @@
     <h4>Last updated at: </h4>
     <%= @item.updated_at.in_time_zone.strftime('%B %e, %Y at %I:%M %P') %>
 
-    <div><%= submit_tag('Update item') %></div>
+    <div><%= form.submit('Update item') %></div>
   <% end %>
 </div>

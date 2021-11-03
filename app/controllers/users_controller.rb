@@ -39,7 +39,7 @@ class UsersController < ApplicationController
         user_name: params[:user_name],
         user_role: params[:user_role],
         updated_by: current_user.user_name,
-        user_active: (params[:user_active] == 'true')
+        user_active: (params[:user_active] == '1')
       )
       flash[:success] = "User #{user.user_name} updated"
       redirect_to admin_users_path

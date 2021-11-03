@@ -1,31 +1,30 @@
-<%= stylesheet_link_tag 'admin', media: 'all' %>
 <h1>Search for lost items</h1>
 <div class="mb-4 form-group">
-  <%= form_tag('items', method: 'get') do %>
+  <%= form_with(url: items_path, method: :get, local: true) do |form| %>
 
     <%
       # TODO: more elegant way to cache last selection
-      item_type_options = options_for_select(@item_type_layout, cookies[:item_type] || '(any type)')
-      location_options = options_for_select(@locations_layout, cookies[:location] || '(any location)')
+      item_type_options = options_for_select(@item_type_layout, cookies[:item_type])
+      location_options = options_for_select(@locations_layout, cookies[:location])
     %>
 
-    <%= label_tag(:item_type, 'Item type:') %>
-    <%= select_tag(:item_type, item_type_options) %>
+    <%= form.label(:item_type, 'Item type:') %>
+    <%= form.select(:item_type, item_type_options, include_blank: true) %>
 
-    <%= label_tag(:keyword, 'Keywords:') %>
-    <%= text_field_tag :keyword, nil, placeholder: 'Enter search term' %>
+    <%= form.label(:keyword, 'Keywords:') %>
+    <%= form.text_field :keyword, placeholder: 'Enter search term' %>
 
-    <%= label_tag(:location, 'Location:') %>
-    <%= select_tag(:location, location_options) %>
+    <%= form.label(:location, 'Location:') %>
+    <%= form.select(:location, location_options, include_blank: true) %>
 
 
     <div>
       <h2>Search by date range: </h2>
-      <%= label_tag(:date_found, 'Start date:') %>
-      <%= date_field_tag(:date_found) %>
+      <%= form.label(:date_found, 'Start date:') %>
+      <%= form.date_field(:date_found) %>
 
-      <%= label_tag(:date_foundEnd, ' End date:') %>
-      <%= date_field_tag(:date_foundEnd, nil, max: Date.today) %>
+      <%= form.label(:date_found_end, 'End date:') %>
+      <%= form.date_field(:date_found_end, max: Date.current) %>
     </div>
 
     <div>

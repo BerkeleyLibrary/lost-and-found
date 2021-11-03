@@ -1,11 +1,10 @@
-<%= stylesheet_link_tag 'admin', media: 'all' %>
 <h1>Enter date (all items found before this date will be deleted)</h1>
 
 <div class="mb-4 form-group">
-  <%= form_tag('purge_items', method: 'post', multipart: true) do %>
+  <%= form_with(url: purge_items_path, local: true) do |form| %>
 
-    <%= label_tag(:purgeTime, 'Purge date:') %>
-    <%= date_field_tag(:purgeTime, required: true) %>
+    <%= form.label(:purge_date, 'Purge date:') %>
+    <%= form.date_field(:purge_date, required: true) %>
 
     <div style="padding-top: 10px; padding-bottom: 10px; font-weight: bold;">Current user: <%= current_user.user_name %>
     </div>

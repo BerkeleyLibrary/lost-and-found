@@ -125,16 +125,18 @@ class ApplicationController < ActionController::Base
   # ------------------------------
   # Form helpers
 
-  # TODO: simplify this
   def location_setup
-    location_names = Location.active.pluck(:location_name).sort
-    location_names.map { |n| [n.titleize, n] }.unshift(['(any location)', nil])
+    # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+    location_names = Location.order(:location_name).pluck(:location_name)
+    location_names.map { |n| [n.titleize, n] }
   end
 
   # TODO: simplify this
   def item_type_setup
-    type_names = ItemType.active.pluck(:type_name).sort
-    type_names.map { |n| [n.titleize, n] }.unshift(['(any type)', nil])
+    # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
+    type_names = ItemType.editable.order(:type_name).pluck(:type_name)
+    type_names.unshift('other')
+    type_names.map { |n| [n.titleize, n] }
   end
 
   # ------------------------------

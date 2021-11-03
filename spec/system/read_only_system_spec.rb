@@ -145,7 +145,7 @@ describe 'read-only user', type: :system do
         date_end = all_date_founds[all_date_founds.size / 2]
 
         fill_in('date_found', with: date_start.strftime('%m/%d/%Y'))
-        fill_in('date_foundEnd', with: date_end.strftime('%m/%d/%Y'))
+        fill_in('date_found_end', with: date_end.strftime('%m/%d/%Y'))
 
         expected_ids = Item.where('items."date_found" <= ? AND items."date_found" >= ?', date_end, date_start).pluck(:id)
 

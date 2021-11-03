@@ -12,7 +12,7 @@ class ItemsController < ApplicationController
     item_location = param_or_cookie(:location)
     item_type = param_or_cookie(:item_type)
     start_date = param_or_cookie(:date_found)
-    end_date = param_or_cookie(:date_foundEnd)
+    end_date = param_or_cookie(:date_found_end)
     search_all = param_or_cookie(:searchAll) # TODO: reimplement search_all?
 
     # TODO: move this logic into the model
@@ -155,7 +155,7 @@ class ItemsController < ApplicationController
   end
 
   def purge_items
-    purge_date = parse_date_found(params[:purgeTime])
+    purge_date = parse_date_found(params[:purge_date])
 
     items_to_purge = Item
       .where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged'))

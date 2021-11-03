@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
   <title>LostAndFound</title>
@@ -14,18 +14,7 @@
   <a href="#main" class="visually-hidden focusable skip-link">Skip to main content</a>
   <div id="app" class="container">
     <%= layouts_nav %>
-    <% flash.each do |key, value| %>
-      <div class="<%= flash_class(key) %> " role="alert">
-        <% if key != 'success' && key != 'notice' %>
-          <h5 class="alert-heading">The following error occurred:</h5>
-          <ul>
-            <li><%= value %></li>
-          </ul>
-        <% else %>
-          <div><%= value %></div>
-        <% end %>
-      </div>
-    <% end %>
+    <%= render(partial: 'layouts/flash') %>
     <%= yield %>
     <%= layouts_footer %>
   </div>

@@ -9,51 +9,26 @@ class HomeController < ApplicationController
   end
 
   def admin_users
-    @users = User.all
-    @actived_users = @users.select(&:user_active)
-    @deactivated_users = @users.reject(&:user_active)
-    render :admin_users
+    @active_users = User.active
+    @inactive_users = User.inactive
   end
 
   def admin_locations
-    @locations = Location.all
-    @actived_locations = @locations.select(&:location_active)
-    @actived_locations.each { |location| location.location_name.downcase! }
-    @actived_locations.sort_by!(&:location_name)
-
-    @deactivated_locations = @locations.reject(&:location_active)
-    @deactivated_locations.each { |location| location.location_name.downcase! }
-    @deactivated_locations.sort_by!(&:location_name)
-
-    render :admin_locations
+    @active_locations = Location.active.order(:location_name)
+    @inactive_locations = Location.inactive.order(:location_name)
   end
 
   def admin_item_types
-    @item_types = ItemType.all
-    @actived_item_types = @item_types.select(&:type_active)
-    @actived_item_types.each { |item_type| item_type.type_name.downcase! }
-    @actived_item_types.sort_by!(&:type_name)
-
-    @deactivated_item_types = @item_types.reject(&:type_active)
-    @deactivated_item_types.each { |item_type| item_type.type_name.downcase! }
-    @deactivated_item_types.sort_by!(&:type_name)
-
-    render :admin_item_types
+    editable_item_types = ItemType.editable
+    @active_item_types = editable_item_types.active.order(:type_name)
+    @inactive_item_types = editable_item_types.inactive.order(:type_name)
   end
 
   def admin_purge
-    render :admin_purge
+    # placeholder for view
   end
 
   def admin
-    @locations = Location.all
-    @actived_locations = @locations.select(&:location_active)
-    @deactivated_locations = @locations.reject(&:location_active)
-
-    @item_types = ItemType.all
-    @actived_item_types = @item_types.select(&:type_active)
-    @deactivated_item_types = @item_types.reject(&:type_active)
-
-    render :admin
+    # placeholder for view
   end
 end
