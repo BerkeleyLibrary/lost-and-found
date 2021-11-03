@@ -4,9 +4,6 @@ module Health
   #
   # @see https://tools.ietf.org/id/draft-inadarei-api-health-check-01.html JSON Format
   # @see https://www.consul.io/docs/agent/checks.html StatusCode based on Consul
-  #
-  # @todo We could improve on this by adding a few additional checks, namely:
-  #   - That we can actually send emails
   class Check
 
     TEST_ID = '012158720'.freeze
