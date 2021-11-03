@@ -105,21 +105,19 @@ class ApplicationController < ActionController::Base
   def logout_if_expired!
     return unless session_expired?
 
-    reset_session
-    flash[:notice] = timeout_message
-    redirect_to '/logout'
+    redirect_to logout_path
   end
 
   def session_expired?
-    session[:expires_at].present? && DateTime.parse(session[:expires_at]) < DateTime.now
+    return unless (expires_at = session_expiration_time)
+
+    (Time.current > expires_at).tap do |expired|
+      logger.warn("Expiration time #{expires_at} reached; session expired") if expired
+    end
   end
 
-  # ------------------------------
-  # Display helpers
-
-  # TODO: use Rails i18n
-  def timeout_message
-    'Your session has expired. Please logout and sign in again to continue use.'
+  def session_expiration_time
+    session[:expires_at]
   end
 
   # ------------------------------

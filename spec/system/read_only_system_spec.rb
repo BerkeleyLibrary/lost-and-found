@@ -24,7 +24,8 @@ describe 'read-only user', type: :system do
 
   describe 'session timeout' do
     it 'redirects to logout' do
-      allow_any_instance_of(ApplicationController).to receive(:session_expired?).and_return(true)
+      expiration_time = Time.current - 30.seconds
+      allow_any_instance_of(ApplicationController).to receive(:session_expiration_time).and_return(expiration_time)
 
       visit(search_form_path)
       expect(page).not_to have_content('Search for lost items')
