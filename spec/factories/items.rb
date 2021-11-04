@@ -7,7 +7,6 @@ FactoryBot.define do
     date_found { Date.current - 1.days }
     datetime_found { Time.current - 1.days }
     found_by { 'Testy McTestface' }
-    status { 1 } # TODO: replace magic number with enum
     entered_by { 'Test' }
     updated_by { 'Test' }
     where_found { 'Somewhere' }

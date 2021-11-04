@@ -15,8 +15,8 @@
     <%= form.label(:item_type, 'Item type:') %>
     <%= form.select(:item_type, options_for_select(@item_type_layout, @item.item_type)) %>
 
-    <%= form.label(:status, 'Item status:') %>
-    <%= form.select(:status, options_for_select(@item_status_layout, @item.status)) %>
+    <%= form.label(:claimed, 'Claimed:') %>
+    <%= form.check_box(:claimed, checked: @item.claimed) %>
 
     <% if @item.claimed_by.blank? %>
       <%= form.label(:claimed_by_label, 'Claimed By:', class: 'hidden', id: 'claimed_by_label') %>

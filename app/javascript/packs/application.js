@@ -1,13 +1,14 @@
 import Rails from '@rails/ujs'
 
 import * as ActiveStorage from '@rails/activestorage'
+
 Rails.start()
 ActiveStorage.start()
 
 // TODO: only load this on edit items page
 window.addEventListener('DOMContentLoaded', () => {
-  const status = document.getElementById('status')
-  if (!status) {
+  const claimed = document.getElementById('claimed')
+  if (!claimed) {
     return
   }
 
@@ -21,10 +22,8 @@ window.addEventListener('DOMContentLoaded', () => {
     return
   }
 
-  status.addEventListener('change', () => {
-    const statusVal = status.value
-    // TODO: replace magic number with enum
-    if (statusVal === '3') {
+  claimed.addEventListener('change', () => {
+    if (claimed.checked) {
       claimedBy.setAttribute('required', true)
       claimedBy.style.display = 'inline-block'
       claimedByLabel.style.display = 'inline-block'

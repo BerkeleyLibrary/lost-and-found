@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_29_193955) do
+ActiveRecord::Schema.define(version: 2021_11_04_221401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2021_10_29_193955) do
     t.string "location"
     t.string "item_type"
     t.string "description"
-    t.integer "status"
     t.string "entered_by"
     t.string "updated_by"
     t.string "found_by"
@@ -69,6 +68,8 @@ ActiveRecord::Schema.define(version: 2021_10_29_193955) do
     t.string "where_found", null: false
     t.date "date_found"
     t.datetime "datetime_found"
+    t.boolean "purged", default: false, null: false
+    t.boolean "claimed", default: false, null: false
   end
 
   create_table "locations", force: :cascade do |t|

@@ -2,9 +2,19 @@ require 'rails_helper'
 
 describe Item, type: :model do
   it 'Item should default to found' do
-    # TODO: replace magic number with enum
-    item = Item.new
-    assert(1, item.status)
+    item = Item.create!(
+      date_found: Date.current - 1.days,
+      description: 'a description',
+      datetime_found: Time.current,
+      found_by: 'Testy McTestface',
+      entered_by: 'Test',
+      updated_by: 'Test',
+      item_type: 'pen',
+      location: 'the library',
+      where_found: 'Somewhere'
+    )
+    expect(item.claimed).to eq(false)
+    expect(item.purged).to eq(false)
   end
 
   it 'has a paper trail', versioning: true do
@@ -15,7 +25,6 @@ describe Item, type: :model do
       description: 'a description',
       datetime_found: Time.current,
       found_by: 'Testy McTestface',
-      status: 1, # TODO: replace magic number with enum
       entered_by: 'Test',
       updated_by: 'Test',
       item_type: 'pen',
@@ -26,6 +35,33 @@ describe Item, type: :model do
 
     item.update(where_found: 'Somewhere else')
     expect(item.versions.size).to eq(2)
+  end
+
+  context 'validation' do
+    attr_reader :item
+
+    before(:each) do
+      @item = Item.create!(
+        date_found: Date.current - 1.days,
+        description: 'a description',
+        datetime_found: Time.current,
+        found_by: 'Testy McTestface',
+        entered_by: 'Test',
+        updated_by: 'Test',
+        item_type: 'pen',
+        location: 'the library',
+        where_found: 'Somewhere'
+      )
+    end
+
+    it 'disallows claiming an item without a claimer' do
+      expect { item.update!(claimed: true) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'disallows claiming an item with a blank claimer' do
+      expect { item.update!(claimed: true, claimed_by: '   ') }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
   end
 
   describe :by_keywords do

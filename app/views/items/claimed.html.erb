@@ -50,13 +50,21 @@
           No image
         <% end %>
       </td>
-      <td><%= item.updated_by || 'None' %></td>
-      <% if item.updated_at != item.created_at %>
-        <td><%= item.updated_at.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %></td>
-      <% else %>
-        <td><%= 'None' %> </td>
-      <% end %>
-      <td><%= item.claimed_by || 'None' %></td>
+      <td>
+        <%= item.updated_by || 'None' %>
+      </td>
+      <td>
+        <%= item.updated_at.in_time_zone.strftime("%m/%d/%Y %l:%M %P") %>
+      </td>
+      <td>
+        <% if item.claimed? %>
+          <%= item.claimed_by %>
+        <% elsif item.purged? %>
+          Purged
+        <% else %>
+          None
+        <% end %>
+      </td>
     </tr>
   <% end %>
   </tbody>

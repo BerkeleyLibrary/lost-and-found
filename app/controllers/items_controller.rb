@@ -18,9 +18,7 @@ class ItemsController < ApplicationController
     # TODO: move all this logic into the model
 
     keywords = parse_keywords(keyword)
-    query = keywords.empty? ? Item : Item.by_keywords(keywords)
-    query = query.where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged'))
-    query = query.where(status: 1)
+    query = Item.by_keywords(keywords)
 
     if (start_date = parse_date_found(start_date))
       query = if (end_date = parse_date_found(end_date))
@@ -33,18 +31,15 @@ class ItemsController < ApplicationController
     query = query.where(item_type: item_type) unless item_type.blank?
     query = query.where(location: item_location) unless item_location.blank? || search_all # TODO: reimplement search_all?
 
-    # datetime_found can be null, and we want to sort those to the end, so we need to use
-    # NULLS LAST (see https://www.postgresql.org/docs/current/queries-order.html) and
-    # string sort expressions
-    query = query.order('date_found DESC', 'datetime_found DESC NULLS LAST', 'created_at DESC')
+    query = order_by_date_desc(query)
 
-    @items_found = query.page(params[:page]) # TODO: test pagination
+    @unclaimed_items = query.page(params[:page]) # TODO: test pagination
   end
 
   def admin_items
-    @items_found = Item.found
-    @items_found = @items_found.sort_by(&:date_found).reverse
-    @items_found = Kaminari.paginate_array(@items_found.reverse).page(params[:page])
+    @unclaimed_items = Item.unclaimed
+    @unclaimed_items = @unclaimed_items.sort_by(&:date_found).reverse
+    @unclaimed_items = Kaminari.paginate_array(@unclaimed_items.reverse).page(params[:page])
     @items_claimed = Item.claimed
     @items_claimed = @items_claimed.sort_by(&:date_found).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:claimed_page])
@@ -54,9 +49,9 @@ class ItemsController < ApplicationController
 
   def claimed_items
     # TODO: clean this up
-    @items_claimed = current_user.administrator? ? Item.claimed : Item.where(status: 3).where.not(claimed_by: 'Purged')
-    @items_claimed = @items_claimed.sort_by(&:date_found).reverse
-    @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:page])
+    query = current_user.administrator? ? Item.claimed.or(Item.purged) : Item.claimed
+    query = order_by_date_desc(query)
+    @items_claimed = query.page(params[:page])
 
     render template: 'items/admin_claimed'
   end
@@ -65,20 +60,19 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     require_admin! if @item.claimed?
 
+    # TODO: stop having to do this
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
-    # TODO: replace magic number with enum
-    @item_status_layout = [['Found', 1], ['Claimed', 3]]
 
     render template: 'items/edit'
   end
 
   def show
     @item = Item.find(params[:id])
+
+    # TODO: stop having to do this
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
-    # TODO: replace magic number with enum
-    @item_status_layout = [['Found', 1], ['Claimed', 3]]
   end
 
   def update
@@ -88,17 +82,20 @@ class ItemsController < ApplicationController
     date_found, datetime_found = date_and_datetime_found_values
 
     # TODO: just use strong parameters
+    claimed = params[:claimed] == '1'
+    claimed_by = params[:claimed_by].blank? ? nil : params[:claimed_by]
+
     @item.assign_attributes(
       location: params[:location],
       item_type: params[:item_type],
       description: params[:description],
       updated_by: current_user.user_name,
       found_by: params[:found_by],
-      status: params[:status],
       date_found: date_found,
       datetime_found: datetime_found,
       where_found: params[:where_found],
-      claimed_by: params[:claimed_by].blank? ? nil : params[:claimed_by]
+      claimed: claimed,
+      claimed_by: claimed_by
     )
 
     unless params[:image].nil? || @item.invalid?
@@ -108,16 +105,16 @@ class ItemsController < ApplicationController
 
     begin
       @item.save!
+      flash[:success] = 'Item updated'
+      render 'items/updated'
     rescue StandardError => e
       flash_errors(@item, e)
+
+      # TODO: stop having to do this
+      @locations_layout = location_setup
+      @item_type_layout = item_type_setup
+      render 'items/edit'
     end
-
-    # TODO: why do we need these?
-    @items = Item.all
-    @items_found = Item.found
-    @items_claimed = Item.claimed
-
-    render template: 'items/updated'
   end
 
   def create
@@ -133,7 +130,6 @@ class ItemsController < ApplicationController
       entered_by: current_user.user_name,
       updated_by: current_user.user_name,
       found_by: params[:found_by] || 'anonymous',
-      status: 1, # TODO: replace magic number with enum
       date_found: date_found,
       datetime_found: datetime_found,
       where_found: params[:where_found],
@@ -147,25 +143,26 @@ class ItemsController < ApplicationController
 
     begin
       @item.save!
-      render template: 'items/new'
+      flash[:success] = 'Item created'
+      render 'items/new'
     rescue StandardError => e
       flash_errors(@item, e, now: true)
+
+      # TODO: stop having to do this
       @locations_layout = location_setup
       @item_type_layout = item_type_setup
-      render template: 'forms/insert_form'
+      render 'forms/insert_form'
     end
   end
 
   def purge_items
     purge_date = parse_date_found(params[:purge_date])
+    items_to_purge = Item.unclaimed.where('date_found <= ?', purge_date)
 
-    items_to_purge = Item
-      .where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged'))
-      .where(status: 1)
-      .where('date_found <= ?', purge_date)
-
-    purged_total = items_to_purge
-      .update_all(updated_by: current_user.user_name, claimed_by: 'Purged')
+    purged_total = items_to_purge.update_all(
+      updated_by: current_user.user_name,
+      purged: true
+    )
 
     flash[:success] = "#{purged_total} items purged"
 
@@ -173,6 +170,13 @@ class ItemsController < ApplicationController
   end
 
   private
+
+  # datetime_found can be null, and we want to sort those to the end, so we need to use
+  # NULLS LAST (see https://www.postgresql.org/docs/current/queries-order.html) and
+  # string sort expressions
+  def order_by_date_desc(query)
+    query.order('date_found DESC', 'datetime_found DESC NULLS LAST', 'created_at DESC')
+  end
 
   def parse_keywords(keyword_param)
     keyword_val = keyword_param&.strip

@@ -48,7 +48,7 @@ describe 'staff user', type: :system do
           expect(page).not_to have_content('Internal Server Error')
           expect(page).to have_content('Found Items')
 
-          table = page.find('#found_items_table')
+          table = page.find('#unclaimed_items_table')
 
           Item.find_each do |item|
             item_rows = table.find_all('tr', text: item.description).to_a
@@ -149,6 +149,7 @@ describe 'staff user', type: :system do
           expect(item.found_by).to eq(found_by)
           expect(item.where_found).to eq(where_found)
           expect(item.date_found.to_date).to eq(when_found.to_date)
+          expect(item.claimed_by).to eq(nil)
         end
 
         it 'requires a description' do
@@ -269,6 +270,20 @@ describe 'staff user', type: :system do
           expect(item.updated_by).to eq(user.user_name)
         end
 
+        it 'allows editing an item with no time found' do
+          item.update!(datetime_found: nil)
+
+          new_description = 'the new description'
+          fill_in('description', with: new_description, fill_options: { clear: :backspace })
+
+          page.click_link_or_button('Update item')
+          expect(page).not_to have_content('Internal Server Error')
+          expect(page).to have_content('item updated')
+
+          item.reload
+          expect(item.description).to eq(new_description)
+        end
+
         it 'allows adding an image to an item with no image' do
           image_blob = item.image
           item.update!(image: nil, image_url: nil)
@@ -287,11 +302,9 @@ describe 'staff user', type: :system do
         end
 
         it 'allows claiming an item' do
-          # TODO: replace magic number with enum
-          status_claimed = 3
           claimed_by = 'Mr. Magoo'
 
-          select('Claimed', from: 'status')
+          check('claimed')
           fill_in('claimed_by', with: claimed_by)
 
           page.click_link_or_button('Update item')
@@ -299,8 +312,33 @@ describe 'staff user', type: :system do
           expect(page).to have_content('item updated')
 
           item.reload
-          expect(item.status).to eq(status_claimed)
+          expect(item.claimed).to eq(true)
           expect(item.claimed_by).to eq(claimed_by)
+        end
+
+        it 'disallows claiming an item without a claimer' do
+          check('claimed')
+
+          page.click_link_or_button('Update item')
+          expect(page).not_to have_content('Internal Server Error')
+          expect(page).not_to have_content('item updated')
+
+          item.reload
+          expect(item.claimed).to eq(false)
+          expect(item.claimed_by).to be_nil
+        end
+
+        it 'disallows claiming an item with a blank claimer' do
+          check('claimed')
+          fill_in('claimed_by', with: '     ')
+
+          page.click_link_or_button('Update item')
+          expect(page).not_to have_content('Internal Server Error')
+          expect(page).not_to have_content('item updated')
+
+          item.reload
+          expect(item.claimed).to eq(false)
+          expect(item.claimed_by).to be_nil
         end
       end
 
@@ -337,7 +375,7 @@ describe 'staff user', type: :system do
           new_description = 'this is the new description'
           claimed_by = 'Mr. Magoo'
 
-          select('Claimed', from: 'status')
+          check('claimed')
           fill_in('description', with: new_description, fill_options: { clear: :backspace })
           fill_in('claimed_by', with: claimed_by)
 
@@ -364,15 +402,15 @@ describe 'staff user', type: :system do
 
       it 'allows viewing claimed items, but not purged items' do
         Item.all.to_a.each_with_index do |item, i|
-          next item.update!(claimed_by: 'Purged') if (i % 3) == 0
-          next item.update!(claimed_by: "Claimer #{i}", status: 3) if i.even?
+          next item.update!(purged: true) if (i % 3) == 0
+          next item.update!(claimed_by: "Claimer #{i}", claimed: true) if i.even?
         end
 
         visit(admin_claimed_path)
 
         table = page.find('#claimed_items_table')
 
-        purged_items = Item.where(claimed_by: 'Purged')
+        purged_items = Item.where(purged: true)
         expect(purged_items.count).not_to eq(0) # just to be sure
         purged_items.find_each do |item|
           expect(table).not_to have_selector('tr', text: item.description)

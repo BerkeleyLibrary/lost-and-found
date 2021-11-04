@@ -66,7 +66,7 @@ describe 'read-only user', type: :system do
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
 
-        table = page.find('#found_items_table')
+        table = page.find('#unclaimed_items_table')
 
         Item.find_each do |item|
           item_rows = table.find_all('tr', text: item.description).to_a
@@ -109,7 +109,7 @@ describe 'read-only user', type: :system do
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
 
-        table = page.find('#found_items_table')
+        table = page.find('#unclaimed_items_table')
 
         Item.where(location: location.location_name).find_each do |item|
           expect(table).to have_selector('tr', text: item.description)
@@ -129,7 +129,7 @@ describe 'read-only user', type: :system do
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
 
-        table = page.find('#found_items_table')
+        table = page.find('#unclaimed_items_table')
 
         Item.where(item_type: type.type_name).find_each do |item|
           expect(table).to have_selector('tr', text: item.description)
@@ -153,7 +153,7 @@ describe 'read-only user', type: :system do
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
 
-        table = page.find('#found_items_table')
+        table = page.find('#unclaimed_items_table')
 
         aggregate_failures do
           items.each do |item|
@@ -177,7 +177,7 @@ describe 'read-only user', type: :system do
         page.click_link_or_button('Submit')
         expect(page).to have_content('Found Items')
 
-        table = page.find('#found_items_table')
+        table = page.find('#unclaimed_items_table')
 
         aggregate_failures do
           items.each do |item|
@@ -244,7 +244,7 @@ describe 'read-only user', type: :system do
           page.click_link_or_button('Submit')
           expect(page).to have_content('Found Items')
 
-          table = page.find('#found_items_table')
+          table = page.find('#unclaimed_items_table')
 
           expected.each do |item|
             expect(table).to have_selector('tr', text: item.description)
@@ -261,7 +261,7 @@ describe 'read-only user', type: :system do
           page.click_link_or_button('Submit')
           expect(page).to have_content('Found Items')
 
-          table = page.find('#found_items_table')
+          table = page.find('#unclaimed_items_table')
 
           expected.each do |item|
             expect(table).to have_selector('tr', text: item.description)
@@ -278,7 +278,7 @@ describe 'read-only user', type: :system do
           page.click_link_or_button('Submit')
           expect(page).to have_content('Found Items')
 
-          table = page.find('#found_items_table')
+          table = page.find('#unclaimed_items_table')
 
           expected.each do |item|
             expect(table).to have_selector('tr', text: item.description)
@@ -361,7 +361,7 @@ describe 'read-only user', type: :system do
       page.click_link_or_button('Submit')
       expect(page).to have_content('Found Items')
 
-      table = page.find('#found_items_table')
+      table = page.find('#unclaimed_items_table')
       expected_page_1.each { |item| expect(table).to have_selector('tr', text: item.description) }
       expected_page_2.each { |item| expect(table).not_to have_selector('tr', text: item.description) }
       expected_page_3.each { |item| expect(table).not_to have_selector('tr', text: item.description) }

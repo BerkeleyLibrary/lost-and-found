@@ -658,8 +658,8 @@ describe 'admin user', type: :system do
       describe 'view removed items' do
         before(:each) do
           Item.all.to_a.each_with_index do |item, i|
-            next item.update!(claimed_by: 'Purged') if (i % 3) == 0
-            next item.update!(claimed_by: "Claimer #{i}", status: 3) if i.even?
+            next item.update!(purged: true) if (i % 3) == 0
+            next item.update!(claimed_by: "Claimer #{i}", claimed: true) if i.even?
           end
 
           visit(admin_claimed_path)
@@ -668,7 +668,7 @@ describe 'admin user', type: :system do
         it 'displays purged items' do
           table = page.find('#claimed_items_table')
 
-          purged_items = Item.where(claimed_by: 'Purged')
+          purged_items = Item.where(purged: true)
           expect(purged_items.count).not_to eq(0) # just to be sure
 
           purged_items.find_each do |item|
@@ -742,7 +742,7 @@ describe 'admin user', type: :system do
         it 'does not display unclaimed items' do
           table = page.find('#claimed_items_table')
 
-          unclaimed_items = Item.where(claimed_by: nil)
+          unclaimed_items = Item.unclaimed
           expect(unclaimed_items.count).not_to eq(0) # just to be sure
 
           unclaimed_items.find_each do |item|
@@ -768,10 +768,10 @@ describe 'admin user', type: :system do
 
           expect(page).to have_content("#{purged_ids.size} items purged")
 
-          actually_purged_ids = Item.where(claimed_by: 'Purged', updated_by: user.user_name).pluck(:id)
+          actually_purged_ids = Item.where(purged: true, updated_by: user.user_name).pluck(:id)
           expect(actually_purged_ids).to contain_exactly(*purged_ids)
 
-          actually_unpurged_ids = Item.where(claimed_by: nil).pluck(:id)
+          actually_unpurged_ids = Item.where(purged: false).pluck(:id)
           expect(actually_unpurged_ids).to contain_exactly(*unpurged_ids)
         end
 
@@ -779,8 +779,8 @@ describe 'admin user', type: :system do
           cutoff_date_1 = all_date_founds[all_date_founds.size / 4]
 
           other_user_name = 'J. Other User'
-          Item.where('items."date_found" <= ?', cutoff_date_1).update_all(claimed_by: 'Purged', updated_by: other_user_name)
-          previously_purged_ids = Item.where(claimed_by: 'Purged').pluck(:id)
+          Item.where('items."date_found" <= ?', cutoff_date_1).update_all(purged: true, updated_by: other_user_name)
+          previously_purged_ids = Item.where(purged: true).pluck(:id)
 
           cutoff_date_2 = all_date_founds[all_date_founds.size / 2]
           newly_purged_ids = Item.where('items."date_found" <= ? AND items."date_found" > ?', cutoff_date_2, cutoff_date_1).pluck(:id)
@@ -790,24 +790,21 @@ describe 'admin user', type: :system do
 
           expect(page).to have_content("#{newly_purged_ids.size} items purged")
 
-          actually_purged_ids = Item.where(claimed_by: 'Purged', updated_by: user.user_name).pluck(:id)
+          actually_purged_ids = Item.where(purged: true, updated_by: user.user_name).pluck(:id)
           expect(actually_purged_ids).to contain_exactly(*newly_purged_ids)
 
-          all_purged_ids = Item.where(claimed_by: 'Purged').pluck(:id)
+          all_purged_ids = Item.where(purged: true).pluck(:id)
           expect(all_purged_ids).to contain_exactly(*(previously_purged_ids + newly_purged_ids))
 
-          actually_previously_purged_ids = Item.where(claimed_by: 'Purged', updated_by: other_user_name).pluck(:id)
+          actually_previously_purged_ids = Item.where(purged: true, updated_by: other_user_name).pluck(:id)
           expect(actually_previously_purged_ids).to contain_exactly(*previously_purged_ids)
         end
 
         it "doesn't mess with previously claimed items" do
-          # TODO: replace magic number with enum
-          status_claimed = 3
-
           cutoff_date_1 = all_date_founds[all_date_founds.size / 4]
           other_user_name = 'J. Other User'
-          Item.where('items."date_found" <= ?', cutoff_date_1).update_all(claimed_by: 'Mr. Magoo', status: status_claimed,
-                                                                          updated_by: other_user_name)
+          Item.where('items."date_found" <= ?', cutoff_date_1)
+            .update_all(claimed_by: 'Mr. Magoo', claimed: true, updated_by: other_user_name)
           claimed_ids = Item.where(claimed_by: 'Mr. Magoo').pluck(:id)
 
           cutoff_date_2 = all_date_founds[all_date_founds.size / 2]
@@ -818,10 +815,10 @@ describe 'admin user', type: :system do
 
           expect(page).to have_content("#{newly_purged_ids.size} items purged")
 
-          actually_purged_ids = Item.where(claimed_by: 'Purged').pluck(:id)
+          actually_purged_ids = Item.where(purged: true).pluck(:id)
           expect(actually_purged_ids).to contain_exactly(*newly_purged_ids)
 
-          actually_claimed_ids = Item.where(claimed_by: 'Mr. Magoo', status: status_claimed).pluck(:id)
+          actually_claimed_ids = Item.where(claimed_by: 'Mr. Magoo', claimed: true).pluck(:id)
           expect(actually_claimed_ids).to contain_exactly(*claimed_ids)
         end
       end

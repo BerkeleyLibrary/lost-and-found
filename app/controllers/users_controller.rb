@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   # TODO: clean this up further
-  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def create
     user = User.new(
       uid: params[:uid],
@@ -20,12 +20,13 @@ class UsersController < ApplicationController
     begin
       user.save!
       flash[:success] = "User #{user.user_name} added"
+      redirect_to admin_users_path
     rescue StandardError => e
       flash_errors(user, e)
+      render 'home/admin_users'
     end
-    redirect_to admin_users_path
   end
-  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   # TODO: clean this up further
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
@@ -45,7 +46,7 @@ class UsersController < ApplicationController
       redirect_to admin_users_path
     rescue StandardError => e
       flash_errors(user, e)
-      redirect_to edit_user_path(id: user.id)
+      render 'users/edit'
     end
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength

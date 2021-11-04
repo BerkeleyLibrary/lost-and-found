@@ -8,10 +8,6 @@ module ApplicationHelper
     "alert alert-#{alert_class} alert-dismissible fade show"
   end
 
-  def history_claimed_map(value)
-    !value || value.blank? ? 'unclaimed' : value
-  end
-
   def logo_link
     link_to(
       image_tag('UCB_logo.png', height: '30', alt: 'UC Berkeley Library'),
@@ -32,24 +28,13 @@ module ApplicationHelper
     mail_to support_email, 'Questions?', class: 'support-email'
   end
 
-  def status_codes(value)
-    case value
-    when 1 then 'Found'
-    when 3 then 'Claimed'
-    else ''
-    end
-  end
+  # TODO: use Rails i18n
+  def format_history_value(attr, value)
+    return 'unclaimed' if attr == 'claimed_by' && value.blank?
+    return value.strftime('%l:%M %P') if attr == 'datetime_found' && value.present?
+    return value.strftime('%m/%d/%Y') if attr == 'date_found' && value.present?
 
-  def history_to_pst(value)
-    value.present? ? value.in_time_zone.strftime('%m/%d/%Y %l:%M %P') : ''
-  end
-
-  def history_to_readable(value)
-    value.present? ? value.strftime('%l:%M %P') : ''
-  end
-
-  def history_to_readable_day(value)
-    value.present? ? value.strftime('%m/%d/%Y') : ''
+    value
   end
 
 end

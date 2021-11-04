@@ -22,11 +22,8 @@ RSpec.shared_examples 'admin access is denied' do
   end
 
   it 'disallows editing claimed items' do
-    # TODO: replace magic number with enum
-    status_claimed = 3
-
     item = Item.take
-    item.update(status: status_claimed, claimed_by: 'Mr. Magoo')
+    item.update(claimed: true, claimed_by: 'Mr. Magoo')
 
     edit_path = edit_item_path(item.id)
     visit(edit_path)

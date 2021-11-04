@@ -1,4 +1,3 @@
-
 <h1>Item history</h1>
 
 <h2>Current values</h2>
@@ -63,60 +62,48 @@
 <h2>Change history</h2>
 <table class="table mt-5">
   <thead class="thead-light">
-  <tr>
-    <th scope="col">Date/time</th>
-    <th scope="col">Updated by</th>
-    <th scope="col">Action</th>
-    <th scope="col"> What changed</th>
-  </tr>
+    <tr>
+      <th scope="col">Date/time</th>
+      <th scope="col">Updated by</th>
+      <th scope="col">Action</th>
+      <th scope="col"> What changed</th>
+    </tr>
   </thead>
 
   <tbody>
-  <% @item.versions.reverse.each do |version| %>
-    <% changeset = version.changeset %>
-    <% unless changeset.empty? %>
-      <tr>
-        <td><%= version.created_at.in_time_zone.strftime('%m/%d/%Y %l:%M %P') %></td>
-        <td><%= version.whodunnit || 'unknown' %></td>
-        <td><%= version.event.humanize %></td>
-        <td>
-          <ul>
-            <% changeset.each do |value| %>
-              <%
-                attr = value[0]
-                values = value[1]
-                val_old = values[0]
-                val_new = values[1]
-              %>
-              <%# TODO: clean this up %>
-              <% if attr == 'image_url' %>
+    <% @item.versions.reverse.each do |version| %>
+      <% changeset = version.changeset %>
+      <% unless changeset.empty? %>
+        <tr>
+          <td><%= version.created_at.in_time_zone.strftime('%m/%d/%Y %l:%M %P') %></td>
+          <td><%= version.whodunnit || 'unknown' %></td>
+          <td><%= version.event.humanize %></td>
+          <td>
+            <ul>
+              <% changeset.each do |value| %>
+                <%
+                  attr = value[0]
+                  values = value[1]
+                  val_old = values[0]
+                  val_new = values[1]
+                %>
                 <li>
-                  New image upload
+                  <% if attr == 'image_url' %>
+                    New image uploaded
+                  <% else %>
+                    <%= attr.humanize %>:
+                    <% if val_old.nil? || val_old == val_new %>
+                      <%= format_history_value(attr, val_new) %>
+                    <% else %>
+                      <%= [val_old, val_new].map { |v| format_history_value(attr, v) }.join(' to ') %>
+                    <% end %>
+                  <% end %>
                 </li>
-              <% elsif attr == 'status' %>
-                <li><%= 'Item status : ' + status_codes(val_old) + ' to ' + status_codes(val_new) %> </li>
-              <% elsif attr == 'updated_at' %>
-                <li><%= attr + ' : ' + history_to_pst(val_old) + ' to ' + history_to_pst(val_new) %>
-              <% elsif attr == 'created_at' %>
-                <li><%= 'Created at ' + history_to_pst(val_new) %>
-              <% elsif attr == 'datetime_found' %>
-                <li><%= attr + ' : ' + history_to_readable(val_old) + ' to ' + history_to_readable(val_new) %>
-              <% elsif attr == 'claimed_by' %>
-                <% if history_claimed_map(val_old) == history_claimed_map(val_new) %>
-                  <li><%= 'Claimed by : ' + history_claimed_map(val_old) %></li>
-                <% else %>
-                  <li><%= 'Claimed by : ' + history_claimed_map(val_old) + ' to ' + history_claimed_map(val_new) %> </li>
-                <% end %>
-              <% elsif attr == 'date_found' %>
-                <li><%= attr + ' : ' + history_to_readable_day(val_old) + ' to ' + history_to_readable_day(val_new) %>
-              <% else %>
-                <li><%= attr + ' : ' + val_old.to_s + ' to ' + val_new.to_s %> </li>
               <% end %>
-            <% end %>
-          </ul>
-        </td>
-      </tr>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
-  <% end %>
   </tbody>
 </table>
