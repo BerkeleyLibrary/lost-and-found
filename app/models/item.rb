@@ -16,20 +16,30 @@ class Item < ApplicationRecord
   scope :claimed, -> { where(status: 3).or(where(claimed_by: 'Purged')) }
   scope :found, -> { where(status: 1).where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged')) } # TODO: is this right?
 
-  scope :by_keywords, ->(keywords) {
-    return Item if keywords.nil? || keywords.empty?
-
-    conditions = keywords.filter_map do |keyword|
-      Item.where('description LIKE ?', "%#{keyword}%") unless keyword.blank?
-    end
-
-    conditions.inject do |query, condition|
-      query.or(condition)
-    end
-  }
-
   def claimed?
     # TODO: replace magic number with enum
     status == 3 || !claimed_by.nil?
   end
+
+  class << self
+    def by_keywords(keywords)
+      keywords = clean_keywords(keywords)
+      return Item if keywords.empty?
+
+      # POSIX/Postgres regex syntax isn't exactly Ruby but hopefully close enough for escapes
+      keyword_re_fragments = keywords.map { |kw| "\\m#{Regexp.escape(kw)}\\M" }
+      keyword_re = "(#{keyword_re_fragments.join('|')})"
+
+      Item.where('description ~* ?', keyword_re)
+    end
+
+    private
+
+    def clean_keywords(keywords)
+      return [] unless keywords
+
+      keywords.lazy.map(&:strip).reject(&:empty?).sort.uniq
+    end
+  end
+
 end

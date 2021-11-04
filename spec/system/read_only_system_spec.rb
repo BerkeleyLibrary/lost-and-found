@@ -190,35 +190,103 @@ describe 'read-only user', type: :system do
         end
       end
 
-      it 'finds items by description' do
-        unexpected = []
-        expected = []
-        items.each_with_index do |item, i|
-          if (i % 3) == 0
-            item.update(description: "searchy texty #{i}")
-          elsif (i % 4) == 0
-            item.update(description: "texty #{i}")
-          elsif i.even?
-            item.update(description: "searchy #{i}")
-          else
-            unexpected << item
-            next
+      describe :keywords do
+        attr_reader :keyword_items
+        attr_reader :descriptions
+        attr_reader :expected
+        attr_reader :unexpected
+        attr_reader :keyword_str
+
+        before(:each) do
+          @descriptions = [
+            'Lorem ipsum dolor sit amet',
+            'consectetur adipiscing elit',
+            'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+            'Ut enim ad minim veniam',
+            'quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+            'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+            'Excepteur sint occaecat cupidatat non proident',
+            'sunt in culpa qui officia deserunt mollit anim id est laborum'
+          ]
+          date_found = Date.current - 6.months
+          type = ItemType.take
+          loc = Location.take
+
+          @keyword_items = descriptions.map do |desc|
+            create(
+              :item,
+              description: desc,
+              item_type: type.type_name,
+              date_found: date_found,
+              location: loc.location_name
+            )
           end
-          expected << item
+
+          keywords = %w[dolor cupidatat ut]
+          @expected = []
+          @unexpected = []
+
+          descriptions.each_with_index do |desc, i|
+            if keywords.any? { |kw| desc.downcase.split.include?(kw) }
+              expected << keyword_items[i]
+            else
+              unexpected << keyword_items[i]
+            end
+          end
+          expect(expected).not_to be_empty # just to be sure
+          expect(unexpected).not_to be_empty # just to be sure
+
+          @keyword_str = keywords.join(' ')
         end
 
-        page.fill_in('keyword', with: 'texty searchy')
-        page.click_link_or_button('Submit')
-        expect(page).to have_content('Found Items')
+        it 'finds items by description' do
+          page.fill_in('keyword', with: keyword_str)
+          page.click_link_or_button('Submit')
+          expect(page).to have_content('Found Items')
 
-        table = page.find('#found_items_table')
+          table = page.find('#found_items_table')
 
-        expected.each do |item|
-          expect(table).to have_selector('tr', text: item.description)
+          expected.each do |item|
+            expect(table).to have_selector('tr', text: item.description)
+          end
+
+          unexpected.each do |item|
+            expect(table).not_to have_selector('tr', text: item.description)
+          end
         end
 
-        unexpected.each do |item|
-          expect(table).not_to have_selector('tr', text: item.description)
+        it 'handles weird stuff without blowing up' do
+          weird_keyword_str = "12345 *%$#@# 🙀 #{keyword_str} ?(|)\"/\\"
+          page.fill_in('keyword', with: weird_keyword_str)
+          page.click_link_or_button('Submit')
+          expect(page).to have_content('Found Items')
+
+          table = page.find('#found_items_table')
+
+          expected.each do |item|
+            expect(table).to have_selector('tr', text: item.description)
+          end
+
+          unexpected.each do |item|
+            expect(table).not_to have_selector('tr', text: item.description)
+          end
+        end
+
+        it 'handles weird capitalization and whitespace' do
+          weird_keyword_str = " #{keyword_str.titleize} "
+          page.fill_in('keyword', with: weird_keyword_str)
+          page.click_link_or_button('Submit')
+          expect(page).to have_content('Found Items')
+
+          table = page.find('#found_items_table')
+
+          expected.each do |item|
+            expect(table).to have_selector('tr', text: item.description)
+          end
+
+          unexpected.each do |item|
+            expect(table).not_to have_selector('tr', text: item.description)
+          end
         end
       end
     end
@@ -267,12 +335,12 @@ describe 'read-only user', type: :system do
       items.sort! do |i1, i2|
         df1 = i1.date_found
         df2 = i2.date_found
-        o = df2 <=> df1                 # NOTE: reverse order
+        o = df2 <=> df1 # NOTE: reverse order
         next o if o != 0
 
         dt1 = i1.datetime_found || Time.new(0)
         dt2 = i2.datetime_found || Time.new(0)
-        o = dt2 <=> dt1                 # NOTE: reverse order
+        o = dt2 <=> dt1 # NOTE: reverse order
         next o if o != 0
 
         i2.created_at <=> i1.created_at # NOTE: reverse order

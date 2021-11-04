@@ -15,8 +15,10 @@ class ItemsController < ApplicationController
     end_date = param_or_cookie(:date_found_end)
     search_all = param_or_cookie(:searchAll) # TODO: reimplement search_all?
 
-    # TODO: move this logic into the model
-    query = keyword.blank? ? Item : Item.by_keywords(keyword.split)
+    # TODO: move all this logic into the model
+
+    keywords = parse_keywords(keyword)
+    query = keywords.empty? ? Item : Item.by_keywords(keywords)
     query = query.where(claimed_by: nil).or(Item.where.not(claimed_by: 'Purged'))
     query = query.where(status: 1)
 
@@ -171,6 +173,11 @@ class ItemsController < ApplicationController
   end
 
   private
+
+  def parse_keywords(keyword_param)
+    keyword_val = keyword_param&.strip
+    keyword_val.blank? ? [] : keyword_val.split
+  end
 
   def date_and_datetime_found_values
     return unless (date_found = parse_date_found(params[:date_found]))
