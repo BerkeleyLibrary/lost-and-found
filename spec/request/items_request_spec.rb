@@ -36,16 +36,21 @@ describe ItemsController, type: :request do
     attr_reader :item_type_name
     attr_reader :location
     attr_reader :location_name
-    attr_reader :when_found
+    attr_reader :date_found
     attr_reader :date_found_str
+    attr_reader :datetime_found
+    attr_reader :time_found_str
 
     before(:each) do
       @count_before = Item.count
 
       @item_type = ItemType.take
       @location = Location.take
-      @when_found = Date.current - 1
-      @date_found_str = when_found.strftime('%Y-%m-%d') # TODO: standardize date formats
+      @date_found = Date.current - 1
+      @date_found_str = date_found.strftime('%Y-%m-%d') # TODO: standardize date formats
+
+      @datetime_found = date_found + 23.hours + 15.minutes
+      @time_found_str = datetime_found.strftime('%H:%M')
 
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
       @item_type_name = item_type.type_name.capitalize
@@ -62,7 +67,8 @@ describe ItemsController, type: :request do
           location: location.location_name,
           found_by: found_by,
           where_found: where_found,
-          date_found: date_found_str
+          date_found: date_found_str,
+          time_found: time_found_str
         }
 
         post(items_path, params: params)
@@ -73,7 +79,8 @@ describe ItemsController, type: :request do
         expect(item.location).to eq(location.location_name)
         expect(item.found_by).to eq(found_by)
         expect(item.where_found).to eq(where_found)
-        expect(item.date_found.to_date).to eq(when_found.to_date)
+        expect(item.date_found.to_date).to eq(date_found.to_date)
+        expect(item.datetime_found).to eq(datetime_found)
 
         expect(Item.count).to eq(1 + count_before)
       end
@@ -178,7 +185,7 @@ describe ItemsController, type: :request do
         expect(item.location).to eq(location.location_name)
         expect(item.found_by).to eq(found_by)
         expect(item.where_found).to eq(where_found)
-        expect(item.date_found.to_date).to eq(when_found.to_date)
+        expect(item.date_found.to_date).to eq(date_found.to_date)
       end
 
       it 'requires a description' do
