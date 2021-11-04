@@ -8,7 +8,7 @@ ruby '~> 2.6'
 gem 'activerecord-import'
 gem 'authlogic'
 gem 'bcrypt', '~> 3.1', '>= 3.1.11'
-gem 'berkeley_library-logging', git: 'https://github.com/BerkeleyLibrary/logging.git', branch: 'main'
+gem 'berkeley_library-logging', '~> 0.2', '>= 0.2.5'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap'
 gem 'coffee-rails', '~> 4.2'
