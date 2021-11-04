@@ -173,17 +173,28 @@ class ItemsController < ApplicationController
   private
 
   def date_and_datetime_found_values
-    return if (date_found = parse_date_found(params[:date_found])).blank?
-    return date_found if (dp_param = params[:time_found]).blank?
+    return unless (date_found = parse_date_found(params[:date_found]))
+    return date_found unless (hours, minutes = parse_time_found(params[:time_found]))
 
-    datetime_found_param = "#{params[:date_found]} #{dp_param}"
-    datetime_found = Time.strptime(datetime_found_param, '%Y-%m-%d %H:%M').in_time_zone
+    # Rails is smart enough to handle DST etc. here
+    midnight_on_date_found = date_found.in_time_zone
+    datetime_found = midnight_on_date_found + hours.hours + minutes.minutes
 
     [date_found, datetime_found]
   end
 
+  # Since the parameter doesn't include time zone information, Rails will interpret
+  # it as being in the server time zone, usually UTC. This isn't what we want, so
+  # we just extract the raw hours and minutes.
+  def parse_time_found(dp_param)
+    return if dp_param.blank?
+
+    time_found_in_wrong_zone = Time.strptime(dp_param, '%H:%M')
+    %i[hour min].map { |a| time_found_in_wrong_zone.send(a) }
+  end
+
   def parse_date_found(df_param)
-    return unless df_param
+    return if df_param.blank?
 
     Date.strptime(df_param, '%Y-%m-%d')
   end
