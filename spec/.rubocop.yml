@@ -3,6 +3,9 @@ inherit_from: ../.rubocop.yml
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/NumericLiterals:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: false
 

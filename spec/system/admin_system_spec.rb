@@ -91,13 +91,13 @@ describe 'admin user', type: :system do
       end
 
       it 'allows adding users' do
-        uid = 5_551_211
+        uid = 5551211
         name = 'Paige J. Poe'
         role = 'Staff'
 
-        fill_in('uid', with: uid, fill_options: { clear: :backspace })
-        fill_in('user_name', with: name, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
+        fill_in('user_name', with: name, fill_options: { clear: :backspace })
+        fill_in('uid', with: uid.to_s, fill_options: { clear: :backspace })
 
         # Add, and wait for add to complete
         page.click_link_or_button('Add user')
@@ -123,10 +123,10 @@ describe 'admin user', type: :system do
       it 'requires a name' do
         user_count = User.count
 
-        uid = 5_551_211
+        uid = 5551211
         role = 'Staff'
 
-        fill_in('uid', with: uid, fill_options: { clear: :backspace })
+        fill_in('uid', with: uid.to_s, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
         page.click_link_or_button('Add user')
 
@@ -209,7 +209,7 @@ describe 'admin user', type: :system do
         uid = u.uid * 2
         new_name = u.user_name.sub(/[A-Z][a-z]+$/, 'Marumaru')
 
-        fill_in('uid', with: uid, fill_options: { clear: :backspace })
+        fill_in('uid', with: uid.to_s, fill_options: { clear: :backspace })
         fill_in('user_name', with: new_name, fill_options: { clear: :backspace })
         select(role, from: 'user_role')
         find('#user_active').set(false)
