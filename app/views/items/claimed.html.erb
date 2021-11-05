@@ -28,21 +28,13 @@
           <%= link_to 'History', item_path(item.id) %>
         </td>
       <% end %>
-      <% if item.date_found %>
-        <td><%= item.date_found.strftime("%m/%d/%Y") %></td>
-      <% else %>
-        <td><%= 'None' %> </td>
-      <% end %>
-      <% if item.datetime_found %>
-        <td><%= item.datetime_found.strftime("%l:%M %P") %></td>
-      <% else %>
-        <td><%= 'None' %> </td>
-      <% end %>
+      <td><%= item.date_found.strftime("%m/%d/%Y") %></td>
+      <td><%= item.datetime_found&.strftime("%l:%M %P") || 'None' %></td>
       <td><%= item.found_by || 'No one' %></td>
       <td><%= item.location || 'None' %></td>
       <td><%= item.where_found || 'None' %></td>
       <td><%= item.item_type || 'No type' %></td>
-      <td class="desc"><%= item.description || 'None' %></td>
+      <td class="desc"><%= item.description %></td>
       <td>
         <% if item.image.attached? %>
           <img class="preview_image" alt="image of item" src="<%= (url_for(item.image)) %>">

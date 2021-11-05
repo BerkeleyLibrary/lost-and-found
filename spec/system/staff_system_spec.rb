@@ -272,6 +272,7 @@ describe 'staff user', type: :system do
 
         it 'allows editing an item with no time found' do
           item.update!(datetime_found: nil)
+          visit(edit_path)
 
           new_description = 'the new description'
           fill_in('description', with: new_description, fill_options: { clear: :backspace })

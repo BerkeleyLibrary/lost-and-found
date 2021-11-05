@@ -11,11 +11,7 @@
 </div>
 <div class="form-group row">
   <h5 class="col-2">Time found</h5>
-  <% if @item.datetime_found %>
-    <div class="col-4"><%= @item.datetime_found.strftime('%l:%M %P') %></div>
-  <% else %>
-    <div class="col-4"> None</div>
-  <% end %>
+    <div class="col-4"><%= @item.datetime_found&.strftime('%l:%M %P') || 'None' %></div>
 </div>
 
 <div class="form-group row">
@@ -35,7 +31,7 @@
 
 <div class="form-group row">
   <h5 class="col-2">Item description</h5>
-  <div class="col-4"><%= @item.description || 'None' %></div>
+  <div class="col-4"><%= @item.description %></div>
 </div>
 
 <div class="form-group row">

@@ -28,7 +28,7 @@
 
     <%= form.label(:time_found, 'Time found:') %>
     <%# TODO: figure out why we can't just pass datetime_found %>
-    <%= form.time_field :time_found, value: @item.datetime_found.strftime("%T.%L") %>
+    <%= form.time_field :time_found, value: @item.datetime_found&.strftime("%T.%L") %>
 
     <%= form.label(:date_found, 'Date found:') %>
     <%= form.date_field(:date_found, value: @item.date_found) %>
