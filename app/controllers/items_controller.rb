@@ -43,8 +43,6 @@ class ItemsController < ApplicationController
     @items_claimed = Item.claimed
     @items_claimed = @items_claimed.sort_by(&:date_found).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:claimed_page])
-
-    render template: 'items/admin_items'
   end
 
   def claimed_items
@@ -52,8 +50,6 @@ class ItemsController < ApplicationController
     query = current_user.administrator? ? Item.claimed.or(Item.purged) : Item.claimed
     query = order_by_date_desc(query)
     @items_claimed = query.page(params[:page])
-
-    render template: 'items/admin_claimed'
   end
 
   def edit
@@ -63,8 +59,6 @@ class ItemsController < ApplicationController
     # TODO: stop having to do this
     @locations_layout = location_setup
     @item_type_layout = item_type_setup
-
-    render template: 'items/edit'
   end
 
   def show
@@ -166,7 +160,7 @@ class ItemsController < ApplicationController
 
     flash[:success] = "#{purged_total} items purged"
 
-    admin_items
+    redirect_to admin_items_path
   end
 
   private

@@ -23,6 +23,8 @@ class UsersController < ApplicationController
       redirect_to admin_users_path
     rescue StandardError => e
       flash_errors(user, e)
+      @active_users = User.active
+      @inactive_users = User.inactive
       render 'home/admin_users'
     end
   end
@@ -31,21 +33,21 @@ class UsersController < ApplicationController
   # TODO: clean this up further
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def update
-    user = User.find(params[:id])
+    @user = User.find(params[:id])
 
     begin
       # TODO: just use strong parameters
-      user.update!(
+      @user.update!(
         uid: params[:uid],
         user_name: params[:user_name],
         user_role: params[:user_role],
         updated_by: current_user.user_name,
         user_active: (params[:user_active] == '1')
       )
-      flash[:success] = "User #{user.user_name} updated"
+      flash[:success] = "User #{@user.user_name} updated"
       redirect_to admin_users_path
     rescue StandardError => e
-      flash_errors(user, e)
+      flash_errors(@user, e)
       render 'users/edit'
     end
   end
