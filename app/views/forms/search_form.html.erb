@@ -1,5 +1,5 @@
 <h1>Search for lost items</h1>
-<div class="mb-4 form-group">
+<div style="width: 100%;">
   <%= form_with(url: items_path, method: :get, local: true) do |form| %>
 
     <%
@@ -8,29 +8,35 @@
       location_options = options_for_select(@locations_layout, cookies[:location])
     %>
 
-    <%= form.label(:item_type, 'Item type:') %>
-    <%= form.select(:item_type, item_type_options, include_blank: true) %>
-
-    <%= form.label(:keyword, 'Keywords:') %>
-    <%= form.text_field :keyword, placeholder: 'Enter search term' %>
-
-    <%= form.label(:location, 'Location:') %>
-    <%= form.select(:location, location_options, include_blank: true) %>
-
-
     <div>
-      <h2>Search by date range: </h2>
-      <%= form.label(:date_found, 'Start date:') %>
-      <%= form.date_field(:date_found) %>
-
-      <%= form.label(:date_found_end, 'End date:') %>
-      <%= form.date_field(:date_found_end, max: Date.current) %>
+      <%= form.label(:item_type, 'Item type:') %>
+      <%= form.select(:item_type, item_type_options, include_blank: true) %>
+    </div>
+    <div>
+      <%= form.label(:keyword, 'Keywords:') %>
+      <%= form.text_field :keyword, placeholder: 'Enter search terms separated by spaces' %>
+    </div>
+    <div>
+      <%= form.label(:location, 'Location:') %>
+      <%= form.select(:location, location_options, include_blank: true) %>
     </div>
 
-    <div>
-      <div class="btn-group" role="group">
-        <input type="submit" name="commit" value="Submit" class="btn btn-primary mb-2" data-disable-with="Submit">
+    <div style="padding-top: 8px; padding-bottom: 8px;">
+      <p>Search by date range:</p>
+
+      <div>
+        <%= form.label(:date_found, 'Start date:') %>
+        <%= form.date_field(:date_found) %>
+
+        <%= form.label(:date_found_end, 'End date:') %>
+        <%= form.date_field(:date_found_end, max: Date.current) %>
       </div>
+    </div>
+
+    <hr/>
+
+    <div class="btn-group" role="group" style="padding-top: 8px; padding-bottom: 8px;">
+      <input type="submit" name="commit" value="Submit" class="btn btn-primary mb-2" data-disable-with="Submit">
     </div>
   <% end %>
 </div>

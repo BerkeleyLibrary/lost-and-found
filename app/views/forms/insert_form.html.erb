@@ -1,46 +1,61 @@
 <h1>Add a lost item</h1>
 <p style="color: #ee0000">* Required</p>
 
-<div class="mb-4 form-group">
+<div style="width: 100%;">
   <%# TODO: This should be items#new, not form#insert_form %>
   <%# TODO: Update controller to support form_with(model:) and scoped params %>
   <%= form_with(url: items_path, local: true, multipart: true) do |form| %>
-
-    <%= form.label(:item_type, 'Item type:') %><span style="color: #ee0000"> * </span>
-    <%= form.select(:item_type, options_for_select(@item_type_layout), {prompt: 'Select a type'}, {required: true}) %>
-
-    <%= form.label(:description, 'Describe the item:') %><span style="color: #ee0000"> * </span>
-    <%= form.text_field(:description, placeholder: 'Item description', required: true) %>
-
-    <%= form.label(:location, 'Location held at:') %><span style="color: #ee0000"> * </span>
-    <%= form.select(:location, options_for_select(@locations_layout), {prompt: 'Select a type'}, {required: true}) %>
-
-    <%= form.label(:found_by, 'Found by:') %><span style="color: #ee0000"> * </span>
-    <%= form.text_field(:found_by, placeholder: "Finder's name", required: true) %>
-
-    <div>
-      <%= form.label(:where_found, 'Where found:') %><span style="color: #ee0000"> * </span>
-      <%= form.text_field(:where_found, placeholder: 'Where was this found?', required: true) %>
+    <div class="form-group required">
+      <%= form.label(:item_type, 'Item type:') %>
+      <%= form.select(:item_type, options_for_select(@item_type_layout), { prompt: 'Select a type' }, { required: true }) %>
     </div>
 
-    <%= form.label(:image, 'Image: ') %>
-    <%= form.file_field(:image) %>
+    <div class="form-group required">
+      <%= form.label(:description, 'Description:') %>
+      <%= form.text_field(:description, placeholder: 'Describe the item', required: true) %>
+    </div>
 
-    <div>
-      <%= form.label(:date_found, 'Date found:') %><span style="color: #ee0000"> * </span>
+    <div class="form-group required">
+      <%= form.label(:found_by, 'Found by:') %>
+      <%= form.text_field(:found_by, placeholder: 'Who found the item?', required: true) %>
+    </div>
+
+    <div class="form-group required">
+      <%= form.label(:where_found, 'Where found:') %>
+      <%= form.text_field(:where_found, placeholder: 'Where was it found?', required: true) %>
+    </div>
+
+    <div style="padding-top: 8px; padding-bottom: 8px;">
+      <div class="form-group required" style="display: contents;">
+      <%= form.label(:date_found, 'Date found:') %>
       <%= form.date_field(:date_found, required: true, max: Date.current) %>
+      </div>
 
       <%= form.label(:time_found, 'Time found:') %>
       <%= form.time_field(:time_found) %>
     </div>
 
-    <div style="padding-top: 10px; padding-bottom: 10px; font-weight: bold;">Added by: <%= current_user.user_name %>
+    <div class="form-group required">
+      <%= form.label(:location, 'Held at location:') %>
+      <%= form.select(:location, options_for_select(@locations_layout), { prompt: 'Select a location' }, { required: true }) %>
     </div>
 
+    <div style="padding-top: 8px; padding-bottom: 8px;">
+      <%= form.label(:image, 'Image: ') %>
+      <%= form.file_field(:image) %>
+    </div>
+
+    <hr/>
+
     <div>
-      <div class="btn-group" role="group">
-        <input type="submit" name="commit" value="Add item" class="btn btn-primary" data-disable-with="Submit">
-      </div>
+      <label for="added_by">Added by:</label>
+      <input id="added_by" type="text" value="<%= current_user.user_name %>" readonly style="pointer-events: none;">
+    </div>
+
+    <hr/>
+
+    <div class="btn-group" role="group" style="padding-top: 8px; padding-bottom: 8px;">
+      <input type="submit" name="commit" value="Add item" class="btn btn-primary" data-disable-with="Submit">
     </div>
   <% end %>
 </div>

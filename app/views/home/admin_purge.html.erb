@@ -1,14 +1,25 @@
 <h1>Enter date (all items found before this date will be deleted)</h1>
 
-<div class="mb-4 form-group">
+<div style="width: 100%;">
   <%= form_with(url: purge_items_path, local: true) do |form| %>
 
+    <div class="form-group required" style="padding-top: 8px; padding-bottom: 8px;">
     <%= form.label(:purge_date, 'Purge date:') %>
     <%= form.date_field(:purge_date, required: true) %>
-
-    <div style="padding-top: 10px; padding-bottom: 10px; font-weight: bold;">Current user: <%= current_user.user_name %>
     </div>
 
-    <%= submit_tag('Purge items') %>
+    <div>
+      <label for="updated_by">Updated by:</label>
+      <input id="updated_by" type="text" value="<%= current_user.user_name %>" readonly style="pointer-events: none;">
+    </div>
+
+    <div>
+      <label for="updated_at">Updated at:</label>
+      <input id="updated_at" type="text" value="<%= Time.current.strftime('%B %e, %Y at %I:%M %P') %>" readonly style="pointer-events: none;">
+    </div>
+
+    <div class="btn-group" role="group" style="padding-top: 8px; padding-bottom: 8px;">
+    <%= form.submit('Purge items', class: "btn btn-primary") %>
+    </div>
   <% end %>
 </div>

@@ -1,62 +1,89 @@
-
 <h1>Edit item</h1>
-<div class="table mt-5">
+<p style="color: #ee0000">* Required</p>
+
+<div style="width: 100%;">
   <%# TODO: Update controller to support form_with(model:) and scoped params %>
   <%= form_with(url: item_update_path, local: true) do |form| %>
-    <%= form.label(:location, 'Item location:') %>
-    <%= form.select(:location, options_for_select(@locations_layout, @item.location)) %>
+    <%= form.hidden_field(:id, value: @item.id) %> <%# TODO: just do this the Rails way %>
+    <div class="form-group required">
+      <%= form.label(:item_type, 'Item type:') %>
+      <%= form.select(:item_type, options_for_select(@item_type_layout, @item.item_type), {}, { required: true }) %>
+    </div>
 
-    <%= form.label(:found_by, 'Item found by:') %>
-    <%= form.text_field(:found_by, value: @item.found_by) %>
+    <div class="form-group required">
+      <%= form.label(:description, 'Description:') %>
+      <%= form.text_field :description, value: @item.description, required: true %>
+    </div>
 
-    <%= form.label(:description, 'Item description:') %>
-    <%= form.text_field :description, value: @item.description %>
+    <div class="form-group required">
+      <%= form.label(:found_by, 'Found by:') %>
+      <%= form.text_field(:found_by, value: @item.found_by) %>
+    </div>
 
-    <%= form.label(:item_type, 'Item type:') %>
-    <%= form.select(:item_type, options_for_select(@item_type_layout, @item.item_type)) %>
-
-    <%= form.label(:claimed, 'Claimed:') %>
-    <%= form.check_box(:claimed, checked: @item.claimed) %>
-
-    <% if @item.claimed_by.blank? %>
-      <%= form.label(:claimed_by_label, 'Claimed By:', class: 'hidden', id: 'claimed_by_label') %>
-      <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'hidden') %>
-    <% else %>
-      <%= form.label(:claimed_by_label, 'Claimed By:', class: '', id: 'claimed_by_label') %>
-      <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'required') %>
-    <% end %>
-
-    <%= form.label(:time_found, 'Time found:') %>
-    <%# TODO: figure out why we can't just pass datetime_found %>
-    <%= form.time_field :time_found, value: @item.datetime_found&.strftime("%T.%L") %>
-
-    <%= form.label(:date_found, 'Date found:') %>
-    <%= form.date_field(:date_found, value: @item.date_found) %>
-
-    <div>
+    <div class="form-group required">
       <%= form.label(:where_found, 'Where found:') %>
       <%= form.text_field(:where_found, value: @item.where_found) %>
     </div>
 
-    <%= form.label(:image, 'Image: ') %>
-    <%= form.file_field(:image) %>
+    <div style="padding-top: 8px; padding-bottom: 8px;">
+      <div class="form-group required" style="display: contents;">
+        <%= form.label(:date_found, 'Date found:') %>
+        <%= form.date_field(:date_found, required: true, value: @item.date_found) %>
+      </div>
 
-    <%= form.hidden_field(:id, value: @item.id) %>
+      <%= form.label(:time_found, 'Time found:') %>
+      <%# TODO: figure out why we can't just pass datetime_found %>
+      <%= form.time_field :time_found, value: @item.datetime_found&.strftime("%T.%L") %>
+    </div>
 
+    <div class="form-group required">
+      <%= form.label(:location, 'Held at location:') %>
+      <%= form.select(:location, options_for_select(@locations_layout, @item.location), {}, { required: true }) %>
+    </div>
 
-    <%= form.label(:image, 'Current image: ') %>
-    <% if @item.image.attached? %>
-      <img class="preview_image" alt="image of item" src="<%= (url_for(@item.image)) %>">
-    <% else %>
-      No image
-    <% end %>
+    <div style="padding-top: 8px; padding-bottom: 8px;">
+      <%= form.label(:image, 'Image: ') %>
+      <%= form.file_field(:image) %>
 
-    <h4> Update by: </h4>
-    <%= current_user.user_name %>
+      <%= form.label(:image, 'Current image: ') %>
+      <% if @item.image.attached? %>
+        <img class="preview_image" alt="image of item" src="<%= (url_for(@item.image)) %>">
+      <% else %>
+        No image
+      <% end %>
+    </div>
 
-    <h4>Last updated at: </h4>
-    <%= @item.updated_at.in_time_zone.strftime('%B %e, %Y at %I:%M %P') %>
+    <div style="padding-top: 8px; padding-bottom: 8px;">
+      <%= form.label(:claimed, 'Claimed:') %>
+      <%= form.check_box(:claimed, checked: @item.claimed) %>
+    </div>
 
-    <div><%= form.submit('Update item') %></div>
+    <div class="form-group required">
+      <% if @item.claimed_by.blank? %>
+        <%= form.label(:claimed_by_label, 'Claimed By:', class: 'hidden', id: 'claimed_by_label') %>
+        <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'hidden') %>
+      <% else %>
+        <%= form.label(:claimed_by_label, 'Claimed By:', class: '', id: 'claimed_by_label') %>
+        <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'required') %>
+      <% end %>
+    </div>
+
+    <hr/>
+
+    <div>
+      <label for="updated_by">Updated by:</label>
+      <input id="updated_by" type="text" value="<%= current_user.user_name %>" readonly style="pointer-events: none;">
+    </div>
+
+    <div>
+      <label for="updated_at">Updated at:</label>
+      <input id="updated_at" type="text" value="<%= Time.current.strftime('%B %e, %Y at %I:%M %P') %>" readonly style="pointer-events: none;">
+    </div>
+
+    <hr/>
+
+    <div class="btn-group" role="group" style="padding-top: 8px; padding-bottom: 8px;">
+      <%= form.submit('Update item', class: "btn btn-primary") %>
+    </div>
   <% end %>
 </div>
