@@ -23,13 +23,14 @@ describe 'read-only user', type: :system do
   end
 
   describe 'session timeout' do
+    # TODO: fix tests so they don't actually redirect to CalNet logout
     it 'redirects to logout' do
       expiration_time = Time.current - 30.seconds
       allow_any_instance_of(ApplicationController).to receive(:session_expiration_time).and_return(expiration_time)
 
       visit(search_form_path)
       expect(page).not_to have_content('Search for lost items')
-      expect(page).to have_content('Logout Successful')
+      expect(page).to have_content(/logout.*successful/i)
     end
   end
 
