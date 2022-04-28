@@ -16,9 +16,10 @@ describe 'read-only user', type: :system do
       expect(page).to have_content('Search for lost items')
     end
 
+    # TODO: fix tests so they don't actually redirect to CalNet logout
     it 'allows logout' do
       page.click_link_or_button('CalNet Logout')
-      expect(page).to have_content('Logout Successful')
+      expect(page).to have_content(/logout.*successful/i)
     end
   end
 
