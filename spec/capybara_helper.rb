@@ -1,8 +1,8 @@
 require 'active_support/inflector'
 require 'capybara/rspec'
 require 'selenium-webdriver'
+require 'berkeley_library/docker'
 require 'berkeley_library/logging'
-require 'docker'
 
 require 'rails_helper'
 
@@ -19,7 +19,7 @@ module CapybaraHelper
 
   class << self
     def configure!
-      configurator = Docker.running_in_container? ? GridConfigurator.new : LocalConfigurator.new
+      configurator = (in_container? ? GridConfigurator : LocalConfigurator).new
       configurator.configure!
     end
 
@@ -28,7 +28,7 @@ module CapybaraHelper
     end
 
     def browser_project_root
-      Docker.running_in_container? ? '/build' : Rails.root
+      in_container? ? '/build' : Rails.root
     end
 
     def local_save_path
@@ -69,6 +69,10 @@ module CapybaraHelper
         out.write("#{logs.size} entries logged to JavaScript console:\n")
         logs.each_with_index { |entry, i| out.write("#{indent}#{i}\t#{entry}\n") }
       end.string
+    end
+
+    def in_container?
+      BerkeleyLibrary::Docker.running_in_container?
     end
   end
 

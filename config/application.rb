@@ -1,7 +1,3 @@
-# Read Docker secrets into the environment. Must be before 'rails/all'.
-require_relative '../lib/docker'
-Docker::Secret.setup_environment!
-
 # Dummy SECRET_KEY_BASE to prevent spurious initializer issues
 # -- see https://github.com/rails/rails/issues/32947
 ENV['SECRET_KEY_BASE'] ||= '1' if ENV['CI']
