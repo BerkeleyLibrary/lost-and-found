@@ -1,0 +1,24 @@
+#!/bin/sh
+
+admin_uid=${1:-313539}
+admin_username=${2:-Dan Schmidt}
+
+docker compose up -d --no-deps app db
+
+docker compose exec app rails assets:precompile
+
+if ls -d db/dumps/*.sql 2>&1 > /dev/null; then
+  # If database dumps are present, just verify migration status
+  docker compose exec app rails db:migrate:status
+else
+  # Else bootstrap the database
+  docker compose exec app rails db:setup
+  cat <<EOF | docker compose exec -T app rails runner -
+  User.create(
+    uid: "$admin_uid".to_i,
+    user_name: "$admin_username",
+    user_role: User::ROLE_ADMIN,
+    user_active: true
+  )
+EOF
+fi

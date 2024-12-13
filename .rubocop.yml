@@ -9,6 +9,10 @@ AllCops:
 Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
+# Allow guard clause to immediately precede assignment
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
 # Allow one line around class body (Layout/EmptyLines will still disallow two or more)
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
@@ -28,6 +32,9 @@ Layout/MultilineMethodCallIndentation:
 # Produces monsters
 Layout/MultilineOperationIndentation:
   Enabled: false
+
+Metrics/MethodLength:
+  Max: 25
 
 # We meant to do that
 Naming/MemoizedInstanceVariableName:

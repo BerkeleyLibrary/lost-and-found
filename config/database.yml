@@ -9,4 +9,4 @@ test:
 production:
   pool: 5
   timeout: 5000
-  url: <%= ENV['DATABASE_URL'] || 'postgres://root:root@db/lostandfound-prod' %>
+  url: <%= ENV['DATABASE_URL'] || 'postgres://root:root@db/lostandfound' %>

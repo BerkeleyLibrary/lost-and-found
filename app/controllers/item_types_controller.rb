@@ -3,7 +3,6 @@ class ItemTypesController < ApplicationController
   before_action :require_admin!
 
   # TODO: clean this up further
-  # rubocop:disable Metrics/MethodLength
   def create
     item_type = ItemType.new(
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
@@ -22,14 +21,13 @@ class ItemTypesController < ApplicationController
 
     redirect_to(admin_item_types_path)
   end
-  # rubocop:enable Metrics/MethodLength
 
   def edit
     @item_type = ItemType.find(params[:id])
   end
 
   # TODO: clean this up further
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def update
     # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
     item_type = ItemType.find(params[:id])
@@ -47,7 +45,7 @@ class ItemTypesController < ApplicationController
 
     redirect_to admin_item_types_path
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def change_status
     item_type = ItemType.find(params[:id])

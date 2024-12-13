@@ -1,6 +1,10 @@
 ############################################################
 # Custom ignores
 
+# Database dumps and log files
+db/dumps
+*.log
+
 # github-markdown-preview previews
 *.md.html
 

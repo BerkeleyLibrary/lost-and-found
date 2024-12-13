@@ -1,11 +1,11 @@
+---
+
 services:
   app:
-    build:
-      context: .
-      target: production
+    build: .
     environment:
-      RAILS_ENV: production
-      SECRET_KEY_BASE: '1'
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=1
     depends_on:
       - db
       - selenium
@@ -23,8 +23,9 @@ services:
 
   db:
     environment:
-      POSTGRES_PASSWORD: root
-      POSTGRES_USER: root
+      - POSTGRES_DB=lostandfound
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
     image: postgres:16
     networks:
       default:
@@ -36,6 +37,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./:/build:rw
+      - ./db/dumps:/docker-entrypoint-initdb.d:ro
 
   selenium:
     image: selenium/hub
@@ -70,6 +72,4 @@ services:
       - 8080:8080
 
 volumes:
-  postgres_data: { }
-
-version: '3.8'
+  postgres_data: {}

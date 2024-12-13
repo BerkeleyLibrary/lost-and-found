@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   # TODO: clean this up further
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def create
     user = User.new(
       uid: params[:uid],
@@ -28,10 +28,10 @@ class UsersController < ApplicationController
       render 'home/admin_users'
     end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   # TODO: clean this up further
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def update
     @user = User.find(params[:id])
 
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
       render 'users/edit'
     end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def change_status
     user = User.find(params[:id])

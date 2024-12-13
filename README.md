@@ -8,20 +8,14 @@ Lost and Found uses the Berkeley calnet system in order to manage approved users
 If you are unsure about your status as an approved user, please reach out to the current administrator Mark Marrow.
 
 ### Timeout
-In addition to the standard timeout from Calnet Services, Lost and Found enforces a 1 hour session policy for users. After that time has expired, a user will be prompted to logout and login again if they would like to continue using the service. 
+In addition to the standard timeout from Calnet Services, Lost and Found enforces a 1 hour session policy for users. After that time has expired, a user will be prompted to logout and login again if they would like to continue using the service.
 
 ### Roles
-Lost and Found users are organized into 3 role categories
+Lost and Found users are organized into 3 role categories:
 
-#### Read-Only
-A user that can search through found items.
-
-#### Staff
- A user that can add found items, search for found items and view found item edit history.
-
-#### Administrator
-A user that has access to all previous role privileges with the added ability to manage users, locations, item types and remove older items from the application.
-
+- `User::ROLE_READ_ONLY`: A user that can search through found items.
+- `User::ROLE_STAFF`: A user that can add found items, search for found items and view found item edit history.
+- `User::ROLE_ADMIN`: A user that has access to all previous role privileges with the added ability to manage users, locations, item types and remove older items from the application.
 
 ### Adding a found item
 To add a found item, navigate to the found items page. Once there, a user will be prompted to fill out valuable information on the item and the conditions under which it was found. All fields marked with a red '*' are required for the request to be performed.
@@ -51,12 +45,26 @@ The type of item Found (A backpack, laptop, ect)
 ### Local Testing
 To run Lost and Found locally using Docker, use the following commands.
 
-```
-# Startup your containers
-docker-compose up --build -d
-# wait for everything to spin up, then run your setup
-# tasks, whatever those are. Here's a good start:
-docker-compose run --rm rails assets:precompile db:create db:migrate
+```bash
+# Build the Lost & Found container image
+docker compose build
+
+# Start the stack. You may optionally want to enable adminer (phpMyAdmin) and Selenium (for browser testing) by removing `--no-deps`.
+docker compose up -d --no-deps app db
+
+# Wait for the DB to start, then run setup tasks
+docker compose exec app assets:precompile db:setup
+
+# Add yourself as an admin. (Substitute your UID and name.)
+cat <<EOF | docker compose exec -T app rails runner -
+User.create(
+  uid: 313539,
+  user_name: 'Dan Schmidt',
+  user_role: User::ROLE_ADMIN,
+  user_active: true
+)
+EOF
 
 # View the site in the browser and confirm it works
 open http://localhost:3000
+```
