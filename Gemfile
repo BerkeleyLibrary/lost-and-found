@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '~> 2.6'
+ruby '~> 3.3.6'
 
 gem 'activerecord-import'
 gem 'authlogic'
@@ -21,15 +21,22 @@ gem 'lograge', '>=0.11.2'
 gem 'omniauth-cas',
     git: 'https://github.com/dlindahl/omniauth-cas.git',
     ref: '7087bda829e14c0f7cab2aece5045ad7015669b1'
-gem 'paper_trail'
+gem 'paper_trail', '~> 12.1', '>= 12.2.0'
 gem 'pg'
 gem 'pg_search'
 gem 'puma', '~> 4.1', '>=4.3.9'
 gem 'pundit'
-gem 'rails', '>= 6.1'
+gem 'rails', '~> 6.1.6'
 gem 'sass-rails', '~> 6.0'
 gem 'typesafe_enum'
 gem 'webpacker', '~> 5.4'
+
+# need to add these explicitly to quiet warnings until we upgrade to rails >= 7
+gem 'base64'
+gem 'bigdecimal'
+gem 'csv'
+gem 'drb'
+gem 'mutex_m'
 
 group :development, :test do
   gem 'brakeman', '~> 4.8'
@@ -37,12 +44,15 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'colorize'
   gem 'factory_bot_rails'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 6.1.0'
+
+  # need to add this explicitly to quiet warnings until we upgrade to rails >= 7
+  gem 'observer'
 end
 
 group :development do
   gem 'listen'
-  gem 'rubocop', '~> 1.18.0'
+  gem 'rubocop', '~> 1.60'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'web-console', '>= 3.3.0'
@@ -53,7 +63,7 @@ group :test do
   gem 'database_cleaner-active_record', '~> 2.0'
   gem 'rspec', '~> 3.10'
   gem 'rspec_junit_formatter', '~> 0.4.1'
-  gem 'selenium-webdriver', '~> 4.0'
+  gem 'selenium-webdriver', '~> 4.27'
   gem 'simplecov', require: false
   gem 'simplecov-rcov', require: false
   gem 'webmock'

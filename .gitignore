@@ -111,8 +111,9 @@ yarn-debug.log*
 # Used by dotenv library to load environment variables.
 # .env
 
-# Ignore Byebug command history file.
+# Ignore irb/Byebug command history files.
 .byebug_history
+.irb_history
 
 ## Specific to RubyMotion:
 .dat*
