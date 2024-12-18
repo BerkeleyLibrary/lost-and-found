@@ -22,12 +22,12 @@ class ItemCsvImport
     CSV.open(outfile, 'wb') do |table_out|
       table_out << %w[status new_id original_id description item_type location]
 
-      CSV.open(infile, headers: true) do |table_in|
+      CSV.open(infile, headers: true, header_converters: :symbol, converters: :numeric) do |table_in|
         table_in.each do |row|
           if (dupes = similar_items(row)).any?
             dupe_ids = dupes.pluck(:id)
             add_row(table_out, STATUS_DUPLICATE, dupe_ids.join(','), row) \
-              if dupe_ids.none? { |id| id.to_i == row['id'].to_i }
+              if dupe_ids.none? { |id| id == row[:id] }
             next
           end
 
@@ -42,28 +42,28 @@ class ItemCsvImport
   private
 
   def add_row(table, status, new_id, row)
-    table << [status, new_id, *row.fields(*%w[id description item_type location])]
+    table << [status, new_id, *row.fields(*%i[id description item_type location])]
   end
 
   def create_item!(row)
     Item.create!(
-      **row.to_h.except('id', 'description'),
+      **row.to_h.except(:id, :description),
       description: augmented_description(row)
     )
   end
 
   def augmented_description(row)
-    "#{row['description'].strip} (#{label}; OldID=#{row['id']})"
+    "#{row[:description].strip} (#{label}; OldID=#{row[:id]})"
   end
 
   def similar_items(row)
     matches_exactly = {
       created_at: cutoff_date..,
-      description: row['description'],
-      item_type: row['item_type'],
-      location: row['location']
+      description: row[:description],
+      item_type: row[:item_type],
+      location: row[:location]
     }
-    previously_imported = 'description LIKE ?', "%OldID=#{row['id']}%"
+    previously_imported = 'description LIKE ?', "%OldID=#{row[:id]}%"
 
     Item
       .where(matches_exactly)

@@ -7,7 +7,7 @@ task :import, %i[label infile outfile cutoff_date] => :environment do |_task, ar
 
   import = ItemCsvImport.new(
     label: label,
-    earliest: cutoff_date,
+    cutoff_date: cutoff_date,
     infile: infile,
     outfile: outfile
   )
