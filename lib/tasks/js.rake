@@ -46,11 +46,11 @@ module BerkeleyLibrary
     # Writes a formatted report to {#report_path}.
     # @return [Integer] 0 for success, nonzero value for failure
     # @yieldparam exit_status [Integer] 0 for success, nonzero value for failure
-    def write_report(&block)
+    def write_report(&)
       ensure_report_path!
       begin
         cmd = eslint_cmd("--format=#{report_format}")
-        run_cmd(cmd, out: report_path, &block)
+        run_cmd(cmd, out: report_path, &)
       ensure
         warn("ESLint report written to #{report_path}") if File.file?(report_path)
       end
@@ -60,23 +60,23 @@ module BerkeleyLibrary
     # @param silence_errors [Boolean] whether to warn when the eslint command returns a nonzero exit status.
     # @return [Integer] 0 for success, nonzero value for failure
     # @yieldparam exit_status [Integer] 0 for success, nonzero value for failure
-    def write_to_console(silence_errors: true, &block)
-      run_cmd(eslint_cmd, silence_errors: silence_errors, &block)
+    def write_to_console(silence_errors: true, &)
+      run_cmd(eslint_cmd, silence_errors: silence_errors, &)
     end
 
     # Fixes any detected problems that can be auto-fixed.
     # @return [Integer] 0 for success, nonzero value for failure
     # @yieldparam exit_status [Integer] 0 for success, nonzero value for failure
-    def fix(&block)
+    def fix(&)
       cmd = eslint_cmd('--fix')
-      run_cmd(cmd, &block)
+      run_cmd(cmd, &)
     end
 
     private
 
     def ensure_report_path!
       report_path.tap do |p|
-        FileUtils.rm(p) if File.exist?(p)
+        FileUtils.rm_f(p)
         report_dir = File.dirname(p)
         FileUtils.mkdir_p(report_dir) unless File.directory?(report_dir)
       end

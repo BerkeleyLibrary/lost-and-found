@@ -28,7 +28,7 @@ class User < ApplicationRecord
     end
 
     def from_session(session)
-      attrs = OpenStruct.new((session && session[:user]) || {})
+      attrs = OpenStruct.new((session && session[:user]) || {}) # rubocop:disable Style/OpenStructUse
       # TODO: connect session to DB users in less hacky way
 
       session_uid = attrs.uid

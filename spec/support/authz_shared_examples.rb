@@ -141,7 +141,7 @@ RSpec.shared_examples 'staff access is denied' do
   it 'disallows viewing claimed or purged items' do
     visit(admin_claimed_path)
     expect(page).to have_content('Forbidden')
-    expect(page).not_to have_selector(('#claimed_items_table'))
+    expect(page).not_to have_selector('#claimed_items_table')
   end
 
   it 'disallows access to the add items page' do

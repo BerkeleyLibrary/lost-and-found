@@ -316,7 +316,7 @@ describe 'read-only user', type: :system do
       page_size = Kaminari.config.default_per_page
       expect(page_size).not_to be_nil # just to be sure
 
-      items = Array.new(2 * page_size + 1) do |i|
+      items = Array.new((2 * page_size) + 1) do |i|
         loc = locations[i % locations.size]
         type = item_types[i % item_types.size]
 

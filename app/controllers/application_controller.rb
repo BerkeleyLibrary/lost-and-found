@@ -109,7 +109,7 @@ class ApplicationController < ActionController::Base
   end
 
   def session_expired?
-    return unless (expires_at = session_expiration_time)
+    return false unless (expires_at = session_expiration_time)
 
     (Time.current > expires_at).tap do |expired|
       logger.warn("Expiration time #{expires_at} reached; session expired") if expired
