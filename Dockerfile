@@ -4,7 +4,7 @@
 # The base stage scaffolds elements which are common to building and running
 # the application, such as installing ca-certificates, creating the app user,
 # and installing runtime system dependencies.
-FROM ruby:2.7.6-alpine AS base
+FROM ruby:3.3-slim AS base
 
 # This declares that the container intends to listen on port 3000. It doesn't
 # actually "expose" the port anywhere -- it is just metadata. It advises tools
@@ -15,28 +15,50 @@ ENV APP_USER=lostandfound
 ENV APP_UID=40001
 
 # Create the application user/group and installation directory
-RUN addgroup -S -g $APP_UID $APP_USER \
-&&  adduser -S -u $APP_UID -G $APP_USER $APP_USER \
-&&  mkdir -p /opt/app /var/opt/app \
-&&  chown -R $APP_USER:$APP_USER /opt/app /var/opt/app /usr/local/bundle
+RUN groupadd --system --gid $APP_UID $APP_USER \
+    && useradd --home-dir /opt/app --system --uid $APP_UID --gid $APP_USER $APP_USER
 
-# Install packages common to dev and prod.
-RUN apk --no-cache --update upgrade && \
-    apk --no-cache add \
-      bash \
+RUN mkdir -p /opt/app /var/opt/app \
+    && chown -R $APP_USER:$APP_USER /opt/app /var/opt/app /usr/local/bundle
+
+# Get list of available packages
+RUN apt-get update -qq
+
+# Install standard packages from the Debian repository
+RUN apt-get install -y --no-install-recommends \
       ca-certificates \
+      curl \
+      gpg \
       git \
-      libc6-compat \
-      nodejs \
-      openssl \
-      postgresql-libs \
+      libc6 \
+      libpq-dev \
+      libssl-dev \
       shared-mime-info \
-      sqlite-libs \
+      sqlite3 \
       tzdata \
-      xz-libs \
-      yarn \
-      && \
-    rm -rf /var/cache/apk/*
+      xz-utils
+
+# Install Node.js and Yarn from their own repositories
+
+# Add Node.js package repository (version 16 LTS release) & install Node.js
+# -- note that the Node.js setup script takes care of updating the package list
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs
+
+# Add Yarn package repository, update package list, & install Yarn
+# TODO: why are we installing Yarn 1.22 instead of 3.x?
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null \
+    && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && apt-get update -qq \
+    && apt-get install -y --no-install-recommends yarn
+
+# Remove packages we only needed as part of the Node.js / Yarn repository
+# setup and installation -- note that the Node.js setup scripts installs
+# a full version of Python, but at runtime we only need a minimal version
+RUN apt-mark manual python3-minimal \
+    && apt-get autoremove --purge -y \
+      curl \
+      python3
 
 # ==============================
 # Selenium testing
@@ -77,22 +99,21 @@ CMD ["rails", "server", "-b", "0.0.0.0"]
 # production target.
 FROM base AS development
 
+# ------------------------------------------------------------
+# Install build packages
+
 # Temporarily switch back to root to install build packages.
 USER root
 
 # Install system packages needed to build gems with C extensions.
-RUN apk --update --no-cache add \
-      build-base \
-      coreutils \
-      git \
-      postgresql-dev \
-      sqlite-dev \
-&&  rm -rf /var/cache/apk/*
+RUN apt-get install -y --no-install-recommends \
+    g++ \
+    make
 
 USER $APP_USER
 
 # Use a recent version of Bundler
-RUN gem install bundler -v 2.2.14
+RUN gem install bundler -v 2.5.23
 
 # Install gems. We don't enforce the validity of the Gemfile.lock until the
 # final (production) stage.
