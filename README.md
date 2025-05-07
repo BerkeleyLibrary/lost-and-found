@@ -53,17 +53,10 @@ docker compose build
 docker compose up -d --no-deps app db
 
 # Wait for the DB to start, then run setup tasks
-docker compose exec app assets:precompile db:setup
+docker compose exec app rake assets:precompile db:setup
 
-# Add yourself as an admin. (Substitute your UID and name.)
-cat <<EOF | docker compose exec -T app rails runner -
-User.create(
-  uid: 313539,
-  user_name: 'Dan Schmidt',
-  user_role: User::ROLE_ADMIN,
-  user_active: true
-)
-EOF
+# Add yourself as an admin. (Substitute your UID and name.  Quotes are required.)
+docker compose exec app rake "setup:admin[313539,Dan Schmidt]"
 
 # View the site in the browser and confirm it works
 open http://localhost:3000
