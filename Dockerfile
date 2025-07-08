@@ -133,6 +133,10 @@ COPY --chown=$APP_USER:$APP_USER . .
 # heavyweight build dependencies.
 FROM base AS production
 
+# Run the production stage in production mode.
+ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=true
+
 # Copy the built codebase from the dev stage
 COPY --from=development --chown=$APP_USER /opt/app /opt/app
 COPY --from=development --chown=$APP_USER /usr/local/bundle /usr/local/bundle
@@ -141,10 +145,6 @@ COPY --from=development --chown=$APP_USER /var/opt/app /var/opt/app
 # Ensure the bundle is installed and the Gemfile.lock is synced.
 RUN bundle config set frozen 'true'
 RUN bundle install --local
-
-# Run the production stage in production mode.
-ENV RAILS_ENV=production
-ENV RAILS_SERVE_STATIC_FILES=true
 
 # Pre-compile assets so we don't have to do it in production.
 # NOTE: dummy SECRET_KEY_BASE to prevent spurious initializer issues

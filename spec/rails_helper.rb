@@ -9,11 +9,14 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 
 require File.expand_path('../config/environment', __dir__)
+require 'database_cleaner-core'
 require 'rspec/rails'
 require 'paper_trail/frameworks/rspec'
 
 # ------------------------------------------------------------
 # RSpec configuration
+
+DatabaseCleaner.allow_remote_database_url = true
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
