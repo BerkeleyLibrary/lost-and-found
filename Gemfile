@@ -6,16 +6,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~> 3.3.6'
 
 gem 'activerecord-import'
-gem 'authlogic'
-gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 gem 'berkeley_library-docker', '~> 0.2.0'
 gem 'berkeley_library-logging', '~> 0.2', '>= 0.2.5'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap'
-gem 'coffee-rails', '~> 4.2'
-gem 'diffy'
-gem 'jbuilder', '~> 2.5'
-gem 'jquery-rails'
 gem 'kaminari'
 gem 'lograge', '>=0.11.2'
 gem 'omniauth-cas',
@@ -25,7 +19,6 @@ gem 'paper_trail', '~> 12.1', '>= 12.2.0'
 gem 'pg'
 gem 'pg_search'
 gem 'puma', '~> 4.1', '>=4.3.9'
-gem 'pundit'
 gem 'rails', '~> 6.1.6'
 gem 'sass-rails', '~> 6.0'
 gem 'typesafe_enum'
@@ -41,7 +34,6 @@ gem 'mutex_m'
 group :development, :test do
   gem 'brakeman', '~> 4.8'
   gem 'bundler-audit'
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'colorize'
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.1.0'
@@ -51,11 +43,9 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen'
   gem 'rubocop', '~> 1.60'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'web-console', '>= 3.3.0'
 end
 
 group :test do
