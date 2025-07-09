@@ -5,4 +5,9 @@ SimpleCov.start 'rails' do
   coverage_dir 'artifacts'
   formatter SimpleCov::Formatter::RcovFormatter
   minimum_coverage 100
+
+  # Ensures that all branches are executed (if ... else ... end)
+  enable_coverage :branch
+  # Allows for coverage testing on view files as well.
+  enable_coverage_for_eval
 end
