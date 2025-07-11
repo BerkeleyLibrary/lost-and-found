@@ -1,5 +1,4 @@
-<h2 id="claimed_items_header">Claimed Items</h2>
-
+<h1 id="claimed_items_header">Claimed<%= ' and purged' if @purged %> items</h1>
 
 <table id="claimed_items_table" class="table mt-5">
   <thead class="thead-light">
@@ -9,25 +8,25 @@
     <th scope="col">Time found</th>
     <th scope="col">Found by</th>
     <th scope="col">Item location</th>
-    <th scope="col">Where found</th>
+    <th scope="col">Where Found</th>
     <th scope="col">Type of item</th>
     <th scope="col">Item description</th>
     <th scope="col">Item image</th>
     <th scope="col">Updated by</th>
     <th scope="col">Updated at</th>
-    <th scope="col">Claimed by</th>
+    <th scope="col">Claimed By</th>
   </tr>
   </thead>
   <tbody>
   <%= paginate @items_claimed, param_name: :claimed_page, :params => { :anchor => 'claimed_items_header' } %>
   <% @items_claimed.each do |item| %>
     <tr>
-      <% if current_user.staff_or_admin? %>
-        <td>
-          <%= link_to 'Edit', edit_item_path(item.id) %>
+      <td>
+        <% if current_user.staff_or_admin? %>
+          <span><%= link_to 'Edit', edit_item_path(item.id) %></span>
           <%= link_to 'History', item_path(item.id) %>
-        </td>
-      <% end %>
+        <% end %>
+      </td>
       <td><%= item.date_found.strftime("%m/%d/%Y") %></td>
       <td><%= item.datetime_found&.strftime("%l:%M %P") || 'None' %></td>
       <td><%= item.found_by || 'No one' %></td>
@@ -53,8 +52,6 @@
           <%= item.claimed_by %>
         <% elsif item.purged? %>
           Purged
-        <% else %>
-          None
         <% end %>
       </td>
     </tr>

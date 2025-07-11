@@ -43,13 +43,15 @@ class ItemsController < ApplicationController
     @items_claimed = Item.claimed
     @items_claimed = @items_claimed.sort_by(&:date_found).reverse
     @items_claimed = Kaminari.paginate_array(@items_claimed.reverse).page(params[:claimed_page])
+    @purged = false
   end
 
   def claimed_items
     # TODO: clean this up
-    query = current_user.administrator? ? Item.claimed.or(Item.purged) : Item.claimed
+    @purged = current_user.administrator?
+    query = @purged ? Item.claimed.or(Item.purged) : Item.claimed
     query = order_by_date_desc(query)
-    @items_claimed = query.page(params[:page])
+    @items_claimed = query.page(params[:claimed_page])
   end
 
   def edit
