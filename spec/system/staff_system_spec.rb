@@ -259,7 +259,7 @@ describe 'staff user', type: :system do
 
           page.click_link_or_button('Update item')
           expect(page).not_to have_content('Internal Server Error')
-          expect(page).to have_content('item updated')
+          expect(page).to have_content('Item updated')
 
           item.reload
           expect(item.description).to eq(new_description)
@@ -279,7 +279,7 @@ describe 'staff user', type: :system do
 
           page.click_link_or_button('Update item')
           expect(page).not_to have_content('Internal Server Error')
-          expect(page).to have_content('item updated')
+          expect(page).to have_content('Item updated')
 
           item.reload
           expect(item.description).to eq(new_description)
@@ -296,7 +296,7 @@ describe 'staff user', type: :system do
 
           page.click_link_or_button('Update item')
           expect(page).not_to have_content('Internal Server Error')
-          expect(page).to have_content('item updated')
+          expect(page).to have_content('Item updated')
 
           item.reload
           expect(item.image_url).to end_with(File.basename(new_img_path))
@@ -310,7 +310,7 @@ describe 'staff user', type: :system do
 
           page.click_link_or_button('Update item')
           expect(page).not_to have_content('Internal Server Error')
-          expect(page).to have_content('item updated')
+          expect(page).to have_content('Item updated')
 
           item.reload
           expect(item.claimed).to eq(true)
@@ -322,7 +322,7 @@ describe 'staff user', type: :system do
 
           page.click_link_or_button('Update item')
           expect(page).not_to have_content('Internal Server Error')
-          expect(page).not_to have_content('item updated')
+          expect(page).not_to have_content('Item updated')
 
           item.reload
           expect(item.claimed).to eq(false)
@@ -335,7 +335,7 @@ describe 'staff user', type: :system do
 
           page.click_link_or_button('Update item')
           expect(page).not_to have_content('Internal Server Error')
-          expect(page).not_to have_content('item updated')
+          expect(page).not_to have_content('Item updated')
 
           item.reload
           expect(item.claimed).to eq(false)
@@ -382,7 +382,7 @@ describe 'staff user', type: :system do
 
           page.click_link_or_button('Update item')
           expect(page).not_to have_content('Internal Server Error')
-          expect(page).to have_content('item updated')
+          expect(page).to have_content('Item updated')
 
           visit(show_path)
 

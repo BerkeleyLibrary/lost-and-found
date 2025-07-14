@@ -9,11 +9,8 @@ Rails.application.routes.draw do
 
   # TODO: clean these all up
 
-  resources :items, only: %i[edit update delete destroy]
-  get '/items', to: 'items#index'
+  resources :items, only: %i[index create show edit update delete destroy]
   get '/insert_form', to: 'forms#insert_form', as: :new_item
-  post '/items', to: 'items#create'
-  get '/items/:id', to: 'items#show'
   post '/items/:id/item_update', to: 'items#update', as: :item_update
   get '/search_form', to: 'forms#search_form'
 

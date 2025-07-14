@@ -3,7 +3,7 @@
 
 <div style="width: 100%;">
   <%# TODO: Update controller to support form_with(model:) and scoped params %>
-  <%= form_with(url: item_update_path, local: true) do |form| %>
+  <%= form_with(url: item_update_path(id: @item.id), local: true) do |form| %>
     <%= form.hidden_field(:id, value: @item.id) %> <%# TODO: just do this the Rails way %>
     <div class="form-group required">
       <%= form.label(:item_type, 'Item type:') %>

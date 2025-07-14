@@ -102,14 +102,14 @@ class ItemsController < ApplicationController
     begin
       @item.save!
       flash[:success] = 'Item updated'
-      render 'items/updated'
+      redirect_to item_url(@item.id)
     rescue StandardError => e
       flash_errors(@item, e)
 
       # TODO: stop having to do this
       @locations_layout = location_setup
       @item_type_layout = item_type_setup
-      render 'items/edit'
+      render 'items/edit', status: :unprocessable_entity
     end
   end
 

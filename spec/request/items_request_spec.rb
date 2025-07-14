@@ -175,8 +175,7 @@ describe ItemsController, type: :request do
         }
 
         post(update_path, params: params)
-        expect(response).to be_successful
-        expect(response.body).to include('item updated')
+        expect(response).to redirect_to item_url(@item)
 
         item.reload
         expect(item.updated_at).not_to eq(previously_updated_at)
