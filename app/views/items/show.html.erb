@@ -3,11 +3,7 @@
 <h2>Current values</h2>
 <div class="form-group row">
   <h5 class="col-2">Date found</h5>
-  <% if @item.date_found %>
-    <div class="col-4"><%= @item.date_found.strftime('%m/%d/%Y') %></div>
-  <% else %>
-    <div class="col-4"> None</div>
-  <% end %>
+  <div class="col-4"><%= @item.date_found.strftime('%m/%d/%Y') %></div>
 </div>
 <div class="form-group row">
   <h5 class="col-2">Time found</h5>
@@ -21,12 +17,12 @@
 
 <div class="form-group row">
   <h5 class="col-2">Item location</h5>
-  <div class="col-4"><%= @item.location || 'None' %></div>
+  <div class="col-4"><%= @item.location %></div>
 </div>
 
 <div class="form-group row">
   <h5 class="col-2">Type of item</h5>
-  <div class="col-4"><%= @item.item_type || 'No type' %></div>
+  <div class="col-4"><%= @item.item_type %></div>
 </div>
 
 <div class="form-group row">
@@ -51,7 +47,7 @@
   <% if @item.updated_at != @item.created_at %>
     <div class="col-4"><%= @item.updated_at.in_time_zone.strftime('%m/%d/%Y %l:%M %P') %></div>
   <% else %>
-    <div class="col-4"> None</div>
+    <div class="col-4">None</div>
   <% end %>
 </div>
 
@@ -62,7 +58,7 @@
       <th scope="col">Date/time</th>
       <th scope="col">Updated by</th>
       <th scope="col">Action</th>
-      <th scope="col"> What changed</th>
+      <th scope="col">What changed</th>
     </tr>
   </thead>
 

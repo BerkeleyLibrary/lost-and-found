@@ -1,5 +1,3 @@
-# with claimed by
-# without claimed by
 require 'rails_helper'
 
 describe 'items/edit.html.erb', type: :view do
