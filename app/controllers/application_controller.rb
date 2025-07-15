@@ -47,7 +47,6 @@ class ApplicationController < ActionController::Base
   def authenticated?
     current_user.authenticated?
   end
-  helper_method :authenticated?
 
   # Return the current user
   #
