@@ -20,12 +20,7 @@ Bundler.require(*Rails.groups)
 module LostAndFound
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
-
-    # Defaults from 6.1, to avoid deprecation warnings in 7.0+:
-    config.action_dispatch.cookies_same_site_protection = :strict
-    config.action_controller.urlsafe_csrf_tokens = true
-    config.active_record.legacy_connection_handling = false
+    config.load_defaults 6.1
 
     # Set time zone
     config.time_zone = 'America/Los_Angeles'
