@@ -29,45 +29,43 @@
     </content>
     <orderEntry type="jdk" jdkName="ruby-3.3.8-p144" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="actioncable (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionmailbox (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionmailer (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionpack (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actiontext (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionview (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activejob (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activemodel (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activerecord (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actioncable (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionmailbox (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionmailer (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionpack (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actiontext (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionview (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activejob (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activemodel (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activerecord (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activerecord-import (v1.2.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activestorage (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activesupport (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activestorage (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activesupport (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.8.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="amazing_print (v1.4.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="autoprefixer-rails (v10.3.3.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="base64 (v0.2.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="berkeley_library-docker (v0.2.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="berkeley_library-logging (v0.2.5, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="berkeley_library-logging (v0.2.7, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bigdecimal (v3.1.8, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bootsnap (v1.9.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bootstrap (v5.1.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="brakeman (v4.10.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.4, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="builder (v3.3.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v2.5.23, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler-audit (v0.9.0.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v3.40.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="colorize (v0.8.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.1.10, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.3.5, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crack (v0.4.5, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="csv (v3.3.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-active_record (v2.0.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-core (v2.0.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="date (v3.4.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.4.4, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="docile (v1.4.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="drb (v2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="erubi (v1.10.0, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.8.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot (v6.2.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v6.2.0, ruby-3.3.8-p144) [gem]" level="application" />
@@ -75,7 +73,7 @@
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.2.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hashdiff (v1.0.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hashie (v4.1.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="i18n (v1.10.0, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="i18n (v1.14.7, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v2.9.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="kaminari (v1.2.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="kaminari-actionview (v1.2.1, ruby-3.3.8-p144) [gem]" level="application" />
@@ -84,22 +82,21 @@
     <orderEntry type="library" scope="PROVIDED" name="language_server-protocol (v3.17.0.3, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="logger (v1.6.3, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="lograge (v0.11.2, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="loofah (v2.17.0, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="loofah (v2.24.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.8.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v1.0.4, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="matrix (v0.4.2, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="method_source (v1.0.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.2, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mini_portile2 (v2.8.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.15.0, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="method_source (v1.1.0, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.5, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.25.5, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="msgpack (v1.7.5, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mutex_m (v0.3.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="net-imap (v0.5.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-imap (v0.5.9, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-pop (v0.1.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-protocol (v0.2.2, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="net-smtp (v0.5.0, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="net-smtp (v0.5.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.7.4, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.13.4, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.18.8, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="observer (v0.1.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="oj (v3.16.8, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="omniauth (v1.9.1, ruby-3.3.8-p144) [gem]" level="application" />
@@ -114,16 +111,16 @@
     <orderEntry type="library" scope="PROVIDED" name="popper_js (v2.9.3, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_suffix (v4.0.6, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="puma (v4.3.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="racc (v1.6.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rack (v2.2.10, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="racc (v1.8.1, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rack (v2.2.17, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-proxy (v0.7.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rack-test (v1.1.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rails (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.0.3, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.4.2, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="railties (v6.1.7.10, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rack-test (v2.2.0, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.3.0, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.6.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="railties (v7.0.8.7, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rainbow (v3.1.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rake (v13.0.6, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rake (v13.3.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="regexp_parser (v2.9.3, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="request_store (v1.5.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rexml (v3.2.5, ruby-3.3.8-p144) [gem]" level="application" />
@@ -149,22 +146,22 @@
     <orderEntry type="library" scope="PROVIDED" name="simplecov-html (v0.12.3, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simplecov-rcov (v0.3.7, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="simplecov_json_formatter (v0.1.3, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sprockets (v4.0.3, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.4.2, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="thor (v1.2.1, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sprockets (v4.2.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.5.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="thor (v1.3.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="tilt (v2.0.10, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="timeout (v0.4.3, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="typesafe_enum (v0.3.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="tzinfo (v2.0.4, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="tzinfo (v2.0.6, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v3.1.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unicode-emoji (v4.0.4, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webmock (v3.14.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webpacker (v5.4.3, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="websocket (v1.2.11, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="websocket-driver (v0.7.6, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="websocket-driver (v0.8.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="websocket-extensions (v0.1.5, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="xpath (v3.2.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.5.4, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="zeitwerk (v2.7.3, ruby-3.3.8-p144) [gem]" level="application" />
   </component>
   <component name="RModuleSettingsStorage">
     <LOAD_PATH number="0" />
@@ -173,76 +170,128 @@
   <component name="RailsGeneratorsCache">
     <option name="generators">
       <list>
+        <option value="active_record:application_record" />
         <option value="active_record:migration" />
         <option value="active_record:model" />
-        <option value="active_record:observer" />
-        <option value="active_record:session_migration" />
+        <option value="active_record:multi_db" />
+        <option value="application_record" />
+        <option value="benchmark" />
+        <option value="channel" />
         <option value="controller" />
-        <option value="erb:controller" />
-        <option value="erb:mailer" />
-        <option value="erb:scaffold" />
+        <option value="factory_bot:model" />
         <option value="generator" />
         <option value="helper" />
         <option value="integration_test" />
+        <option value="job" />
+        <option value="kaminari:config" />
+        <option value="kaminari:views" />
+        <option value="mailbox" />
         <option value="mailer" />
-        <option value="metal" />
         <option value="migration" />
         <option value="model" />
-        <option value="model_subclass" />
-        <option value="observer" />
-        <option value="performance_test" />
-        <option value="plugin" />
+        <option value="paper_trail:install" />
+        <option value="paper_trail:migration" />
+        <option value="paper_trail:update_item_subtype" />
+        <option value="pg_search:migration:dmetaphone" />
+        <option value="pg_search:migration:multisearch" />
         <option value="resource" />
+        <option value="rspec:channel" />
+        <option value="rspec:controller" />
+        <option value="rspec:feature" />
+        <option value="rspec:generator" />
+        <option value="rspec:helper" />
+        <option value="rspec:install" />
+        <option value="rspec:integration" />
+        <option value="rspec:job" />
+        <option value="rspec:mailbox" />
+        <option value="rspec:mailer" />
+        <option value="rspec:model" />
+        <option value="rspec:request" />
+        <option value="rspec:scaffold" />
+        <option value="rspec:system" />
+        <option value="rspec:view" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="session_migration" />
-        <option value="stylesheets" />
+        <option value="scss:assets" />
+        <option value="scss:scaffold" />
+        <option value="system_test" />
+        <option value="task" />
+        <option value="test_unit:channel" />
         <option value="test_unit:controller" />
+        <option value="test_unit:generator" />
         <option value="test_unit:helper" />
+        <option value="test_unit:install" />
         <option value="test_unit:integration" />
+        <option value="test_unit:job" />
+        <option value="test_unit:mailbox" />
         <option value="test_unit:mailer" />
         <option value="test_unit:model" />
-        <option value="test_unit:observer" />
-        <option value="test_unit:performance" />
         <option value="test_unit:plugin" />
         <option value="test_unit:scaffold" />
+        <option value="test_unit:system" />
       </list>
     </option>
     <option name="myGenerators">
       <list>
+        <option value="active_record:application_record" />
         <option value="active_record:migration" />
         <option value="active_record:model" />
-        <option value="active_record:observer" />
-        <option value="active_record:session_migration" />
+        <option value="active_record:multi_db" />
+        <option value="application_record" />
+        <option value="benchmark" />
+        <option value="channel" />
         <option value="controller" />
-        <option value="erb:controller" />
-        <option value="erb:mailer" />
-        <option value="erb:scaffold" />
+        <option value="factory_bot:model" />
         <option value="generator" />
         <option value="helper" />
         <option value="integration_test" />
+        <option value="job" />
+        <option value="kaminari:config" />
+        <option value="kaminari:views" />
+        <option value="mailbox" />
         <option value="mailer" />
-        <option value="metal" />
         <option value="migration" />
         <option value="model" />
-        <option value="model_subclass" />
-        <option value="observer" />
-        <option value="performance_test" />
-        <option value="plugin" />
+        <option value="paper_trail:install" />
+        <option value="paper_trail:migration" />
+        <option value="paper_trail:update_item_subtype" />
+        <option value="pg_search:migration:dmetaphone" />
+        <option value="pg_search:migration:multisearch" />
         <option value="resource" />
+        <option value="rspec:channel" />
+        <option value="rspec:controller" />
+        <option value="rspec:feature" />
+        <option value="rspec:generator" />
+        <option value="rspec:helper" />
+        <option value="rspec:install" />
+        <option value="rspec:integration" />
+        <option value="rspec:job" />
+        <option value="rspec:mailbox" />
+        <option value="rspec:mailer" />
+        <option value="rspec:model" />
+        <option value="rspec:request" />
+        <option value="rspec:scaffold" />
+        <option value="rspec:system" />
+        <option value="rspec:view" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
-        <option value="session_migration" />
-        <option value="stylesheets" />
+        <option value="scss:assets" />
+        <option value="scss:scaffold" />
+        <option value="system_test" />
+        <option value="task" />
+        <option value="test_unit:channel" />
         <option value="test_unit:controller" />
+        <option value="test_unit:generator" />
         <option value="test_unit:helper" />
+        <option value="test_unit:install" />
         <option value="test_unit:integration" />
+        <option value="test_unit:job" />
+        <option value="test_unit:mailbox" />
         <option value="test_unit:mailer" />
         <option value="test_unit:model" />
-        <option value="test_unit:observer" />
-        <option value="test_unit:performance" />
         <option value="test_unit:plugin" />
         <option value="test_unit:scaffold" />
+        <option value="test_unit:system" />
       </list>
     </option>
   </component>
@@ -266,11 +315,6 @@
             <subtasks>
               <RakeTaskImpl description="Applies the template supplied by LOCATION=(/path/to/template) or URL" fullCommand="app:template" id="template" />
               <RakeTaskImpl description="Update configs and some other initially generated files (or use just update:configs or update:bin)" fullCommand="app:update" id="update" />
-              <RakeTaskImpl id="binstub">
-                <subtasks>
-                  <RakeTaskImpl description="" fullCommand="app:binstub:yarn" id="yarn" />
-                </subtasks>
-              </RakeTaskImpl>
               <RakeTaskImpl id="templates">
                 <subtasks>
                   <RakeTaskImpl description="" fullCommand="app:templates:copy" id="copy" />
@@ -281,6 +325,7 @@
                   <RakeTaskImpl description="" fullCommand="app:update:active_storage" id="active_storage" />
                   <RakeTaskImpl description="" fullCommand="app:update:bin" id="bin" />
                   <RakeTaskImpl description="" fullCommand="app:update:configs" id="configs" />
+                  <RakeTaskImpl description="" fullCommand="app:update:db" id="db" />
                   <RakeTaskImpl description="" fullCommand="app:update:upgrade_guide_info" id="upgrade_guide_info" />
                 </subtasks>
               </RakeTaskImpl>
@@ -319,6 +364,11 @@
               <RakeTaskImpl description="Wait until the database is ready to accept connections" fullCommand="db:await" id="await" />
               <RakeTaskImpl description="Creates the database from DATABASE_URL or config/database.yml for the current RAILS_ENV (use db:create:all to create all databases in the config). Without RAILS_ENV or when RAILS_ENV is development, it defaults to creating the development and test databases, except when DATABASE_URL is present" fullCommand="db:create" id="create" />
               <RakeTaskImpl description="Drops the database from DATABASE_URL or config/database.yml for the current RAILS_ENV (use db:drop:all to drop all databases in the config). Without RAILS_ENV or when RAILS_ENV is development, it defaults to dropping the development and test databases, except when DATABASE_URL is present" fullCommand="db:drop" id="drop" />
+              <RakeTaskImpl id="encryption">
+                <subtasks>
+                  <RakeTaskImpl description="Generate a set of keys for configuring Active Record encryption in a given environment" fullCommand="db:encryption:init" id="init" />
+                </subtasks>
+              </RakeTaskImpl>
               <RakeTaskImpl id="environment">
                 <subtasks>
                   <RakeTaskImpl description="Set the environment value for the database" fullCommand="db:environment:set" id="set" />
@@ -341,7 +391,7 @@
                 </subtasks>
               </RakeTaskImpl>
               <RakeTaskImpl description="Runs setup if database does not exist, or runs migrations if it does" fullCommand="db:prepare" id="prepare" />
-              <RakeTaskImpl description="Drops and recreates the database from db/schema.rb for the current environment and loads the seeds" fullCommand="db:reset" id="reset" />
+              <RakeTaskImpl description="Drops and recreates all databases from their schema for the current environment and loads the seeds" fullCommand="db:reset" id="reset" />
               <RakeTaskImpl description="Rolls the schema back to the previous version (specify steps w/ STEP=n)" fullCommand="db:rollback" id="rollback" />
               <RakeTaskImpl id="schema">
                 <subtasks>
@@ -351,9 +401,8 @@
                       <RakeTaskImpl description="Creates a db/schema_cache.yml file" fullCommand="db:schema:cache:dump" id="dump" />
                     </subtasks>
                   </RakeTaskImpl>
-                  <RakeTaskImpl description="Creates a database schema file (either db/schema.rb or db/structure.sql, depending on `config.active_record.schema_format`)" fullCommand="db:schema:dump" id="dump" />
-                  <RakeTaskImpl description="Loads a database schema file (either db/schema.rb or db/structure.sql, depending on `config.active_record.schema_format`) into the database" fullCommand="db:schema:load" id="load" />
-                  <RakeTaskImpl description="" fullCommand="db:schema:load_if_ruby" id="load_if_ruby" />
+                  <RakeTaskImpl description="Creates a database schema file (either db/schema.rb or db/structure.sql, depending on `ENV['SCHEMA_FORMAT']` or `config.active_record.schema_format`)" fullCommand="db:schema:dump" id="dump" />
+                  <RakeTaskImpl description="Loads a database schema file (either db/schema.rb or db/structure.sql, depending on `ENV['SCHEMA_FORMAT']` or `config.active_record.schema_format`) into the database" fullCommand="db:schema:load" id="load" />
                 </subtasks>
               </RakeTaskImpl>
               <RakeTaskImpl description="Loads the seed data from db/seeds.rb" fullCommand="db:seed" id="seed" />
@@ -362,14 +411,7 @@
                   <RakeTaskImpl description="Truncates tables of each database for current environment and loads the seeds" fullCommand="db:seed:replant" id="replant" />
                 </subtasks>
               </RakeTaskImpl>
-              <RakeTaskImpl description="Creates the database, loads the schema, and initializes with the seed data (use db:reset to also drop the database first)" fullCommand="db:setup" id="setup" />
-              <RakeTaskImpl id="structure">
-                <subtasks>
-                  <RakeTaskImpl description="Dumps the database structure to db/structure.sql" fullCommand="db:structure:dump" id="dump" />
-                  <RakeTaskImpl description="Recreates the databases from the structure.sql file" fullCommand="db:structure:load" id="load" />
-                  <RakeTaskImpl description="" fullCommand="db:structure:load_if_sql" id="load_if_sql" />
-                </subtasks>
-              </RakeTaskImpl>
+              <RakeTaskImpl description="Creates all databases, loads all schemas, and initializes with the seed data (use db:reset to also drop all databases first)" fullCommand="db:setup" id="setup" />
               <RakeTaskImpl description="Retrieves the current schema version number" fullCommand="db:version" id="version" />
               <RakeTaskImpl description="" fullCommand="db:_dump" id="_dump" />
               <RakeTaskImpl description="" fullCommand="db:abort_if_pending_migrations" id="abort_if_pending_migrations" />
@@ -395,11 +437,20 @@
                   <RakeTaskImpl description="" fullCommand="db:purge:all" id="all" />
                 </subtasks>
               </RakeTaskImpl>
+              <RakeTaskImpl id="reset">
+                <subtasks>
+                  <RakeTaskImpl description="" fullCommand="db:reset:all" id="all" />
+                </subtasks>
+              </RakeTaskImpl>
+              <RakeTaskImpl id="setup">
+                <subtasks>
+                  <RakeTaskImpl description="" fullCommand="db:setup:all" id="all" />
+                </subtasks>
+              </RakeTaskImpl>
               <RakeTaskImpl id="test">
                 <subtasks>
                   <RakeTaskImpl description="" fullCommand="db:test:load" id="load" />
                   <RakeTaskImpl description="" fullCommand="db:test:load_schema" id="load_schema" />
-                  <RakeTaskImpl description="" fullCommand="db:test:load_structure" id="load_structure" />
                   <RakeTaskImpl description="" fullCommand="db:test:prepare" id="prepare" />
                   <RakeTaskImpl description="" fullCommand="db:test:purge" id="purge" />
                 </subtasks>
@@ -470,6 +521,7 @@
                 </subtasks>
               </RakeTaskImpl>
               <RakeTaskImpl description="Run the code examples in spec/tasks" fullCommand="spec:tasks" id="tasks" />
+              <RakeTaskImpl description="Run the code examples in spec/views" fullCommand="spec:views" id="views" />
               <RakeTaskImpl description="" fullCommand="spec:prepare" id="prepare" />
               <RakeTaskImpl description="" fullCommand="spec:statsetup" id="statsetup" />
             </subtasks>
@@ -510,6 +562,11 @@
               <RakeTaskImpl id="sockets">
                 <subtasks>
                   <RakeTaskImpl description="" fullCommand="tmp:sockets:clear" id="clear" />
+                </subtasks>
+              </RakeTaskImpl>
+              <RakeTaskImpl id="storage">
+                <subtasks>
+                  <RakeTaskImpl description="" fullCommand="tmp:storage:clear" id="clear" />
                 </subtasks>
               </RakeTaskImpl>
             </subtasks>

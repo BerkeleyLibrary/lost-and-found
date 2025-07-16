@@ -1,3 +1,5 @@
+# Be sure to restart your server when you modify this file.
+
 # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'ID'

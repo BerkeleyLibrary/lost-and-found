@@ -19,14 +19,12 @@ gem 'paper_trail', '~> 12.1', '>= 12.2.0'
 gem 'pg'
 gem 'pg_search'
 gem 'puma', '~> 4.1', '>=4.3.9'
-gem 'rails', '~> 6.1.6'
+gem 'rails', '~> 7.0.8'
 gem 'sass-rails', '~> 6.0'
 gem 'typesafe_enum'
 gem 'webpacker', '~> 5.4'
 
-# need to add these explicitly to quiet warnings until we upgrade to rails >= 7
-gem 'base64'
-gem 'bigdecimal'
+# need to add these explicitly to quiet warnings until we upgrade to rails >= 7.1
 gem 'csv'
 gem 'drb'
 gem 'mutex_m'
@@ -38,7 +36,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.1.0'
 
-  # need to add this explicitly to quiet warnings until we upgrade to rails >= 7
+  # need to add this explicitly to quiet warnings until we upgrade to rails >= 7.1
   gem 'observer'
 end
 
