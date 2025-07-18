@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
   def destroy
     sign_out
 
-    redirect_to "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout"
+    redirect_to "https://auth#{'-test' unless Rails.env.production?}.berkeley.edu/cas/logout", allow_other_host: true
   end
 
   private
