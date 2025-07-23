@@ -23,13 +23,13 @@ describe 'items/claimed_items.html.erb', type: :view do
       type = create(:item_type, type_name: 'trapper keeper', type_description: 'A Trapper Keeper')
       items = [
         create(:item, item_type: type.type_name, date_found: Date.today, location: location.location_name,
-               description: 'description', claimed: true, claimed_by: 'Lisa Weber',
-               image_path: File.join('spec/data/images', "#{type.type_name.titleize}.jpg")),
+                      description: 'description', claimed: true, claimed_by: 'Lisa Weber',
+                      image_path: File.join('spec/data/images', "#{type.type_name.titleize}.jpg")),
         create(:item, item_type: type.type_name, date_found: Date.yesterday, location: location.location_name,
-               description: 'a Trapper Keeper found in Doe', claimed: true, claimed_by: 'Anna Wilcox'),
+                      description: 'a Trapper Keeper found in Doe', claimed: true, claimed_by: 'Anna Wilcox'),
         create(:item, item_type: type.type_name, date_found: Date.today, location: location.location_name,
-               description: 'description', purged: true,
-               image_path: File.join('spec/data/images', "#{type.type_name.titleize}.jpg")),
+                      description: 'description', purged: true,
+                      image_path: File.join('spec/data/images', "#{type.type_name.titleize}.jpg"))
       ]
       assign :items_claimed, Kaminari.paginate_array(items).page(1)
       current_user = instance_double(User)

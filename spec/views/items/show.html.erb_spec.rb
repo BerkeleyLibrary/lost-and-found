@@ -4,10 +4,10 @@ describe 'items/show.html.erb', type: :view do
   before do
     location = create(:location, location_name: 'doe')
     type = create(:item_type, type_name: 'trapper keeper', type_description: 'A Trapper Keeper')
-    assign :locations_layout, [['Doe', 'doe']]
+    assign :locations_layout, [%w[Doe doe]]
     assign :item_type_layout, [['Trapper Keeper', 'trapper keeper']]
     assign :item, create(:item, item_type: type.type_name, date_found: Date.today, location: location.location_name,
-                         description: 'description')
+                                description: 'description')
   end
 
   it 'renders without error' do
