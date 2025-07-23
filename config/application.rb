@@ -22,6 +22,18 @@ module LostAndFound
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w[assets tasks])
+
+    # This is required for PaperTrail >= 13, which uses safe YAML loading.
+    config.after_initialize do
+      ActiveRecord.yaml_column_permitted_classes += [
+        Date, BigDecimal, ActiveSupport::TimeWithZone, Time, ActiveSupport::TimeZone
+      ]
+    end
+
     # Set time zone
     config.time_zone = 'America/Los_Angeles'
 

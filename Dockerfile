@@ -108,7 +108,8 @@ USER root
 # Install system packages needed to build gems with C extensions.
 RUN apt-get install -y --no-install-recommends \
     g++ \
-    make
+    make \
+    libyaml-dev
 
 USER $APP_USER
 

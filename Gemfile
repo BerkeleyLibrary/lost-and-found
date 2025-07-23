@@ -15,19 +15,17 @@ gem 'lograge', '>=0.11.2'
 gem 'omniauth-cas',
     git: 'https://github.com/dlindahl/omniauth-cas.git',
     ref: '7087bda829e14c0f7cab2aece5045ad7015669b1'
-gem 'paper_trail', '~> 12.1', '>= 12.2.0'
+gem 'paper_trail', '~> 16.0'
 gem 'pg'
 gem 'pg_search'
 gem 'puma', '~> 4.1', '>=4.3.9'
-gem 'rails', '~> 7.0.8'
+gem 'rails', '~> 7.1.5'
 gem 'sass-rails', '~> 6.0'
 gem 'typesafe_enum'
 gem 'webpacker', '~> 5.4'
 
-# need to add these explicitly to quiet warnings until we upgrade to rails >= 7.1
+# Still need to add this explicitly to quiet a deprecation warning.
 gem 'csv'
-gem 'drb'
-gem 'mutex_m'
 
 group :development, :test do
   gem 'brakeman', '~> 4.8'
@@ -36,7 +34,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.1.0'
 
-  # need to add this explicitly to quiet warnings until we upgrade to rails >= 7.1
+  # need to add this explicitly to quiet warnings until we upgrade to rails >= 7.2
   gem 'observer'
 end
 
@@ -48,7 +46,7 @@ end
 
 group :test do
   gem 'capybara', '~> 3.36'
-  gem 'database_cleaner-active_record', '~> 2.0'
+  gem 'database_cleaner-active_record', '~> 2.1'
   gem 'rspec', '~> 3.10'
   gem 'rspec_junit_formatter', '~> 0.4.1'
   gem 'selenium-webdriver', '~> 4.27'

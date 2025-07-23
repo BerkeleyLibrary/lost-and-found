@@ -28,7 +28,7 @@ describe 'staff user', type: :system do
       item_types = ['Pencil', 'Pen', 'Trapper Keeper'].map { |it| create(:item_type, type_name: it.downcase, type_description: "a #{it.downcase}") }
       locations.each_with_index do |loc, i|
         item_types.each_with_index do |type, j|
-          items << create(
+          @items << create(
             :item,
             item_type: type.type_name,
             description: "description of #{type.type_name} found in #{loc.location_name}",

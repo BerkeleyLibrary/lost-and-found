@@ -94,13 +94,11 @@ class ItemsController < ApplicationController
       claimed_by: claimed_by
     )
 
-    unless params[:image].nil? || @item.invalid?
-      @item.image.attach(params[:image])
-      @item.image_url = url_for(@item.image)
-    end
+    @item.image.attach(params[:image]) unless params[:image].nil? || @item.invalid?
 
     begin
       @item.save!
+      @item.update!(image_url: url_for(@item.image)) unless params[:image].nil?
       flash[:success] = 'Item updated'
       redirect_to item_url(@item.id)
     rescue StandardError => e
@@ -132,13 +130,11 @@ class ItemsController < ApplicationController
       claimed_by: nil
     )
 
-    unless params[:image].nil? || @item.invalid?
-      @item.image.attach(params[:image])
-      @item.image_url = url_for(@item.image)
-    end
+    @item.image.attach(params[:image]) unless params[:image].nil? || @item.invalid?
 
     begin
       @item.save!
+      @item.update!(image_url: url_for(@item.image)) unless params[:image].nil?
       flash[:success] = 'Item created'
       render 'items/new'
     rescue StandardError => e
