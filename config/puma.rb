@@ -7,4 +7,8 @@ threads min_threads_count, max_threads_count
 port ENV.fetch('PORT', 3000)
 environment ENV.fetch('RAILS_ENV', 'development')
 plugin :tmp_restart
+
+# Run the Solid Queue supervisor inside of Puma for single-server deployments
+plugin :solid_queue if ENV['SOLID_QUEUE_IN_PUMA']
+
 pidfile ENV['PIDFILE'] if ENV['PIDFILE']

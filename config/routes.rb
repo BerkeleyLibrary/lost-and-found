@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   # TODO: clean these all up
 
-  resources :items, only: %i[index create show edit update delete destroy]
+  resources :items, only: %i[index create show edit update destroy]
   get '/insert_form', to: 'forms#insert_form', as: :new_item
   post '/items/:id/item_update', to: 'items#update', as: :item_update
   get '/search_form', to: 'forms#search_form'
@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get '/admin_purge', to: 'home#admin_purge'
   post '/purge_items', to: 'items#purge_items'
 
-  resources :users, only: %i[edit update delete destroy]
+  resources :users, only: %i[edit update destroy]
   get '/admin_users', to: 'home#admin_users'
   get '/users/:id/change_status', to: 'users#change_status', as: :toggle_user_status
   get '/users/:id/destroy', to: 'users#destroy'
@@ -27,14 +27,14 @@ Rails.application.routes.draw do
   post '/user_insert', to: 'users#create'
   post '/users/:id/user_update', to: 'users#update'
 
-  resources :locations, only: %i[edit update delete destroy]
+  resources :locations, only: %i[edit update destroy]
   get '/admin_locations', to: 'home#admin_locations'
   get '/locations/:id/change_status', to: 'locations#change_status', as: :toggle_location_status
   post '/location_insert', to: 'locations#create'
   post '/location_delete', to: 'locations#destroy'
   post '/locations/:id/location_update', to: 'locations#update'
 
-  resources :item_types, only: %i[edit update delete destroy]
+  resources :item_types, only: %i[edit update destroy]
   get '/admin_item_types', to: 'home#admin_item_types'
   get '/item_types/:id/change_status', to: 'item_types#change_status', as: :toggle_item_type_status
   post '/item_type_insert', to: 'item_types#create'

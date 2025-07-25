@@ -19,13 +19,10 @@ gem 'paper_trail', '~> 16.0'
 gem 'pg'
 gem 'pg_search'
 gem 'puma', '~> 4.1', '>=4.3.9'
-gem 'rails', '~> 7.2.2'
+gem 'rails', '~> 8.0.2'
 gem 'sass-rails', '~> 6.0'
 gem 'typesafe_enum'
 gem 'webpacker', '~> 5.4'
-
-# Still need to add this explicitly to quiet a deprecation warning.
-gem 'csv'
 
 group :development, :test do
   gem 'brakeman', '~> 4.8'
@@ -33,9 +30,6 @@ group :development, :test do
   gem 'colorize'
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.1.0'
-
-  # need to add this explicitly to quiet warnings until we upgrade to rails >= 7.2
-  gem 'observer'
 end
 
 group :development do

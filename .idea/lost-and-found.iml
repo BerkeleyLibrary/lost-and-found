@@ -29,18 +29,18 @@
     </content>
     <orderEntry type="jdk" jdkName="ruby-3.3.8-p144" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="actioncable (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionmailbox (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionmailer (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionpack (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actiontext (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="actionview (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activejob (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activemodel (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activerecord (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actioncable (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionmailbox (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionmailer (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionpack (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actiontext (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionview (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activejob (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activemodel (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activerecord (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activerecord-import (v1.2.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activestorage (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="activesupport (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activestorage (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activesupport (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.8.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="amazing_print (v1.4.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.2, ruby-3.3.8-p144) [gem]" level="application" />
@@ -62,7 +62,6 @@
     <orderEntry type="library" scope="PROVIDED" name="connection_pool (v2.5.3, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crack (v0.4.5, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.6, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="csv (v3.3.5, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-active_record (v2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="database_cleaner-core (v2.0.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="date (v3.4.1, ruby-3.3.8-p144) [gem]" level="application" />
@@ -72,8 +71,8 @@
     <orderEntry type="library" scope="PROVIDED" name="erb (v5.0.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubi (v1.13.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.8.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="factory_bot (v6.2.0, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v6.2.0, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_bot (v6.5.4, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v6.5.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.15.4, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v1.2.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hashdiff (v1.0.1, ruby-3.3.8-p144) [gem]" level="application" />
@@ -102,7 +101,6 @@
     <orderEntry type="library" scope="PROVIDED" name="net-smtp (v0.5.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.7.4, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.18.9, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="observer (v0.1.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="oj (v3.16.8, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="omniauth (v1.9.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="omniauth-cas (v1.1.1@7087bd, ruby-3.3.8-p144) [gem]" level="application" />
@@ -125,10 +123,10 @@
     <orderEntry type="library" scope="PROVIDED" name="rack-session (v1.0.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-test (v2.2.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rackup (v1.0.1, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rails (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-dom-testing (v2.3.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails-html-sanitizer (v1.6.2, ruby-3.3.8-p144) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="railties (v7.2.2.1, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="railties (v8.0.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rainbow (v3.1.1, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v13.3.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rdoc (v6.14.2, ruby-3.3.8-p144) [gem]" level="application" />
@@ -169,6 +167,7 @@
     <orderEntry type="library" scope="PROVIDED" name="tzinfo (v2.0.6, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unicode-display_width (v3.1.2, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="unicode-emoji (v4.0.4, ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="uri (v1.0.3, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="useragent (v0.16.11, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webmock (v3.14.0, ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="webpacker (v5.4.3, ruby-3.3.8-p144) [gem]" level="application" />
@@ -191,9 +190,11 @@
         <option value="active_record:model" />
         <option value="active_record:multi_db" />
         <option value="application_record" />
+        <option value="authentication" />
         <option value="benchmark" />
         <option value="channel" />
         <option value="controller" />
+        <option value="erb:authentication" />
         <option value="factory_bot:model" />
         <option value="generator" />
         <option value="helper" />
@@ -228,10 +229,12 @@
         <option value="rspec:view" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
+        <option value="script" />
         <option value="scss:assets" />
         <option value="scss:scaffold" />
         <option value="system_test" />
         <option value="task" />
+        <option value="test_unit:authentication" />
         <option value="test_unit:channel" />
         <option value="test_unit:controller" />
         <option value="test_unit:generator" />
@@ -254,9 +257,11 @@
         <option value="active_record:model" />
         <option value="active_record:multi_db" />
         <option value="application_record" />
+        <option value="authentication" />
         <option value="benchmark" />
         <option value="channel" />
         <option value="controller" />
+        <option value="erb:authentication" />
         <option value="factory_bot:model" />
         <option value="generator" />
         <option value="helper" />
@@ -291,10 +296,12 @@
         <option value="rspec:view" />
         <option value="scaffold" />
         <option value="scaffold_controller" />
+        <option value="script" />
         <option value="scss:assets" />
         <option value="scss:scaffold" />
         <option value="system_test" />
         <option value="task" />
+        <option value="test_unit:authentication" />
         <option value="test_unit:channel" />
         <option value="test_unit:controller" />
         <option value="test_unit:generator" />
@@ -390,9 +397,9 @@
                 <subtasks>
                   <RakeTaskImpl description="Run the &quot;down&quot; for a given migration VERSION" fullCommand="db:migrate:down" id="down" />
                   <RakeTaskImpl description="Roll back the database one migration and re-migrate up (options: STEP=x, VERSION=x)" fullCommand="db:migrate:redo" id="redo" />
+                  <RakeTaskImpl description="Resets your database using your migrations for the current environment" fullCommand="db:migrate:reset" id="reset" />
                   <RakeTaskImpl description="Display status of migrations" fullCommand="db:migrate:status" id="status" />
                   <RakeTaskImpl description="Run the &quot;up&quot; for a given migration VERSION" fullCommand="db:migrate:up" id="up" />
-                  <RakeTaskImpl description="" fullCommand="db:migrate:reset" id="reset" />
                 </subtasks>
               </RakeTaskImpl>
               <RakeTaskImpl description="Run setup if database does not exist, or run migrations if it does" fullCommand="db:prepare" id="prepare" />

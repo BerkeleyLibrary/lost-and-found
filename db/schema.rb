@@ -10,17 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[6.1].define(version: 2021_11_05_194911) do
-
+ActiveRecord::Schema[8.0].define(version: 2025_07_16_054442) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -31,8 +30,8 @@ ActiveRecord::Schema[6.1].define(version: 2021_11_05_194911) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -46,15 +45,15 @@ ActiveRecord::Schema[6.1].define(version: 2021_11_05_194911) do
   create_table "item_types", force: :cascade do |t|
     t.string "type_name", default: "unknown", null: false
     t.string "type_description", default: "No description", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "type_active"
     t.string "updated_by"
   end
 
   create_table "items", force: :cascade do |t|
-    t.datetime "legacy_date_found"
-    t.datetime "legacy_time_found"
+    t.datetime "legacy_date_found", precision: nil
+    t.datetime "legacy_time_found", precision: nil
     t.string "location"
     t.string "item_type"
     t.string "description"
@@ -62,13 +61,13 @@ ActiveRecord::Schema[6.1].define(version: 2021_11_05_194911) do
     t.string "entered_by"
     t.string "updated_by"
     t.string "found_by"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "image_url"
     t.string "legacy_claimed_by"
     t.string "where_found", null: false
     t.date "date_found"
-    t.datetime "datetime_found"
+    t.datetime "datetime_found", precision: nil
     t.string "claimed_by"
     t.boolean "purged", default: false, null: false
     t.boolean "claimed", default: false, null: false
@@ -76,16 +75,16 @@ ActiveRecord::Schema[6.1].define(version: 2021_11_05_194911) do
 
   create_table "locations", force: :cascade do |t|
     t.string "location_name", default: "unknown", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "location_active"
     t.string "updated_by"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "user_name", default: "unknown", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "user_role"
     t.boolean "user_active"
     t.integer "uid"
@@ -99,7 +98,7 @@ ActiveRecord::Schema[6.1].define(version: 2021_11_05_194911) do
     t.string "event", null: false
     t.string "whodunnit"
     t.text "object"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.text "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
