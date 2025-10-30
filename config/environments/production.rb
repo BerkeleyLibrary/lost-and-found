@@ -35,7 +35,7 @@ Rails.application.configure do
   # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_FORCE_SSL', 'true'))
 
   # Log to STDOUT if RAILS_LOG_TO_STDOUT is set in the environment.
   # rubocop:disable Style/GlobalStdStream
