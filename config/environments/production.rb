@@ -19,7 +19,8 @@ Rails.application.configure do
   config.public_file_server.headers = { 'Cache-Control' => "public, max-age=#{1.year.to_i}" }
 
   # Enable serving static files from `public/`, when RAILS_SERVE_STATIC_FILES is set in the environment.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled =
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_SERVE_STATIC_FILES', 'false'))
 
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
@@ -39,7 +40,7 @@ Rails.application.configure do
 
   # Log to STDOUT if RAILS_LOG_TO_STDOUT is set in the environment.
   # rubocop:disable Style/GlobalStdStream
-  if ENV['RAILS_LOG_TO_STDOUT'].present?
+  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_LOG_TO_STDOUT', 'false'))
     config.logger = ActiveSupport::Logger.new(STDOUT)
       .tap  { |logger| logger.formatter = Logger::Formatter.new }
       .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
