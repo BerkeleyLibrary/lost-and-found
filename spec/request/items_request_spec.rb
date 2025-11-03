@@ -43,18 +43,10 @@ describe ItemsController, type: :request do
     attr_reader :time_found_str
 
     around(:example) do |example|
-      begin
-        # @note As of sha-46649188, the items_controller code fails to properly handle DST.
-        #       You can surface that error by setting `ENV['RSPEC_FORCE_DST_FAILURE']=true`.
-        # @todo Cleanup items_controller and fix the DST bug.
-        travel_to = ActiveModel::Type::Boolean.new.cast(ENV.fetch('RSPEC_FORCE_DST_FAILURE', 'false')) ? \
-          Time.new(2025, 11, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles')) : \
-          Time.new(2025, 12, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
-        Timecop.travel(travel_to)
-        example.run
-      ensure
-        Timecop.return
-      end
+      Timecop.travel(test_time)
+      example.run
+    ensure
+      Timecop.return
     end
 
     before(:each) do
@@ -272,6 +264,21 @@ describe ItemsController, type: :request do
         post(update_path, params: params)
         expect(item.updated_at).to eq(previously_updated_at)
       end
+    end
+  end
+
+  # @todo Cleanup items_controller and fix the DST bug.
+  # @note As of sha-46649188, the items_controller code fails to properly handle DST.
+  #       You can surface that error by setting `ENV['RSPEC_FORCE_DST_FAILURE']=true`.
+  def test_dst_bug?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('RSPEC_FORCE_DST_FAILURE', 'false'))
+  end
+
+  def test_time
+    if test_dst_bug?
+      Time.new(2025, 11, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
+    else
+      Time.new(2025, 12, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
     end
   end
 end
