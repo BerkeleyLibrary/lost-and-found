@@ -46,5 +46,6 @@ group :test do
   gem 'selenium-webdriver', '~> 4.27'
   gem 'simplecov', require: false
   gem 'simplecov-rcov', require: false
+  gem 'timecop', '~> 0.9.10'
   gem 'webmock'
 end

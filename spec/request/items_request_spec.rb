@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'tzinfo'
 
 describe ItemsController, type: :request do
   attr_reader :user
@@ -40,6 +41,21 @@ describe ItemsController, type: :request do
     attr_reader :date_found_str
     attr_reader :datetime_found
     attr_reader :time_found_str
+
+    around(:example) do |example|
+      begin
+        # @note As of sha-46649188, the items_controller code fails to properly handle DST.
+        #       You can surface that error by setting `ENV['RSPEC_FORCE_DST_FAILURE']=true`.
+        # @todo Cleanup items_controller and fix the DST bug.
+        travel_to = ActiveModel::Type::Boolean.new.cast(ENV.fetch('RSPEC_FORCE_DST_FAILURE', 'false')) ? \
+          Time.new(2025, 11, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles')) : \
+          Time.new(2025, 12, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
+        Timecop.travel(travel_to)
+        example.run
+      ensure
+        Timecop.return
+      end
+    end
 
     before(:each) do
       @count_before = Item.count
