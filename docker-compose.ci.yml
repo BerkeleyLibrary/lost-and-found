@@ -1,0 +1,13 @@
+---
+
+services:
+  app:
+    build: !reset
+    image: ${DOCKER_APP_IMAGE}
+    volumes: !override
+      - artifacts:/opt/app/artifacts
+
+  adminer: !reset
+
+volumes:
+  artifacts:
