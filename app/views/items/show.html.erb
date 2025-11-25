@@ -1,55 +1,47 @@
 <h1>Item history</h1>
 
 <h2>Current values</h2>
-<div class="form-group row">
-  <h5 class="col-2">Date found</h5>
-  <div class="col-4"><%= @item.date_found.strftime('%m/%d/%Y') %></div>
-</div>
-<div class="form-group row">
-  <h5 class="col-2">Time found</h5>
-    <div class="col-4"><%= @item.datetime_found&.strftime('%l:%M %P') || 'None' %></div>
-</div>
 
-<div class="form-group row">
-  <h5 class="col-2">Found by</h5>
-  <div class="col-4"><%= @item.found_by || 'No one' %></div>
-</div>
+<dl class="row">
+  <dt class="col-2">Date found</dt>
+  <dd class="col-4"><%= @item.date_found.strftime('%m/%d/%Y') %></dd>
 
-<div class="form-group row">
-  <h5 class="col-2">Item location</h5>
-  <div class="col-4"><%= @item.location %></div>
-</div>
+  <dt class="col-2">Time found</dt>
+  <dd class="col-4"><%= @item.datetime_found&.strftime('%l:%M %P') || 'None' %></dd>
 
-<div class="form-group row">
-  <h5 class="col-2">Type of item</h5>
-  <div class="col-4"><%= @item.item_type %></div>
-</div>
+  <dt class="col-2">Found by</dt>
+  <dd class="col-4"><%= @item.found_by || 'No one' %></dd>
 
-<div class="form-group row">
-  <h5 class="col-2">Item description</h5>
-  <div class="col-4"><%= @item.description %></div>
-</div>
+  <dt class="col-2">Item location</dt>
+  <dd class="col-4"><%= @item.location %></dd>
 
-<div class="form-group row">
-  <h5 class="col-2">Item image</h5>
+  <dt class="col-2">Type of item</dt>
+  <dd class="col-4"><%= @item.item_type %></dd>
+
+  <dt class="col-2">Item description</dt>
+  <dd class="col-4"><%= @item.description %></dd>
+
+  <dt class="col-2">Item image</dt>
+  <dd class="col-4">
   <% if @item.image.attached? %>
     <img class="preview_image" alt="image of item" src="<%= (url_for(@item.image)) %>">
   <% else %>
-    <div class="col-4">No image</div>
+    No image
   <% end %>
-</div>
-<div class="form-group row">
-  <h5 class="col-2">Last updated by</h5>
-  <div class="col-4"><%= @item.updated_by || 'None' %></div>
-</div>
-<div class="form-group row">
-  <h5 class="col-2">Last updated</h5>
+  </dd>
+
+  <dt class="col-2">Last updated by</dt>
+  <dd class="col-4"><%= @item.updated_by || 'None' %></dd>
+
+  <dt class="col-2">Last updated</dt>
+  <dd class="col-4">
   <% if @item.updated_at != @item.created_at %>
-    <div class="col-4"><%= @item.updated_at.in_time_zone.strftime('%m/%d/%Y %l:%M %P') %></div>
+    <%= @item.updated_at.in_time_zone.strftime('%m/%d/%Y %l:%M %P') %>
   <% else %>
-    <div class="col-4">None</div>
+    None
   <% end %>
-</div>
+  </dd>
+</dl>
 
 <h2>Change history</h2>
 <table class="table mt-5">

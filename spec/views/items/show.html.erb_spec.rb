@@ -70,7 +70,7 @@ describe 'items/show.html.erb', type: :view do
 
     it 'renders that the item has not been updated' do
       render
-      expect(rendered).to have_content "Last updated\n    None"
+      expect(rendered).to have_content(/Last updated\s+None/i)
     end
   end
 end
