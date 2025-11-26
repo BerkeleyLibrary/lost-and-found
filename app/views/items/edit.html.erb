@@ -47,7 +47,7 @@
 
       <%= form.label(:image, 'Current image: ') %>
       <% if @item.image.attached? %>
-        <img class="preview_image" alt="image of item" src="<%= (url_for(@item.image)) %>">
+        <img class="preview_image" alt="Image is present" src="<%= (url_for(@item.image)) %>">
       <% else %>
         No image
       <% end %>

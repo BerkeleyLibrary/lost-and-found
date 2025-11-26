@@ -39,7 +39,7 @@
       <td class="desc"><%= item.description %></td>
       <td>
         <% if item.image.attached? %>
-          <img src="<%= (url_for(item.image)) %>" alt="image of item" class="preview_image">
+          <img class="preview_image" role="presentation" src="<%= (url_for(item.image)) %>">
         <% else %>
           No image
         <% end %>
