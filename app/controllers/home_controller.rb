@@ -1,12 +1,7 @@
 # TODO: split into HomeController & AdminController
 class HomeController < ApplicationController
-  before_action(:logout_if_expired!, except: :health)
-  before_action(:require_admin!, except: :health)
-
-  def health
-    check = Health::Check.new
-    render json: check, status: check.http_status_code
-  end
+  before_action :logout_if_expired!
+  before_action :require_admin!
 
   def admin_users
     @active_users = User.active
