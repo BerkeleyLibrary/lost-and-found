@@ -6,7 +6,7 @@
   <%= form_with(url: user_insert_path, local: true) do |form| %>
 
     <%= form.label(:user_role, 'User role:') %> <span style="color: #ee0000"> * </span>
-    <%= form.select(:user_role, options_for_select(User::ROLES), include_blank: true, required: true) %>
+    <%= form.select(:user_role, options_for_select(User::ROLES), { include_blank: true }, { required: true, class: 'form-select' }) %>
 
     <%= form.label(:user_name, 'User name:') %><span style="color: #ee0000"> * </span>
     <%= form.text_field :user_name, placeholder: 'John Smith', required: true %>

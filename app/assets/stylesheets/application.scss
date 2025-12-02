@@ -54,7 +54,6 @@ a:hover, a:active, a:focus {
   border-color: lightgrey;
 }
 
-
 .table-header {
   background-color: #e5e7e9;
   color: #3b3b3b;
@@ -78,6 +77,10 @@ input[type="text"], input[type="date"], input[type="time"], select {
   border: 1px solid #bbb;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+input::placeholder, select::placeholder {
+  color: #757575;
 }
 
 input[type="text"], select {
@@ -107,18 +110,6 @@ input[readonly] {
 label {
   padding: 8px;
 }
-
-.btn-danger,
-.btn-primary,
-.btn-secondary {
-  box-shadow: none !important;
-  color: white !important;
-}
-
-.btn-link:hover {
-  text-decoration: none;
-}
-
 
 .desc {
   max-width: 100px;
@@ -215,61 +206,6 @@ label {
   td:nth-of-type(11):before {
     content: "Claimed By";
   }
-}
-
-.form-group.required label:after {
-  content: "*";
-  color: #ee0000;
-  margin-left: 0.25rem;
-}
-
-a, a:link, a:visited {
-  box-shadow: inset 0 -4px 0 #FDB515;
-  transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
-  text-decoration: none;
-  color: black;
-
-  &.no-link-style {
-    box-shadow: none;
-  }
-
-  li & {
-    box-shadow: inset 0 -2px 0 #FDB515;
-
-    .navbar-nav & {
-      box-shadow: none;
-    }
-  }
-}
-
-a:hover, a:active, a:focus {
-  background: #FDB515;
-
-  &.no-link-style {
-    background: none;
-  }
-}
-
-.tblheader {
-  font-weight: bold;
-  color: blue;
-}
-
-// Some of the styles above were butchering Bootstrap buttons in tables
-.btn-danger,
-.btn-primary,
-.btn-secondary {
-  box-shadow: none !important;
-  color: white !important;
-}
-
-.btn-link:hover {
-  text-decoration: none;
-}
-
-.btn.btn-primary:disabled {
-  background-color: lightgrey;
-  border-color: lightgrey;
 }
 
 .page {

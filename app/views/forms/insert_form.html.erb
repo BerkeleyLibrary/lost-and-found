@@ -7,7 +7,7 @@
   <%= form_with(url: items_path, local: true, multipart: true) do |form| %>
     <div class="form-group required">
       <%= form.label(:item_type, 'Item type:') %>
-      <%= form.select(:item_type, options_for_select(@item_type_layout), { prompt: 'Select a type' }, { required: true }) %>
+      <%= form.select(:item_type, options_for_select(@item_type_layout), { prompt: 'Select a type' }, { required: true, class: 'form-select' }) %>
     </div>
 
     <div class="form-group required">
@@ -37,7 +37,7 @@
 
     <div class="form-group required">
       <%= form.label(:location, 'Held at location:') %>
-      <%= form.select(:location, options_for_select(@locations_layout), { prompt: 'Select a location' }, { required: true }) %>
+      <%= form.select(:location, options_for_select(@locations_layout), { prompt: 'Select a location' }, { required: true, class: 'form-select' }) %>
     </div>
 
     <div style="padding-top: 8px; padding-bottom: 8px;">

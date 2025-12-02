@@ -10,7 +10,7 @@
 
     <div>
       <%= form.label(:item_type, 'Item type:') %>
-      <%= form.select(:item_type, item_type_options, include_blank: true) %>
+      <%= form.select(:item_type, item_type_options, { include_blank: true }, { class: 'form-select' }) %>
     </div>
     <div>
       <%= form.label(:keyword, 'Keywords:') %>
@@ -18,7 +18,7 @@
     </div>
     <div>
       <%= form.label(:location, 'Location:') %>
-      <%= form.select(:location, location_options, include_blank: true) %>
+      <%= form.select(:location, location_options, { include_blank: true }, { class: 'form-select' }) %>
     </div>
 
     <fieldset>

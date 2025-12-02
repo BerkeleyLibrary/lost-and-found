@@ -3,7 +3,7 @@
   <%= form_with(url: user_path, method: :put, local: true) do |form| %>
 
     <%= form.label(:user_role, "User role:") %>
-    <%= form.select(:user_role, options_for_select(User::ROLES, @user.user_role)) %>
+    <%= form.select(:user_role, options_for_select(User::ROLES, @user.user_role), {}, { class: 'form-select' }) %>
 
     <%= form.label(:user_name, "User name:") %>
     <%= form.text_field :user_name, value: @user.user_name %>
