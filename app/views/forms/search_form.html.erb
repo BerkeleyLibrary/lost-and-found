@@ -21,21 +21,18 @@
       <%= form.select(:location, location_options, include_blank: true) %>
     </div>
 
-    <div style="padding-top: 8px; padding-bottom: 8px;">
-      <p>Search by date range:</p>
+    <fieldset>
+      <legend>Search by date range:</legend>
+      <%= form.label(:date_found, 'Start date:') %>
+      <%= form.date_field(:date_found) %>
 
-      <div>
-        <%= form.label(:date_found, 'Start date:') %>
-        <%= form.date_field(:date_found) %>
-
-        <%= form.label(:date_found_end, 'End date:') %>
-        <%= form.date_field(:date_found_end, max: Date.current) %>
-      </div>
-    </div>
+      <%= form.label(:date_found_end, 'End date:') %>
+      <%= form.date_field(:date_found_end, max: Date.current) %>
+    </fieldset>
 
     <hr/>
 
-    <div class="btn-group" role="group" style="padding-top: 8px; padding-bottom: 8px;">
+    <div class="btn-group" style="padding-top: 8px; padding-bottom: 8px;">
       <input type="submit" name="commit" value="Submit" class="btn btn-primary mb-2" data-disable-with="Submit">
     </div>
   <% end %>
