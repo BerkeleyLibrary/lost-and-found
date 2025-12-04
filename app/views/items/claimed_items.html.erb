@@ -1,3 +1,5 @@
+<% provide :title, "Claimed#{' and Purged' if @purged} Items" %>
+
 <h1 id="claimed_items_header">Claimed<%= ' and purged' if @purged %> items</h1>
 
 <table id="claimed_items_table" class="table mt-5">

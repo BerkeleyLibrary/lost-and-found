@@ -13,7 +13,7 @@ describe 'admin user', type: :system do
 
   describe 'login' do
     it 'redirects to the item search page' do
-      expect(page).to have_content('Search for lost items')
+      expect(page).to have_content('Search for Lost Items')
     end
   end
 
@@ -23,7 +23,7 @@ describe 'admin user', type: :system do
     end
 
     it 'displays the admin page' do
-      expect(page).to have_content('Lost & Found - Administration')
+      expect(page).to have_content('Administration')
       admin_links = [
         admin_users_path,
         admin_locations_path,
@@ -45,7 +45,7 @@ describe 'admin user', type: :system do
       end
 
       it 'lists users' do
-        expect(page).to have_content('Add/Edit Lost & Found Users')
+        expect(page).to have_content('Add/Edit Users')
         User.find_each do |u|
           row = page.find('tr', text: u.uid)
           expect(row).to have_content(u.user_name)
@@ -203,7 +203,7 @@ describe 'admin user', type: :system do
         edit_link = row.find_link(href: edit_path)
         edit_link.click
 
-        expect(page).to have_content('Edit user')
+        expect(page).to have_content('Edit User')
 
         role = 'Staff'
         uid = u.uid * 2

@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag 'application', media: 'all' %>
+<% provide :title, 'Internal Server Error' %>
 
-<h1>Internal Server Error</h1>
+<h1><%= yield :title %></h1>
 
 <p>An internal error occurred.</p>

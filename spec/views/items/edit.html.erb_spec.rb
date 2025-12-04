@@ -15,7 +15,7 @@ describe 'items/edit.html.erb', type: :view do
 
   it 'renders without error' do
     render
-    expect(rendered).to have_content 'Edit item'
+    expect(rendered).to have_content 'Edit Item'
   end
 
   context 'when an item is claimed' do

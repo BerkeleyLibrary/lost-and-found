@@ -1,4 +1,6 @@
-<h1>Edit user</h1>
+<% provide :title, 'Edit User' %>
+
+<h1><%= yield :title %></h1>
 <div class="table mt-5">
   <%= form_with(url: user_path, method: :put, local: true) do |form| %>
 

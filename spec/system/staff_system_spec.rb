@@ -13,7 +13,7 @@ describe 'staff user', type: :system do
 
   describe 'login' do
     it 'redirects to the item search page' do
-      expect(page).to have_content('Search for lost items')
+      expect(page).to have_content('Search for Lost Items')
     end
   end
 
@@ -125,7 +125,7 @@ describe 'staff user', type: :system do
 
           page.click_link_or_button('Add item')
           expect(page).not_to have_content('Internal Server Error')
-          expect(page).to have_content('item added')
+          expect(page).to have_content('Item Added')
 
           row = page.find('tr', text: description)
           [

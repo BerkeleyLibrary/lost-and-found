@@ -13,7 +13,7 @@ describe 'read-only user', type: :system do
 
   describe 'login' do
     it 'redirects to the item search page' do
-      expect(page).to have_content('Search for lost items')
+      expect(page).to have_content('Search for Lost Items')
     end
 
     # TODO: fix tests so they don't actually redirect to CalNet logout
@@ -30,7 +30,7 @@ describe 'read-only user', type: :system do
       allow_any_instance_of(ApplicationController).to receive(:session_expiration_time).and_return(expiration_time)
 
       visit(search_form_path)
-      expect(page).not_to have_content('Search for lost items')
+      expect(page).not_to have_content('Search for Lost Items')
       expect(page).to have_content(/logout.*successful/i)
     end
   end

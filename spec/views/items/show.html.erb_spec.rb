@@ -12,7 +12,7 @@ describe 'items/show.html.erb', type: :view do
 
   it 'renders without error' do
     render
-    expect(rendered).to have_content 'Item history'
+    expect(rendered).to have_content 'Item History'
   end
 
   context 'without a value for found_by' do

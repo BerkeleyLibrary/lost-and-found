@@ -1,5 +1,6 @@
+<% provide :title, 'View All Items' %>
 
-<h1>View all items</h1>
+<h1><%= yield :title %></h1>
 <%= render template: 'items/index' %>
 
 <%= render template: 'items/claimed_items' %>

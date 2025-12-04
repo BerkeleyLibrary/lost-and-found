@@ -1,12 +1,16 @@
-<h1>Enter date (all items found before this date will be deleted)</h1>
+<% provide :title, 'Purge Old Items' %>
 
+<h1><%= yield :title %></h1>
 <div style="width: 100%;">
   <%= form_with(url: purge_items_path, local: true) do |form| %>
 
-    <div class="form-group required" style="padding-top: 8px; padding-bottom: 8px;">
-    <%= form.label(:purge_date, 'Purge date:') %>
-    <%= form.date_field(:purge_date, required: true) %>
-    </div>
+    <fieldset>
+      <legend>Enter date (all items found before this date will be deleted)</legend>
+      <div class="form-group required" style="padding-top: 8px; padding-bottom: 8px;">
+      <%= form.label(:purge_date, 'Purge date:') %>
+      <%= form.date_field(:purge_date, required: true) %>
+      </div>
+    </fieldset>
 
     <div>
       <label for="updated_by">Updated by:</label>
