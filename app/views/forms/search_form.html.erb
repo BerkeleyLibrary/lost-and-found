@@ -1,4 +1,6 @@
-<h1>Search for lost items</h1>
+<% provide :title, 'Search for Lost Items' %>
+
+<h1><%= yield :title %></h1>
 <div style="width: 100%;">
   <%= form_with(url: items_path, method: :get, local: true) do |form| %>
 

@@ -1,4 +1,6 @@
-<h1>Edit item type</h1>
+<% provide :title, 'Edit Item Type' %>
+
+<h1><%= yield :title %></h1>
 <div class="table mt-5">
   <%= form_with(url: item_type_path, method: :put, local: true) do |form| %>
     <%# TODO: enforce case-insensitive uniqueness w/o mangling user-entered names %>
