@@ -1,4 +1,6 @@
-<h1>Edit location</h1>
+<% provide :title, 'Edit Location' %>
+
+<h1><%= yield :title %></h1>
 <div class="table mt-5">
   <%= form_with(url: location_path, method: :put, local: true) do |form| %>
     <%# TODO: enforce case-insensitive uniqueness w/o mangling user-entered names %>

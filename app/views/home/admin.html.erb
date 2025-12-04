@@ -1,5 +1,7 @@
-<h1>Lost & Found - Administration</h1>
-<%# TODO: use link_to %>
+<% provide :title, 'Administration' %>
+
+<h1><%= yield :title %></h1>
+
 <div class="nav-link"><%= link_to('Add/Edit Users', admin_users_path) %></div>
 <div class="nav-link"><%= link_to('Locations', admin_locations_path) %></div>
 <div class="nav-link"><%= link_to('Item Types', admin_item_types_path) %></div>

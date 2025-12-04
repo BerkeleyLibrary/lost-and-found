@@ -1,5 +1,5 @@
-<% content_for(:page_title, 'Forbidden') %>
+<% provide :title, 'Forbidden' %>
 
-<h1>Forbidden</h1>
+<h1><%= yield :title %></h1>
 
 <p><%= exception.message %></p>
