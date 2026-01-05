@@ -8,42 +8,42 @@
   <%# TODO: Update controller to support form_with(model:) and scoped params %>
   <%= form_with(url: items_path, local: true, multipart: true) do |form| %>
     <div class="form-group required">
-      <%= form.label(:item_type, 'Item type:') %>
-      <%= form.select(:item_type, options_for_select(@item_type_layout), { prompt: 'Select a type' }, { required: true, class: 'form-select' }) %>
+      <%= form.label(:item_type, 'Item type:', class: 'control-label') %>
+      <%= form.select(:item_type, options_for_select(@item_type_layout), { prompt: 'Select a type' }, { required: true, aria: { required: true }, class: 'form-select' }) %>
     </div>
 
     <div class="form-group required">
-      <%= form.label(:description, 'Description:') %>
-      <%= form.text_field(:description, placeholder: 'Describe the item', required: true) %>
+      <%= form.label(:description, 'Description:', class: 'control-label') %>
+      <%= form.text_field(:description, placeholder: 'Describe the item', required: true, aria: { required: true }) %>
     </div>
 
     <div class="form-group required">
-      <%= form.label(:found_by, 'Found by:') %>
-      <%= form.text_field(:found_by, placeholder: 'Who found the item?', required: true) %>
+      <%= form.label(:found_by, 'Found by:', class: 'control-label') %>
+      <%= form.text_field(:found_by, placeholder: 'Who found the item?', required: true, aria: { required: true }) %>
     </div>
 
     <div class="form-group required">
-      <%= form.label(:where_found, 'Where found:') %>
-      <%= form.text_field(:where_found, placeholder: 'Where was it found?', required: true) %>
+      <%= form.label(:where_found, 'Where found:', class: 'control-label') %>
+      <%= form.text_field(:where_found, placeholder: 'Where was it found?', required: true, aria: { required: true }) %>
     </div>
 
     <div style="padding-top: 8px; padding-bottom: 8px;">
       <div class="form-group required" style="display: contents;">
-      <%= form.label(:date_found, 'Date found:') %>
-      <%= form.date_field(:date_found, required: true, max: Date.current) %>
+      <%= form.label(:date_found, 'Date found:', class: 'control-label') %>
+      <%= form.date_field(:date_found, required: true, aria: { required: true }, max: Date.current) %>
       </div>
 
-      <%= form.label(:time_found, 'Time found:') %>
+      <%= form.label(:time_found, 'Time found:', class: 'control-label') %>
       <%= form.time_field(:time_found) %>
     </div>
 
     <div class="form-group required">
-      <%= form.label(:location, 'Held at location:') %>
-      <%= form.select(:location, options_for_select(@locations_layout), { prompt: 'Select a location' }, { required: true, class: 'form-select' }) %>
+      <%= form.label(:location, 'Held at location:', class: 'control-label') %>
+      <%= form.select(:location, options_for_select(@locations_layout), { prompt: 'Select a location' }, { required: true, aria: { required: true }, class: 'form-select' }) %>
     </div>
 
     <div style="padding-top: 8px; padding-bottom: 8px;">
-      <%= form.label(:image, 'Image: ') %>
+      <%= form.label(:image, 'Image: ', class: 'control-label') %>
       <%= form.file_field(:image) %>
     </div>
 

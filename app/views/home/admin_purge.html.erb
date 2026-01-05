@@ -7,8 +7,8 @@
     <fieldset>
       <legend>Enter date (all items found before this date will be deleted)</legend>
       <div class="form-group required" style="padding-top: 8px; padding-bottom: 8px;">
-      <%= form.label(:purge_date, 'Purge date:') %>
-      <%= form.date_field(:purge_date, required: true) %>
+      <%= form.label(:purge_date, 'Purge date:', class: 'control-label') %>
+      <%= form.date_field(:purge_date, required: true, aria: { required: true }) %>
       </div>
     </fieldset>
 

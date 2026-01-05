@@ -8,46 +8,46 @@
   <%= form_with(url: item_update_path(id: @item.id), local: true) do |form| %>
     <%= form.hidden_field(:id, value: @item.id) %> <%# TODO: just do this the Rails way %>
     <div class="form-group required">
-      <%= form.label(:item_type, 'Item type:') %>
-      <%= form.select(:item_type, options_for_select(@item_type_layout, @item.item_type), {}, { required: true, class: 'form-select' }) %>
+      <%= form.label(:item_type, 'Item type:', class: 'control-label') %>
+      <%= form.select(:item_type, options_for_select(@item_type_layout, @item.item_type), {}, { required: true, aria: { required: true }, class: 'form-select' }) %>
     </div>
 
     <div class="form-group required">
-      <%= form.label(:description, 'Description:') %>
-      <%= form.text_field :description, value: @item.description, required: true %>
+      <%= form.label(:description, 'Description:', class: 'control-label') %>
+      <%= form.text_field :description, value: @item.description, required: true, aria: { required: true } %>
     </div>
 
-    <div class="form-group required">
-      <%= form.label(:found_by, 'Found by:') %>
+    <div class="form-group">
+      <%= form.label(:found_by, 'Found by:', class: 'control-label') %>
       <%= form.text_field(:found_by, value: @item.found_by) %>
     </div>
 
-    <div class="form-group required">
-      <%= form.label(:where_found, 'Where found:') %>
+    <div class="form-group">
+      <%= form.label(:where_found, 'Where found:', class: 'control-label') %>
       <%= form.text_field(:where_found, value: @item.where_found) %>
     </div>
 
     <div style="padding-top: 8px; padding-bottom: 8px;">
       <div class="form-group required" style="display: contents;">
-        <%= form.label(:date_found, 'Date found:') %>
-        <%= form.date_field(:date_found, required: true, value: @item.date_found) %>
+        <%= form.label(:date_found, 'Date found:', class: 'control-label') %>
+        <%= form.date_field(:date_found, required: true, aria: { required: true }, value: @item.date_found) %>
       </div>
 
-      <%= form.label(:time_found, 'Time found:') %>
+      <%= form.label(:time_found, 'Time found:', class: 'control-label') %>
       <%# TODO: figure out why we can't just pass datetime_found %>
       <%= form.time_field :time_found, value: @item.datetime_found&.strftime("%T.%L") %>
     </div>
 
     <div class="form-group required">
-      <%= form.label(:location, 'Held at location:') %>
-      <%= form.select(:location, options_for_select(@locations_layout, @item.location), {}, { required: true, class: 'form-select' }) %>
+      <%= form.label(:location, 'Held at location:', class: 'control-label') %>
+      <%= form.select(:location, options_for_select(@locations_layout, @item.location), {}, { required: true, aria: { required: true }, class: 'form-select' }) %>
     </div>
 
     <div style="padding-top: 8px; padding-bottom: 8px;">
-      <%= form.label(:image, 'Image: ') %>
+      <%= form.label(:image, 'Image: ', class: 'control-label') %>
       <%= form.file_field(:image) %>
 
-      <%= form.label(:image, 'Current image: ') %>
+      <%= form.label(:image, 'Current image: ', class: 'control-label') %>
       <% if @item.image.attached? %>
         <img class="preview_image" alt="Image is present" src="<%= (url_for(@item.image)) %>">
       <% else %>
@@ -56,17 +56,17 @@
     </div>
 
     <div style="padding-top: 8px; padding-bottom: 8px;">
-      <%= form.label(:claimed, 'Claimed:') %>
+      <%= form.label(:claimed, 'Claimed:', class: 'control-label') %>
       <%= form.check_box(:claimed, checked: @item.claimed) %>
     </div>
 
     <div class="form-group required">
       <% if @item.claimed_by.blank? %>
-        <%= form.label(:claimed_by_label, 'Claimed By:', class: 'hidden', id: 'claimed_by_label') %>
+        <%= form.label(:claimed_by_label, 'Claimed By:', class: 'hidden control-label', id: 'claimed_by_label') %>
         <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'hidden') %>
       <% else %>
-        <%= form.label(:claimed_by_label, 'Claimed By:', class: '', id: 'claimed_by_label') %>
-        <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'required') %>
+        <%= form.label(:claimed_by_label, 'Claimed By:', class: 'control-label', id: 'claimed_by_label') %>
+        <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'required', required: true, aria: { required: true }) %>
       <% end %>
     </div>
 

@@ -6,7 +6,7 @@
   <h2>Add a new Item Type</h2>
   <%= form_with(url: item_type_insert_path, local: true) do |form| %>
     <%= form.label(:type_name, 'Item type name:') %> <span style="color: #ee0000"> * </span>
-    <%= form.text_field(:type_name, placeholder: 'Electronics', required: true) %>
+    <%= form.text_field(:type_name, placeholder: 'Electronics', required: true, aria: { required: true }) %>
 
     <div>
       <div class="btn-group" role="group">

@@ -6,7 +6,7 @@
   <h2>Add a new location</h2>
   <%= form_with(url: location_insert_path, local: true) do |form| %>
     <%= form.label(:location_name, 'Location name:') %><span style="color: #ee0000"> * </span>
-    <%= form.text_field(:location_name, placeholder: 'Moffitt Circ', required: true) %>
+    <%= form.text_field(:location_name, placeholder: 'Moffitt Circ', required: true, aria: { required: true }) %>
 
     <div>
       <div class="btn-group" role="group">
