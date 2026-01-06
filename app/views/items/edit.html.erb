@@ -47,9 +47,9 @@
       <%= form.label(:image, 'Image: ', class: 'control-label') %>
       <%= form.file_field(:image) %>
 
-      <%= form.label(:image, 'Current image: ', class: 'control-label') %>
+      <%= form.label(:current_image, 'Current image: ', class: 'control-label', id: 'current_image_label') %>
       <% if @item.image.attached? %>
-        <img class="preview_image" alt="Image is present" src="<%= (url_for(@item.image)) %>">
+        <img class="preview_image" alt="Current image" aria-labelledby="current_image_label" src="<%= (url_for(@item.image)) %>">
       <% else %>
         No image
       <% end %>
@@ -62,10 +62,10 @@
 
     <div class="form-group required">
       <% if @item.claimed_by.blank? %>
-        <%= form.label(:claimed_by_label, 'Claimed By:', class: 'hidden control-label', id: 'claimed_by_label') %>
+        <%= form.label(:claimed_by, 'Claimed By:', class: 'hidden control-label', id: 'claimed_by_label') %>
         <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'hidden') %>
       <% else %>
-        <%= form.label(:claimed_by_label, 'Claimed By:', class: 'control-label', id: 'claimed_by_label') %>
+        <%= form.label(:claimed_by, 'Claimed By:', class: 'control-label', id: 'claimed_by_label') %>
         <%= form.text_field(:claimed_by, value: @item.claimed_by, class: 'required', required: true, aria: { required: true }) %>
       <% end %>
     </div>
