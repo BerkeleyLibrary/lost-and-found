@@ -8,6 +8,6 @@
 %>
 <% flash_messages.each do |lvl, messages| %>
   <% messages.each do |msg| %>
-    <div class="<%= flash_class(lvl) %>" role="alert"><%= msg %></div>
+    <div class="<%= flash_class(lvl) %>" role="status"><%= msg %></div>
   <% end %>
 <% end %>
