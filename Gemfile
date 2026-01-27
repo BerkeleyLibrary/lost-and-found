@@ -23,7 +23,8 @@ gem 'puma', '~> 4.1', '>=4.3.9'
 gem 'rails', '~> 8.0.2'
 gem 'sass-rails', '~> 6.0'
 gem 'typesafe_enum'
-gem 'webpacker', '~> 5.4'
+gem 'jsbundling-rails'
+gem 'cssbundling-rails'
 
 group :development, :test do
   gem 'brakeman', '~> 4.8'
