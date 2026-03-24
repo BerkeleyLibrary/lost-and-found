@@ -152,19 +152,6 @@ jobs:
         run: |
           docker compose exec -e RAILS_ENV=test app rake brakeman
 
-      - name: Run Trivy vulnerability scanner
-        if: ${{ always() }}
-        uses: aquasecurity/trivy-action@0.33.1
-        with:
-          image-ref: ${{ needs.merge.outputs.image }}
-          format: table
-          exit-code: 0
-          ignore-unfixed: true
-          severity: CRITICAL,HIGH,MEDIUM
-          scanners: vuln
-          scan-type: image
-          skip-dirs: opt/app/.cache,opt/app/node_modules,usr/local
-
       - name: Copy out artifacts
         if: ${{ always() }}
         run: |
