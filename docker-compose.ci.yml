@@ -7,7 +7,5 @@ services:
     volumes: !override
       - artifacts:/opt/app/artifacts
 
-  adminer: !reset
-
 volumes:
   artifacts:
