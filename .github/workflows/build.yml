@@ -7,10 +7,6 @@ on:
   workflow_call:
   workflow_dispatch:
 
-env:
-  BUILD_SUFFIX: -build-${{ github.run_id }}_${{ github.run_attempt }}
-  DOCKER_METADATA_SET_OUTPUT_ENV: 'true'
-
 jobs:
   docker-build:
     uses: BerkeleyLibrary/.github/.github/workflows/docker-build.yml@v2.0.0
