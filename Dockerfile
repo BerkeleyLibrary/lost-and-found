@@ -4,7 +4,7 @@
 # The base stage scaffolds elements which are common to building and running
 # the application, such as installing ca-certificates, creating the app user,
 # and installing runtime system dependencies.
-FROM ruby:3.3-slim AS base
+FROM ruby:3.4-slim AS base
 
 # This declares that the container intends to listen on port 3000. It doesn't
 # actually "expose" the port anywhere -- it is just metadata. It advises tools
@@ -114,7 +114,7 @@ RUN apt-get install -y --no-install-recommends \
 USER $APP_USER
 
 # Use a recent version of Bundler
-RUN gem install bundler -v 2.5.23
+RUN gem install bundler -v 4.0.15
 
 # Install gems. We don't enforce the validity of the Gemfile.lock until the
 # final (production) stage.

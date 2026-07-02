@@ -3,31 +3,32 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '~> 3.3.6'
+ruby '~> 3.4'
 
 gem 'activerecord-import'
 gem 'berkeley_library-docker', '~> 0.2.0'
 gem 'berkeley_library-logging', '~> 0.2', '>= 0.2.5'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap'
+gem 'csv'
 gem 'kaminari'
 gem 'lograge', '>=0.11.2'
 gem 'okcomputer', '~> 1.19'
 gem 'omniauth-cas',
     git: 'https://github.com/dlindahl/omniauth-cas.git',
     ref: '7087bda829e14c0f7cab2aece5045ad7015669b1'
-gem 'paper_trail', '~> 16.0'
+gem 'paper_trail', '~> 17.0'
 gem 'pg'
 gem 'pg_search'
 gem 'puma', '~> 7.2'
 gem 'puma-plugin-delayed_stop', '~> 0.1.2'
-gem 'rails', '~> 8.0.5'
+gem 'rails', '~> 8.1.3'
 gem 'sass-rails', '~> 6.0'
 gem 'typesafe_enum'
 gem 'webpacker', '~> 5.4'
 
 group :development, :test do
-  gem 'brakeman', '~> 4.8'
+  gem 'brakeman', '~> 8.0'
   gem 'bundler-audit'
   gem 'colorize'
   gem 'factory_bot_rails'

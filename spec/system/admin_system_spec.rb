@@ -91,7 +91,7 @@ describe 'admin user', type: :system do
       end
 
       it 'allows adding users' do
-        uid = 5551211
+        uid = 5_551_211
         name = 'Paige J. Poe'
         role = 'Staff'
 
@@ -123,7 +123,7 @@ describe 'admin user', type: :system do
       it 'requires a name' do
         user_count = User.count
 
-        uid = 5551211
+        uid = 5_551_211
         role = 'Staff'
 
         fill_in('uid', with: uid.to_s, fill_options: { clear: :backspace })

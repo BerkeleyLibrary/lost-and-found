@@ -41,7 +41,7 @@ describe ItemCsvImport, type: :model do
   end
 
   it 'omits perfect duplicates from the output' do
-    Item.create!(**dupe_opts, id: 9002)
+    Item.create!(**dupe_opts, id: 9_002)
 
     subject.import!
 
@@ -59,8 +59,8 @@ describe ItemCsvImport, type: :model do
   end
 
   it 'identifies duplicates with alternate IDs' do
-    Item.create!(**dupe_opts, id: 90001)
-    Item.create!(**dupe_opts, id: 90002)
+    Item.create!(**dupe_opts, id: 90_001)
+    Item.create!(**dupe_opts, id: 90_002)
 
     subject.import!
 
