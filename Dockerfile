@@ -16,16 +16,12 @@ ENV APP_UID=40001
 
 # Create the application user/group and installation directory
 RUN groupadd --system --gid $APP_UID $APP_USER \
-    && useradd --home-dir /opt/app --system --uid $APP_UID --gid $APP_USER $APP_USER
-
-RUN mkdir -p /opt/app /var/opt/app \
-    && chown -R $APP_USER:$APP_USER /opt/app /var/opt/app /usr/local/bundle
+    && useradd --home-dir /opt/app --system --uid $APP_UID --gid $APP_USER $APP_USER \
+    && install -d -o $APP_USER -g $APP_USER /opt/app /var/opt/app /usr/local/bundle
 
 # Get list of available packages
-RUN apt-get update -qq
-
-# Install standard packages from the Debian repository
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
       ca-certificates \
       curl \
       gpg \
@@ -36,7 +32,8 @@ RUN apt-get install -y --no-install-recommends \
       shared-mime-info \
       sqlite3 \
       tzdata \
-      xz-utils
+      xz-utils && \
+    rm -rf /var/lib/apt/lists
 
 # Install Node.js and Yarn from their own repositories
 
@@ -45,20 +42,13 @@ RUN apt-get install -y --no-install-recommends \
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y --no-install-recommends nodejs
 
-# Add Yarn package repository, update package list, & install Yarn
-# TODO: why are we installing Yarn 1.22 instead of 3.x?
-RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null \
-    && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && apt-get update -qq \
-    && apt-get install -y --no-install-recommends yarn
+# Use Yarn via Corepack to avoids using repos and GPG keys
+RUN corepack enable \
+    && corepack prepare yarn@1.22.22 --activate \
+    && yarn -v
 
-# Remove packages we only needed as part of the Node.js / Yarn repository
-# setup and installation -- note that the Node.js setup scripts installs
-# a full version of Python, but at runtime we only need a minimal version
-RUN apt-mark manual python3-minimal \
-    && apt-get autoremove --purge -y \
-      curl \
-      python3
+# Add path to node_modules
+ENV NODE_PATH=/usr/local/yarn/node_modules
 
 # ==============================
 # Selenium testing
@@ -78,7 +68,7 @@ WORKDIR /opt/app
 USER $APP_USER
 
 # Add binstubs to the path.
-ENV PATH="/opt/app/bin:$PATH"
+ENV PATH="/opt/app/bin:${NODE_PATH}/.bin:$PATH"
 
 # If run with no other arguments, the image will start the rails server by
 # default. Note that we must bind to all interfaces (0.0.0.0) because when
@@ -122,7 +112,9 @@ COPY --chown=$APP_USER:$APP_USER Gemfile* ./
 RUN bundle install
 
 COPY --chown=$APP_USER:$APP_USER package.json yarn.lock ./
-RUN yarn install
+RUN yarn install --frozen-lockfile && \
+    RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 SKIP_YARN_INSTALL=1 \
+        rails assets:precompile log:clear tmp:create
 
 # Copy the rest of the codebase. We do this after bundle-install so that
 # changes unrelated to the gemset don't invalidate the cache and force a slow
@@ -150,7 +142,8 @@ COPY --from=development --chown=$APP_USER /var/opt/app /var/opt/app
 RUN bundle config set frozen 'true'
 RUN bundle install --local
 
-# Pre-compile assets so we don't have to do it in production.
-# NOTE: dummy SECRET_KEY_BASE to prevent spurious initializer issues
-#       -- see https://github.com/rails/rails/issues/32947
-RUN SECRET_KEY_BASE=1 rails assets:precompile --trace
+# Precompile assets and smoke-test the production image in the environment
+# used for deployment.
+RUN bundle check && \
+    RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 rails assets:precompile \
+        zeitwerk:check
