@@ -1,0 +1,8 @@
+<div>
+  <%= form_tag('/auth/calnet', method: 'post', data: { turbo: false }) do %>
+    <%= hidden_field_tag :origin, @origin_url %>
+    </p>
+    <p>Continue to CalNet to sign in.</p>
+    <%= button_tag 'CalNet Login', type: 'submit', class: 'btn btn-secondary' %>
+  <% end %>
+</div>

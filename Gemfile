@@ -14,9 +14,9 @@ gem 'csv'
 gem 'kaminari'
 gem 'lograge', '>=0.11.2'
 gem 'okcomputer', '~> 1.19'
-gem 'omniauth-cas',
-    git: 'https://github.com/dlindahl/omniauth-cas.git',
-    ref: '7087bda829e14c0f7cab2aece5045ad7015669b1'
+gem 'omniauth', '~> 2.1'
+gem 'omniauth-cas', '~> 3.0'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
 gem 'paper_trail', '~> 17.0'
 gem 'pg'
 gem 'pg_search'
