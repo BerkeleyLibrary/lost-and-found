@@ -136,6 +136,7 @@ ENV RAILS_SERVE_STATIC_FILES=true
 # Copy the built codebase from the dev stage
 COPY --from=development --chown=$APP_USER /opt/app /opt/app
 COPY --from=development --chown=$APP_USER /usr/local/bundle /usr/local/bundle
+COPY --from=development --chown=$APP_USER /usr/local/yarn /usr/local/yarn
 COPY --from=development --chown=$APP_USER /var/opt/app /var/opt/app
 
 # Ensure the bundle is installed and the Gemfile.lock is synced.
