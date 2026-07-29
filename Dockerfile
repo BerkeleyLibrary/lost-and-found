@@ -142,5 +142,5 @@ RUN bundle install --local
 # Precompile assets and smoke-test the production image in the environment
 # used for deployment.
 RUN bundle check && \
-    RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 rails assets:precompile \
-        zeitwerk:check
+    RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 SKIP_YARN_INSTALL=1 \
+        rails assets:precompile zeitwerk:check
