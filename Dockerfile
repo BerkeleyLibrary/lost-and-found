@@ -47,9 +47,6 @@ RUN corepack enable \
     && corepack prepare yarn@1.22.22 --activate \
     && yarn -v
 
-# Add path to node_modules
-ENV NODE_PATH=/usr/local/yarn/node_modules
-
 # ==============================
 # Selenium testing
 
@@ -68,7 +65,7 @@ WORKDIR /opt/app
 USER $APP_USER
 
 # Add binstubs to the path.
-ENV PATH="/opt/app/bin:${NODE_PATH}/.bin:$PATH"
+ENV PATH="/opt/app/bin:$PATH"
 
 # If run with no other arguments, the image will start the rails server by
 # default. Note that we must bind to all interfaces (0.0.0.0) because when
@@ -136,7 +133,6 @@ ENV RAILS_SERVE_STATIC_FILES=true
 # Copy the built codebase from the dev stage
 COPY --from=development --chown=$APP_USER /opt/app /opt/app
 COPY --from=development --chown=$APP_USER /usr/local/bundle /usr/local/bundle
-COPY --from=development --chown=$APP_USER /usr/local/yarn /usr/local/yarn
 COPY --from=development --chown=$APP_USER /var/opt/app /var/opt/app
 
 # Ensure the bundle is installed and the Gemfile.lock is synced.
