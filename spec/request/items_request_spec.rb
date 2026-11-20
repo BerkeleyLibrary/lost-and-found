@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'tzinfo'
 
 describe ItemsController, type: :request do
   attr_reader :user
@@ -31,6 +30,7 @@ describe ItemsController, type: :request do
     let(:description) { 'unidentified object' }
     let(:found_by) { 'Mr. Magoo' }
     let(:where_found) { 'New Jersey' }
+    let(:test_time) { Time.zone.local(2025, 12, 3, 11) }
 
     attr_reader :count_before
     attr_reader :item_type
@@ -43,10 +43,7 @@ describe ItemsController, type: :request do
     attr_reader :time_found_str
 
     around(:example) do |example|
-      Timecop.travel(test_time)
-      example.run
-    ensure
-      Timecop.return
+      Timecop.travel(test_time) { example.run }
     end
 
     before(:each) do
@@ -296,24 +293,16 @@ describe ItemsController, type: :request do
       end
 
       context 'when daylight saving time starts' do
+        let(:test_time) { Time.zone.local(2025, 3, 10, 11) }
+
         it_behaves_like 'stores the entered local time', '2025-03-09', Time.utc(2025, 3, 10, 6, 15)
       end
 
       context 'when daylight saving time ends' do
+        let(:test_time) { Time.zone.local(2025, 11, 3, 11) }
+
         it_behaves_like 'stores the entered local time', '2025-11-02', Time.utc(2025, 11, 3, 7, 15)
       end
-    end
-  end
-
-  def force_dst_transition?
-    ActiveModel::Type::Boolean.new.cast(ENV.fetch('RSPEC_FORCE_DST_FAILURE', 'false'))
-  end
-
-  def test_time
-    if force_dst_transition?
-      Time.new(2025, 11, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
-    else
-      Time.new(2025, 12, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
     end
   end
 end
