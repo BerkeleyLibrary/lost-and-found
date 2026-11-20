@@ -179,9 +179,7 @@ class ItemsController < ApplicationController
     return unless (date_found = parse_date_found(params[:date_found]))
     return date_found unless (hours, minutes = parse_time_found(params[:time_found]))
 
-    # Rails is smart enough to handle DST etc. here
-    midnight_on_date_found = date_found.in_time_zone
-    datetime_found = midnight_on_date_found + hours.hours + minutes.minutes
+    datetime_found = Time.zone.local(date_found.year, date_found.month, date_found.day, hours, minutes)
 
     [date_found, datetime_found]
   end

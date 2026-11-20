@@ -57,8 +57,8 @@ describe ItemsController, type: :request do
       @date_found = Date.current - 1
       @date_found_str = date_found.strftime('%Y-%m-%d') # TODO: standardize date formats
 
-      @datetime_found = date_found + 23.hours + 15.minutes
-      @time_found_str = datetime_found.strftime('%H:%M')
+      @time_found_str = '23:15'
+      @datetime_found = Time.zone.parse("#{date_found_str} #{time_found_str}")
 
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
       @item_type_name = item_type.type_name.capitalize
@@ -265,17 +265,52 @@ describe ItemsController, type: :request do
         expect(item.updated_at).to eq(previously_updated_at)
       end
     end
+
+    describe 'daylight saving transitions' do
+      let(:valid_params) do
+        {
+          item_type: item_type.type_name,
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found,
+          time_found: '23:15'
+        }
+      end
+
+      shared_examples 'stores the entered local time' do |date, expected_utc|
+        it 'creates an item at the entered local time' do
+          post(items_path, params: valid_params.merge(date_found: date))
+
+          expect(response).to be_successful
+          expect(Item.find_by!(description: description).datetime_found.utc).to eq(expected_utc)
+        end
+
+        it 'updates an item to the entered local time' do
+          item = items.last
+          post(item_update_path(id: item.id), params: valid_params.merge(id: item.id, date_found: date))
+
+          expect(response).to redirect_to item_url(item)
+          expect(item.reload.datetime_found.utc).to eq(expected_utc)
+        end
+      end
+
+      context 'when daylight saving time starts' do
+        it_behaves_like 'stores the entered local time', '2025-03-09', Time.utc(2025, 3, 10, 6, 15)
+      end
+
+      context 'when daylight saving time ends' do
+        it_behaves_like 'stores the entered local time', '2025-11-02', Time.utc(2025, 11, 3, 7, 15)
+      end
+    end
   end
 
-  # @todo Cleanup items_controller and fix the DST bug.
-  # @note As of sha-46649188, the items_controller code fails to properly handle DST.
-  #       You can surface that error by setting `ENV['RSPEC_FORCE_DST_FAILURE']=true`.
-  def test_dst_bug?
+  def force_dst_transition?
     ActiveModel::Type::Boolean.new.cast(ENV.fetch('RSPEC_FORCE_DST_FAILURE', 'false'))
   end
 
   def test_time
-    if test_dst_bug?
+    if force_dst_transition?
       Time.new(2025, 11, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
     else
       Time.new(2025, 12, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
