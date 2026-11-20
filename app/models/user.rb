@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class User < ApplicationRecord
 
   ROLE_ADMIN = 'Administrator'.freeze

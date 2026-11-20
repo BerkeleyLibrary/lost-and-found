@@ -16,7 +16,8 @@ gem 'lograge', '>=0.11.2'
 gem 'okcomputer', '~> 1.19'
 gem 'omniauth', '~> 2.1'
 gem 'omniauth-cas', '~> 3.0'
-gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-rails_csrf_protection', '~> 2.0'
+gem 'ostruct'
 gem 'paper_trail', '~> 17.0'
 gem 'pg'
 gem 'pg_search'
@@ -32,7 +33,7 @@ group :development, :test do
   gem 'bundler-audit'
   gem 'colorize'
   gem 'factory_bot_rails'
-  gem 'rspec-rails', '~> 6.1.0'
+  gem 'rspec-rails', '~> 8.1'
 end
 
 group :development do
@@ -45,7 +46,7 @@ group :test do
   gem 'capybara', '~> 3.36'
   gem 'database_cleaner-active_record', '~> 2.1'
   gem 'rspec', '~> 3.10'
-  gem 'rspec_junit_formatter', '~> 0.4.1'
+  gem 'rspec_junit_formatter', '~> 0.8'
   gem 'selenium-webdriver', '~> 4.27'
   gem 'simplecov', require: false
   gem 'simplecov-rcov', require: false
