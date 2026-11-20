@@ -9,7 +9,7 @@ on:
 
 jobs:
   docker-build:
-    uses: BerkeleyLibrary/.github/.github/workflows/docker-build.yml@v2.0.0
+    uses: BerkeleyLibrary/.github/.github/workflows/docker-build.yml@3.2.1
     with:
       image: ghcr.io/${{ github.repository }}
     secrets: inherit
@@ -76,7 +76,7 @@ jobs:
     needs:
       - docker-build
       - test
-    uses: BerkeleyLibrary/.github/.github/workflows/docker-push.yml@v2.0.0
+    uses: BerkeleyLibrary/.github/.github/workflows/docker-push.yml@3.2.1
     with:
       image: ghcr.io/${{ github.repository }}
       build-image-arm64: ${{ needs.docker-build.outputs.image-arm64 }}
