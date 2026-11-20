@@ -75,7 +75,7 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     require_admin! if @item.claimed?
 
-    date_found, datetime_found = date_and_datetime_found_values
+    date_found, datetime_found, time_error = date_and_datetime_found_values
 
     # TODO: just use strong parameters
     claimed = params[:claimed] == '1'
@@ -94,9 +94,9 @@ class ItemsController < ApplicationController
       claimed_by: claimed_by
     )
 
-    @item.image.attach(params[:image]) unless params[:image].nil? || @item.invalid?
-
     begin
+      reject_invalid_found_time!(time_error)
+      @item.image.attach(params[:image]) unless params[:image].nil? || @item.invalid?
       @item.save!
       @item.update!(image_url: url_for(@item.image)) unless params[:image].nil?
       flash[:success] = 'Item updated'
@@ -114,7 +114,7 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new
 
-    date_found, datetime_found = date_and_datetime_found_values
+    date_found, datetime_found, time_error = date_and_datetime_found_values
 
     # TODO: just use strong parameters
     @item.assign_attributes(
@@ -130,9 +130,9 @@ class ItemsController < ApplicationController
       claimed_by: nil
     )
 
-    @item.image.attach(params[:image]) unless params[:image].nil? || @item.invalid?
-
     begin
+      reject_invalid_found_time!(time_error)
+      @item.image.attach(params[:image]) unless params[:image].nil? || @item.invalid?
       @item.save!
       @item.update!(image_url: url_for(@item.image)) unless params[:image].nil?
       flash[:success] = 'Item created'
@@ -143,7 +143,7 @@ class ItemsController < ApplicationController
       # TODO: stop having to do this
       @locations_layout = location_setup
       @item_type_layout = item_type_setup
-      render 'forms/insert_form'
+      render 'forms/insert_form', status: :unprocessable_entity
     end
   end
 
@@ -179,9 +179,23 @@ class ItemsController < ApplicationController
     return unless (date_found = parse_date_found(params[:date_found]))
     return date_found unless (hours, minutes = parse_time_found(params[:time_found]))
 
+    # TZInfo reads these clock components as local time, ignoring the UTC marker.
+    local_clock_time = Time.utc(date_found.year, date_found.month, date_found.day, hours, minutes)
+    if Time.zone.tzinfo.periods_for_local(local_clock_time).empty?
+      return [date_found, nil, 'does not exist in Pacific time when clocks move forward; choose another time or leave it blank']
+    end
+
+    # The repeated fall hour uses its first occurrence, in Pacific Daylight Time.
     datetime_found = Time.zone.local(date_found.year, date_found.month, date_found.day, hours, minutes)
 
     [date_found, datetime_found]
+  end
+
+  def reject_invalid_found_time!(message)
+    return unless message
+
+    @item.errors.add(:time_found, message)
+    raise ActiveRecord::RecordInvalid, @item
   end
 
   # Since the parameter doesn't include time zone information, Rails will interpret

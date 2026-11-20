@@ -32,6 +32,8 @@ describe ItemsController, type: :request do
     let(:where_found) { 'New Jersey' }
     let(:test_time) { Time.zone.local(2025, 12, 3, 11) }
 
+    include_context 'with a running test clock'
+
     attr_reader :count_before
     attr_reader :item_type
     attr_reader :item_type_name
@@ -41,10 +43,6 @@ describe ItemsController, type: :request do
     attr_reader :date_found_str
     attr_reader :datetime_found
     attr_reader :time_found_str
-
-    around(:example) do |example|
-      Timecop.travel(test_time) { example.run }
-    end
 
     before(:each) do
       @count_before = Item.count
@@ -275,9 +273,9 @@ describe ItemsController, type: :request do
         }
       end
 
-      shared_examples 'stores the entered local time' do |date, expected_utc|
+      shared_examples 'stores the entered local time' do |date, time, expected_utc|
         it 'creates an item at the entered local time' do
-          post(items_path, params: valid_params.merge(date_found: date))
+          post(items_path, params: valid_params.merge(date_found: date, time_found: time))
 
           expect(response).to be_successful
           expect(Item.find_by!(description: description).datetime_found.utc).to eq(expected_utc)
@@ -285,23 +283,56 @@ describe ItemsController, type: :request do
 
         it 'updates an item to the entered local time' do
           item = items.last
-          post(item_update_path(id: item.id), params: valid_params.merge(id: item.id, date_found: date))
+          post(item_update_path(id: item.id), params: valid_params.merge(id: item.id, date_found: date, time_found: time))
 
           expect(response).to redirect_to item_url(item)
           expect(item.reload.datetime_found.utc).to eq(expected_utc)
         end
       end
 
+      shared_examples 'rejects a skipped local time' do |date, time|
+        let(:invalid_params) { valid_params.merge(date_found: date, time_found: time) }
+
+        it 'does not create an item and explains the error' do
+          expect { post(items_path, params: invalid_params) }.not_to change(Item, :count)
+
+          expect(response).to have_http_status(422)
+          expect(response.body).to include('Time found does not exist in Pacific time')
+          expect(Nokogiri::HTML(response.body).at_css('input[name="time_found"]')['value']).to eq(time)
+        end
+
+        it 'does not change an existing item and explains the error' do
+          item = items.last
+          previous_attributes = item.reload.attributes.slice('description', 'datetime_found', 'updated_at')
+          post(item_update_path(id: item.id), params: invalid_params.merge(id: item.id))
+
+          expect(response).to have_http_status(422)
+          expect(response.body).to include('Time found does not exist in Pacific time')
+          expect(Nokogiri::HTML(response.body).at_css('input[name="time_found"]')['value']).to eq(time)
+          expect(item.reload.attributes.slice('description', 'datetime_found', 'updated_at')).to eq(previous_attributes)
+        end
+      end
+
       context 'when daylight saving time starts' do
         let(:test_time) { Time.zone.local(2025, 3, 10, 11) }
 
-        it_behaves_like 'stores the entered local time', '2025-03-09', Time.utc(2025, 3, 10, 6, 15)
+        it_behaves_like 'stores the entered local time', '2025-03-09', '23:15', Time.utc(2025, 3, 10, 6, 15)
+        it_behaves_like 'rejects a skipped local time', '2025-03-09', '02:30'
       end
 
       context 'when daylight saving time ends' do
         let(:test_time) { Time.zone.local(2025, 11, 3, 11) }
 
-        it_behaves_like 'stores the entered local time', '2025-11-02', Time.utc(2025, 11, 3, 7, 15)
+        it_behaves_like 'stores the entered local time', '2025-11-02', '23:15', Time.utc(2025, 11, 3, 7, 15)
+        it_behaves_like 'stores the entered local time', '2025-11-02', '01:30', Time.utc(2025, 11, 2, 8, 30)
+
+        it 'explains the first-occurrence rule on both item forms' do
+          get(new_item_path)
+          expect(response.body).to include('first occurrence (Pacific Daylight Time)')
+
+          get(edit_item_path(items.last))
+          expect(response.body).to include('first occurrence (Pacific Daylight Time)')
+        end
       end
     end
   end

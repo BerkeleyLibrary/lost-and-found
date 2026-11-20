@@ -6,7 +6,7 @@ describe 'items/show.html.erb', type: :view do
     type = create(:item_type, type_name: 'trapper keeper', type_description: 'A Trapper Keeper')
     assign :locations_layout, [%w[Doe doe]]
     assign :item_type_layout, [['Trapper Keeper', 'trapper keeper']]
-    assign :item, create(:item, item_type: type.type_name, date_found: Date.today, location: location.location_name,
+    assign :item, create(:item, item_type: type.type_name, date_found: Date.current, location: location.location_name,
                                 description: 'description')
   end
 
@@ -64,7 +64,7 @@ describe 'items/show.html.erb', type: :view do
 
   context 'without changes' do
     before do
-      now = DateTime.now
+      now = Time.current
       view_assigns[:item].update(created_at: now, updated_at: now)
     end
 
