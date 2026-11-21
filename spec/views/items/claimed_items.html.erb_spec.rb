@@ -22,12 +22,12 @@ describe 'items/claimed_items.html.erb', type: :view do
       location = create(:location, location_name: 'doe')
       type = create(:item_type, type_name: 'trapper keeper', type_description: 'A Trapper Keeper')
       items = [
-        create(:item, item_type: type.type_name, date_found: Date.today, location: location.location_name,
+        create(:item, item_type: type.type_name, date_found: Date.current, location: location.location_name,
                       description: 'description', claimed: true, claimed_by: 'Lisa Weber',
                       image_path: File.join('spec/data/images', "#{type.type_name.titleize}.jpg")),
         create(:item, item_type: type.type_name, date_found: Date.yesterday, location: location.location_name,
                       description: 'a Trapper Keeper found in Doe', claimed: true, claimed_by: 'Anna Wilcox'),
-        create(:item, item_type: type.type_name, date_found: Date.today, location: location.location_name,
+        create(:item, item_type: type.type_name, date_found: Date.current, location: location.location_name,
                       description: 'description', purged: true,
                       image_path: File.join('spec/data/images', "#{type.type_name.titleize}.jpg"))
       ]

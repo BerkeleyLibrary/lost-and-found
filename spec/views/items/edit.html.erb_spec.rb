@@ -6,7 +6,7 @@ describe 'items/edit.html.erb', type: :view do
     type = create(:item_type, type_name: 'trapper keeper', type_description: 'A Trapper Keeper')
     assign :locations_layout, [%w[Doe doe]]
     assign :item_type_layout, [['Trapper Keeper', 'trapper keeper']]
-    assign :item, create(:item, item_type: type.type_name, date_found: Date.today, location: location.location_name,
+    assign :item, create(:item, item_type: type.type_name, date_found: Date.current, location: location.location_name,
                                 description: 'description', image_path: 'spec/data/images/Trapper Keeper.jpg')
     current_user = instance_double(User)
     allow(current_user).to receive(:user_name).and_return('awilfox')

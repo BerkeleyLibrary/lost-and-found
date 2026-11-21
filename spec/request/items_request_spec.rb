@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'tzinfo'
 
 describe ItemsController, type: :request do
   attr_reader :user
@@ -31,6 +30,9 @@ describe ItemsController, type: :request do
     let(:description) { 'unidentified object' }
     let(:found_by) { 'Mr. Magoo' }
     let(:where_found) { 'New Jersey' }
+    let(:test_time) { Time.zone.local(2025, 12, 3, 11) }
+
+    include_context 'with a running test clock'
 
     attr_reader :count_before
     attr_reader :item_type
@@ -42,13 +44,6 @@ describe ItemsController, type: :request do
     attr_reader :datetime_found
     attr_reader :time_found_str
 
-    around(:example) do |example|
-      Timecop.travel(test_time)
-      example.run
-    ensure
-      Timecop.return
-    end
-
     before(:each) do
       @count_before = Item.count
 
@@ -57,8 +52,8 @@ describe ItemsController, type: :request do
       @date_found = Date.current - 1
       @date_found_str = date_found.strftime('%Y-%m-%d') # TODO: standardize date formats
 
-      @datetime_found = date_found + 23.hours + 15.minutes
-      @time_found_str = datetime_found.strftime('%H:%M')
+      @time_found_str = '23:15'
+      @datetime_found = Time.zone.parse("#{date_found_str} #{time_found_str}")
 
       # TODO: enforce case-insensitive uniqueness w/o mangling user-entered names
       @item_type_name = item_type.type_name.capitalize
@@ -265,20 +260,80 @@ describe ItemsController, type: :request do
         expect(item.updated_at).to eq(previously_updated_at)
       end
     end
-  end
 
-  # @todo Cleanup items_controller and fix the DST bug.
-  # @note As of sha-46649188, the items_controller code fails to properly handle DST.
-  #       You can surface that error by setting `ENV['RSPEC_FORCE_DST_FAILURE']=true`.
-  def test_dst_bug?
-    ActiveModel::Type::Boolean.new.cast(ENV.fetch('RSPEC_FORCE_DST_FAILURE', 'false'))
-  end
+    describe 'daylight saving transitions' do
+      let(:valid_params) do
+        {
+          item_type: item_type.type_name,
+          description: description,
+          location: location.location_name,
+          found_by: found_by,
+          where_found: where_found,
+          time_found: '23:15'
+        }
+      end
 
-  def test_time
-    if test_dst_bug?
-      Time.new(2025, 11, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
-    else
-      Time.new(2025, 12, 3, 11, 0, 0, in: TZInfo::Timezone.get('America/Los_Angeles'))
+      shared_examples 'stores the entered local time' do |date, time, expected_utc|
+        it 'creates an item at the entered local time' do
+          post(items_path, params: valid_params.merge(date_found: date, time_found: time))
+
+          expect(response).to be_successful
+          expect(Item.find_by!(description: description).datetime_found.utc).to eq(expected_utc)
+        end
+
+        it 'updates an item to the entered local time' do
+          item = items.last
+          post(item_update_path(id: item.id), params: valid_params.merge(id: item.id, date_found: date, time_found: time))
+
+          expect(response).to redirect_to item_url(item)
+          expect(item.reload.datetime_found.utc).to eq(expected_utc)
+        end
+      end
+
+      shared_examples 'rejects a skipped local time' do |date, time|
+        let(:invalid_params) { valid_params.merge(date_found: date, time_found: time) }
+
+        it 'does not create an item and explains the error' do
+          expect { post(items_path, params: invalid_params) }.not_to change(Item, :count)
+
+          expect(response).to have_http_status(422)
+          expect(response.body).to include('Time found does not exist in Pacific time')
+          expect(Nokogiri::HTML(response.body).at_css('input[name="time_found"]')['value']).to eq(time)
+        end
+
+        it 'does not change an existing item and explains the error' do
+          item = items.last
+          previous_attributes = item.reload.attributes.slice('description', 'datetime_found', 'updated_at')
+          post(item_update_path(id: item.id), params: invalid_params.merge(id: item.id))
+
+          expect(response).to have_http_status(422)
+          expect(response.body).to include('Time found does not exist in Pacific time')
+          expect(Nokogiri::HTML(response.body).at_css('input[name="time_found"]')['value']).to eq(time)
+          expect(item.reload.attributes.slice('description', 'datetime_found', 'updated_at')).to eq(previous_attributes)
+        end
+      end
+
+      context 'when daylight saving time starts' do
+        let(:test_time) { Time.zone.local(2025, 3, 10, 11) }
+
+        it_behaves_like 'stores the entered local time', '2025-03-09', '23:15', Time.utc(2025, 3, 10, 6, 15)
+        it_behaves_like 'rejects a skipped local time', '2025-03-09', '02:30'
+      end
+
+      context 'when daylight saving time ends' do
+        let(:test_time) { Time.zone.local(2025, 11, 3, 11) }
+
+        it_behaves_like 'stores the entered local time', '2025-11-02', '23:15', Time.utc(2025, 11, 3, 7, 15)
+        it_behaves_like 'stores the entered local time', '2025-11-02', '01:30', Time.utc(2025, 11, 2, 8, 30)
+
+        it 'explains the first-occurrence rule on both item forms' do
+          get(new_item_path)
+          expect(response.body).to include('first occurrence (Pacific Daylight Time)')
+
+          get(edit_item_path(items.last))
+          expect(response.body).to include('first occurrence (Pacific Daylight Time)')
+        end
+      end
     end
   end
 end

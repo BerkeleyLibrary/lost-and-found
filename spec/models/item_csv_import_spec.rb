@@ -1,16 +1,20 @@
 require 'rails_helper'
 
 describe ItemCsvImport, type: :model do
+  let(:test_time) { Time.zone.local(2025, 12, 3, 11) }
   let(:label) { "rspec-#{rand 100}" }
   let(:infile) { Rails.root.join('spec/fixtures/items.csv') }
   let(:outfile) { Rails.root.join("tmp/items-#{label}-out.csv") }
+
+  include_context 'with a frozen test clock'
+
   let(:dupe_opts) do
     {
       id: 9002,
       description: 'Kate Spade gray',
       item_type: 'wallet',
       location: 'moffitt 4th fl entrance',
-      date_found: Date.today,
+      date_found: Date.current,
       where_found: 'moffitt'
     }
   end
@@ -18,7 +22,7 @@ describe ItemCsvImport, type: :model do
   subject do
     ItemCsvImport.new(
       label: label,
-      cutoff_date: Date.today.to_s,
+      cutoff_date: Date.current.to_s,
       infile: infile,
       outfile: outfile
     )
