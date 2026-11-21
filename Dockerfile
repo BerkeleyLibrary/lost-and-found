@@ -108,15 +108,14 @@ RUN gem install bundler -v 4.0.15
 COPY --chown=$APP_USER:$APP_USER Gemfile* ./
 RUN bundle install
 
-COPY --chown=$APP_USER:$APP_USER package.json yarn.lock ./
-RUN yarn install --frozen-lockfile && \
-    RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 SKIP_YARN_INSTALL=1 \
-        rails assets:precompile log:clear tmp:create
-
 # Copy the rest of the codebase. We do this after bundle-install so that
 # changes unrelated to the gemset don't invalidate the cache and force a slow
 # re-install.
 COPY --chown=$APP_USER:$APP_USER . .
+
+RUN yarn install --frozen-lockfile && \
+    RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 SKIP_YARN_INSTALL=1 \
+        rails assets:precompile log:clear tmp:create
 
 # =============================================================================
 # Target: production
