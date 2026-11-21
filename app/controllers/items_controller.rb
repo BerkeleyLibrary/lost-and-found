@@ -95,7 +95,7 @@ class ItemsController < ApplicationController
     )
 
     begin
-      reject_invalid_found_time!(time_error)
+      reject_if_invalid_time_found!(time_error)
       @item.image.attach(params[:image]) unless params[:image].nil? || @item.invalid?
       @item.save!
       @item.update!(image_url: url_for(@item.image)) unless params[:image].nil?
@@ -131,7 +131,7 @@ class ItemsController < ApplicationController
     )
 
     begin
-      reject_invalid_found_time!(time_error)
+      reject_if_invalid_time_found!(time_error)
       @item.image.attach(params[:image]) unless params[:image].nil? || @item.invalid?
       @item.save!
       @item.update!(image_url: url_for(@item.image)) unless params[:image].nil?
@@ -191,7 +191,7 @@ class ItemsController < ApplicationController
     [date_found, datetime_found]
   end
 
-  def reject_invalid_found_time!(message)
+  def reject_if_invalid_time_found!(message)
     return unless message
 
     @item.errors.add(:time_found, message)
