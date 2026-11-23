@@ -35,7 +35,8 @@
 
       <%= form.label(:time_found, 'Time found:', class: 'control-label') %>
       <%# TODO: figure out why we can't just pass datetime_found %>
-      <%= form.time_field :time_found, value: @item.datetime_found&.strftime("%T.%L") %>
+      <%= form.time_field :time_found, value: (params.key?(:time_found) ? params[:time_found] : @item.datetime_found&.strftime("%T.%L")), aria: { details: 'time_found_hint' } %>
+      <small id="time_found_hint" class="form-text text-muted">When clocks turn back, 1:00–1:59 AM means the first occurrence (Pacific Daylight Time).</small>
     </div>
 
     <div class="form-group required">

@@ -12,6 +12,7 @@ require File.expand_path('../config/environment', __dir__)
 require 'database_cleaner/active_record'
 require 'rspec/rails'
 require 'paper_trail/frameworks/rspec'
+require 'support/timecop_shared_contexts'
 
 # ------------------------------------------------------------
 # RSpec configuration

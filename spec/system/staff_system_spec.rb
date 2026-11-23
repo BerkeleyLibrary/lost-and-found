@@ -334,6 +334,7 @@ describe 'staff user', type: :system do
           fill_in('claimed_by', with: '     ')
 
           page.click_link_or_button('Update item')
+          expect(page).to have_content("Claimed by can't be blank")
           expect(page).not_to have_content('Internal Server Error')
           expect(page).not_to have_content('Item updated')
 

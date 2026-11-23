@@ -10,6 +10,13 @@ If you are unsure about your status as an approved user, please reach out to the
 ### Timeout
 In addition to the standard timeout from Calnet Services, Lost and Found enforces a 1 hour session policy for users. After that time has expired, a user will be prompted to logout and login again if they would like to continue using the service.
 
+### Daylight Saving Time transition handling
+
+Lost-and-Found handles transitions between PST/PDT in specific ways:
+
+* In the spring (PST->PDT), an hour is skipped at 2:00 AM. A local time such as 02:30 PST (03:30 PDT, 10:30 UTC) on 2025-03-09 is treated as it never occured, and thus is treated as an error if entered into the form.
+* In the fall (PDT->PST), an hour is "repeated" and thus ambiguous. Rather than forcing a user to identify the time zone, the "first" hour is used. A local time such as 01:30 is saved as the earlier of the two possible hours (08:30 UTC instead of 09:30 UTC).
+
 ### Roles
 Lost and Found users are organized into 3 role categories:
 
